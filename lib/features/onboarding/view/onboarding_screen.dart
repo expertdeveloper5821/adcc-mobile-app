@@ -29,13 +29,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       buttonText: 'Get Started',
       imagePath: 'assets/images/onboarding_bg_two.png',
     ),
-    // Add more slides here as needed
-    // OnboardingData(
-    //   title: 'YOUR THIRD SLIDE TITLE',
-    //   description: 'Your third slide description here.',
-    //   buttonText: 'Continue',
-    //   imagePath: 'assets/images/onboarding_3.png',
-    // ),
   ];
 
   void _onButtonPressed() {
@@ -120,10 +113,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
           // Static Button
           Positioned(
-            bottom: 40,
+            bottom: 0,
             left: 24,
             right: 24,
-            child: SizedBox(
+            child:SafeArea(child: 
+            SizedBox(
               width: double.infinity,
               height: 56,
               child: ElevatedButton(
@@ -170,7 +164,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ],
                 ),
               ),
-            ),
+            ),) 
           ),
         ],
       ),
