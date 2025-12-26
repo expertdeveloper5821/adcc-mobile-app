@@ -1,4 +1,6 @@
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'core/theme/app_theme.dart';
 import 'features/onboarding/view/onboarding_screen.dart';
 
@@ -16,7 +18,18 @@ class MyApp extends StatelessWidget {
       title: 'ADCC Mobile App',
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
-      home: const OnboardingScreen(),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+
+      supportedLocales: const [
+        Locale('en'),
+        Locale('ar'),
+      ],
+      home: OnboardingScreen(),
     );
   }
 }

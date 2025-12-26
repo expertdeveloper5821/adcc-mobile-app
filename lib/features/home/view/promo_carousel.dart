@@ -46,28 +46,6 @@ class _PromoCarouselState extends State<PromoCarousel> {
             },
           ),
         ),
-
-        const SizedBox(height: 12),
-
-        // Indicator
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(
-            _items.length,
-            (index) => AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              margin: const EdgeInsets.symmetric(horizontal: 4),
-              width: _currentIndex == index ? 16 : 6,
-              height: 6,
-              decoration: BoxDecoration(
-                color: _currentIndex == index
-                    ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-          ),
-        ),
       ],
     );
   }

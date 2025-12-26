@@ -81,18 +81,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     return Image.asset(
                       _bannerImages[index],
                       fit: BoxFit.cover,
-                      // errorBuilder: (context, error, stackTrace) {
-                      //   return Container(
-                      //     color: Colors.grey[300],
-                      //     child: Center(
-                      //       child: Icon(
-                      //         Icons.image,
-                      //         size: 100,
-                      //         color: Colors.grey[600],
-                      //       ),
-                      //     ),
-                      //   );
-                      // },
                     );
                   },
                 ),
@@ -112,8 +100,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
                 // Back Button (Top Left)
-                SafeArea(
-                  child: Positioned(
+                Positioned(
                     top: 0,
                     left: 0,
                     child: Padding(
@@ -132,7 +119,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                   ),
-                ),
                 // "Create Profile" Text
                 Positioned(
                   bottom: 40,

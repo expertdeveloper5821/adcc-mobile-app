@@ -8,6 +8,7 @@ class AppColors {
 
   // Primary accents
   static const Color deepRed = Color(0xFFC12D32); // CTA
+  static const Color lightDeepRed = Color(0xFFE6ABAD);
   static const Color goldenOchre = Color(0xFFCF9F0C); // Tabs
   static const Color lightOliveGreen = Color(0xFFE1C06E);
 

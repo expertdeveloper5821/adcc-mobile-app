@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 enum AppButtonType {
@@ -12,10 +13,25 @@ class AppButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final AppButtonType type;
   final bool isLoading;
+
+  /// Icons
   final IconData? prefixIcon;
   final IconData? suffixIcon;
+
+  /// Layout
   final double height;
+  final double? width;
+  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry margin;
   final double borderRadius;
+
+  /// Styling
+  final Color? backgroundColor;
+  final Color? textColor;
+  final Color? borderColor;
+  final double borderWidth;
+  final double elevation;
+  final TextStyle? textStyle;
 
   const AppButton({
     super.key,
@@ -23,20 +39,35 @@ class AppButton extends StatelessWidget {
     required this.onPressed,
     this.type = AppButtonType.primary,
     this.isLoading = false,
+
     this.prefixIcon,
     this.suffixIcon,
+
     this.height = 48,
+    this.width,
+    this.padding = const EdgeInsets.symmetric(horizontal: 16),
+    this.margin = EdgeInsets.zero,
     this.borderRadius = 12,
+
+    this.backgroundColor,
+    this.textColor,
+    this.borderColor,
+    this.borderWidth = 1,
+    this.elevation = 0,
+    this.textStyle,
   });
 
   @override
   Widget build(BuildContext context) {
     final bool disabled = onPressed == null || isLoading;
 
-    return SizedBox(
-      height: height,
-      width: double.infinity,
-      child: _buildButton(context, disabled),
+    return Padding(
+      padding: margin,
+      child: SizedBox(
+        height: height,
+        width: width ?? double.infinity,
+        child: _buildButton(context, disabled),
+      ),
     );
   }
 
@@ -46,6 +77,11 @@ class AppButton extends StatelessWidget {
         return OutlinedButton(
           onPressed: disabled ? null : onPressed,
           style: OutlinedButton.styleFrom(
+            padding: padding,
+            side: BorderSide(
+              color: borderColor ?? Theme.of(context).primaryColor,
+              width: borderWidth,
+            ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius),
             ),
@@ -56,6 +92,9 @@ class AppButton extends StatelessWidget {
       case AppButtonType.text:
         return TextButton(
           onPressed: disabled ? null : onPressed,
+          style: TextButton.styleFrom(
+            padding: padding,
+          ),
           child: _content(context),
         );
 
@@ -63,29 +102,35 @@ class AppButton extends StatelessWidget {
         return ElevatedButton(
           onPressed: disabled ? null : onPressed,
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.red,
+            backgroundColor: backgroundColor ?? AppColors.deepRed,
+            elevation: elevation,
+            padding: padding,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius),
             ),
           ),
-          child: _content(context, textColor: Colors.white),
+          child: _content(context, defaultTextColor: Colors.white),
         );
 
       case AppButtonType.primary:
-      return ElevatedButton(
+      default:
+        return ElevatedButton(
           onPressed: disabled ? null : onPressed,
           style: ElevatedButton.styleFrom(
-            backgroundColor: Theme.of(context).primaryColor,
+            backgroundColor:
+                backgroundColor ?? Theme.of(context).primaryColor,
+            elevation: elevation,
+            padding: padding,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius),
             ),
           ),
-          child: _content(context, textColor: Colors.white),
+          child: _content(context, defaultTextColor: Colors.white),
         );
     }
   }
 
-  Widget _content(BuildContext context, {Color? textColor}) {
+  Widget _content(BuildContext context, {Color? defaultTextColor}) {
     if (isLoading) {
       return const SizedBox(
         height: 22,
@@ -94,27 +139,29 @@ class AppButton extends StatelessWidget {
       );
     }
 
+    final Color resolvedTextColor =
+        textColor ?? defaultTextColor ?? Theme.of(context).primaryColor;
+
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         if (prefixIcon != null) ...[
-          Icon(prefixIcon, size: 20, color: textColor),
+          Icon(prefixIcon, size: 20, color: resolvedTextColor),
           const SizedBox(width: 8),
         ],
-
         Text(
           label,
-          style: TextStyle(
-            color: textColor,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
+          style: textStyle ??
+              TextStyle(
+                color: resolvedTextColor,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
         ),
-
         if (suffixIcon != null) ...[
           const SizedBox(width: 8),
-          Icon(suffixIcon, size: 20, color: textColor),
+          Icon(suffixIcon, size: 20, color: resolvedTextColor),
         ],
       ],
     );

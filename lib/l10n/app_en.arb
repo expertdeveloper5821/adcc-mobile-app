@@ -1,0 +1,25 @@
+{
+    "login": "Login",
+    "currentLocation": "Current location",
+    "findRide": "Find a ride",
+
+    "home_profileName": "Ahmed Al Mansouri",
+    "home_profileLocation": "Abu Dhabi City",
+
+    "home_currentLocationLabel": "Current location",
+    "home_weatherHighLow": "H:{high}°C   L:{low}°C",
+
+    "home_contentPlaceholder": "Home Content",
+
+    "cityAbuDhabi": "Abu Dhabi",
+    "highTemp": "H",
+    "lowTemp": "L",
+    "temperatureUnit": "°C"
+
+    "Store":"Store",
+    "Routes":"Routes",
+    "Challenges":"Challenges",
+    "Events":"Events",
+    "Community":"Community",
+    "Bike Experience":"Bike Experience"
+}
