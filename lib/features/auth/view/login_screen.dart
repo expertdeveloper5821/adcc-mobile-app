@@ -1,23 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../home/view/ home_screen.dart';
+import 'register_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => const HomeScreen()),
-            );
-          },
-          child: const Text('Login'),
-        ),
-      ),
-    );
+    return const RegisterScreen();
   }
 }
