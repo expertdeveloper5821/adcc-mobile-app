@@ -1,0 +1,18 @@
+{
+    "login": "تسجيل الدخول",
+    "currentLocation": "الموقع الحالي",
+    "findRide": "اعثر على رحلة",
+
+    "home_profileName": "أحمد المنصوري",
+    "home_profileLocation": "مدينة أبوظبي",
+
+    "home_currentLocationLabel": "الموقع الحالي",
+    "home_weatherHighLow": "العظمى {high}°C   الصغرى {low}°C",
+
+    "home_contentPlaceholder": "محتوى الصفحة الرئيسية",
+
+    "cityAbuDhabi": "أبوظبي",
+    "highTemp": "ع",
+    "lowTemp": "ص",
+    "temperatureUnit": "°م"
+}

@@ -10,11 +10,12 @@ class AppTheme {
     colorScheme: ColorScheme.fromSeed(
       brightness: Brightness.light,
       seedColor: AppColors.deepRed,
-
+      surfaceBright:AppColors.lightDeepRed,
       surface: AppColors.softCream,
       onSurface: AppColors.charcoal,
-
+  
       secondary: AppColors.goldenOchre,
+      onSecondaryContainer:AppColors.dustyRose
     ),
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.softCream,

@@ -1,3 +1,4 @@
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import '../../home/view/ home_screen.dart';
 
@@ -6,6 +7,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       body: Center(
         child: ElevatedButton(
@@ -15,7 +18,7 @@ class LoginScreen extends StatelessWidget {
               MaterialPageRoute(builder: (_) => const HomeScreen()),
             );
           },
-          child: const Text('Login'),
+          child: Text(l10n.login),
         ),
       ),
     );
