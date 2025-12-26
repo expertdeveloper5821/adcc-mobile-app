@@ -1,4 +1,5 @@
 
+import 'package:adcc/features/home/view/home_tab.dart';
 import 'package:flutter/material.dart';
 
 import '../../../shared/widgets/custom_bottom_nav.dart';
@@ -14,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = const [
-    Center(child: Text('Home')),
+    HomeTab(),
     Center(child: Text('Events')),
     Center(child: Text('Map')),
     Center(child: Text('Profile')),

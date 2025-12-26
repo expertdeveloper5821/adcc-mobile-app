@@ -44,7 +44,7 @@ class CustomBottomNav extends StatelessWidget {
         duration: const Duration(milliseconds: 250),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: isSelected ? Colors.white.withOpacity(0.15) : Colors.transparent,
+          color: isSelected ? Colors.white.withValues(alpha: 0.15) : Colors.transparent,
           borderRadius: BorderRadius.circular(30),
         ),
         child: Icon(
