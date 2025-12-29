@@ -16,6 +16,9 @@ class AppColors {
   static const Color charcoal = Color(0xFF333333);
   static const Color textDark = Color(0xFF1A1C20); // Dark text for buttons
   static const Color textSecondary = Color(0xFFA3A4A6); // Secondary text (terms, etc.)
+  static const Color textLightGrey = Color(0xFF434343); // Light text for dark backgrounds
+
+  static const Color orange = Color(0xFFE6863A);
 
   // Borders
   static const Color borderGray = Color(0xFFA3A3A3); // Border color for outlined buttons

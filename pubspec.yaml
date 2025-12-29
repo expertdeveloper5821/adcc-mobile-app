@@ -12,7 +12,8 @@ dependencies:
     sdk: flutter
 
   dio: ^5.7.0
-
+  country_picker: ^2.0.25 
+  
   flutter_localizations:
     sdk: flutter
 
@@ -29,10 +30,12 @@ dev_dependencies:
 
 
 flutter_native_splash:
-  color: "#FFFFFF"
-  image: assets/images/splash_logo.png
+  color: "#FFF6ED"
+  image: assets/images/splash.png
   android: true
   ios: true
+  android_gravity: center
+  ios_content_mode: scaleAspectFill
 
 android_12:
   image: assets/images/splash.png
@@ -45,5 +48,5 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
-    - assets/images/splash_logo.png
+    - assets/images/splash.png
 

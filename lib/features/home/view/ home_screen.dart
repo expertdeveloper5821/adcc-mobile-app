@@ -1,4 +1,5 @@
 
+import 'package:adcc/features/events/view/events.dart';
 import 'package:adcc/features/home/view/home_tab.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _pages = const [
     HomeTab(),
-    Center(child: Text('Events')),
+    EventsTab(),
     Center(child: Text('Map')),
     Center(child: Text('Profile')),
   ];

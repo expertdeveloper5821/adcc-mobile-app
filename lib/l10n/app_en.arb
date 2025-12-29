@@ -14,12 +14,25 @@
     "cityAbuDhabi": "Abu Dhabi",
     "highTemp": "H",
     "lowTemp": "L",
-    "temperatureUnit": "°C"
+    "temperatureUnit": "°C",
 
-    "Store":"Store",
-    "Routes":"Routes",
-    "Challenges":"Challenges",
-    "Events":"Events",
-    "Community":"Community",
-    "Bike Experience":"Bike Experience"
+    "choose":"Choose your",
+    "language":"language",
+
+    "community_heading1":"Join the official",
+    "community_heading2":"Abu Dhabi Cycling Community",
+    "phone_action_card":"Continue with phone",
+    "email_action_card":"Enter your Email",
+    "create_button":"Create Account",
+    "sign_in_option":"Or sign in with",
+    "policy":"By continuing, you agree to our Terms of Service and Privacy Policy",
+
+    "create_account_heading":"Create your account",
+    "create_account_title":"Join the cycling community today",
+    "phone_number_placeholder":"Enter Your Mobile Number",
+    "continue_button":"Continue",
+    "login_link":"Already have an account? Login",
+    "error_required_number":"Phone number is required",
+    "error_valid_number":"Enter a valid phone number"
+
 }
