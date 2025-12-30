@@ -1,6 +1,7 @@
 
 import 'package:adcc/features/events/view/events.dart';
 import 'package:adcc/features/home/view/home_tab.dart';
+import 'package:adcc/features/routes/view/routes_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../shared/widgets/custom_bottom_nav.dart';
@@ -18,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _pages = const [
     HomeTab(),
     EventsTab(),
-    Center(child: Text('Map')),
+    RoutesTab(),
     Center(child: Text('Profile')),
   ];
 

@@ -1,0 +1,134 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../shared/widgets/section_header.dart';
+
+class ExploreByCitySection extends StatelessWidget {
+  const ExploreByCitySection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final cities = [
+      {
+        'name': 'Abu Dhabi',
+        'count': '24',
+        'image': 'assets/svg/abu_dhabi_city_icon.svg',
+      },
+      {
+        'name': 'Al Ain',
+        'count': '12',
+        'image': 'assets/svg/AI_ain_city_icon.svg',
+      },
+      {
+        'name': 'Dubai',
+        'count': '12',
+        'image': 'assets/svg/dubai_city_icon.svg',
+      },
+      {
+        'name': 'Al Dhafra',
+        'count': '12',
+        'image': 'assets/svg/Al_dharfa_city_icon.svg',
+      },
+      {
+        'name': 'Yas Island',
+        'count': '12',
+        'image': 'assets/svg/yas_island_city_icon.svg',
+      },
+      {
+        'name': 'Liwa',
+        'count': '12',
+        'image': 'assets/svg/Liwa_city_icon.svg',
+      },
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionHeader(
+          title: 'Explore by City',
+          onViewAll: () {},
+          showViewAll: false,
+        ),
+        const SizedBox(height: 16),
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+            childAspectRatio: 1.3,
+          ),
+          itemCount: cities.length,
+          itemBuilder: (context, index) {
+            final city = cities[index];
+            return GestureDetector(
+              onTap: () {},
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: AppColors.dustyRose,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Title at the top
+                    Text(
+                      city['name'] as String,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.textDark,
+                      ),
+                    ),
+                    // Number and Image row with space between
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Number on the left
+                        Text(
+                          city['count'] as String,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.textDark,
+                          ),
+                        ),
+                        // Image/Icon on the right
+                        SvgPicture.asset(
+                          city['image'] as String,
+                          width: 20,
+                          height: 24,
+                          fit: BoxFit.contain,
+                          placeholderBuilder: (context) {
+                            return Container(
+                              width: 25,
+                              height: 25,
+                              decoration: BoxDecoration(
+                                color: AppColors.softCream,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: const Icon(
+                                Icons.image,
+                                size: 20,
+                                color: AppColors.textSecondary,
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
