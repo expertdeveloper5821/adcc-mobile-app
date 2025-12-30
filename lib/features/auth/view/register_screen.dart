@@ -27,7 +27,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void _continueAsGuest(BuildContext context) {
-    Navigator.pushReplacement(
+    Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => const HomeScreen()),
     );

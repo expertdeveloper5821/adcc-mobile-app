@@ -166,6 +166,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'°C'**
   String get temperatureUnit;
+
+  /// No description provided for @choose.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your'**
+  String get choose;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'language'**
+  String get language;
+
+  /// No description provided for @community_heading1.
+  ///
+  /// In en, this message translates to:
+  /// **'Join the official'**
+  String get community_heading1;
+
+  /// No description provided for @community_heading2.
+  ///
+  /// In en, this message translates to:
+  /// **'Abu Dhabi Cycling Community'**
+  String get community_heading2;
+
+  /// No description provided for @phone_action_card.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with phone'**
+  String get phone_action_card;
+
+  /// No description provided for @email_action_card.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your Email'**
+  String get email_action_card;
+
+  /// No description provided for @create_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get create_button;
+
+  /// No description provided for @sign_in_option.
+  ///
+  /// In en, this message translates to:
+  /// **'Or sign in with'**
+  String get sign_in_option;
+
+  /// No description provided for @policy.
+  ///
+  /// In en, this message translates to:
+  /// **'By continuing, you agree to our Terms of Service and Privacy Policy'**
+  String get policy;
+
+  /// No description provided for @create_account_heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your account'**
+  String get create_account_heading;
+
+  /// No description provided for @create_account_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Join the cycling community today'**
+  String get create_account_title;
+
+  /// No description provided for @phone_number_placeholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Your Mobile Number'**
+  String get phone_number_placeholder;
+
+  /// No description provided for @continue_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continue_button;
+
+  /// No description provided for @login_link.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? Login'**
+  String get login_link;
+
+  /// No description provided for @error_required_number.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number is required'**
+  String get error_required_number;
+
+  /// No description provided for @error_valid_number.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid phone number'**
+  String get error_valid_number;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

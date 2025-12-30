@@ -32,6 +32,7 @@ class AppButton extends StatelessWidget {
   final double borderWidth;
   final double elevation;
   final TextStyle? textStyle;
+  final bool enabled;
 
   const AppButton({
     super.key,
@@ -39,6 +40,7 @@ class AppButton extends StatelessWidget {
     required this.onPressed,
     this.type = AppButtonType.primary,
     this.isLoading = false,
+    this.enabled = true,
 
     this.prefixIcon,
     this.suffixIcon,
@@ -52,14 +54,14 @@ class AppButton extends StatelessWidget {
     this.backgroundColor,
     this.textColor,
     this.borderColor,
-    this.borderWidth = 1,
+    this.borderWidth = 1.5,
     this.elevation = 0,
     this.textStyle,
   });
 
   @override
   Widget build(BuildContext context) {
-    final bool disabled = onPressed == null || isLoading;
+    final bool disabled = !enabled || isLoading || onPressed == null;
 
     return Padding(
       padding: margin,
@@ -70,6 +72,16 @@ class AppButton extends StatelessWidget {
       ),
     );
   }
+
+Color _resolveBackgroundColor(BuildContext context, bool disabled) {
+  if (disabled) return Colors.grey.shade300;
+  return backgroundColor ?? AppColors.deepRed;
+}
+
+Color _resolveTextColor(BuildContext context, bool disabled, Color? defaultColor) {
+  if (disabled) return Colors.grey.shade600;
+  return textColor ?? defaultColor ?? Theme.of(context).primaryColor;
+}
 
   Widget _buildButton(BuildContext context, bool disabled) {
     switch (type) {
@@ -102,19 +114,18 @@ class AppButton extends StatelessWidget {
         return ElevatedButton(
           onPressed: disabled ? null : onPressed,
           style: ElevatedButton.styleFrom(
-            backgroundColor: backgroundColor ?? AppColors.deepRed,
-            elevation: elevation,
+            backgroundColor: _resolveBackgroundColor(context, disabled),
+            elevation: disabled ? 0 : elevation,
             padding: padding,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius),
             ),
           ),
-          child: _content(context, defaultTextColor: Colors.white),
+          child: _content(context, defaultTextColor: Colors.white, disabled: disabled,),
         );
 
       case AppButtonType.primary:
-      default:
-        return ElevatedButton(
+      return ElevatedButton(
           onPressed: disabled ? null : onPressed,
           style: ElevatedButton.styleFrom(
             backgroundColor:
@@ -130,7 +141,7 @@ class AppButton extends StatelessWidget {
     }
   }
 
-  Widget _content(BuildContext context, {Color? defaultTextColor}) {
+  Widget _content(BuildContext context, {Color? defaultTextColor,bool disabled = false,}) {
     if (isLoading) {
       return const SizedBox(
         height: 22,
@@ -140,7 +151,7 @@ class AppButton extends StatelessWidget {
     }
 
     final Color resolvedTextColor =
-        textColor ?? defaultTextColor ?? Theme.of(context).primaryColor;
+    _resolveTextColor(context, disabled, defaultTextColor);
 
     return Row(
       mainAxisSize: MainAxisSize.min,
