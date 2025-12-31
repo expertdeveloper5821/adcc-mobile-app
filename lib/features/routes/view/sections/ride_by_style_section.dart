@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../shared/widgets/section_header.dart';
-import '../../../shared/widgets/asymmetric_grid.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../shared/widgets/section_header.dart';
+import '../../../../shared/widgets/asymmetric_grid.dart';
 
 class RideByStyleSection extends StatelessWidget {
   const RideByStyleSection({super.key});

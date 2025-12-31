@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../shared/widgets/section_header.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../shared/widgets/section_header.dart';
 
 class TracksNearYouSection extends StatelessWidget {
   const TracksNearYouSection({super.key});

@@ -3,10 +3,10 @@ import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/banner_with_search.dart';
 import '../../../shared/widgets/warning_message.dart';
 import '../../../shared/widgets/category_selector.dart';
-import 'official_cycling_tracks_section.dart';
-import 'tracks_near_you_section.dart';
-import 'explore_by_city_section.dart';
-import 'ride_by_style_section.dart';
+import 'sections/official_cycling_tracks_section.dart';
+import 'sections/tracks_near_you_section.dart';
+import 'sections/explore_by_city_section.dart';
+import 'sections/ride_by_style_section.dart';
 
 class RoutesTab extends StatefulWidget {
   const RoutesTab({super.key});

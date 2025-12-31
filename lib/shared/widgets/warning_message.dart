@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 enum MessageType { warning, info, success, error }
 
 class WarningMessage extends StatelessWidget {
-  final String message;
+  final String message; // Description
+  final String? title; // Optional title
   final MessageType type;
 
   const WarningMessage({
     super.key,
     required this.message,
+    this.title,
     this.type = MessageType.warning,
   });
 
@@ -49,6 +51,7 @@ class WarningMessage extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(
             _icon,
@@ -57,14 +60,37 @@ class WarningMessage extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           Expanded(
-            child: Text(
-              message,
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 13,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+            child: title != null
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title!,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        message,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  )
+                : Text(
+                    message,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
           ),
         ],
       ),

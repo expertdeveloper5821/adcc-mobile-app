@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../shared/widgets/section_header.dart';
-import '../../route_details/view/route_details_screen.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../shared/widgets/section_header.dart';
+import '../../../route_details/view/route_details_screen.dart';
 
 class OfficialCyclingTracksSection extends StatefulWidget {
   const OfficialCyclingTracksSection({super.key});
