@@ -50,7 +50,7 @@ class AsymmetricGrid extends StatelessWidget {
     }
 
     // Calculate total height needed
-    final double totalHeight = rows.length * (bigCardHeight + verticalSpacing);
+    final double totalHeight = rows.length * (bigCardHeight + verticalSpacing) -70;
 
     return LayoutBuilder(
       builder: (context, constraints) {
