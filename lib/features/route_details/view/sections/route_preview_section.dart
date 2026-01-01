@@ -1,14 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/app_button.dart';
+import '../widgets/route_map_widget.dart';
 
-class RoutePreviewSection extends StatelessWidget {
+class RoutePreviewSection extends StatefulWidget {
+  /// Start location (latitude, longitude)
+  final LatLng? startLocation;
+  
+  /// End location (latitude, longitude)
+  final LatLng? endLocation;
+  
   final VoidCallback? onStartRide;
 
   const RoutePreviewSection({
     super.key,
+    this.startLocation,
+    this.endLocation,
     this.onStartRide,
   });
+
+  @override
+  State<RoutePreviewSection> createState() => _RoutePreviewSectionState();
+}
+
+class _RoutePreviewSectionState extends State<RoutePreviewSection> {
+  // Default locations (Abu Dhabi, UAE) - replace with actual route data
+  LatLng get _startLocation =>
+      widget.startLocation ??
+      const LatLng(24.4539, 54.3773); // Abu Dhabi default
+
+  LatLng get _endLocation =>
+      widget.endLocation ??
+      const LatLng(24.4812, 54.3519); // Abu Dhabi default
+
+  void _onDistanceCalculated(double distance) {
+    // Distance is calculated and displayed in the map widget
+    // This callback can be used for additional features if needed
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,69 +49,24 @@ class RoutePreviewSection extends StatelessWidget {
           const Text(
             'Route Preview',
             style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            color: AppColors.textDark,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textDark,
             ),
           ),
           const SizedBox(height: 12),
-          // Map Preview
-          Container(
+          // Google Map with route and location tracking
+          RouteMapWidget(
+            startLocation: _startLocation,
+            endLocation: _endLocation,
             height: 200,
-            decoration: BoxDecoration(
-              color: AppColors.charcoal,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Stack(
-              children: [
-                // Placeholder for map
-                Center(
-                  child: Icon(
-                    Icons.map,
-                    size: 48,
-                    color: Colors.white.withValues(alpha: 0.5),
-                  ),
-                ),
-                // Location pin and direction indicator
-                Positioned(
-                  left: MediaQuery.of(context).size.width / 2 - 50,
-                  top: 80,
-                  child: const Icon(
-                    Icons.location_on,
-                    color: Colors.white,
-                    size: 32,
-                  ),
-                ),
-                Positioned(
-                  left: MediaQuery.of(context).size.width / 2 + 20,
-                  top: 85,
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        '1km',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            onDistanceCalculated: _onDistanceCalculated,
           ),
           const SizedBox(height: 16),
           // Start Ride Button
           AppButton(
             label: 'Start Ride',
-            onPressed: onStartRide,
+            onPressed: widget.onStartRide,
             type: AppButtonType.primary,
             backgroundColor: AppColors.deepRed,
             prefixIcon: Icons.play_arrow,

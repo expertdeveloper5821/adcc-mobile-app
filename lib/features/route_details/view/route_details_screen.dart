@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../core/theme/app_colors.dart';
 import 'sections/route_header_section.dart';
 import 'sections/route_title_section.dart';
@@ -96,6 +97,18 @@ class RouteDetailsScreen extends StatelessWidget {
 
             // Route Preview
             RoutePreviewSection(
+              startLocation: routeData['startLocation'] != null
+                  ? LatLng(
+                      routeData['startLocation']['latitude'] as double,
+                      routeData['startLocation']['longitude'] as double,
+                    )
+                  : null,
+              endLocation: routeData['endLocation'] != null
+                  ? LatLng(
+                      routeData['endLocation']['latitude'] as double,
+                      routeData['endLocation']['longitude'] as double,
+                    )
+                  : null,
               onStartRide: () {
                 // Handle start ride
               },
