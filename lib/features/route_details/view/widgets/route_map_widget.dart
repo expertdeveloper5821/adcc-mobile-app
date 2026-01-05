@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/services/permission_service.dart';
 
 /// Widget that displays a Google Map with route rendering and real-time location tracking
 class RouteMapWidget extends StatefulWidget {
@@ -46,8 +47,8 @@ class _RouteMapWidgetState extends State<RouteMapWidget> {
   }
 
   Future<void> _initializeMap() async {
-    // Request location permissions
-    await _requestLocationPermission();
+    // Check if location permissions are granted (permissions should be requested at home screen)
+    await _checkLocationPermission();
     
     // Get initial location
     await _getCurrentLocation();
@@ -59,50 +60,24 @@ class _RouteMapWidgetState extends State<RouteMapWidget> {
     _startLocationUpdates();
   }
 
-  Future<void> _requestLocationPermission() async {
-    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Location services are disabled. Please enable them.'),
-          ),
-        );
-      }
-      return;
-    }
-
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Location permissions are denied.'),
-            ),
-          );
-        }
-        return;
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              'Location permissions are permanently denied. Please enable them in settings.',
-            ),
-          ),
-        );
-      }
-      return;
-    }
-
+  /// Checks if location permission is granted
+  /// Permissions should already be requested at the home screen
+  Future<void> _checkLocationPermission() async {
+    bool isGranted = await PermissionService.isLocationPermissionGranted();
+    
     setState(() {
-      _isLocationPermissionGranted = true;
+      _isLocationPermissionGranted = isGranted;
     });
+    
+    if (!isGranted && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Location permission is required to track your route. Please enable it in settings.',
+          ),
+        ),
+      );
+    }
   }
 
   Future<void> _getCurrentLocation() async {

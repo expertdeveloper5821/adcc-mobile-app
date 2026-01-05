@@ -54,4 +54,4 @@ flutter_launcher_icons:
   adaptive_icon_background: "#FFFFFF"
   adaptive_icon_foreground: "assets/images/app_icon.png"
   # Add padding to prevent logo from being cut off in circular adaptive icon
-  adaptive_icon_padding: 20%
+  adaptive_icon_padding: 40%
