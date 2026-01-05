@@ -14,6 +14,8 @@ dependencies:
   dio: ^5.7.0
   country_picker: ^2.0.25 
   flutter_svg: ^2.0.9
+  google_maps_flutter: ^2.5.0
+  geolocator: ^10.1.0
   
   flutter_localizations:
     sdk: flutter
@@ -52,4 +54,4 @@ flutter_launcher_icons:
   adaptive_icon_background: "#FFFFFF"
   adaptive_icon_foreground: "assets/images/app_icon.png"
   # Add padding to prevent logo from being cut off in circular adaptive icon
-  adaptive_icon_padding: 20%
+  adaptive_icon_padding: 40%
