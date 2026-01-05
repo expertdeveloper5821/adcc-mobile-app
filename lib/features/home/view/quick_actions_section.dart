@@ -1,4 +1,5 @@
 import 'package:adcc/features/home/view/quick_action_item.dart';
+import 'package:adcc/features/store/view/store_screen.dart';
 import 'package:flutter/material.dart';
 
 class QuickActionsSection extends StatelessWidget {
@@ -24,10 +25,18 @@ class QuickActionsSection extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           mainAxisSpacing: 20,
           crossAxisSpacing: 20,
-          children: const [
+          children: [
             QuickActionItem(
               title: 'Store',
               imagePath: 'assets/images/store.png',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const StoreScreen(),
+                  ),
+                );
+              },
             ),
             QuickActionItem(
               title: 'Routes',
