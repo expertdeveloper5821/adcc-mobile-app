@@ -1,5 +1,9 @@
 import 'package:adcc/features/events/view/special_ride_card.dart';
+import 'package:adcc/features/events/view/upcoming_rides.dart';
+import 'package:adcc/features/home/view/upcoming_tracks_list.dart';
 import 'package:adcc/l10n/app_localizations.dart';
+import 'package:adcc/modals/grid_item.dart';
+import 'package:adcc/shared/widgets/asymmetric_Image_grid.dart';
 import 'package:adcc/shared/widgets/category_selector.dart';
 import 'package:adcc/shared/widgets/community_event_card.dart';
 import 'package:adcc/shared/widgets/section_header.dart';
@@ -44,16 +48,34 @@ class _EventsTabState extends State<EventsTab> {
       },
     ];
 
+    final items = [
+      GridItem(
+        title: 'Hudayriyat',
+        image: 'assets/images/ride_events.png',
+      ),
+      GridItem(
+        title: 'Yas',
+        image: 'assets/images/ride_events.png',
+      ),
+      GridItem(
+        title: 'Corniche',
+        image: 'assets/images/ride_events.png',
+      ),
+      GridItem(
+        title: 'Al Ain Climb',
+        image: 'assets/images/ride_events.png',
+      ),
+    ];
+
     return SafeArea(
       child: Column(
         children: [
           Expanded(
             child: ListView(
               physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.symmetric(vertical: 24),
+              padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 8),
               children: [
                 SizedBox(height: 16),
-
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: CommunityEventCard(
@@ -64,9 +86,7 @@ class _EventsTabState extends State<EventsTab> {
                     },
                   ),
                 ),
-
                 SizedBox(height: 16),
-
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: CategorySelector(
@@ -79,9 +99,7 @@ class _EventsTabState extends State<EventsTab> {
                     },
                   ),
                 ),
-
                 SizedBox(height: 30),
-
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -116,16 +134,59 @@ class _EventsTabState extends State<EventsTab> {
                     ),
                   ],
                 ),
-
-                // Example usage
-                // Expanded(
-                //   child: Center(
-                //     child: Text(
-                //       'Selected: ${categories[selectedCategoryIndex]}',
-                //       style: const TextStyle(fontSize: 18),
-                //     ),
-                //   ),
-                // ),
+                const SizedBox(height: 24),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: SectionHeader(
+                        title: 'Upcoming Rides &\nActivities',
+                        showViewAll: false,
+                        onViewAll: () {},
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: const UpcomingRides(),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: SectionHeader(
+                        title: 'Upcoming Tracks',
+                        onViewAll: () {},
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    const UpcomingTracksList(),
+                  ],
+                ),
+                const SizedBox(height: 30),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: SectionHeader(
+                        title: 'Most Ride Tracks',
+                        onViewAll: () {},
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: AsymmetricImageGrid(
+                        items: items,
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

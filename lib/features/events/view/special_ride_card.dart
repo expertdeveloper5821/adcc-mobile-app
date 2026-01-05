@@ -1,3 +1,4 @@
+import 'package:adcc/features/event_details/view/event_details_screen.dart';
 import 'package:flutter/material.dart';
 
 class SpecialRideCard extends StatelessWidget {
@@ -25,7 +26,22 @@ class SpecialRideCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+       onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => EventDetailsScreen(
+              routeData: {
+                'imagePath': imagePath,
+                'title': title,
+                'date': date,
+                'distance': distance,
+                'riders': riders,
+              },
+            ),
+          ),
+        );
+      },
       child: SizedBox(
         width: width,
         child: ClipRRect(

@@ -172,7 +172,7 @@ Color _resolveTextColor(BuildContext context, bool disabled, Color? defaultColor
         ),
         if (suffixIcon != null) ...[
           const SizedBox(width: 8),
-          Icon(suffixIcon, size: 20, color: resolvedTextColor),
+          Icon(suffixIcon, size: 18, color: resolvedTextColor),
         ],
       ],
     );

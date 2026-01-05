@@ -5,6 +5,7 @@ class AppColors {
   static const Color softCream = Color(0xFFFFF9EF); // Background
   static const Color dustyRose = Color(0xFFFFEFD7); // Cards
   static const Color warmSand = Color(0xFFECC180); // Cards
+  static const Color cardLightBackground = Color(0xFFFFF4E3); // Light card background
 
   // Primary accents
   static const Color deepRed = Color(0xFFC12D32); // CTA
@@ -28,4 +29,6 @@ class AppColors {
 
   // Utility
   static const Color paleVanilla = Color(0xFFCF9F0C);
+  static const Color paleGreen = Color(0xFF99D3B5);
+  static const Color brand_green = Color(0xFF009247);
 }
