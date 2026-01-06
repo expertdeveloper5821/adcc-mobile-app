@@ -5,6 +5,7 @@ import '../../../shared/widgets/back_button_widget.dart';
 import '../../../shared/widgets/search_box.dart';
 import '../../../shared/widgets/category_selector.dart';
 import '../../../shared/widgets/store_item_card.dart';
+import 'store_details_screen.dart';
 
 class StoreScreen extends StatefulWidget {
   const StoreScreen({super.key});
@@ -237,13 +238,13 @@ class _StoreScreenState extends State<StoreScreen> {
             child: Stack(
               children: [
                 Image.asset(
-                  'assets/images/cycling_1.png',
-                  height: 340,
+                  'assets/images/store_header_banner.png',
+                  height: 400,
                   width: double.infinity,
                   fit: BoxFit.fill,
                   errorBuilder: (context, error, stackTrace) {
                     return Container(
-                      height: 240,
+                      height: 400,
                       color: AppColors.softCream,
                     );
                   },
@@ -372,8 +373,32 @@ class _StoreScreenState extends State<StoreScreen> {
           timePosted: product['timePosted'] as String?,
           location: product['location'] as String?,
           onTap: () {
-            // Handle product tap - navigate to product details
-            debugPrint('Product tapped: ${product['title']}');
+            // Navigate to product details screen
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => StoreDetailsScreen(
+                  productData: {
+                    ...product,
+                    'currentPrice': product['price'] as String,
+                    'originalPrice': '9000 AED',
+                    'isNegotiable': true,
+                    'sellerName': product['postedBy'] as String,
+                    'sellerImage': 'assets/images/profile.png',
+                    'listingCount': 3,
+                    'rating': 4.9,
+                    'description': 'Professional carbon fiber road bike, barely used. Shimano Ultegra groupset, excellent condition. Only 500km ridden. Selling because upgrading to a new model.',
+                    'productDetails': [
+                      'Size: 54cm',
+                      'Disc Brakes',
+                      'Carbon Fiber Frame',
+                      'Less Than 6 Months Old',
+                      'Shimano Ultegra R8000',
+                    ],
+                  },
+                ),
+              ),
+            );
           },
         );
       },
