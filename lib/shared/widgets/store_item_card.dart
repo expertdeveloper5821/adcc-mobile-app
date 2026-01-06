@@ -100,7 +100,7 @@ class StoreItemCard extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 fontSize: 15,
               ),
-              maxLines: 2,
+              maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
 
