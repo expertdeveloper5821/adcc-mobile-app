@@ -1,5 +1,6 @@
 import 'package:adcc/features/home/view/quick_action_item.dart';
 import 'package:adcc/features/store/view/store_screen.dart';
+import 'package:adcc/features/challenges/view/challenges_screen.dart';
 import 'package:flutter/material.dart';
 
 class QuickActionsSection extends StatelessWidget {
@@ -45,6 +46,14 @@ class QuickActionsSection extends StatelessWidget {
             QuickActionItem(
               title: 'Challenges',
               imagePath: 'assets/images/challenges.png',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const ChallengesScreen(),
+                  ),
+                );
+              },
             ),
             QuickActionItem(
               title: 'Events',

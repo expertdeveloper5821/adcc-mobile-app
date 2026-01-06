@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class RecentChallengeCard extends StatelessWidget {
@@ -37,10 +38,13 @@ class RecentChallengeCard extends StatelessWidget {
                 color: AppColors.goldenOchre,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
-                Icons.directions_bike,
-                color: Colors.white,
-                size: 24,
+              child: Center(
+                child: SvgPicture.asset(
+                  'assets/svg/colored_cycle.svg',
+                  width: 24,
+                  height: 24,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
             const SizedBox(width: 12),
