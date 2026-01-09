@@ -89,6 +89,7 @@ Color _resolveTextColor(BuildContext context, bool disabled, Color? defaultColor
         return OutlinedButton(
           onPressed: disabled ? null : onPressed,
           style: OutlinedButton.styleFrom(
+            backgroundColor: backgroundColor,
             padding: padding,
             side: BorderSide(
               color: borderColor ?? Theme.of(context).primaryColor,

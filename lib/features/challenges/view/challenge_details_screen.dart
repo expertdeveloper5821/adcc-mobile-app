@@ -7,7 +7,6 @@ import 'sections/challenge_metrics_section.dart';
 import 'sections/challenge_progress_section.dart';
 import 'sections/challenge_rules_section.dart';
 import 'sections/challenge_top_performers_section.dart';
-import 'sections/challenge_action_buttons_section.dart';
 
 class ChallengeDetailsScreen extends StatefulWidget {
   final String challengeId;
@@ -181,25 +180,22 @@ class _ChallengeDetailsScreenState extends State<ChallengeDetailsScreen> {
                 // Navigate to full leaderboard
                 debugPrint('View all performers tapped');
               },
-            ),
-
-            const SizedBox(height: 24),
-
-            // Action Buttons
-            ChallengeActionButtonsSection(
-              isJoined: _challengeData!['isJoined'] as bool,
-              isCompleted: _challengeData!['isCompleted'] as bool,
-              onJoin: () {
-                // Handle join challenge
-                setState(() {
-                  _challengeData!['isJoined'] = true;
-                });
-                debugPrint('Join challenge tapped');
-              },
-              onMarkComplete: () {
-                // Handle mark as complete
-                debugPrint('Mark as complete tapped');
-              },
+              onJoin: _challengeData!['isJoined'] == false
+                  ? () {
+                      // Handle join challenge
+                      setState(() {
+                        _challengeData!['isJoined'] = true;
+                      });
+                      debugPrint('Join challenge tapped');
+                    }
+                  : null,
+              onMarkComplete: _challengeData!['isJoined'] == true &&
+                      _challengeData!['isCompleted'] == false
+                  ? () {
+                      // Handle mark as complete
+                      debugPrint('Mark as complete tapped');
+                    }
+                  : null,
             ),
 
             const SizedBox(height: 24),
