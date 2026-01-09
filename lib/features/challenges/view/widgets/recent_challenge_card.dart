@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class RecentChallengeCard extends StatelessWidget {
@@ -31,16 +32,19 @@ class RecentChallengeCard extends StatelessWidget {
           children: [
             // Icon
             Container(
-              width: 48,
-              height: 48,
+              width: 64,
+              height: 64,
               decoration: BoxDecoration(
                 color: AppColors.goldenOchre,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
-                Icons.directions_bike,
-                color: Colors.white,
-                size: 24,
+              child: Center(
+                child: SvgPicture.asset(
+                  'assets/svg/colored_cycle.svg',
+                  width: 28,
+                  height: 28,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
             const SizedBox(width: 12),
@@ -53,7 +57,7 @@ class RecentChallengeCard extends StatelessWidget {
                     title,
                     style: const TextStyle(
                       fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                       color: AppColors.textDark,
                     ),
                   ),
@@ -61,18 +65,12 @@ class RecentChallengeCard extends StatelessWidget {
                   Text(
                     '$distance • $duration • $timeAgo',
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 14,
                       color: AppColors.charcoal.withValues(alpha: 0.6),
                     ),
                   ),
                 ],
               ),
-            ),
-            // Arrow
-            Icon(
-              Icons.arrow_forward_ios,
-              size: 16,
-              color: AppColors.charcoal.withValues(alpha: 0.6),
             ),
           ],
         ),

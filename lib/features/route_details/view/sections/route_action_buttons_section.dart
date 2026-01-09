@@ -21,7 +21,7 @@ class RouteActionButtonsSection extends StatelessWidget {
         children: [
           // Open in Link My Ride Button
           AppButton(
-            label: 'Open in Link My Ride',
+            label: 'Open in Link My Ride',  
             onPressed: onOpenLinkMyRide,
             type: AppButtonType.primary,
             backgroundColor: AppColors.deepRed,

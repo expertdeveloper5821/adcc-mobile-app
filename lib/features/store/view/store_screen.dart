@@ -31,6 +31,7 @@ class _StoreScreenState extends State<StoreScreen> {
   // Sample product data - replace with actual data from API
   final List<Map<String, dynamic>> _products = [
     {
+      'id': 'product_1',
       'image': 'assets/images/cycling_1.png',
       'title': 'Trek Domane',
       'postedBy': 'Mahmoud shaalan',
@@ -39,6 +40,16 @@ class _StoreScreenState extends State<StoreScreen> {
       'location': 'Sharjah',
     },
     {
+      'id': 'product_2',
+      'image': 'assets/images/cycling_1.png',
+      'title': 'DMT KR0 Road Shoes',
+      'postedBy': 'Mark McEvoy',
+      'price': '1300 AED',
+      'timePosted': '5 days ago',
+      'location': 'Khusab',
+    },
+    {
+      'id': 'product_3',
       'image': 'assets/images/cycling_1.png',
       'title': 'Garmin Edge 1030 Plus',
       'postedBy': 'Khalid Al Nahyan',
@@ -47,6 +58,7 @@ class _StoreScreenState extends State<StoreScreen> {
       'location': 'Al Ain',
     },
     {
+      'id': 'product_4',
       'image': 'assets/images/cycling_1.png',
       'title': 'DMT KR0 Road Shoes',
       'postedBy': 'Mark McEvoy',
@@ -63,6 +75,7 @@ class _StoreScreenState extends State<StoreScreen> {
       'location': 'Sharjah',
     },
     {
+      'id': 'product_5',
       'image': 'assets/images/cycling_1.png',
       'title': 'Trek Domane',
       'postedBy': 'Mahmoud shaalan',
@@ -71,6 +84,7 @@ class _StoreScreenState extends State<StoreScreen> {
       'location': 'Sharjah',
     },
     {
+      'id': 'product_6',
       'image': 'assets/images/cycling_1.png',
       'title': 'DMT KR0 Road Shoes',
       'postedBy': 'Mark McEvoy',
@@ -79,6 +93,7 @@ class _StoreScreenState extends State<StoreScreen> {
       'location': 'Khusab',
     },
     {
+      'id': 'product_7',
       'image': 'assets/images/cycling_1.png',
       'title': 'Garmin Edge 1030 Plus',
       'postedBy': 'Khalid Al Nahyan',
@@ -87,6 +102,7 @@ class _StoreScreenState extends State<StoreScreen> {
       'location': 'Al Ain',
     },
     {
+      'id': 'product_8',
       'image': 'assets/images/cycling_1.png',
       'title': 'Shimano Pedals & Shoes',
       'postedBy': 'Mark McEvoy',
@@ -385,25 +401,7 @@ class _StoreScreenState extends State<StoreScreen> {
               context,
               MaterialPageRoute(
                 builder: (_) => StoreDetailsScreen(
-                  productData: {
-                    ...product,
-                    'currentPrice': product['price'] as String,
-                    'originalPrice': '9000 AED',
-                    'isNegotiable': true,
-                    'sellerName': product['postedBy'] as String,
-                    'sellerImage': 'assets/images/profile.png',
-                    'listingCount': 3,
-                    'rating': 4.9,
-                    'description':
-                        'Professional carbon fiber road bike, barely used. Shimano Ultegra groupset, excellent condition. Only 500km ridden. Selling because upgrading to a new model.',
-                    'productDetails': [
-                      'Size: 54cm',
-                      'Disc Brakes',
-                      'Carbon Fiber Frame',
-                      'Less Than 6 Months Old',
-                      'Shimano Ultegra R8000',
-                    ],
-                  },
+                  productId: product['id'] as String,
                 ),
               ),
             );

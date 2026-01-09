@@ -55,12 +55,12 @@ class _BannerWithSearchState extends State<BannerWithSearch> {
           // Background Image
           Image.asset(
             widget.imagePath,
-            height: 240,
+            height: 400,
             width: double.infinity,
             fit: BoxFit.cover,
             errorBuilder: (context, error, stackTrace) {
               return Container(
-                height: 240,
+                height: 400,
                 color: AppColors.softCream,
               );
             },

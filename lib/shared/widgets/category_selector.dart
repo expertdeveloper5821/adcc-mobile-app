@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/theme/app_colors.dart';
 
 class CategorySelector extends StatelessWidget {
   final List<String> categories;
@@ -32,15 +33,15 @@ class CategorySelector extends StatelessWidget {
               ),
               decoration: BoxDecoration(
                 color: isSelected
-                    ? const Color(0xFFC9A23A)
-                    : const Color(0xFFEDEDED),
+                    ? AppColors.goldenOchre
+                    : AppColors.softCream,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Center(
                 child: Text(
                   categories[index],
                   style: TextStyle(
-                    color: isSelected ? Colors.white : Colors.black87,
+                    color: isSelected ? Colors.white : AppColors.textDark,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
