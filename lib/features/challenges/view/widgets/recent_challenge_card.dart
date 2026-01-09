@@ -32,8 +32,8 @@ class RecentChallengeCard extends StatelessWidget {
           children: [
             // Icon
             Container(
-              width: 48,
-              height: 48,
+              width: 64,
+              height: 64,
               decoration: BoxDecoration(
                 color: AppColors.goldenOchre,
                 shape: BoxShape.circle,
@@ -41,8 +41,8 @@ class RecentChallengeCard extends StatelessWidget {
               child: Center(
                 child: SvgPicture.asset(
                   'assets/svg/colored_cycle.svg',
-                  width: 24,
-                  height: 24,
+                  width: 28,
+                  height: 28,
                   fit: BoxFit.contain,
                 ),
               ),
@@ -57,7 +57,7 @@ class RecentChallengeCard extends StatelessWidget {
                     title,
                     style: const TextStyle(
                       fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                       color: AppColors.textDark,
                     ),
                   ),
@@ -65,18 +65,12 @@ class RecentChallengeCard extends StatelessWidget {
                   Text(
                     '$distance • $duration • $timeAgo',
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 14,
                       color: AppColors.charcoal.withValues(alpha: 0.6),
                     ),
                   ),
                 ],
               ),
-            ),
-            // Arrow
-            Icon(
-              Icons.arrow_forward_ios,
-              size: 16,
-              color: AppColors.charcoal.withValues(alpha: 0.6),
             ),
           ],
         ),

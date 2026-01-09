@@ -58,7 +58,7 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
 
                   // Banner with Search
                   BannerWithSearch(
-                    imagePath: 'assets/images/challenges.png',
+                    imagePath: 'assets/images/cycling_1.png',
                     title: 'Challenges',
                     wantSearchBar: true,
                     searchValue: searchQuery,

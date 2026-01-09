@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 
@@ -27,19 +28,6 @@ class ChallengeCard extends StatelessWidget {
     this.onTap,
   });
 
-  Color _getDifficultyColor() {
-    switch (difficulty.toLowerCase()) {
-      case 'easy':
-        return AppColors.paleGreen;
-      case 'medium':
-        return AppColors.warmSand;
-      case 'hard':
-        return AppColors.deepRed;
-      default:
-        return AppColors.charcoal;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final progressPercentage = (progress / target).clamp(0.0, 1.0);
@@ -48,7 +36,7 @@ class ChallengeCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.dustyRose,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
@@ -97,21 +85,27 @@ class ChallengeCard extends StatelessWidget {
                   Positioned(
                     top: 12,
                     left: 12,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: _getDifficultyColor().withValues(alpha: 0.9),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        difficulty,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(43234732),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color.fromRGBO(26, 28, 32, 0.15),
+                            borderRadius: BorderRadius.circular(43234732),
+                          ),
+                          child: Text(
+                            difficulty,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -144,7 +138,8 @@ class ChallengeCard extends StatelessWidget {
                   Text(
                     description,
                     style: const TextStyle(
-                      fontSize: 14,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
                       color: AppColors.charcoal,
                       height: 1.4,
                     ),
@@ -152,35 +147,41 @@ class ChallengeCard extends StatelessWidget {
                   const SizedBox(height: 12),
 
                   // Progress section
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '$progress / $target $unit',
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.textDark,
-                              ),
+                      // Progress label and numbers
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                           Text(
+                            'Progress',
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: AppColors.textDark.withValues(alpha: 0.6),
                             ),
-                            const SizedBox(height: 8),
-                            // Progress bar
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(4),
-                              child: LinearProgressIndicator(
-                                value: progressPercentage,
-                                minHeight: 8,
-                                backgroundColor: AppColors.softCream,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  AppColors.goldenOchre,
-                                ),
-                              ),
+                          ),
+                          Text(
+                            '$progress / $target $unit',
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.charcoal,
                             ),
-                          ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      // Progress bar
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child: LinearProgressIndicator(
+                          value: progressPercentage,
+                          minHeight: 8,
+                          backgroundColor: AppColors.softCream,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            AppColors.goldenOchre,
+                          ),
                         ),
                       ),
                     ],
@@ -192,44 +193,52 @@ class ChallengeCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      // Container with days left and participants grouped together
                       Row(
                         children: [
-                          Icon(
-                            Icons.access_time,
-                            size: 16,
-                            color: AppColors.charcoal.withValues(alpha: 0.6),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.access_time,
+                                size: 16,
+                                color: AppColors.textDark.withValues(alpha: 0.6),
+
+                              ),
+                              const SizedBox(width: 6),
+                              Text(
+                                '$daysLeft days left',
+                                style: TextStyle(
+                                color: AppColors.textDark.withValues(alpha: 0.6),
+                                fontSize: 15,
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(width: 6),
-                          Text(
-                            '$daysLeft days left',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: AppColors.charcoal.withValues(alpha: 0.6),
-                            ),
+                          const SizedBox(width: 16),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.people_outline,
+                                size: 16,
+                                color: AppColors.textDark.withValues(alpha: 0.6),
+                              ),
+                              const SizedBox(width: 6),
+                              Text(
+                                '$participants',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: AppColors.textDark.withValues(alpha: 0.6),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.people,
-                            size: 16,
-                            color: AppColors.charcoal.withValues(alpha: 0.6),
-                          ),
-                          const SizedBox(width: 6),
-                          Text(
-                            '$participants',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: AppColors.charcoal.withValues(alpha: 0.6),
-                            ),
-                          ),
-                        ],
-                      ),
+                      // Arrow icon with space from the grouped container
                       Icon(
                         Icons.arrow_forward_ios,
                         size: 16,
-                        color: AppColors.charcoal.withValues(alpha: 0.6),
+                        color: AppColors.textDark.withValues(alpha: 0.6),
                       ),
                     ],
                   ),

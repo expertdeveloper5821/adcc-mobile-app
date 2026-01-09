@@ -12,7 +12,9 @@ import 'package:flutter/material.dart';
 import '../../../shared/widgets/profile_header.dart';
 
 class HomeTab extends StatelessWidget {
-  const HomeTab({super.key});
+  final ValueChanged<int>? onTabChange;
+
+  const HomeTab({super.key, this.onTabChange});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +53,7 @@ class HomeTab extends StatelessWidget {
 
                 Padding(
                   padding: const EdgeInsets.all(16),
-                  child: QuickActionsSection(),
+                  child: QuickActionsSection(onTabChange: onTabChange),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 16),

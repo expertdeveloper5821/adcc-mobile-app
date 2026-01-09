@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/challenge_card.dart';
+import '../challenge_details_screen.dart';
 
 class ActiveChallengesSection extends StatelessWidget {
   const ActiveChallengesSection({super.key});
@@ -7,6 +8,7 @@ class ActiveChallengesSection extends StatelessWidget {
   // Sample challenge data - replace with actual data from API
   final List<Map<String, dynamic>> challenges = const [
     {
+      'id': 'challenge_1',
       'image': 'assets/images/cycling_1.png',
       'difficulty': 'Easy',
       'title': 'December Distance Champion',
@@ -18,6 +20,7 @@ class ActiveChallengesSection extends StatelessWidget {
       'participants': 234,
     },
     {
+      'id': 'challenge_2',
       'image': 'assets/images/bike.png',
       'difficulty': 'Hard',
       'title': 'Climbing Warrior',
@@ -29,6 +32,7 @@ class ActiveChallengesSection extends StatelessWidget {
       'participants': 156,
     },
     {
+      'id': 'challenge_3',
       'image': 'assets/images/route_preview.png',
       'difficulty': 'Medium',
       'title': 'Early Bird Rider',
@@ -64,8 +68,15 @@ class ActiveChallengesSection extends StatelessWidget {
               daysLeft: challenge['daysLeft'] as int,
               participants: challenge['participants'] as int,
               onTap: () {
-                // Navigate to challenge details
-                debugPrint('Challenge tapped: ${challenge['title']}');
+                // Navigate to challenge details screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ChallengeDetailsScreen(
+                      challengeId: challenge['id'] as String,
+                    ),
+                  ),
+                );
               },
             );
           },

@@ -19,11 +19,11 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
   bool _hasRequestedPermissions = false;
 
-  final List<Widget> _pages = const [
-    HomeTab(),
-    EventsTab(),
-    RoutesTab(),
-    ProfileScreen(),
+  List<Widget> get _pages => [
+    HomeTab(onTabChange: _changeTab),
+    const EventsTab(),
+    const RoutesTab(),
+    const ProfileScreen(),
   ];
 
   @override
@@ -47,6 +47,12 @@ class _HomeScreenState extends State<HomeScreen> {
     
     // Request location permission
     await PermissionService.requestLocationPermission(context);
+  }
+
+  void _changeTab(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
   }
 
   @override
