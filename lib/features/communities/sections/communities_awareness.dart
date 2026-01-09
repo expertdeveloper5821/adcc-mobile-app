@@ -170,33 +170,7 @@ class _CommunitiesAwarenessState
                       ),
                     ],
                   ),
-                  // View Route button - width according to text, aligned consistently
-                  // Align(
-                  //   alignment: Alignment.centerLeft,
-                  //   child: ElevatedButton(
-                  //     onPressed: () {},
-                  //     style: ElevatedButton.styleFrom(
-                  //       backgroundColor: AppColors.deepRed,
-                  //       foregroundColor: Colors.white,
-                  //       padding: const EdgeInsets.symmetric(
-                  //         horizontal: 20,
-                  //         vertical: 10,
-                  //       ),
-                  //       minimumSize: Size.zero,
-                  //       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  //       shape: RoundedRectangleBorder(
-                  //         borderRadius: BorderRadius.circular(8),
-                  //       ),
-                  //     ),
-                  //     child: const Text(
-                  //       'Explore',
-                  //       style: TextStyle(
-                  //         fontSize: 12,
-                  //         fontWeight: FontWeight.w600,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
+                  
                   Align(
                     alignment: Alignment.centerLeft,
                     child: AppButton(label: "Explore", onPressed: () {},
