@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/app_button.dart';
@@ -57,6 +59,14 @@ class _StoreScreenState extends State<StoreScreen> {
     },
     {
       'id': 'product_4',
+      'image': 'assets/images/cycling_1.png',
+      'title': 'DMT KR0 Road Shoes',
+      'postedBy': 'Mark McEvoy',
+      'price': '1300 AED',
+      'timePosted': '5 days ago',
+      'location': 'Khusab',
+    },
+    {
       'image': 'assets/images/cycling_1.png',
       'title': 'Shimano Pedals & Shoes',
       'postedBy': 'Mark McEvoy',
@@ -138,7 +148,8 @@ class _StoreScreenState extends State<StoreScreen> {
                     backgroundColor: AppColors.dustyRose,
                     iconColor: AppColors.charcoal,
                     placeholderColor: AppColors.charcoal,
-                    enabledBorderColor: AppColors.charcoal.withValues(alpha: 0.1),
+                    enabledBorderColor:
+                        AppColors.charcoal.withValues(alpha: 0.1),
                     enabledBorderWidth: 1.5,
                     borderWidth: 1.5,
                     borderRadius: 10,
@@ -282,21 +293,25 @@ class _StoreScreenState extends State<StoreScreen> {
 
   Widget _buildTitleSection() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
-          'Community Marketplace',
-          style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.w600,
-            color: AppColors.textDark,
+        Expanded(
+          // 🔑 prevents overflow
+          child: Text(
+            'Community Marketplace',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textDark,
+            ),
           ),
         ),
+        const SizedBox(width: 12),
         AppButton(
           label: '+ Sell',
           onPressed: () {
-            // Handle sell button tap
             debugPrint('Sell button tapped');
           },
           type: AppButtonType.primary,
@@ -364,9 +379,9 @@ class _StoreScreenState extends State<StoreScreen> {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 0.65,
+        childAspectRatio: 0.58,
         crossAxisSpacing: 12,
         mainAxisSpacing: 16,
       ),
@@ -419,4 +434,3 @@ class _StoreScreenState extends State<StoreScreen> {
     return filtered;
   }
 }
-
