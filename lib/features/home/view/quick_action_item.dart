@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:adcc/core/theme/app_colors.dart';
 
 class QuickActionItem extends StatelessWidget {
   final String title;
@@ -25,14 +26,14 @@ class QuickActionItem extends StatelessWidget {
             width: 72,
             height: 72,
             decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceBright.withValues(alpha: 0.2),
+              color: AppColors.warmSand.withValues(alpha: 0.5),
               shape: BoxShape.circle,
             ),
             child: Center(
               child: Image.asset(
                 imagePath,
-                width: 32,
-                height: 32,
+                width: 50,
+                height: 50,
                 fit: BoxFit.contain,
               ),
             ),

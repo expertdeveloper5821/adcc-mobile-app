@@ -34,7 +34,7 @@ class CategorySelector extends StatelessWidget {
               decoration: BoxDecoration(
                 color: isSelected
                     ? AppColors.goldenOchre
-                    : AppColors.softCream,
+                    : AppColors.textSecondary.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Center(

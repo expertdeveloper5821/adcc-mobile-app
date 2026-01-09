@@ -25,7 +25,6 @@ class HomeTab extends StatelessWidget {
         children: [
           ProfileHeader(
             name: l10n.home_profileName,
-            location: l10n.home_profileLocation,
             profileImagePath: 'assets/images/profile.png',
             onNotificationTap: () {
               debugPrint('Notification tapped');

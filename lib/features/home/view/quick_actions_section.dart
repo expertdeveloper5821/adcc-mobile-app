@@ -1,3 +1,4 @@
+import 'package:adcc/features/communities/view/community_screen.dart';
 import 'package:adcc/features/home/view/quick_action_item.dart';
 import 'package:adcc/features/store/view/store_screen.dart';
 import 'package:adcc/features/challenges/view/challenges_screen.dart';
@@ -92,6 +93,14 @@ class QuickActionsSection extends StatelessWidget {
             QuickActionItem(
               title: 'Community',
               imagePath: 'assets/images/community.png',
+               onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const CommunitiesScreen(),
+                  ),
+                );
+              },
             ),
             QuickActionItem(
               title: 'Bike Experience',
