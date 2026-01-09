@@ -1,4 +1,4 @@
-
+import 'package:adcc/core/services/location_storage_service.dart';
 import 'package:adcc/features/events/view/events.dart';
 import 'package:adcc/features/home/view/home_tab.dart';
 import 'package:adcc/features/routes/view/routes_screen.dart';
@@ -20,11 +20,11 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _hasRequestedPermissions = false;
 
   List<Widget> get _pages => [
-    HomeTab(onTabChange: _changeTab),
-    const EventsTab(),
-    const RoutesTab(),
-    const ProfileScreen(),
-  ];
+        HomeTab(onTabChange: _changeTab),
+        const EventsTab(),
+        const RoutesTab(),
+        const ProfileScreen(),
+      ];
 
   @override
   void initState() {
@@ -35,18 +35,29 @@ class _HomeScreenState extends State<HomeScreen> {
   /// Request location permissions when user signs in
   Future<void> _requestPermissions() async {
     if (_hasRequestedPermissions) return;
-    
+
     // Check if permission is already granted
     bool isGranted = await PermissionService.isLocationPermissionGranted();
+    _hasRequestedPermissions = true;
+
     if (isGranted) {
       _hasRequestedPermissions = true;
+      await PermissionService.requestLocationPermission(context);
+
       return;
     }
-    
-    _hasRequestedPermissions = true;
-    
-    // Request location permission
-    await PermissionService.requestLocationPermission(context);
+
+    final locationData = await PermissionService.getLocationWithCity(context);
+
+    if (locationData != null) {
+      await LocationStorageService.saveLocation(
+        latitude: locationData['latitude'],
+        longitude: locationData['longitude'],
+        city: locationData['city'],
+      );
+
+      setState(() {});
+    }
   }
 
   void _changeTab(int index) {
@@ -59,7 +70,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_currentIndex],
-
       bottomNavigationBar: CustomBottomNav(
         currentIndex: _currentIndex,
         onTap: (index) {

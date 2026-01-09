@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
 /// Service to handle location permissions
@@ -66,6 +67,40 @@ class PermissionService {
   /// Checks if location services are enabled
   static Future<bool> isLocationServiceEnabled() async {
     return await Geolocator.isLocationServiceEnabled();
+  }
+
+  /// Requests permission (if needed) and returns location + city
+  static Future<Map<String, dynamic>?> getLocationWithCity(
+    BuildContext context,
+  ) async {
+    //  Ensure permission
+    final hasPermission = await requestLocationPermission(context);
+    if (!hasPermission) return null;
+
+    try {
+      // Get current position
+      final position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      //  Reverse geocoding
+      final placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
+
+      final place = placemarks.first;
+
+      return {
+        'latitude': position.latitude,
+        'longitude': position.longitude,
+        'city': place.locality ?? place.subAdministrativeArea ?? '',
+        'country': place.country ?? '',
+      };
+    } catch (e) {
+      debugPrint('Location fetch failed: $e');
+      return null;
+    }
   }
 }
 
