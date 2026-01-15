@@ -26,6 +26,7 @@ class AppColors {
 
   // Button Colors
   static const Color buttonGuest = Color(0xFFF0DDAF); // Continue as Guest button background
+  static const Color exploreButtonBg = Color(0xFFFFF5F3); // Explore button background
 
   // Utility
   static const Color paleVanilla = Color(0xFFCF9F0C);
