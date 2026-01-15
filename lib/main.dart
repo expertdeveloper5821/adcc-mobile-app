@@ -1,10 +1,32 @@
+import 'dart:async';
 import 'package:adcc/l10n/app_localizations.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'core/theme/app_theme.dart';
-import 'features/onboarding/view/onboarding_screen.dart';
+import 'core/widgets/auth_wrapper.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  try {
+    // Check if Firebase is already initialized (e.g., from iOS AppDelegate)
+    if (Firebase.apps.isEmpty) {
+      // Initialize Firebase with timeout to prevent hanging
+      await Firebase.initializeApp().timeout(
+        const Duration(seconds: 10),
+        onTimeout: () {
+          print('[Firebase] Initialization timeout');
+          throw TimeoutException('Firebase initialization timed out');
+        },
+      );
+      print('[Firebase] Initialized successfully from Dart');
+    }
+  } catch (e) {
+    print('[Firebase] Initialization failed: $e');
+    // You can show an error screen or handle it differently
+  }
+
   runApp(const MyApp());
 }
 
@@ -47,12 +69,9 @@ class _MyAppState extends State<MyApp> {
         GlobalCupertinoLocalizations.delegate,
       ],
 
-      supportedLocales: const [
-        Locale('en'),
-        Locale('ar'),
-      ],
+      supportedLocales: const [Locale('en'), Locale('ar')],
 
-      home: const OnboardingScreen(),
+      home: const AuthWrapper(),
     );
   }
 }

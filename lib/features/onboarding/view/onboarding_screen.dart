@@ -1,5 +1,4 @@
 import 'package:adcc/features/auth/view/login_screen.dart';
-import 'package:adcc/features/languageOption/view/languageSelectionScreen.dart';
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 
@@ -114,59 +113,59 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
           // Static Button
           Positioned(
-            bottom: 0,
-            left: 24,
-            right: 24,
-            child:SafeArea(child: 
-            SizedBox(
-              width: double.infinity,
-              height: 56,
-              child: ElevatedButton(
-                onPressed: _onButtonPressed,
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                  backgroundColor: AppColors.deepRed,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+              bottom: 0,
+              left: 24,
+              right: 24,
+              child: SafeArea(
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 56,
+                  child: ElevatedButton(
+                    onPressed: _onButtonPressed,
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                      backgroundColor: AppColors.deepRed,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      elevation: 0,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Text(
+                            _slides[_currentPage].buttonText,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 44,
+                          height: 44,
+                          margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: Image.asset(
+                              'assets/icons/right_arrow_head.png',
+                              width: 16,
+                              height: 16,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  elevation: 0,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Text(
-                        _slides[_currentPage].buttonText,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 44,
-                      height: 44,
-                      margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Image.asset(
-                          'assets/icons/right_arrow_head.png',
-                          width: 16,
-                          height: 16,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),) 
-          ),
+              )),
         ],
       ),
     );
@@ -319,4 +318,3 @@ class OnboardingSlide extends StatelessWidget {
     );
   }
 }
-

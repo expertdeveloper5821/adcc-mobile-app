@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "869590501840",
+    "project_id": "adcc-a5148",
+    "storage_bucket": "adcc-a5148.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:869590501840:android:04f9f7698e86a7636111d5",
+        "android_client_info": {
+          "package_name": "com.example.adcc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPkvkma45L4QAPMvHk2d092aveAVvWlf8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

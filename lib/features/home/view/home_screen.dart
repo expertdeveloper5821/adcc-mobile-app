@@ -68,15 +68,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _pages[_currentIndex],
-      bottomNavigationBar: CustomBottomNav(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+    return WillPopScope(
+      onWillPop: () async {
+        // Prevent going back to login screens when authenticated
+        return false;
+      },
+      child: Scaffold(
+        body: _pages[_currentIndex],
+        bottomNavigationBar: CustomBottomNav(
+          currentIndex: _currentIndex,
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+        ),
       ),
     );
   }

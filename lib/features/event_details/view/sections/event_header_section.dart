@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/back_button_widget.dart';
@@ -11,6 +13,108 @@ class EventHeaderSection extends StatelessWidget {
     required this.imagePath,
     required this.onBack,
   });
+
+  bool get _isNetworkImage {
+    return imagePath.startsWith('http://') || imagePath.startsWith('https://');
+  }
+
+  bool get _isBase64Image {
+    return imagePath.startsWith('data:image/');
+  }
+
+  Widget _buildImage() {
+    if (_isBase64Image) {
+      // Handle base64 image
+      try {
+        return Image.memory(
+          _base64Decode(imagePath),
+          width: double.infinity,
+          height: 300,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) {
+            return Container(
+              height: 300,
+              color: AppColors.softCream,
+              child: const Icon(
+                Icons.error_outline,
+                size: 48,
+                color: Colors.grey,
+              ),
+            );
+          },
+        );
+      } catch (e) {
+        return Container(
+          height: 300,
+          color: AppColors.softCream,
+          child: const Icon(
+            Icons.error_outline,
+            size: 48,
+            color: Colors.grey,
+          ),
+        );
+      }
+    } else if (_isNetworkImage) {
+      return Image.network(
+        imagePath,
+        width: double.infinity,
+        height: 300,
+        fit: BoxFit.cover,
+        loadingBuilder: (context, child, loadingProgress) {
+          if (loadingProgress == null) return child;
+          return Container(
+            height: 300,
+            color: AppColors.softCream,
+            child: Center(
+              child: CircularProgressIndicator(
+                value: loadingProgress.expectedTotalBytes != null
+                    ? loadingProgress.cumulativeBytesLoaded /
+                        loadingProgress.expectedTotalBytes!
+                    : null,
+              ),
+            ),
+          );
+        },
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            height: 300,
+            color: AppColors.softCream,
+            child: const Icon(
+              Icons.error_outline,
+              size: 48,
+              color: Colors.grey,
+            ),
+          );
+        },
+      );
+    } else {
+      return Image.asset(
+        imagePath,
+        width: double.infinity,
+        height: 300,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            height: 300,
+            color: AppColors.softCream,
+            child: const Icon(
+              Icons.error_outline,
+              size: 48,
+              color: Colors.grey,
+            ),
+          );
+        },
+      );
+    }
+  }
+
+  /// Decode base64 image data URI
+  Uint8List _base64Decode(String dataUri) {
+    // Remove data URI prefix (e.g., "data:image/png;base64,")
+    final base64String =
+        dataUri.contains(',') ? dataUri.split(',')[1] : dataUri;
+    return base64Decode(base64String);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,18 +136,7 @@ class EventHeaderSection extends StatelessWidget {
           // Background Image with rounded corners
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: Image.asset(
-              imagePath,
-              width: double.infinity,
-              height: 300,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  height: 300,
-                  color: AppColors.softCream,
-                );
-              },
-            ),
+            child: _buildImage(),
           ),
         ],
       ),
