@@ -2,14 +2,22 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/app_button.dart';
 
-class RouteDetailsIntegrationSection extends StatelessWidget {
-  final String serviceName;
+class ServiceIntegration {
+  final String name;
   final VoidCallback? onConnect;
+
+  const ServiceIntegration({
+    required this.name,
+    this.onConnect,
+  });
+}
+
+class RouteDetailsIntegrationSection extends StatelessWidget {
+  final List<ServiceIntegration> services;
 
   const RouteDetailsIntegrationSection({
     super.key,
-    required this.serviceName,
-    this.onConnect,
+    required this.services,
   });
 
   @override
@@ -26,63 +34,61 @@ class RouteDetailsIntegrationSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: AppColors.softCream,
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFF2E3176).withValues(alpha: 0.1), // 10% opacity
-                offset: const Offset(0, 4.38),
-                blurRadius: 30.65,
-                spreadRadius: 0,
-              ),
-            ],
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: const BoxDecoration(
-                  // color: AppColors.textDark,
-                  shape: BoxShape.circle,
+        Column(
+          children: services.asMap().entries.map((entry) {
+            final index = entry.key;
+            final service = entry.value;
+            final isLast = index == services.length - 1;
+            
+            return Padding(
+              padding: EdgeInsets.only(bottom: isLast ? 0 : 12),
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: AppColors.softCream,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF2E3176).withValues(alpha: 0.1), // 10% opacity
+                      offset: const Offset(0, 4.38),
+                      blurRadius: 30.65,
+                      spreadRadius: 0,
+                    ),
+                  ],
                 ),
-                child: const Icon(
-                  Icons.history,
-                  color: AppColors.textDark,
-                  size: 24,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  serviceName,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textDark,
-                  ),
-                ),
-              ),
-              AppButton(
-                label: 'Connect',
-                onPressed: onConnect,
-                type: AppButtonType.primary,
-                backgroundColor: AppColors.dustyRose,
-                textColor: AppColors.textDark,
-                width: 100,
-                height: 36,
-                borderRadius: 8,
-                textStyle: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textDark,
+                child: Row(
+                  children: [
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        service.name,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textDark,
+                        ),
+                      ),
+                    ),
+                    AppButton(
+                      label: 'Connect',
+                      onPressed: service.onConnect,
+                      type: AppButtonType.primary,
+                      backgroundColor: AppColors.dustyRose,
+                      textColor: AppColors.textDark,
+                      width: 100,
+                      height: 36,
+                      borderRadius: 8,
+                      textStyle: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textDark,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            );
+          }).toList(),
         ),
       ],
     );

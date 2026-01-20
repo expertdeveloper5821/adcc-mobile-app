@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class ProfileMenuSection extends StatelessWidget {
@@ -33,7 +34,7 @@ class ProfileMenuSection extends StatelessWidget {
           final isLast = index == menuItems.length - 1;
 
           return _MenuItem(
-            icon: item['icon'] as IconData,
+            svgPath: item['icon'] as String,
             label: item['label'] as String,
             isLast: isLast,
             onTap: () {
@@ -47,13 +48,13 @@ class ProfileMenuSection extends StatelessWidget {
 }
 
 class _MenuItem extends StatelessWidget {
-  final IconData icon;
+  final String svgPath;
   final String label;
   final bool isLast;
   final VoidCallback? onTap;
 
   const _MenuItem({
-    required this.icon,
+    required this.svgPath,
     required this.label,
     required this.isLast,
     this.onTap,
@@ -76,30 +77,33 @@ class _MenuItem extends StatelessWidget {
                     ),
                   ),
           ),
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              color: AppColors.textDark,
-              size: 24,
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Text(
-                label,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.textDark,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Row(
+            children: [
+              SvgPicture.asset(
+                svgPath,
+                width: 24,
+                height: 24,
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Text(
+                  label,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.textDark,
+                  ),
                 ),
               ),
-            ),
-            const Icon(
-              Icons.chevron_right,
-              color: AppColors.textSecondary,
-              size: 24,
-            ),
-          ],
+              const Icon(
+                Icons.chevron_right,
+                color: AppColors.textSecondary,
+                size: 24,
+              ),
+            ],
+          ),
         ),
       ),
     );

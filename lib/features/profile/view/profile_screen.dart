@@ -8,7 +8,12 @@ import '../../../shared/widgets/app_button.dart';
 import 'sections/profile_header_section.dart';
 import 'sections/profile_menu_section.dart';
 import 'sections/route_details_integration_section.dart';
+import 'sections/guest_profile_section.dart';
 import '../../../features/auth/view/register_screen.dart';
+import '../../../features/auth/view/email_password_login_screen.dart';
+import '../../../features/events/view/events_screen.dart';
+import '../../../features/communities/view/community_screen.dart';
+import '../../../features/routes/view/routes_screen_wrapper.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -19,6 +24,24 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool _isLoggingOut = false;
+  bool _isAuthenticated = false;
+  bool _isCheckingAuth = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkAuthentication();
+  }
+
+  Future<void> _checkAuthentication() async {
+    final isAuthenticated = await TokenStorageService.isAuthenticated();
+    if (mounted) {
+      setState(() {
+        _isAuthenticated = isAuthenticated;
+        _isCheckingAuth = false;
+      });
+    }
+  }
 
   /// Handle logout with API call
   Future<void> _handleLogout() async {
@@ -77,15 +100,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       await TokenStorageService.clearTokens();
       debugPrint('✅ [Logout] Local tokens cleared');
 
-      // Navigate to register screen and clear entire navigation stack
+      // Update authentication state
       if (mounted) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (_) => const RegisterScreen(),
-          ),
-          (route) => false, // Remove all previous routes
-        );
+        setState(() {
+          _isAuthenticated = false;
+        });
       }
     } catch (e) {
       debugPrint('❌ [Logout] Error during logout: $e');
@@ -109,8 +128,103 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  void _handleSignUpLogin() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const EmailPasswordLoginScreen(),
+      ),
+    );
+    // Refresh authentication state after returning from login
+    _checkAuthentication();
+  }
+
+  void _handleBrowseEvents() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const EventsScreen(),
+      ),
+    );
+  }
+
+  void _handleExploreCommunity() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const CommunitiesScreen(),
+      ),
+    );
+  }
+
+  void _handleViewRoutes() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const RoutesScreenWrapper(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Show loading while checking authentication
+    if (_isCheckingAuth) {
+      return Container(
+        color: AppColors.softCream,
+        child: const SafeArea(
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        ),
+      );
+    }
+
+    // Show guest profile screen if not authenticated
+    if (!_isAuthenticated) {
+      return Container(
+        color: AppColors.softCream,
+        child: SafeArea(
+          child: Column(
+            children: [
+              // Header with Profile title
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                child: Row(
+                  children: [
+                    const SizedBox(width: 40), // Spacer for centering
+                    const Expanded(
+                      child: Center(
+                        child: Text(
+                          'Profile',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.charcoal,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 40), // Spacer for centering
+                  ],
+                ),
+              ),
+              // Guest Profile Content
+              Expanded(
+                child: GuestProfileSection(
+                  onSignUpLogin: _handleSignUpLogin,
+                  onBrowseEvents: _handleBrowseEvents,
+                  onExploreCommunity: _handleExploreCommunity,
+                  onViewRoutes: _handleViewRoutes,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    // Show regular profile screen if authenticated
     return Container(
       color: AppColors.softCream,
       child: SafeArea(
@@ -141,23 +255,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: ProfileMenuSection(
                   menuItems: [
                     {
-                      'icon': Icons.directions_bike,
+                      'icon': 'assets/svg/colored_cycle.svg',
                       'label': 'My cycling details',
                     },
                     {
-                      'icon': Icons.history,
+                      'icon': 'assets/svg/events_colored.svg',
                       'label': 'Event history & results',
                     },
                     {
-                      'icon': Icons.workspace_premium,
+                      'icon': 'assets/svg/win_badge.svg',
                       'label': 'Badges & achievements',
                     },
                     {
-                      'icon': Icons.card_giftcard,
+                      'icon': 'assets/svg/rewards_colored.svg',
                       'label': 'Rewards and points',
                     },
                     {
-                      'icon': Icons.settings,
+                      'icon': 'assets/svg/settings_colored.svg',
                       'label': 'Settings & preferences',
                     },
                   ],
@@ -176,12 +290,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(height: 24),
                   // Route Details Integration
                   RouteDetailsIntegrationSection(
-                    serviceName: 'Garmin',
-                    onConnect: () {
-                      // Handle connect action
-                      debugPrint('Connect Garmin tapped');
-                    },
+                    services: [
+                      ServiceIntegration(
+                        name: 'Garmin',
+                        onConnect: () {
+                          // Handle connect action
+                          debugPrint('Connect Garmin tapped');
+                        },
+                      ),
+                      ServiceIntegration(
+                        name: 'Wahoo',
+                        onConnect: () {
+                          // Handle connect action
+                          debugPrint('Connect Wahoo tapped');
+                        },
+                      ),
+                    ],
                   ),
+                  
                   const SizedBox(height: 24),
                   // Logout Button
                   AppButton(
