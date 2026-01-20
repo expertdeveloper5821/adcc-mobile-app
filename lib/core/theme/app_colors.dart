@@ -6,6 +6,7 @@ class AppColors {
   static const Color dustyRose = Color(0xFFFFEFD7); // Cards
   static const Color warmSand = Color(0xFFECC180); // Cards
   static const Color cardLightBackground = Color(0xFFFFF4E3); // Light card background
+  static const Color lightBeige = Color(0xFFE9E4DB); // Light beige background
 
   // Primary accents
   static const Color deepRed = Color(0xFFC12D32); // CTA
@@ -26,6 +27,7 @@ class AppColors {
 
   // Button Colors
   static const Color buttonGuest = Color(0xFFF0DDAF); // Continue as Guest button background
+  static const Color exploreButtonBg = Color(0xFFFFF5F3); // Explore button background
 
   // Utility
   static const Color paleVanilla = Color(0xFFCF9F0C);

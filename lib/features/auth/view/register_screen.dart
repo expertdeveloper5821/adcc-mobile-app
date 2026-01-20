@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/services/token_storage_service.dart';
 import '../../home/view/home_screen.dart';
+import 'email_password_login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -21,6 +23,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    _checkAuthAndRedirect();
+  }
+
+  /// Check if user is already authenticated and redirect to home
+  Future<void> _checkAuthAndRedirect() async {
+    final isAuthenticated = await TokenStorageService.isAuthenticated();
+    if (isAuthenticated && mounted) {
+      // User is already logged in, redirect to home and clear navigation stack
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => const HomeScreen()),
+        (route) => false, // Remove all previous routes
+      );
+    }
+  }
+
+  @override
   void dispose() {
     _bannerController.dispose();
     super.dispose();
@@ -35,6 +56,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void _onDisabledButtonPressed() {
     // Do nothing - just clickable but no action
+  }
+
+  void _navigateToEmailPasswordLogin() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const EmailPasswordLoginScreen(),
+      ),
+    );
   }
 
   void _previousBanner() {
@@ -101,24 +131,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 // Back Button (Top Left)
                 Positioned(
-                    top: 0,
-                    left: 0,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 16.0, left: 20.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          if (Navigator.of(context).canPop()) {
-                            Navigator.of(context).pop();
-                          }
-                        },
-                        child: const Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.white,
-                          size: 24,
-                        ),
+                  top: 0,
+                  left: 0,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 16.0, left: 20.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        if (Navigator.of(context).canPop()) {
+                          Navigator.of(context).pop();
+                        }
+                      },
+                      child: const Icon(
+                        Icons.arrow_back_ios,
+                        color: Colors.white,
+                        size: 24,
                       ),
                     ),
                   ),
+                ),
                 // "Create Profile" Text
                 Positioned(
                   bottom: 40,
@@ -205,8 +235,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                       ),
+                    ),
                   ),
-                ),
               ],
             ),
           ),
@@ -227,7 +257,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               child: SafeArea(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 24.0, vertical: 24.0),
                   child: Column(
                     children: [
                       // Continue as Guest (Active)
@@ -235,7 +266,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         width: double.infinity,
                         height: 56,
                         child: ElevatedButton(
-                          onPressed: () => _continueAsGuest(context),
+                          onPressed: () {},
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.buttonGuest,
                             foregroundColor: AppColors.textDark,
@@ -248,7 +279,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(Icons.person_outline, size: 24, color: AppColors.textDark),
+                              const Icon(Icons.person_outline,
+                                  size: 24, color: AppColors.textDark),
                               const SizedBox(width: 12),
                               const Text(
                                 'Continue as Guest',
@@ -274,12 +306,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                       const SizedBox(height: 12),
 
-                      // Continue with Email (Clickable but does nothing)
-                      _buildDisabledButton(
-                        icon: Icons.email_outlined,
-                        text: 'Continue with email',
-                        onPressed: _onDisabledButtonPressed,
-                      ),
+                      // Continue with Email (Static credentials)
+                      _buildEmailButton(),
 
                       const SizedBox(height: 24),
 
@@ -293,7 +321,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Text(
                               'Or continue with',
                               style: TextStyle(
@@ -330,7 +359,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           onPressed: _onDisabledButtonPressed,
                           style: OutlinedButton.styleFrom(
                             foregroundColor: AppColors.textDark,
-                            side: const BorderSide(color: AppColors.borderGray, width: 1),
+                            side: const BorderSide(
+                                color: AppColors.borderGray, width: 1),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40),
                             ),
@@ -408,6 +438,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
+  Widget _buildEmailButton() {
+    return SizedBox(
+      width: double.infinity,
+      height: 56,
+      child: OutlinedButton(
+        onPressed: _navigateToEmailPasswordLogin,
+        style: OutlinedButton.styleFrom(
+          foregroundColor: AppColors.textDark,
+          side: const BorderSide(color: AppColors.borderGray),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(40),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.email_outlined,
+                size: 24, color: AppColors.textDark),
+            const SizedBox(width: 12),
+            const Text(
+              'Continue with email',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: AppColors.textDark,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildDisabledButton({
     required IconData icon,
     required String text,
@@ -444,4 +507,3 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 }
-

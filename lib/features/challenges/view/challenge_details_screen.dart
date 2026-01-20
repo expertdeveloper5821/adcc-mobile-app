@@ -7,6 +7,7 @@ import 'sections/challenge_metrics_section.dart';
 import 'sections/challenge_progress_section.dart';
 import 'sections/challenge_rules_section.dart';
 import 'sections/challenge_top_performers_section.dart';
+import 'challenge_accepted_screen.dart';
 
 class ChallengeDetailsScreen extends StatefulWidget {
   final String challengeId;
@@ -182,11 +183,22 @@ class _ChallengeDetailsScreenState extends State<ChallengeDetailsScreen> {
               },
               onJoin: _challengeData!['isJoined'] == false
                   ? () {
-                      // Handle join challenge
-                      setState(() {
-                        _challengeData!['isJoined'] = true;
+                      // Navigate to Challenge Accepted screen
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => ChallengeAcceptedScreen(
+                            challengeId: widget.challengeId,
+                            challengeTitle: _challengeData!['title'] as String,
+                          ),
+                        ),
+                      ).then((_) {
+                        // Update joined status when returning from accepted screen
+                        if (mounted) {
+                          setState(() {
+                            _challengeData!['isJoined'] = true;
+                          });
+                        }
                       });
-                      debugPrint('Join challenge tapped');
                     }
                   : null,
               onMarkComplete: _challengeData!['isJoined'] == true &&

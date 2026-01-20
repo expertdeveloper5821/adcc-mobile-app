@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:adcc/core/theme/app_colors.dart';
 
 class ProfileHeaderSection extends StatelessWidget {
@@ -85,17 +86,17 @@ class ProfileHeaderSection extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _buildStatItem(
-                  icon: Icons.straighten,
+                  imagePath: 'assets/svg/meter_colored.svg',
                   value: stats['km'] ?? '0',
                   label: 'KM',
                 ),
                 _buildStatItem(
-                  icon: Icons.directions_bike,
+                  imagePath: 'assets/svg/colored_cycle.svg',
                   value: stats['rides'] ?? '0',
                   label: 'Rides',
                 ),
                 _buildStatItem(
-                  icon: Icons.celebration,
+                  imagePath: 'assets/svg/events_colored.svg',
                   value: stats['events'] ?? '0',
                   label: 'Events',
                 ),
@@ -108,24 +109,24 @@ class ProfileHeaderSection extends StatelessWidget {
   }
 
   Widget _buildStatItem({
-    required IconData icon,
+    required String imagePath,
     required String value,
     required String label,
   }) {
     return Column(
       children: [
         Container(
-          width: 48,
-          height: 48,
+          width: 55,
+          height: 55,
           decoration: const BoxDecoration(
             color: Colors.white,
             shape: BoxShape.circle,
           ),
           child: Center(
-            child: Icon(
-              icon,
-              color: AppColors.charcoal,
-              size: 24,
+            child: SvgPicture.asset(
+              imagePath,
+              width: 30,
+              height: 30,
             ),
           ),
         ),

@@ -1,4 +1,5 @@
 import 'package:adcc/core/theme/app_colors.dart';
+import 'package:adcc/shared/widgets/adaptive_image.dart';
 import 'package:flutter/material.dart';
 
 class CommunityHorizontalCard extends StatelessWidget {
@@ -86,11 +87,12 @@ class CommunityHorizontalCard extends StatelessWidget {
           /// RIGHT IMAGE
           ClipRRect(
             borderRadius: BorderRadius.circular(16),
-            child: Image.asset(
-              imagePath,
+            child: AdaptiveImage(
+              imagePath: imagePath,
               width: 130,
               height: 220,
               fit: BoxFit.cover,
+              placeholderColor: AppColors.softCream,
             ),
           ),
         ],
