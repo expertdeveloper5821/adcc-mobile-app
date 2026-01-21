@@ -4,7 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'core/theme/app_theme.dart';
-import 'core/widgets/auth_wrapper.dart';
+import 'features/splash/view/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -71,7 +71,7 @@ class _MyAppState extends State<MyApp> {
 
       supportedLocales: const [Locale('en'), Locale('ar')],
 
-      home: const AuthWrapper(),
+      home: const SplashScreen(),
     );
   }
 }

@@ -9,6 +9,7 @@ import 'sections/profile_header_section.dart';
 import 'sections/profile_menu_section.dart';
 import 'sections/route_details_integration_section.dart';
 import 'sections/guest_profile_section.dart';
+import '../../my_cycling_details/view/my_cycling_details_screen.dart';
 import '../../../features/auth/view/register_screen.dart';
 import '../../../features/auth/view/email_password_login_screen.dart';
 import '../../../features/events/view/events_screen.dart';
@@ -276,7 +277,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     },
                   ],
                   onItemTap: (index, label) {
-                    // Handle menu item tap
+                    if (index == 0) {
+                      // My cycling details
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const MyCyclingDetailsScreen(),
+                        ),
+                      );
+                      return;
+                    }
+
+                    // TODO: handle other menu items
                     debugPrint('Tapped: $label');
                   },
                 ),

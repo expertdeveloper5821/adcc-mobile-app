@@ -14,6 +14,7 @@ dependencies:
   dio: ^5.7.0
   country_picker: ^2.0.25
   flutter_svg: ^2.0.9
+  lottie: ^3.1.3
   google_maps_flutter: ^2.5.0
   geolocator: ^10.1.0
   geocoding: ^2.1.1
@@ -39,16 +40,15 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/svg/
+    - assets/lotties/
 
 flutter_native_splash:
   color: "#FFF9EF" # Background color
-  image: assets/images/splash.png
   android: true
   ios: true
   fullscreen: true
   android_gravity: center
   android_12:
-    image: assets/images/splash.png
     color: "#FFF9EF"
 
 flutter_launcher_icons:
