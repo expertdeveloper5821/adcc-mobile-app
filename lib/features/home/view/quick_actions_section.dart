@@ -45,7 +45,7 @@ class QuickActionsSection extends StatelessWidget {
               },
             ),
             QuickActionItem(
-              title: 'Routes',
+              title: 'Tracks',
               imagePath: 'assets/images/routes.png',
               onTap: () {
                 // Switch to Routes tab (index 2) instead of pushing new screen

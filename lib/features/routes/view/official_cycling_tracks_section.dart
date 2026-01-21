@@ -334,7 +334,7 @@ class _OfficialCyclingTracksSectionState
                         ),
                       ),
                       child: const Text(
-                        'View Route',
+                        'View Track',
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,

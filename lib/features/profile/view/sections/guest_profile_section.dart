@@ -113,7 +113,7 @@ class GuestProfileSection extends StatelessWidget {
               const SizedBox(height: 12),
               // View Routes Button
               _GuestOptionButton(
-                label: 'View Routes',
+                label: 'View Tracks',
                 onTap: onViewRoutes,
               ),
               const SizedBox(height: 24),
