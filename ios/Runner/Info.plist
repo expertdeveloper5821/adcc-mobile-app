@@ -47,14 +47,14 @@
 		<true/>
 		<key>UIStatusBarHidden</key>
 		<true/>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
-	<!-- Location permissions for Google Maps -->
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access to your location to show your position on the map and provide navigation.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This app needs access to your location to show your position on the map and provide navigation.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>This app needs access to your location to show your position on the map and provide navigation.</string>
-</dict>
+		<key>UIViewControllerBasedStatusBarAppearance</key>
+		<false/>
+		<!-- Location permissions for Google Maps -->
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>This app needs access to your location to show your position on the map and provide navigation.</string>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>This app needs access to your location to show your position on the map and provide navigation.</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>This app needs access to your location to show your position on the map and provide navigation.</string>
+	</dict>
 </plist>
