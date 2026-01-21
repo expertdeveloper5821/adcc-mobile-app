@@ -43,7 +43,7 @@ class _RoutesTabState extends State<RoutesTab> {
                 // Banner with Search
                 BannerWithSearch(
                   imagePath: 'assets/images/cycling_1.png',
-                  title: 'Find a Route',
+                  title: 'Find a Track',
                   wantSearchBar: true,
                   searchValue: searchQuery,
                   onChangeHandler: (value) {
