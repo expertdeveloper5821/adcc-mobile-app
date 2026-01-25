@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class MyCyclingDetailsSummarySection extends StatelessWidget {
@@ -14,29 +17,29 @@ class MyCyclingDetailsSummarySection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: _MembershipSummaryCard(),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 30),
 
         // Cycling identity section
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: _CyclingIdentityCard(),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 40),
 
         // Your Rides & Events
         const _RidesAndEventsSection(),
-        const SizedBox(height: 16),
+        const SizedBox(height: 20),
 
         // Completed rides CTA
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: _CompletedRidesCta(),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 30),
 
         // Your Communities
         const _CommunitiesSection(),
-        const SizedBox(height: 16),
+        const SizedBox(height: 30),
 
         // Your Listed Gear
         const _ListedGearSection(),
@@ -48,23 +51,21 @@ class MyCyclingDetailsSummarySection extends StatelessWidget {
 class _MembershipSummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    
     return Container(
-      
       // padding: const EdgeInsets.all(16),
-          // SizedBox(height: 12),
+      // SizedBox(height: 12),
       child: Column(
-        
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
             width: double.infinity,
             child: Container(
-              padding: const EdgeInsets.all(15),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(12),
               ),
+              alignment: Alignment.centerLeft,
               child: const Text(
                 'Rider level membership',
                 style: TextStyle(
@@ -80,20 +81,22 @@ class _MembershipSummaryCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: const [
               _StatMiniCard(
-                label: 'Total distance',
-                value: '1,347 km',
+                label: 'Total Distance',
+                value: '1,247 km',
               ),
+              const SizedBox(width: 12),
               _StatMiniCard(
-                label: 'Rides this month',
-                value: '8 rides',
+                label: 'Ride Streak',
+                value: '6 Days',
               ),
+              const SizedBox(width: 12),
               _StatMiniCard(
-                label: 'Days in saddle',
-                value: '16 days',
+                label: 'Badges Earned',
+                value: '12',
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 18),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
@@ -108,7 +111,7 @@ class _MembershipSummaryCard extends StatelessWidget {
                 // TODO: navigate to full stats
               },
               child: const Text(
-                'View full stats',
+                'View Full Stats',
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
@@ -135,12 +138,12 @@ class _StatMiniCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 4),
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
         decoration: BoxDecoration(
-          color: AppColors.softCream,
-          borderRadius: BorderRadius.circular(12),
-        ),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: AppColors.charcoal.withValues(alpha: 0.23),
+            )),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -148,17 +151,18 @@ class _StatMiniCard extends StatelessWidget {
             Text(
               label,
               style: const TextStyle(
-                fontSize: 11,
-                color: AppColors.textSecondary,
+                fontSize: 12,
+                fontStyle: FontStyle.normal,
+                color: AppColors.charcoal,
               ),
             ),
             const SizedBox(height: 4),
             Text(
               value,
               style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: AppColors.textDark,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: AppColors.charcoal,
               ),
             ),
           ],
@@ -172,51 +176,104 @@ class _CyclingIdentityCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8E5B8),
-        borderRadius: BorderRadius.circular(16),
+        color: AppColors.buttonGuest,
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text(
-                'Your Cycling Identity',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textDark,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                width: 20,
+                height: 20,
+                child: SvgPicture.asset(
+                  'assets/svg/goal.svg',
                 ),
               ),
-              Text(
-                '135 km to next level',
+              SizedBox(width: 8),
+              const Text(
+                'Your Cycling Identity',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.charcoal,
+                ),
+              ),
+              // const Text(
+              //   '135 km to next level',
+              //   style: TextStyle(
+              //     fontSize: 12,
+              //     color: AppColors.textSecondary,
+              //   ),
+              // ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Level Progress',
                 style: TextStyle(
                   fontSize: 12,
-                  color: AppColors.textSecondary,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.charcoal,
+                ),
+              ),
+              const Text(
+                '73% to next level',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.charcoal,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
+          LinearProgressIndicator(
+            minHeight: 12,
+            value: 0.73,
+            backgroundColor: AppColors.white,
+            borderRadius: BorderRadius.circular(37041432),
+            color: AppColors.warnYellow,
+          ),
+          const SizedBox(height: 20),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: const [
               _IdentityPill(
-                label: 'Level Progress',
-                value: 'Level 3 / 7',
+                label: 'Beginner',
+                value: '1',
               ),
               _IdentityPill(
-                label: 'Identity score',
-                value: '72%',
+                label: 'Intermediate',
+                value: '2',
               ),
               _IdentityPill(
-                label: 'Style badge',
-                value: 'Keep riding & leveling up',
+                label: 'Advanced',
+                value: '3',
+              ),
+              _IdentityPill(
+                label: 'Ambassador',
+                value: '4',
               ),
             ],
+          ),
+          const SizedBox(height: 16),
+          const Text(
+            'Keep riding to level up.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+              color: AppColors.charcoal,
+            ),
           ),
         ],
       ),
@@ -235,6 +292,28 @@ class _IdentityPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: AppColors.dustyRose,
+          ),
+          height: 40,
+          width: 40,
+          alignment: Alignment.center,
+          child: Text(
+            value,
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+          ),
+        ),
+        SizedBox(height: 4),
+        Text(
+          label,
+          style: TextStyle(fontSize: 8, fontWeight: FontWeight.w400),
+        ),
+      ],
+    );
     return Expanded(
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -282,6 +361,8 @@ class _RidesAndEventsSection extends StatelessWidget {
     final rides = [
       {
         'image': 'assets/images/cycling_1.png',
+        'distance': '25 km',
+        'countOfRiders': '25k riders',
         'title': 'UAE National Day Ride',
         'meta': '32 km · 1h 25m',
         'tag': 'Progressive',
@@ -289,6 +370,8 @@ class _RidesAndEventsSection extends StatelessWidget {
       },
       {
         'image': 'assets/images/cycling_1.png',
+        'distance': '25 km',
+        'countOfRiders': '25k riders',
         'title': 'UAE Amateur Stage Ride',
         'meta': '48 km · 2h 05m',
         'tag': 'Intermediate',
@@ -296,6 +379,8 @@ class _RidesAndEventsSection extends StatelessWidget {
       },
       {
         'image': 'assets/images/cycling_1.png',
+        'distance': '25 km',
+        'countOfRiders': '25k riders',
         'title': 'UAE National Day Ride',
         'meta': '28 km · 1h 10m',
         'tag': 'Night Ride',
@@ -313,24 +398,34 @@ class _RidesAndEventsSection extends StatelessWidget {
             children: [
               Text(
                 'Your Rides & Events',
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textDark,
-                ),
+                style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.charcoal,
+                    fontSize: 20),
               ),
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  'View All ›',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: AppColors.textSecondary,
-                  ),
+              InkWell(
+                onTap: () {},
+                child: Row(
+                  children: [
+                    const Text(
+                      'View All',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.charcoal,
+                      ),
+                    ),
+                    Icon(
+                      Icons.chevron_right,
+                      size: 16,
+                      color: AppColors.charcoal,
+                    )
+                  ],
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 30),
           Column(
             children: rides
                 .map(
@@ -338,6 +433,8 @@ class _RidesAndEventsSection extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 10),
                     child: _RideListItem(
                       imagePath: ride['image']!,
+                      distance: ride['distance']!,
+                      countOfRiders: ride['countOfRiders']!,
                       title: ride['title']!,
                       meta: ride['meta']!,
                       tag: ride['tag']!,
@@ -355,6 +452,8 @@ class _RidesAndEventsSection extends StatelessWidget {
 
 class _RideListItem extends StatelessWidget {
   final String imagePath;
+  final String distance;
+  final String countOfRiders;
   final String title;
   final String meta;
   final String tag;
@@ -366,68 +465,110 @@ class _RideListItem extends StatelessWidget {
     required this.meta,
     required this.tag,
     required this.date,
+    required this.distance,
+    required this.countOfRiders,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(8),
       ),
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(8),
       child: Row(
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(6),
             child: Image.asset(
               imagePath,
-              width: 64,
-              height: 64,
+              width: 104,
+              height: 104,
               fit: BoxFit.cover,
             ),
           ),
-          const SizedBox(width: 10),
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textDark,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.charcoal,
                   ),
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  meta,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 12),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
+                    SizedBox(
+                      height: 10,
+                      width: 10,
+                      child: SvgPicture.asset(
+                        'assets/svg/navigation.svg',
+                        colorFilter: ColorFilter.mode(
+                          AppColors.charcoal,
+                          BlendMode.srcIn,
+                        ),
                       ),
-                      decoration: BoxDecoration(
-                        color: AppColors.deepRed.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(20),
+                    ),
+                    SizedBox(width: 6),
+                    Text(
+                      distance,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.charcoal,
                       ),
-                      child: Text(
-                        tag,
-                        style: const TextStyle(
-                          fontSize: 11,
-                          color: AppColors.deepRed,
-                          fontWeight: FontWeight.w500,
+                    ),
+                    SizedBox(width: 20),
+                    Icon(
+                      Icons.directions_bike,
+                      color: AppColors.charcoal,
+                      size: 10,
+                    ),
+                    SizedBox(width: 6),
+                    Text(
+                      countOfRiders,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.charcoal,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: 140,
+                      height: 30,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.deepRed,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                        ),
+                        onPressed: () {
+                          // TODO: navigate to full stats
+                        },
+                        child: const Text(
+                          'Navigate',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ),
                     ),
@@ -436,7 +577,8 @@ class _RideListItem extends StatelessWidget {
                       date,
                       style: const TextStyle(
                         fontSize: 12,
-                        color: AppColors.textSecondary,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.charcoal,
                       ),
                     ),
                   ],
@@ -454,10 +596,10 @@ class _CompletedRidesCta extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       decoration: BoxDecoration(
-        color: const Color(0xFFF4C64A),
-        borderRadius: BorderRadius.circular(12),
+        color: AppColors.goldenOchre,
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
         children: const [
@@ -465,15 +607,16 @@ class _CompletedRidesCta extends StatelessWidget {
             child: Text(
               'Completed Rides: 18',
               style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: AppColors.textDark,
+                fontSize: 18,
+                fontWeight: FontWeight.w400,
+                color: AppColors.offWhite,
               ),
             ),
           ),
           Icon(
             Icons.directions_bike,
-            color: AppColors.textDark,
+            size: 26,
+            color: AppColors.white,
           ),
         ],
       ),
@@ -491,56 +634,78 @@ class _CommunitiesSection extends StatelessWidget {
     final communities = [
       'Abu Dhabi Riders',
       'Long Distance Crew',
-      'Family & Youth',
     ];
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(8),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              Icon(
+                Icons.people_outline,
+                size: 20,
+              ),
+              SizedBox(width: 4),
               Text(
                 'Your Communities',
-                style: theme.textTheme.titleMedium?.copyWith(
+                style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  color: AppColors.textDark,
+                  fontSize: 16,
+                  color: AppColors.charcoal,
                 ),
               ),
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  'Explore ›',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: AppColors.textSecondary,
-                  ),
+              Spacer(),
+              InkWell(
+                onTap: () {},
+                child: Row(
+                  children: [
+                    const Text(
+                      'Explore',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.charcoal,
+                      ),
+                    ),
+                    Icon(
+                      Icons.chevron_right,
+                      size: 16,
+                      color: AppColors.charcoal,
+                    )
+                  ],
                 ),
               ),
             ],
           ),
           const SizedBox(height: 8),
           Wrap(
-            spacing: 8,
+            spacing: 20,
             runSpacing: 8,
             children: communities
                 .map(
                   (label) => Container(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 6,
+                      horizontal: 12,
+                      vertical: 8,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
+                      color: AppColors.warmSand,
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
                       label,
                       style: const TextStyle(
-                        fontSize: 12,
-                        color: AppColors.textDark,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.charcoal,
                       ),
                     ),
                   ),
@@ -568,19 +733,21 @@ class _ListedGearSection extends StatelessWidget {
         children: [
           Text(
             'Your Listed Gear',
-            style: theme.textTheme.titleMedium?.copyWith(
+            style: TextStyle(
               fontWeight: FontWeight.w600,
-              color: AppColors.textDark,
+              fontSize: 22,
+              color: AppColors.charcoal,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 20),
           SizedBox(
             height: 260,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: const [
+                SizedBox(width: 4),
                 _GearItemCard(),
-                SizedBox(width: 12),
+                SizedBox(width: 24),
                 _GearItemCard(),
               ],
             ),
@@ -602,33 +769,121 @@ class _GearItemCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: Image.asset(
-              'assets/images/bike.png',
-              height: 170,
-              width: double.infinity,
-              fit: BoxFit.cover,
+            borderRadius: BorderRadius.circular(6),
+            child: Stack(
+              children: [
+                Container(
+                  child: Image.asset(
+                    'assets/images/bike.png',
+                    height: 180,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Positioned.fill(
+                  child: Container(
+                    color: AppColors.black.withValues(alpha: 0.25),
+                  ),
+                ),
+                Positioned(
+                  top: 12,
+                  left: 6,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(22),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 7.5, sigmaY: 7.5),
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: AppColors.white.withValues(alpha: 0.2),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.location_on_outlined,
+                              size: 16,
+                              color: AppColors.white,
+                            ),
+                            SizedBox(width: 4),
+                            Text(
+                              'Sharjah',
+                              style: TextStyle(
+                                fontSize: 8,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'DRT 830 Road Shoes',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: AppColors.textDark,
-            ),
-          ),
-          const SizedBox(height: 4),
-          const Text(
-            'Listed in Community Store',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 11,
-              color: AppColors.textSecondary,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'DRT 830 Road Shoes',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.charcoal,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    const Text(
+                      '1300 AED',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.charcoal,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    Icon(
+                      Icons.circle,
+                      size: 4,
+                      color: AppColors.charcoal.withValues(alpha: 0.5),
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      '2 days ago',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.charcoal.withValues(alpha: 0.5),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Posted by Mark McEvoy',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.charcoal.withValues(alpha: 0.5),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -636,4 +891,3 @@ class _GearItemCard extends StatelessWidget {
     );
   }
 }
-

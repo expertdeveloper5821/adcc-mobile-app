@@ -16,8 +16,8 @@ class MyCyclingDetailsHeaderSection extends StatelessWidget {
           child: Row(
             children: [
               AppBackButton(
-                backgroundColor: AppColors.paleGreen.withValues(alpha: 0.36),
-                iconColor: AppColors.brand_green,
+                backgroundColor: AppColors.deepRed.withValues(alpha: 0.36),
+                iconColor: AppColors.deepRed,
                 onBack: () {
                   if (Navigator.of(context).canPop()) {
                     Navigator.of(context).pop();
@@ -33,7 +33,7 @@ class MyCyclingDetailsHeaderSection extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(12),
             child: Stack(
               children: [
                 /// Background Image
@@ -47,14 +47,18 @@ class MyCyclingDetailsHeaderSection extends StatelessWidget {
                 /// Gradient Overlay
                 Positioned.fill(
                   child: Container(
-                    decoration: const BoxDecoration(
+                    decoration:  BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Colors.transparent,
-                          Colors.black54,
+                          Colors.black.withValues(alpha: 0),
+                          Colors.black.withValues(alpha: 0.9),
                         ],
+                        stops: [
+                          0.5326,
+                          1.0,
+                        ]
                       ),
                     ),
                   ),
@@ -71,7 +75,7 @@ class MyCyclingDetailsHeaderSection extends StatelessWidget {
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 22,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
