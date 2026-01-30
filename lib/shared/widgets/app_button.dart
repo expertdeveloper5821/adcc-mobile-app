@@ -167,7 +167,7 @@ Color _resolveTextColor(BuildContext context, bool disabled, Color? defaultColor
           style: textStyle ??
               TextStyle(
                 color: resolvedTextColor,
-                fontSize: 16,
+                fontSize: 12,
                 fontWeight: FontWeight.w600,
               ),
         ),

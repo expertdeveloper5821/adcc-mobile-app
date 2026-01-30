@@ -7,6 +7,7 @@ class AppColors {
   static const Color warmSand = Color(0xFFECC180); // Cards
   static const Color cardLightBackground = Color(0xFFFFF4E3); // Light card background
   static const Color lightBeige = Color(0xFFE9E4DB); // Light beige background
+  static const Color white = Color(0xFFFFFFFF); // Light beige background
 
   // Primary accents
   static const Color deepRed = Color(0xFFC12D32); // CTA

@@ -28,21 +28,21 @@ class CategorySelector extends StatelessWidget {
             onTap: () => onSelected(index),
             child: Container(
               padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 10,
+                horizontal: 16,
+                vertical: 9,
               ),
               decoration: BoxDecoration(
                 color: isSelected
                     ? AppColors.goldenOchre
                     : AppColors.textSecondary.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(12),
               ),
               child: Center(
                 child: Text(
                   categories[index],
                   style: TextStyle(
                     color: isSelected ? Colors.white : AppColors.textDark,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
               ),

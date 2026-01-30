@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../core/theme/app_colors.dart';
+
 class SectionHeader extends StatelessWidget {
   final String title;
   final VoidCallback? onViewAll;
@@ -21,7 +23,11 @@ class SectionHeader extends StatelessWidget {
         Expanded(
           child: Text(
             title,
-            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: AppColors.charcoal,
+            ),
           ),
         ),
         if (showViewAll)
@@ -29,16 +35,20 @@ class SectionHeader extends StatelessWidget {
             onTap: onViewAll,
             child: Row(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text(
                   'View All',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
-                const SizedBox(width: 6), // spacing between text & icon
+                const SizedBox(width: 8), // spacing between text & icon
                 Image.asset(
                   "assets/icons/right_arrow.png",
-                  height: 12,
-                  width: 12, 
+                  height: 8,
+                  width: 8,
                   fit: BoxFit.contain,
                 ),
               ],

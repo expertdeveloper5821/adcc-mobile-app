@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 
@@ -49,13 +51,13 @@ class _BannerWithSearchState extends State<BannerWithSearch> {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(12),
       child: Stack(
         children: [
           // Background Image
           Image.asset(
             widget.imagePath,
-            height: 400,
+            height: 240,
             width: double.infinity,
             fit: BoxFit.cover,
             errorBuilder: (context, error, stackTrace) {
@@ -73,9 +75,10 @@ class _BannerWithSearchState extends State<BannerWithSearch> {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
+                  stops: [0.2725, 1.0],
                   colors: [
                     Colors.transparent,
-                    Colors.black,
+                    Color.fromRGBO(0, 0, 0, 0.9),
                   ],
                 ),
               ),
@@ -84,45 +87,83 @@ class _BannerWithSearchState extends State<BannerWithSearch> {
 
           // Content
           Positioned(
-            left: 16,
-            right: 16,
-            bottom: 16,
+            left: 24,
+            right: 24,
+            bottom: 12,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // Title
                 Text(
                   widget.title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
 
                 // Search Bar (if enabled)
                 if (widget.wantSearchBar) ...[
-                  const SizedBox(height: 16),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.23),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: TextField(
-                      style: const TextStyle(color: Colors.white),
-                      controller: _searchController,
-                      onChanged: widget.onChangeHandler,
-                      decoration: InputDecoration(
-                        hintText: widget.placeholder ?? 'Search...',
-                        hintStyle: TextStyle(color: Colors.white),
-                        prefixIcon: const Icon(
-                          Icons.search,
-                          color: Colors.white70,
+                  const SizedBox(height: 14),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(
+                        sigmaX: 10,
+                        sigmaY: 10,
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.white.withValues(alpha: 0.21),
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        border: InputBorder.none,
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
+                        child: TextField(
+                          cursorColor: Colors.white,
+                          // style: const TextStyle(color: Colors.transparent),
+                          controller: _searchController,
+                          onChanged: widget.onChangeHandler,
+                          decoration: InputDecoration(
+                            hintText: widget.placeholder ?? 'Search...',
+                            hintStyle: TextStyle(
+                              color: AppColors.white,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
+                            ),
+                            prefixIcon: Padding(
+                              padding: EdgeInsets.only(left: 14),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(
+                                    height: 24,
+                                    width: 24,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Color(0xFF8C8C8C),
+                                      ),
+                                      child: const Icon(
+                                        Icons.search,
+                                        color: Colors.white70,
+                                        size: 16,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 4),
+                                ],
+                              ),
+                            ),
+                            prefixIconConstraints: const BoxConstraints(
+                              minWidth: 24,
+                              minHeight: 24,
+                            ),
+                            border: InputBorder.none,
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 6,
+                              horizontal: 12,
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -136,4 +177,3 @@ class _BannerWithSearchState extends State<BannerWithSearch> {
     );
   }
 }
-

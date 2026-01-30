@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'core/theme/app_theme.dart';
+import 'features/communities/view/community_screen.dart';
 import 'features/splash/view/splash_screen.dart';
 
 void main() async {
@@ -71,7 +72,7 @@ class _MyAppState extends State<MyApp> {
 
       supportedLocales: const [Locale('en'), Locale('ar')],
 
-      home: const SplashScreen(),
+      home: const CommunitiesScreen(),
     );
   }
 }

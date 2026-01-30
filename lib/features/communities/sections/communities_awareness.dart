@@ -6,19 +6,17 @@ import 'package:flutter/material.dart';
 
 class CommunitiesAwareness extends StatefulWidget {
   final List<CommunityModel> communities;
-  
+
   const CommunitiesAwareness({
     super.key,
     required this.communities,
   });
 
   @override
-  State<CommunitiesAwareness> createState() =>
-      _CommunitiesAwarenessState();
+  State<CommunitiesAwareness> createState() => _CommunitiesAwarenessState();
 }
 
-class _CommunitiesAwarenessState
-    extends State<CommunitiesAwareness> {
+class _CommunitiesAwarenessState extends State<CommunitiesAwareness> {
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -37,12 +35,12 @@ class _CommunitiesAwarenessState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          height: 360,
+          height: 300,
           child: ListView.separated(
             controller: _scrollController,
             scrollDirection: Axis.horizontal,
             itemCount: (widget.communities.length / 2).ceil(),
-            separatorBuilder: (_, __) => const SizedBox(width: 16),
+            separatorBuilder: (_, __) => const SizedBox(width: 18),
             itemBuilder: (context, index) {
               final firstIndex = index * 2;
               final secondIndex = firstIndex + 1;
@@ -76,7 +74,7 @@ class _CommunitiesAwarenessState
       },
       child: Container(
         width: 180,
-        height: 340,
+        height: 300,
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
@@ -87,39 +85,40 @@ class _CommunitiesAwarenessState
           children: [
             // Image with tag
             ClipRRect(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(8),
               child: Stack(
                 children: [
                   AdaptiveImage(
-                    imagePath: community.imageUrl ?? 'assets/images/cycling_1.png',
+                    imagePath:
+                        community.imageUrl ?? 'assets/images/cycling_1.png',
                     width: double.infinity,
                     height: 160,
                     fit: BoxFit.cover,
                     placeholderColor: AppColors.softCream,
                   ),
                   // if (community.category.isNotEmpty)
-                    // Positioned(
-                    //   top: 12,
-                    //   left: 12,
-                    //   child: Container(
-                    //     padding: const EdgeInsets.symmetric(
-                    //       horizontal: 12,
-                    //       vertical: 6,
-                    //     ),
-                    //     decoration: BoxDecoration(
-                    //       color: Colors.black.withValues(alpha: 0.45),
-                    //       borderRadius: BorderRadius.circular(6),
-                    //     ),
-                    //     child: Text(
-                    //       community.category.first,
-                    //       style: const TextStyle(
-                    //         color: Colors.white,
-                    //         fontSize: 10,
-                    //         fontWeight: FontWeight.w600,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
+                  // Positioned(
+                  //   top: 12,
+                  //   left: 12,
+                  //   child: Container(
+                  //     padding: const EdgeInsets.symmetric(
+                  //       horizontal: 12,
+                  //       vertical: 6,
+                  //     ),
+                  //     decoration: BoxDecoration(
+                  //       color: Colors.black.withValues(alpha: 0.45),
+                  //       borderRadius: BorderRadius.circular(6),
+                  //     ),
+                  //     child: Text(
+                  //       community.category.first,
+                  //       style: const TextStyle(
+                  //         color: Colors.white,
+                  //         fontSize: 10,
+                  //         fontWeight: FontWeight.w600,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -139,18 +138,19 @@ class _CommunitiesAwarenessState
                         community.title,
                         style: const TextStyle(
                           fontSize: 14,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
                           color: AppColors.textDark,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 8),
-                     
-                       Text(
+
+                      Text(
                         community.description,
                         style: const TextStyle(
-                          fontSize: 14,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
                           color: AppColors.textDark,
                         ),
                         maxLines: 2,
@@ -158,7 +158,6 @@ class _CommunitiesAwarenessState
                       ),
                     ],
                   ),
-                  
                   Align(
                     alignment: Alignment.centerLeft,
                     child: AppButton(
@@ -168,7 +167,7 @@ class _CommunitiesAwarenessState
                         debugPrint('Explore ${community.title}');
                       },
                       backgroundColor: AppColors.deepRed,
-                      height: 35,
+                      height: 30,
                       width: 90,
                     ),
                   ),
@@ -181,4 +180,3 @@ class _CommunitiesAwarenessState
     );
   }
 }
-

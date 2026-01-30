@@ -39,8 +39,9 @@ class CommunityHorizontalCard extends StatelessWidget {
                     Text(
                       title,
                       style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.charcoal,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -49,9 +50,10 @@ class CommunityHorizontalCard extends StatelessWidget {
                       maxLines: 4,               
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 12,
                         height: 1.4,
-                        color: Colors.black.withValues(alpha: 0.7),
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black.withValues(alpha: 0.8),
                       ),
                     ),
                   ],
@@ -59,21 +61,22 @@ class CommunityHorizontalCard extends StatelessWidget {
 
                 InkWell(
                   onTap: onExplore,
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(18),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 10,
+                      horizontal: 12,
+                      vertical: 8,
                     ),
                     decoration: BoxDecoration(
                       color: AppColors.softCream,
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(18),
                     ),
                     child: const Text(
                       'Explore Community →',
                       style: TextStyle(
+                        fontSize: 12,
                         color: AppColors.deepRed,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
@@ -86,11 +89,11 @@ class CommunityHorizontalCard extends StatelessWidget {
 
           /// RIGHT IMAGE
           ClipRRect(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(8),
             child: AdaptiveImage(
               imagePath: imagePath,
-              width: 130,
-              height: 220,
+              width: 150,
+              height: 200,
               fit: BoxFit.cover,
               placeholderColor: AppColors.softCream,
             ),

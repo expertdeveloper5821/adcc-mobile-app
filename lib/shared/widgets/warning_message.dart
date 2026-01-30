@@ -45,20 +45,20 @@ class WarningMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
       decoration: BoxDecoration(
-        color: _backgroundColor,
+        color: AppColors.buttonGuest,// _backgroundColor,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(
             _icon,
             color: Colors.black,
             size: 20,
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 18),
           Expanded(
             child: title != null
                 ? Column(
@@ -86,8 +86,8 @@ class WarningMessage extends StatelessWidget {
                 : Text(
                     message,
                     style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 13,
+                      color: AppColors.textDark,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
