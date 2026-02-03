@@ -4,6 +4,7 @@ import '../../core/theme/app_colors.dart';
 class BannerWithSearch extends StatefulWidget {
   final String imagePath;
   final String title;
+  final String? subtitle;
   final bool wantSearchBar;
   final String? searchValue;
   final ValueChanged<String>? onChangeHandler;
@@ -13,6 +14,7 @@ class BannerWithSearch extends StatefulWidget {
     super.key,
     required this.imagePath,
     required this.title,
+    this.subtitle,
     this.wantSearchBar = false,
     this.searchValue,
     this.onChangeHandler,
@@ -99,6 +101,19 @@ class _BannerWithSearchState extends State<BannerWithSearch> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+
+                // Subtitle (if provided)
+                if (widget.subtitle != null && widget.subtitle!.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    widget.subtitle!,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                    ),
+                  ),
+                ],
 
                 // Search Bar (if enabled)
                 if (widget.wantSearchBar) ...[

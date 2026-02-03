@@ -48,9 +48,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void _continueAsGuest(BuildContext context) {
-    Navigator.push(
+    // Navigate to homepage and clear navigation stack
+    Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (_) => const HomeScreen()),
+      MaterialPageRoute(
+        builder: (_) => const HomeScreen(),
+      ),
+      (route) => false, // Remove all previous routes
     );
   }
 
@@ -266,7 +270,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         width: double.infinity,
                         height: 56,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () => _continueAsGuest(context),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.buttonGuest,
                             foregroundColor: AppColors.textDark,
