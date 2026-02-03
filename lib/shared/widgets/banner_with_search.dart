@@ -5,12 +5,7 @@ import '../widgets/back_button_widget.dart';
 class BannerWithSearch extends StatefulWidget {
   final String imagePath;
   final String title;
-
-  /// NEW
   final String? subtitle;
-  final bool showBackButton;
-  final VoidCallback? onBack;
-
   final bool wantSearchBar;
   final String? searchValue;
   final ValueChanged<String>? onChangeHandler;
@@ -21,11 +16,7 @@ class BannerWithSearch extends StatefulWidget {
     super.key,
     required this.imagePath,
     required this.title,
-
-    // New params
     this.subtitle,
-    this.showBackButton = false,
-    this.onBack,
     this.wantSearchBar = false,
     this.searchValue,
     this.onChangeHandler,
@@ -111,23 +102,26 @@ class _BannerWithSearchState extends State<BannerWithSearch> {
                 ),
               ),
 
-            /// Bottom Content
-            Positioned(
-              left: 20,
-              right: 20,
-              bottom: 20,
-              child: Column(
-                crossAxisAlignment: widget.subtitle != null
-                    ? CrossAxisAlignment.start
-                    : CrossAxisAlignment.center,
-                children: [
-                  /// Title
+                // Subtitle (if provided)
+                if (widget.subtitle != null && widget.subtitle!.isNotEmpty) ...[
+                  const SizedBox(height: 8),
                   Text(
-                    widget.title,
+                    widget.subtitle!,
+                    textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 13,
+                    ),
+                  ),
+                ],
+
+                // Search Bar (if enabled)
+                if (widget.wantSearchBar) ...[
+                  const SizedBox(height: 16),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.23),
+                      borderRadius: BorderRadius.circular(12),
                     ),
                   ),
 
