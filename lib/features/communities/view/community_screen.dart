@@ -2,13 +2,13 @@ import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/communities/models/community_model.dart';
 import 'package:adcc/features/communities/sections/communities_awareness.dart';
 import 'package:adcc/features/communities/sections/community_card.dart';
+import 'package:adcc/features/communities/sections/community_categories_grid.dart';
 import 'package:adcc/features/communities/sections/community_horizontal_card.dart';
+import 'package:adcc/features/communities/sections/view_all_communities_screen.dart';
 import 'package:adcc/features/communities/services/communities_service.dart';
 import 'package:adcc/shared/widgets/back_button_widget.dart';
 import 'package:adcc/shared/widgets/banner_with_search.dart';
-import 'package:adcc/shared/widgets/category_selector.dart';
 import 'package:adcc/shared/widgets/section_header.dart';
-import 'package:adcc/shared/widgets/warning_message.dart';
 import 'package:flutter/material.dart';
 
 class CommunitiesScreen extends StatefulWidget {
@@ -36,7 +36,9 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
   // Category mappings for different sections - matching API category values
   final List<String> _cityCommunityCategories = ['City Communities'];
   final List<String> _groupCommunityCategories = ['Group Communities'];
-  final List<String> _awarenessCommunityCategories = ['Awareness & Special Communities'];
+  final List<String> _awarenessCommunityCategories = [
+    'Awareness & Special Communities'
+  ];
 
   @override
   void initState() {
@@ -57,7 +59,7 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
 
   Future<void> _loadCommunities() async {
     if (!mounted) return;
-    
+
     setState(() {
       _isLoading = true;
       _errorMessage = null;
@@ -69,14 +71,14 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
       if (mounted) {
         setState(() {
           _isLoading = false;
-          
+
           if (response.success && response.data != null) {
             // Extract communities from nested structure
             List<dynamic> communitiesList = [];
-            
+
             if (response.data is Map) {
               final data = response.data as Map<String, dynamic>;
-              
+
               // Try different response structures
               if (data.containsKey('data') && data['data'] is Map) {
                 final nestedData = data['data'] as Map<String, dynamic>;
@@ -91,12 +93,13 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
             } else if (response.data is List) {
               communitiesList = response.data as List;
             }
-            
+
             // Parse communities into model objects
             _allCommunities = communitiesList
-                .map((json) => CommunityModel.fromJson(json as Map<String, dynamic>))
+                .map((json) =>
+                    CommunityModel.fromJson(json as Map<String, dynamic>))
                 .toList();
-            
+
             _errorMessage = null;
           } else {
             _errorMessage = response.message ?? 'Failed to load communities';
@@ -104,7 +107,7 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
           }
         });
       }
-    } catch (e, stackTrace) {
+    } catch (e) {
       if (mounted) {
         setState(() {
           _isLoading = false;
@@ -132,7 +135,9 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
     if (selectedFilterIndex > 0) {
       final selectedLocation = filterPills[selectedFilterIndex];
       filtered = filtered.where((community) {
-        return community.title.toLowerCase().contains(selectedLocation.toLowerCase());
+        return community.title
+            .toLowerCase()
+            .contains(selectedLocation.toLowerCase());
       }).toList();
     }
 
@@ -142,7 +147,7 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
   // Get communities for City Communities section - ONLY communities with exact "City Communities" category
   List<CommunityModel> _getCityCommunities() {
     final filtered = _getFilteredCommunities();
-    
+
     return filtered.where((community) {
       return community.hasAnyCategory(_cityCommunityCategories);
     }).toList();
@@ -151,7 +156,7 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
   // Get communities for Community Groups section - ONLY communities with exact "Group Communities" category
   List<CommunityModel> _getGroupCommunities() {
     final filtered = _getFilteredCommunities();
-    
+
     return filtered.where((community) {
       return community.hasAnyCategory(_groupCommunityCategories);
     }).toList();
@@ -160,7 +165,7 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
   // Get communities for Awareness & Special Communities section - ONLY communities with exact "Awareness & Special Communities" category
   List<CommunityModel> _getAwarenessCommunities() {
     final filtered = _getFilteredCommunities();
-    
+
     return filtered.where((community) {
       return community.hasAnyCategory(_awarenessCommunityCategories);
     }).toList();
@@ -235,58 +240,68 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
                                 horizontal: 16,
                               ),
                               children: [
-                      BannerWithSearch(
-                        imagePath: 'assets/images/cycling_1.png',
-                        title: 'Communities',
-                        wantSearchBar: true,
-                        searchValue: searchQuery,
-                        onChangeHandler: (value) {
-                          setState(() {
-                            searchQuery = value;
-                          });
-                        },
-                        placeholder:
-                            'Search by track name, city, distance or terrain...',
-                      ),
-                      const SizedBox(height: 16),
-                      CategorySelector(
-                        categories: filterPills,
-                        selectedIndex: selectedFilterIndex,
-                        onSelected: (index) {
-                          setState(() {
-                            selectedFilterIndex = index;
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 16),
-                      WarningMessage(
-                        message:
-                            'Join the ADCC ecosystem. Communities form by location and interests.',
-                        type: MessageType.warning,
-                      ),
-                      const SizedBox(height: 24),
-                      SectionHeader(
-                        title: 'City Communities',
-                        onViewAll: () {},
-                      ),
-                      const SizedBox(height: 24),
-                      _buildCityCommunitiesSection(),
-                      const SizedBox(height: 24),
-                      SectionHeader(
-                        title: 'Community Groups',
-                        onViewAll: () {},
-                      ),
-                      const SizedBox(height: 24),
-                      _buildGroupCommunitiesSection(),
-                      const SizedBox(height: 24),
-                      SectionHeader(
-                        title: 'Awareness & Special Communities',
-                        onViewAll: () {},
-                      ),
-                      const SizedBox(height: 24),
-                      _buildAwarenessCommunitiesSection(),
-                    ],
-                  ),
+                                BannerWithSearch(
+                                  imagePath: 'assets/images/cycling_1.png',
+                                  title: 'Communities',
+                                  wantSearchBar: true,
+                                  searchValue: searchQuery,
+                                  onChangeHandler: (value) {
+                                    setState(() {
+                                      searchQuery = value;
+                                    });
+                                  },
+                                  placeholder:
+                                      'Search by track name, city, distance or terrain...',
+                                ),
+                                const SizedBox(height: 24),
+                                SectionHeader(
+                                  title: 'Communities in Your City',
+                                  onViewAll: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) =>
+                                            ViewAllCommunitiesScreen(
+                                          title: 'Communities in Your City',
+                                          communities:
+                                              _getAwarenessCommunities(),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                                const SizedBox(height: 24),
+                                _buildAwarenessCommunitiesSection(),
+                                const SizedBox(height: 24),
+
+                                SectionHeader(
+                                  title: 'Browse by Community Type',
+                                  onViewAll: () {},
+                                ),
+                                const SizedBox(height: 24),
+                                CommunityCategoriesGrid(
+                                  onCategoryTap: (category) {
+                                    // Handle category tap
+                                    debugPrint('Category tapped: $category');
+                                  },
+                                ),
+                                const SizedBox(height: 24),
+                                // const SizedBox(height: 24),
+                                // SectionHeader(
+                                //   title: 'City Communities',
+                                //   onViewAll: () {},
+                                // ),
+                                // const SizedBox(height: 24),
+                                // _buildCityCommunitiesSection(),
+                                // const SizedBox(height: 24),
+                                SectionHeader(
+                                  title: 'Purpose-Based Communities',
+                                  onViewAll: () {},
+                                ),
+                                const SizedBox(height: 24),
+                                _buildGroupCommunitiesSection(),
+                              ],
+                            ),
                 ),
               ],
             ),
@@ -298,7 +313,7 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
 
   Widget _buildCityCommunitiesSection() {
     final cityCommunities = _getCityCommunities();
-    
+
     if (cityCommunities.isEmpty) {
       return const SizedBox(
         height: 100,
@@ -320,8 +335,8 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
         itemBuilder: (context, index) {
           final community = cityCommunities[index];
           return CommunityCard(
-            category: community.category.isNotEmpty 
-                ? community.category.first 
+            category: community.category.isNotEmpty
+                ? community.category.first
                 : 'Community',
             title: community.title,
             imagePath: community.imageUrl ?? 'assets/images/cycling_1.png',
@@ -341,7 +356,7 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
 
   Widget _buildGroupCommunitiesSection() {
     final groupCommunities = _getGroupCommunities();
-    
+
     if (groupCommunities.isEmpty) {
       return const SizedBox(
         height: 100,
@@ -377,7 +392,7 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
 
   Widget _buildAwarenessCommunitiesSection() {
     final awarenessCommunities = _getAwarenessCommunities();
-    
+
     if (awarenessCommunities.isEmpty) {
       return const SizedBox(
         height: 100,
