@@ -8,6 +8,7 @@ class CommunityModel {
   final bool? isJoined;
   final int? membersCount;
   final int? eventsCount;
+  final List<String>? memberImages;
 
   CommunityModel({
     required this.id,
@@ -19,6 +20,7 @@ class CommunityModel {
     this.isJoined,
     this.membersCount,
     this.eventsCount,
+    this.memberImages,
   });
 
   factory CommunityModel.fromJson(Map<String, dynamic> json) {
@@ -35,6 +37,11 @@ class CommunityModel {
           json['membersCount'] ?? json['members'] ?? json['memberCount']),
       eventsCount: _parseCount(
           json['eventsCount'] ?? json['events'] ?? json['eventCount']),
+      memberImages: [
+        "https://randomuser.me/api/portraits/men/1.jpg",
+        "https://randomuser.me/api/portraits/women/2.jpg",
+        "https://randomuser.me/api/portraits/men/3.jpg",
+      ],
     );
   }
 

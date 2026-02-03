@@ -1,17 +1,30 @@
+import 'package:flutter/material.dart';
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/communities/models/community_model.dart';
-import 'package:adcc/shared/widgets/back_button_widget.dart';
+import 'package:adcc/features/auth/view/communityDetailScreen/view/community_detail.dart';
 import 'package:adcc/shared/widgets/banner_with_search.dart';
 import 'package:adcc/shared/widgets/category_selector.dart';
-import 'package:flutter/material.dart';
+
+/// ---------------- SORT TYPES ----------------
+
+enum SortType {
+  mostActive,
+  mostMembers,
+  upcomingEvents,
+  recentlyCreated,
+}
 
 class ViewAllCommunitiesScreen extends StatefulWidget {
   final String title;
+  final String? subTitle;
+  final List<String> filterPills;
   final List<CommunityModel> communities;
 
   const ViewAllCommunitiesScreen({
     super.key,
     required this.title,
+    this.subTitle,
+    required this.filterPills,
     required this.communities,
   });
 
@@ -24,14 +37,12 @@ class _ViewAllCommunitiesScreenState extends State<ViewAllCommunitiesScreen> {
   int selectedIndex = 0;
   String search = '';
 
-  final List<String> filterPills = [
-    'All',
-    'Family & Leisure',
-    'Racing & Performance',
-  ];
+  SortType _selectedSort = SortType.mostActive;
+
+  /// ---------------- FILTER + SORT ----------------
 
   List<CommunityModel> get filteredList {
-    List<CommunityModel> list = widget.communities;
+    List<CommunityModel> list = [...widget.communities];
 
     /// Search
     if (search.isNotEmpty) {
@@ -40,19 +51,41 @@ class _ViewAllCommunitiesScreenState extends State<ViewAllCommunitiesScreen> {
       }).toList();
     }
 
-    /// Filter
+    /// Category Filter
     if (selectedIndex != 0) {
       list = list.where((c) {
         return c.category.any(
           (e) => e.toLowerCase().contains(
-                filterPills[selectedIndex].toLowerCase(),
+                widget.filterPills[selectedIndex].toLowerCase(),
               ),
         );
       }).toList();
     }
 
+    /// Sort
+    switch (_selectedSort) {
+      case SortType.mostActive:
+        // Default order (API order)
+        break;
+
+      case SortType.mostMembers:
+        list.sort(
+            (a, b) => (b.membersCount ?? 0).compareTo(a.membersCount ?? 0));
+        break;
+
+      case SortType.upcomingEvents:
+        list.sort((a, b) => (b.eventsCount ?? 0).compareTo(a.eventsCount ?? 0));
+        break;
+
+      case SortType.recentlyCreated:
+        list.sort((a, b) => (b.eventsCount ?? 0).compareTo(a.eventsCount ?? 0));
+        break;
+    }
+
     return list;
   }
+
+  /// ---------------- UI ----------------
 
   @override
   Widget build(BuildContext context) {
@@ -61,54 +94,38 @@ class _ViewAllCommunitiesScreenState extends State<ViewAllCommunitiesScreen> {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            /// Back Button at top
+            /// Back Button
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    AppBackButton(
-                      backgroundColor:
-                          AppColors.paleGreen.withValues(alpha: 0.36),
-                      iconColor: AppColors.brand_green,
-                      onBack: () {
-                        if (Navigator.of(context).canPop()) {
-                          Navigator.of(context).pop();
-                        }
-                      },
-                    ),
-                  ],
-                ),
               ),
             ),
 
-            /// Banner (scrollable) with horizontal padding
+            /// Banner
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               sliver: SliverToBoxAdapter(
                 child: BannerWithSearch(
                   imagePath: 'assets/images/cycling_1.png',
                   title: widget.title,
-                  wantSearchBar: true,
-                  searchValue: search,
-                  onChangeHandler: (v) {
-                    setState(() => search = v);
-                  },
-                  placeholder: 'Search communities...',
+                  subtitle: widget.subTitle,
+                  wantSearchBar: false,
+                  showBackButton: true,
+                  height: 200,
                 ),
               ),
             ),
 
-            /// Content with horizontal padding
+            /// Filters + Header
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
                   const SizedBox(height: 24),
 
-                  // Filter Pills
+                  /// Category Pills
                   CategorySelector(
-                    categories: filterPills,
+                    categories: widget.filterPills,
                     selectedIndex: selectedIndex,
                     onSelected: (index) {
                       setState(() {
@@ -127,7 +144,7 @@ class _ViewAllCommunitiesScreenState extends State<ViewAllCommunitiesScreen> {
               ),
             ),
 
-            /// List without horizontal padding (image will be full width)
+            /// List
             _buildList(),
           ],
         ),
@@ -135,40 +152,150 @@ class _ViewAllCommunitiesScreenState extends State<ViewAllCommunitiesScreen> {
     );
   }
 
-  // ---------------- Count + Sort ----------------
+  /// ---------------- HEADER ----------------
 
   Widget _buildHeader() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          '${filteredList.length} communities found',
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
+        if (widget.title == "Communities in Abu Dhabi")
+          Text(
+            '${filteredList.length} communities found',
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+            ),
           ),
-        ),
-        Row(
-          children: const [
-            Icon(
-              Icons.swap_vert,
-              size: 18,
-              color: Colors.orange,
+        if (widget.title == "Community Types")
+          Text(
+            'Family Cycling Communities in Abu Dhabi',
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 18,
             ),
-            SizedBox(width: 4),
-            Text(
-              'Most Active',
-              style: TextStyle(
-                color: Colors.orange,
-                fontWeight: FontWeight.w500,
-              ),
+          ),
+        if (widget.title == "Purpose-Based Communities")
+          Text(
+            'Explore Communities',
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 18,
             ),
-          ],
-        ),
+          ),
+        if (widget.title == "Communities in Abu Dhabi")
+          GestureDetector(
+            onTapDown: (details) {
+              _showSortMenu(details.globalPosition);
+            },
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.swap_vert,
+                  size: 18,
+                  color: AppColors.goldenOchre,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  _getSortLabel(),
+                  style: const TextStyle(
+                    color: AppColors.goldenOchre,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
       ],
     );
   }
 
-  // ---------------- List ----------------
+  /// ---------------- POPUP MENU ----------------
+
+  void _showSortMenu(Offset position) async {
+    final result = await showMenu<SortType>(
+      context: context,
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      position: RelativeRect.fromLTRB(
+        position.dx,
+        position.dy,
+        20,
+        20,
+      ),
+      items: [
+        _buildMenuItem(
+          SortType.mostActive,
+          'Most Active',
+        ),
+        _buildMenuItem(
+          SortType.mostMembers,
+          'Most Members',
+        ),
+        _buildMenuItem(
+          SortType.upcomingEvents,
+          'Upcoming Events',
+        ),
+        _buildMenuItem(
+          SortType.recentlyCreated,
+          'Recently Created',
+        ),
+      ],
+    );
+
+    if (result != null) {
+      setState(() {
+        _selectedSort = result;
+      });
+    }
+  }
+
+  PopupMenuItem<SortType> _buildMenuItem(
+    SortType value,
+    String text,
+  ) {
+    return PopupMenuItem<SortType>(
+      value: value,
+      child: Row(
+        children: [
+          if (_selectedSort == value)
+            const Icon(
+              Icons.check,
+              size: 16,
+              color: AppColors.goldenOchre,
+            ),
+          if (_selectedSort == value) const SizedBox(width: 6),
+          Text(
+            text,
+            style: const TextStyle(
+              color: AppColors.goldenOchre,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// ---------------- LABEL ----------------
+
+  String _getSortLabel() {
+    switch (_selectedSort) {
+      case SortType.mostMembers:
+        return 'Most Members';
+
+      case SortType.upcomingEvents:
+        return 'Upcoming Events';
+
+      case SortType.mostActive:
+        return 'Most Active';
+
+      default:
+        return 'Most Active';
+    }
+  }
+
+  /// ---------------- LIST ----------------
 
   Widget _buildList() {
     if (filteredList.isEmpty) {
@@ -189,6 +316,7 @@ class _ViewAllCommunitiesScreenState extends State<ViewAllCommunitiesScreen> {
         delegate: SliverChildBuilderDelegate(
           (context, index) {
             final community = filteredList[index];
+
             return Padding(
               padding: EdgeInsets.only(
                 bottom: index < filteredList.length - 1 ? 20 : 0,
@@ -203,9 +331,9 @@ class _ViewAllCommunitiesScreenState extends State<ViewAllCommunitiesScreen> {
   }
 }
 
-// --------------------------------------------------
-// Community Card (Same UI as Design)
-// --------------------------------------------------
+/// --------------------------------------------------
+/// COMMUNITY CARD
+/// --------------------------------------------------
 
 class _CommunityListCard extends StatelessWidget {
   final CommunityModel community;
@@ -216,99 +344,153 @@ class _CommunityListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.dustyRose,
-        borderRadius: BorderRadius.circular(20),
+    return InkWell(
+      onTap: () {
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (_) => CommunityDetailScreen(
+        //       community: community,
+        //     ),
+        //   ),
+        // );
+      },
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.dustyRose,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            /// Image
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(20),
+              ),
+              child: Image.network(
+                community.imageUrl ?? '',
+                height: 180,
+                width: double.infinity,
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) {
+                  return Image.asset(
+                    'assets/images/cycling_1.png',
+                    height: 180,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  );
+                },
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(14),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 8),
+
+                  /// Title
+                  Text(
+                    community.title,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  const SizedBox(height: 4),
+
+                  /// Description
+                  Text(
+                    community.description,
+                    style: TextStyle(
+                      color: Colors.grey.shade600,
+                      fontSize: 13,
+                    ),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(Icons.people, size: 16),
+                          const SizedBox(width: 4),
+                          Text('${community.membersCount ?? 0} members'),
+                          const SizedBox(width: 16),
+                          const Icon(Icons.event, size: 16),
+                          const SizedBox(width: 4),
+                          Text('${community.eventsCount ?? 0} events'),
+                        ],
+                      ),
+                      _MemberAvatarsWidget(
+                        images: community.memberImages ??
+                            [
+                              // Fallback if API gives null
+                              "https://randomuser.me/api/portraits/men/1.jpg",
+                              "https://randomuser.me/api/portraits/women/2.jpg",
+                              "https://randomuser.me/api/portraits/men/3.jpg",
+                            ],
+                        extraCount: (community.membersCount ?? 0) - 3,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          /// Image
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(20),
-            ),
-            child: Image.network(
-              community.imageUrl ?? '',
-              height: 180,
-              width: double.infinity,
-              fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) {
-                return Image.asset(
-                  'assets/images/cycling_1.png',
-                  height: 180,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                );
-              },
-            ),
+    );
+  }
+}
+
+class _MemberAvatarsWidget extends StatelessWidget {
+  final List<String> images;
+  final int extraCount;
+
+  const _MemberAvatarsWidget({
+    required this.images,
+    required this.extraCount,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Stack(
+          children: List.generate(
+            images.length > 3 ? 3 : images.length,
+            (index) {
+              return Padding(
+                padding: EdgeInsets.only(left: index * 18),
+                child: CircleAvatar(
+                  radius: 12,
+                  backgroundColor: Colors.white,
+                  child: CircleAvatar(
+                    radius: 11,
+                    backgroundImage: NetworkImage(images[index]),
+                  ),
+                ),
+              );
+            },
           ),
-
-          Padding(
-            padding: const EdgeInsets.all(14),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                /// Tag
-                // if (community.category.isNotEmpty)
-                //   Container(
-                //     padding:
-                //         const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                //     decoration: BoxDecoration(
-                //       color: Colors.black.withValues(alpha: 0.6),
-                //       borderRadius: BorderRadius.circular(12),
-                //     ),
-                //     child: Text(
-                //       community.category.first,
-                //       style: const TextStyle(
-                //         color: Colors.white,
-                //         fontSize: 12,
-                //       ),
-                //     ),
-                //   ),
-
-                const SizedBox(height: 8),
-
-                /// Title
-                Text(
-                  community.title,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-
-                const SizedBox(height: 4),
-
-                /// Description
-                Text(
-                  community.description,
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontSize: 13,
-                  ),
-                ),
-
-                const SizedBox(height: 12),
-
-                /// Stats
-                Row(
-                  children: [
-                    const Icon(Icons.people, size: 16),
-                    const SizedBox(width: 4),
-                    Text('${community.membersCount ?? 0} members'),
-                    const SizedBox(width: 16),
-                    const Icon(Icons.event, size: 16),
-                    const SizedBox(width: 4),
-                    Text('${community.eventsCount ?? 0} events'),
-                  ],
-                ),
-              ],
+        ),
+        if (extraCount > 0) ...[
+          const SizedBox(width: 8),
+          Text(
+            '+$extraCount',
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
             ),
           ),
         ],
-      ),
+      ],
     );
   }
 }

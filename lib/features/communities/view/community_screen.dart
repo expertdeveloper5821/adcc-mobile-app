@@ -40,6 +40,23 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
     'Awareness & Special Communities'
   ];
 
+  final List<String> communityItems = [
+    'All',
+    'Family & Leisure',
+    'Racing & Performance',
+  ];
+  final List<String> communityTypes = [
+    'Racing & Performance',
+    'Family Rides',
+    'Women (SheRides)',
+  ];
+  final List<String> purposeBased = [
+    'All',
+    'Awareness & Charity',
+    'Corporate',
+    'Education'
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -245,6 +262,7 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
                                   title: 'Communities',
                                   wantSearchBar: true,
                                   searchValue: searchQuery,
+                                  showBackButton: true,
                                   onChangeHandler: (value) {
                                     setState(() {
                                       searchQuery = value;
@@ -262,9 +280,12 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
                                       MaterialPageRoute(
                                         builder: (_) =>
                                             ViewAllCommunitiesScreen(
-                                          title: 'Communities in Your City',
+                                          title: 'Communities in Abu Dhabi',
+                                          subTitle:
+                                              'All cycling communities active near you',
                                           communities:
                                               _getAwarenessCommunities(),
+                                          filterPills: communityItems,
                                         ),
                                       ),
                                     );
@@ -273,10 +294,24 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
                                 const SizedBox(height: 24),
                                 _buildAwarenessCommunitiesSection(),
                                 const SizedBox(height: 24),
-
                                 SectionHeader(
                                   title: 'Browse by Community Type',
-                                  onViewAll: () {},
+                                  onViewAll: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) =>
+                                            ViewAllCommunitiesScreen(
+                                          title: 'Community Types',
+                                          subTitle:
+                                              "Choose communities based on your riding preference",
+                                          communities:
+                                              _getAwarenessCommunities(),
+                                          filterPills: communityTypes,
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
                                 const SizedBox(height: 24),
                                 CommunityCategoriesGrid(
@@ -286,17 +321,24 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
                                   },
                                 ),
                                 const SizedBox(height: 24),
-                                // const SizedBox(height: 24),
-                                // SectionHeader(
-                                //   title: 'City Communities',
-                                //   onViewAll: () {},
-                                // ),
-                                // const SizedBox(height: 24),
-                                // _buildCityCommunitiesSection(),
-                                // const SizedBox(height: 24),
                                 SectionHeader(
                                   title: 'Purpose-Based Communities',
-                                  onViewAll: () {},
+                                  onViewAll: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) =>
+                                            ViewAllCommunitiesScreen(
+                                          title: 'Purpose-Based Communities',
+                                          subTitle:
+                                              "Join local cycling groups, find rides and events, and connect with neighborhood riders.",
+                                          communities:
+                                              _getAwarenessCommunities(),
+                                          filterPills: purposeBased,
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
                                 const SizedBox(height: 24),
                                 _buildGroupCommunitiesSection(),
@@ -307,49 +349,6 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildCityCommunitiesSection() {
-    final cityCommunities = _getCityCommunities();
-
-    if (cityCommunities.isEmpty) {
-      return const SizedBox(
-        height: 100,
-        child: Center(
-          child: Text(
-            'No city communities found',
-            style: TextStyle(color: Colors.grey),
-          ),
-        ),
-      );
-    }
-
-    return SizedBox(
-      height: 280,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: cityCommunities.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 16),
-        itemBuilder: (context, index) {
-          final community = cityCommunities[index];
-          return CommunityCard(
-            category: community.category.isNotEmpty
-                ? community.category.first
-                : 'Community',
-            title: community.title,
-            imagePath: community.imageUrl ?? 'assets/images/cycling_1.png',
-            joined: community.isJoined ?? false,
-            description: community.description,
-            onTap: () {
-              // Handle community tap
-            },
-            onExplore: () {
-              // Handle explore community
-            },
-          );
-        },
       ),
     );
   }

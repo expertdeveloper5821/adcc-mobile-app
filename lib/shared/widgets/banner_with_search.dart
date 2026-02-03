@@ -1,22 +1,36 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
+import '../widgets/back_button_widget.dart';
 
 class BannerWithSearch extends StatefulWidget {
   final String imagePath;
   final String title;
+
+  /// NEW
+  final String? subtitle;
+  final bool showBackButton;
+  final VoidCallback? onBack;
+
   final bool wantSearchBar;
   final String? searchValue;
   final ValueChanged<String>? onChangeHandler;
   final String? placeholder;
+  final double height;
 
   const BannerWithSearch({
     super.key,
     required this.imagePath,
     required this.title,
+
+    // New params
+    this.subtitle,
+    this.showBackButton = false,
+    this.onBack,
     this.wantSearchBar = false,
     this.searchValue,
     this.onChangeHandler,
     this.placeholder,
+    this.height = 350,
   });
 
   @override
@@ -33,8 +47,9 @@ class _BannerWithSearchState extends State<BannerWithSearch> {
   }
 
   @override
-  void didUpdateWidget(BannerWithSearch oldWidget) {
+  void didUpdateWidget(covariant BannerWithSearch oldWidget) {
     super.didUpdateWidget(oldWidget);
+
     if (widget.searchValue != oldWidget.searchValue) {
       _searchController.text = widget.searchValue ?? '';
     }
@@ -50,90 +65,120 @@ class _BannerWithSearchState extends State<BannerWithSearch> {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
-      child: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            widget.imagePath,
-            height: 400,
-            width: double.infinity,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) {
-              return Container(
-                height: 400,
-                color: AppColors.softCream,
-              );
-            },
-          ),
+      child: SizedBox(
+        height: widget.height,
+        width: double.infinity,
+        child: Stack(
+          children: [
+            /// Background Image
+            Image.asset(
+              widget.imagePath,
+              height: widget.height,
+              width: double.infinity,
+              fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) {
+                return Container(
+                  color: AppColors.softCream,
+                );
+              },
+            ),
 
-          // Gradient Overlay
-          Positioned.fill(
-            child: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.transparent,
-                    Colors.black,
-                  ],
+            /// Gradient Overlay
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.black.withOpacity(0.1),
+                      Colors.black.withOpacity(0.8),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
 
-          // Content
-          Positioned(
-            left: 16,
-            right: 16,
-            bottom: 16,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Title
-                Text(
-                  widget.title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+            /// Back Button
+            if (widget.showBackButton)
+              Positioned(
+                top: 16,
+                left: 16,
+                child: AppBackButton(
+                  backgroundColor: AppColors.softCream,
+                  iconColor: AppColors.deepRed,
+                  onBack: widget.onBack ?? () => Navigator.pop(context),
                 ),
+              ),
 
-                // Search Bar (if enabled)
-                if (widget.wantSearchBar) ...[
-                  const SizedBox(height: 16),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.23),
-                      borderRadius: BorderRadius.circular(12),
+            /// Bottom Content
+            Positioned(
+              left: 20,
+              right: 20,
+              bottom: 20,
+              child: Column(
+                crossAxisAlignment: widget.subtitle != null
+                    ? CrossAxisAlignment.start
+                    : CrossAxisAlignment.center,
+                children: [
+                  /// Title
+                  Text(
+                    widget.title,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
                     ),
-                    child: TextField(
-                      style: const TextStyle(color: Colors.white),
-                      controller: _searchController,
-                      onChanged: widget.onChangeHandler,
-                      decoration: InputDecoration(
-                        hintText: widget.placeholder ?? 'Search...',
-                        hintStyle: TextStyle(color: Colors.white),
-                        prefixIcon: const Icon(
-                          Icons.search,
-                          color: Colors.white70,
-                        ),
-                        border: InputBorder.none,
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
+                  ),
+
+                  /// Subtitle
+                  if (widget.subtitle != null) ...[
+                    const SizedBox(height: 6),
+                    Text(
+                      widget.subtitle!,
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+
+                  /// Search Bar
+                  if (widget.wantSearchBar) ...[
+                    const SizedBox(height: 14),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.25),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: TextField(
+                        controller: _searchController,
+                        onChanged: widget.onChangeHandler,
+                        style: const TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                          hintText: widget.placeholder ?? 'Search...',
+                          hintStyle: const TextStyle(
+                            color: Colors.white70,
+                          ),
+                          prefixIcon: const Icon(
+                            Icons.search,
+                            color: Colors.white70,
+                          ),
+                          border: InputBorder.none,
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                  ],
                 ],
-              ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
-
