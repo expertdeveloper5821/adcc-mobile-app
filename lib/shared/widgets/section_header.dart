@@ -21,7 +21,7 @@ class SectionHeader extends StatelessWidget {
         Expanded(
           child: Text(
             title,
-            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
           ),
         ),
         if (showViewAll)
@@ -38,7 +38,7 @@ class SectionHeader extends StatelessWidget {
                 Image.asset(
                   "assets/icons/right_arrow.png",
                   height: 12,
-                  width: 12, 
+                  width: 12,
                   fit: BoxFit.contain,
                 ),
               ],
