@@ -13,22 +13,22 @@ class UpcomingTracksList extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         physics: const BouncingScrollPhysics(),
         children: const [
-          TrackCard(
-            image: 'assets/images/track.png',
-            title: 'Hudayriyat Island Track',
-            distance: '8.5 km',
-            level: 'Beginner Friendly',
-            ridesToday: '3 rides today',
-            isOpen: true,
-          ),
-          TrackCard(
-            image: 'assets/images/track.png',
-            title: 'Yas Island Track',
-            distance: '15 km',
-            level: 'Intermediate',
-            ridesToday: '2 rides today',
-            isOpen: true,
-          ),
+          // TrackCard(
+          //   image: 'assets/images/track.png',
+          //   title: 'Hudayriyat Island Track',
+          //   distance: '8.5 km',
+          //   level: 'Beginner Friendly',
+          //   ridesToday: '3 rides today',
+          //   isOpen: true,
+          // ),
+          // TrackCard(
+          //   image: 'assets/images/track.png',
+          //   title: 'Yas Island Track',
+          //   distance: '15 km',
+          //   level: 'Intermediate',
+          //   ridesToday: '2 rides today',
+          //   isOpen: true,
+          // ),
         ],
       ),
     );

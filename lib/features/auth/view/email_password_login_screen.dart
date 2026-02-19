@@ -228,125 +228,125 @@ class _EmailPasswordLoginScreenState extends State<EmailPasswordLoginScreen> {
     }
   }
 
-  Future<bool> _sendTokenToBackend({
-    required String idToken,
-  }) async {
-    // Reset error dialog flag for new request
-    _errorDialogShown = false;
+ Future<bool> _sendTokenToBackend({
+  required String idToken,
+}) async {
+  _errorDialogShown = false;
 
-    try {
-      final apiClient = ApiClient.instance;
+  try {
+     await TokenStorageService.saveFirebaseToken(idToken);
+      debugPrint('🔥 [Storage] Firebase token saved during sign-in');
+    final apiClient = ApiClient.instance;
 
-      // Prepare request data - only idToken
-      final requestData = {
-        'idToken': idToken,
-      };
+    final response = await apiClient.post<dynamic>(
+      ApiEndpoints.authVerify,
+      data: {'idToken': idToken},
+    );
 
-      // Send POST request to backend
-      final response = await apiClient.post<dynamic>(
-        ApiEndpoints.authVerify,
-        data: requestData,
-      );
-      // Parse response
-      if (response.statusCode != null &&
-          response.statusCode! >= 200 &&
-          response.statusCode! < 300) {
-        String? backendToken;
+    if (response.statusCode != null &&
+        response.statusCode! >= 200 &&
+        response.statusCode! < 300) {
+      final body = response.data;
 
-        // Extract token from response
-        if (response.data is Map) {
-          final responseMap = response.data as Map;
-          // Try different possible token field names
-          if (responseMap.containsKey('token')) {
-            backendToken = responseMap['token'] as String?;
-          } else if (responseMap.containsKey('accessToken')) {
-            backendToken = responseMap['accessToken'] as String?;
-          } else if (responseMap.containsKey('data')) {
-            final data = responseMap['data'];
-            if (data is Map) {
-              if (data.containsKey('token')) {
-                backendToken = data['token'] as String?;
-              } else if (data.containsKey('accessToken')) {
-                backendToken = data['accessToken'] as String?;
-              }
-            }
+      debugPrint("✅ [Backend API] Verify Response: $body");
+
+      if (body is Map<String, dynamic>) {
+        final data = body["data"];
+final user = data["user"];
+
+if (user is Map<String, dynamic>) {
+  final userId = user["id"]?.toString();
+
+  if (userId != null && userId.isNotEmpty) {
+    await TokenStorageService.saveUserId(userId);
+    debugPrint("👤 [Storage] UserId saved: $userId");
+  } else {
+    debugPrint("⚠️ [Storage] UserId missing in response");
+  }
+}
+
+        if (data is Map<String, dynamic>) {
+           final user = data["user"];
+  if (user is Map<String, dynamic>) {
+    final userId = user["id"]?.toString();
+    if (userId != null && userId.isNotEmpty) {
+      await TokenStorageService.saveUserId(userId);
+      debugPrint("👤 [Storage] UserId saved: $userId");
+    }
+  }
+          final accessToken = data["accessToken"] as String?;
+          final refreshToken = data["refreshToken"] as String?;
+
+          debugPrint("🔑 [Backend API] AccessToken Found: ${accessToken != null}");
+          debugPrint("🔁 [Backend API] RefreshToken Found: ${refreshToken != null}");
+
+          if (accessToken != null && accessToken.isNotEmpty) {
+            await TokenStorageService.saveAccessToken(accessToken);
+            debugPrint("💾 [Storage] Access token saved");
           }
 
-          if (responseMap.containsKey('message')) {
-            print(
-                '📋 [Backend API] Response Message: ${responseMap['message']}');
+          if (refreshToken != null && refreshToken.isNotEmpty) {
+            await TokenStorageService.saveRefreshToken(refreshToken);
+            debugPrint("💾 [Storage] Refresh token saved");
           }
-        }
 
-        // Save token if received
-        if (backendToken != null && backendToken.isNotEmpty) {
-          debugPrint('[Backend API] Saving backend token...');
-          await TokenStorageService.saveAccessToken(backendToken);
-        } else {
-          debugPrint('[Backend API] No token found in response');
-        }
+          // confirm saved
+          final savedRefresh = await TokenStorageService.getRefreshToken();
+          debugPrint(
+            "✅ [Storage] Refresh token now: ${savedRefresh == null ? "NULL" : "FOUND"}",
+          );
 
-        return true;
-      } else {
-        // Handle error response
-        String errorMessage = 'Backend verification failed';
-        if (response.data is Map) {
-          final errorData = response.data as Map;
-          errorMessage = errorData['message'] as String? ??
-              errorData['error'] as String? ??
-              'Backend verification failed';
+          return true;
         }
-
-        // Only show error dialog once
-        if (mounted && !_errorDialogShown) {
-          _errorDialogShown = true;
-          _showBackendErrorDialog(errorMessage);
-        }
-        return false;
       }
-    } on DioException catch (e) {
-      // Extract error message from response
+
+      debugPrint("❌ [Backend API] Token parsing failed!");
+      return false;
+    } else {
       String errorMessage = 'Backend verification failed';
-      if (e.response?.data is Map) {
-        final errorData = e.response!.data as Map;
-        // Extract message from response, handling different possible formats
-        final message = errorData['message'];
-        if (message is String && message.isNotEmpty) {
-          errorMessage = message;
-        } else if (errorData.containsKey('error')) {
-          final error = errorData['error'];
-          errorMessage =
-              error is String ? error : 'Backend verification failed';
-        } else {
-          errorMessage = 'Internal Server Error. Please try again later.';
-        }
-      } else if (e.message != null && e.message!.isNotEmpty) {
-        // Use a user-friendly message instead of technical error
-        if (e.response?.statusCode == 500) {
-          errorMessage = 'Internal Server Error. Please try again later.';
-        } else {
-          errorMessage = 'Backend verification failed. Please try again.';
-        }
+
+      if (response.data is Map) {
+        final errorData = response.data as Map;
+        errorMessage = errorData['message'] as String? ??
+            errorData['error'] as String? ??
+            'Backend verification failed';
       }
 
-      // Only show error dialog once
       if (mounted && !_errorDialogShown) {
         _errorDialogShown = true;
         _showBackendErrorDialog(errorMessage);
       }
       return false;
-    } catch (e) {
-      print('[Backend API] Error: $e');
-
-      // Only show error dialog once
-      if (mounted && !_errorDialogShown) {
-        _errorDialogShown = true;
-        _showBackendErrorDialog(
-            'An unexpected error occurred. Please try again.');
-      }
-      return false;
     }
+  } on DioException catch (e) {
+    String errorMessage = 'Backend verification failed';
+
+    if (e.response?.data is Map) {
+      final errorData = e.response!.data as Map;
+      errorMessage = errorData['message'] as String? ??
+          errorData['error'] as String? ??
+          'Backend verification failed';
+    }
+
+    if (mounted && !_errorDialogShown) {
+      _errorDialogShown = true;
+      _showBackendErrorDialog(errorMessage);
+    }
+
+    return false;
+  } catch (e) {
+    debugPrint("❌ [Backend API] Error: $e");
+
+    if (mounted && !_errorDialogShown) {
+      _errorDialogShown = true;
+      _showBackendErrorDialog(
+        'An unexpected error occurred. Please try again.',
+      );
+    }
+
+    return false;
   }
+}
 
   void _showBackendErrorDialog(String message) {
     showDialog(

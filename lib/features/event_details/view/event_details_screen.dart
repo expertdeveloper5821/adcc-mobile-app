@@ -1,16 +1,14 @@
+import 'package:adcc/core/theme/app_colors.dart';
+import 'package:adcc/features/event_details/view/sections/event_facilities_section.dart';
 import 'package:adcc/features/event_details/view/sections/event_info.dart';
+import 'package:adcc/features/event_details/view/sections/event_quick_info.dart';
+import 'package:adcc/features/event_details/view/sections/event_rewards_section.dart';
 import 'package:adcc/features/events/services/events_service.dart';
-import 'package:adcc/modals/info_tile.dart';
-import 'package:adcc/shared/widgets/app_button.dart';
-import 'package:adcc/shared/widgets/info_grid_section.dart';
-import 'package:adcc/shared/widgets/section_header.dart';
+import 'package:adcc/features/events/view/cancel_registration.dart';
+import 'package:adcc/features/events/view/my_event_screen.dart';
+import 'package:adcc/features/events/view/your_registered_screen.dart';
+import 'package:adcc/shared/widgets/banner_header.dart';
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_colors.dart';
-import 'sections/event_header_section.dart';
-import 'sections/event_title_section.dart';
-import 'sections/event_description_section.dart';
-import 'sections/event_facilities_section.dart';
-import 'sections/event_action_buttons_section.dart';
 
 class EventDetailsScreen extends StatefulWidget {
   final String eventId;
@@ -25,315 +23,611 @@ class EventDetailsScreen extends StatefulWidget {
 }
 
 class _EventDetailsScreenState extends State<EventDetailsScreen> {
-  final EventsService _eventsService = EventsService();
-  bool _isLoading = true;
-  String? _errorMessage;
-  Event? _event;
+bool isRegistered = false;
 
-  @override
-  void initState() {
-    super.initState();
-    _loadEventDetails();
-  }
-
-  Future<void> _loadEventDetails() async {
-    setState(() {
-      _isLoading = true;
-      _errorMessage = null;
-    });
-
-    final response = await _eventsService.getEventById(widget.eventId);
-
-    if (mounted) {
-      setState(() {
-        _isLoading = false;
-        if (response.success && response.data != null) {
-          _event = response.data;
-        } else {
-          _errorMessage = response.message ?? 'Failed to load event details';
-        }
-      });
-    }
-  }
-
-  String _formatDateTime(Event event) {
-    if (event.eventDate == null) return 'TBD';
-    try {
-      final dateTime = DateTime.parse(event.eventDate!);
-      final months = [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec'
-      ];
-      final time = event.eventTime ?? '';
-      return '${months[dateTime.month - 1]} ${dateTime.day}${time.isNotEmpty ? ' · $time' : ''}';
-    } catch (e) {
-      return event.eventDate ?? 'TBD';
-    }
-  }
-
-  String _getImagePath(Event event) {
-    if (event.mainImage != null && event.mainImage!.isNotEmpty) {
-      return event.mainImage!;
-    }
-    return 'assets/images/cycling_1.png';
-  }
+bool isLoading = false;
+final EventsService _eventsService = EventsService();
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
-      return Scaffold(
-        backgroundColor: AppColors.softCream,
-        body: const Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
-
-    if (_errorMessage != null || _event == null) {
-      return Scaffold(
-        backgroundColor: AppColors.softCream,
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.error_outline,
-                size: 64,
-                color: Colors.grey[400],
-              ),
-              const SizedBox(height: 16),
-              Text(
-                _errorMessage ?? 'Event not found',
-                style: TextStyle(
-                  color: Colors.grey[600],
-                  fontSize: 16,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: _loadEventDetails,
-                child: const Text('Retry'),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-
-    final event = _event!;
-    final facilities = <Map<String, dynamic>>[
-      {'icon': Icons.water_drop, 'label': 'Water'},
-      {'icon': Icons.wc, 'label': 'Toilets'},
-      {'icon': Icons.local_parking, 'label': 'Parking'},
-      {'icon': Icons.lightbulb, 'label': 'Lights'},
-    ];
-
     return Scaffold(
-      backgroundColor: AppColors.softCream,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: ListView(
           physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.fromLTRB(14, 12, 14, 22),
           children: [
-            // Header with back button and image
-            EventHeaderSection(
-              imagePath: _getImagePath(event),
-              onBack: () {
-                if (Navigator.of(context).canPop()) {
-                  Navigator.of(context).pop();
-                }
-              },
+            BannerHeadder(
+              imagePath: 'assets/images/cycling_1.png',
+              title: 'Track Near You',
+              subtitle: 'Cycling tracks closest to your current location',
+              onBackTap: () => Navigator.pop(context),
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 14),
 
-            // Route Title with Share
-            EventTitleSection(
-              title: event.title,
-              onShare: () {
-                // Handle share
-                debugPrint('Share event: ${event.id}');
-              },
-            ),
-
-            const SizedBox(height: 16),
-
-            // Route Description
-            EventDescriptionSection(
-              description: event.description ??
-                  'No description available for this event.',
-            ),
-
-            const SizedBox(height: 24),
-            InfoGridSection(
-              items: [
-                InfoTileData(
-                  icon: Icons.access_time,
-                  label: 'When',
-                  value: _formatDateTime(event),
-                ),
-                InfoTileData(
-                  icon: Icons.location_on,
-                  label: 'Location',
-                  value: event.address ?? 'TBD',
-                ),
-                InfoTileData(
-                  icon: Icons.star,
-                  label: 'Status',
-                  value: event.status?.toUpperCase() ?? 'UPCOMING',
-                ),
-                InfoTileData(
-                  icon: Icons.group,
-                  label: 'Riders',
-                  value: event.participantsString,
-                ),
-              ],
-            ),
-
-            if (event.minAge != null || event.maxAge != null) ...[
-              const SizedBox(height: 24),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: InfoGridSection(
-                  items: [
-                    if (event.minAge != null)
-                      InfoTileData(
-                        icon: Icons.person,
-                        label: 'Min Age',
-                        value: '${event.minAge} years',
-                      ),
-                    if (event.maxAge != null)
-                      InfoTileData(
-                        icon: Icons.person_outline,
-                        label: 'Max Age',
-                        value: '${event.maxAge} years',
-                      ),
-                  ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              child: Text(
+                "Abu Dhabi Night Race Series",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w900,
+                  height: 1.1,
+                  color: AppColors.deepRed,
                 ),
               ),
-            ],
+            ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: 10),
+
             Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: AppButton(
-                      label: 'JOIN THIS RIDE',
-                      onPressed: () {
-                        // Handle join ride
-                        debugPrint('Join ride: ${event.id}');
-                      },
+                  Text(
+                    "Description",
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w900,
+                      color: AppColors.charcoal,
                     ),
                   ),
-
-                  const SizedBox(width: 16),
-
-                  /// ADD RIDER BUTTON
-                  Container(
-                    height: 56,
-                    width: 56,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF1C1F23),
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.2),
-                          blurRadius: 10,
-                          offset: const Offset(0, 6),
-                        ),
-                      ],
-                    ),
-                    child: const Icon(
-                      Icons.person_add_alt_1,
-                      color: Colors.white,
-                      size: 24,
+                  const SizedBox(height: 6),
+                  Text(
+                    "The Abu Dhabi Night Race Series is a competitive\ncycling championship organized by the Abu Dhabi...",
+                    style: TextStyle(
+                      fontSize: 12,
+                      height: 1.35,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.charcoal.withValues(alpha: 0.60),
                     ),
                   ),
                 ],
               ),
             ),
 
+            const SizedBox(height: 14),
+
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: SectionHeader(
-                title: 'Route Preview',
-                showViewAll: false,
-                onViewAll: () {},
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              child: Row(
+                children: const [
+                  Expanded(
+                    child: _SmallInfoCard(
+                      icon: Icons.directions_bike_outlined,
+                      title: "Type",
+                      value: "Race",
+                    ),
+                  ),
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: _SmallInfoCard(
+                      icon: Icons.groups_2_outlined,
+                      title: "Community",
+                      value: "Abu Dhabi Road\nRaces",
+                    ),
+                  ),
+                ],
               ),
             ),
-            Column(
-              children: [
-                // IMAGE SECTION
-                Container(
-                  margin: const EdgeInsets.all(16),
-                  height: 220,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    image: DecorationImage(
-                      image: AssetImage(
-                        'assets/images/route_preview.png',
-                      ),
-                      fit: BoxFit.cover,
+
+            const SizedBox(height: 12),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              child: Row(
+                children: const [
+                  Expanded(
+                    child: _SmallInfoCard(
+                      icon: Icons.location_on_outlined,
+                      title: "City",
+                      value: "Abu Dhabi",
                     ),
                   ),
-                ),
-                InfoGridSection(
-                  items: const [
-                    InfoTileData(
-                      label: 'When',
-                      value: '10 km loop',
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: _SmallInfoCard(
+                      icon: Icons.emoji_events_outlined,
+                      title: "Total",
+                      value: "You Member Circle",
                     ),
-                    InfoTileData(
-                      label: 'Location',
-                      value: '10 km loop',
-                    ),
-                    InfoTileData(
-                      label: 'Rating',
-                      value: '10 km loop',
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: AppButton(
-                    label: 'Preview Full Route',
-                    suffixIcon: Icons.arrow_forward_ios,
-                    onPressed: () {
-                      // Handle join ride
-                    },
                   ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 18),
+
+EventQuickInfoSection(
+  date: "16 Jul 2026",
+  time: "5:30 AM",
+  distance: "42 km",
+  minAge: "10",
+  segment: "Beginner",
+  registration: "Free",
+),
+
+
+          
+            const SizedBox(height: 18),
+/// Organized By Title
+Padding(
+  padding: const EdgeInsets.symmetric(horizontal: 2),
+  child: Text(
+    "Organized By",
+    style: TextStyle(
+      fontSize: 13,
+      fontWeight: FontWeight.w900,
+      color: AppColors.charcoal,
+    ),
+  ),
+),
+
+const SizedBox(height: 10),
+
+/// Organized By Box (Button inside)
+Padding(
+  padding: const EdgeInsets.symmetric(horizontal: 2),
+  child: Container(
+    padding: const EdgeInsets.all(12),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(14),
+      border: Border.all(color: AppColors.lightBeige, width: 1.0),
+    ),
+    child: Row(
+      children: [
+        /// Icon
+        Container(
+          height: 44,
+          width: 44,
+          decoration: BoxDecoration(
+            color: AppColors.dustyRose,
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: Icon(
+            Icons.directions_bike,
+            color: AppColors.charcoal,
+            size: 20,
+          ),
+        ),
+
+        const SizedBox(width: 12),
+
+        /// Community Name
+        Expanded(
+          child: Text(
+            "Abu Dhabi Road Races\nCommunity",
+            style: TextStyle(
+              fontSize: 12.5,
+              height: 1.2,
+              fontWeight: FontWeight.w900,
+              color: AppColors.charcoal,
+            ),
+          ),
+        ),
+
+        const SizedBox(width: 10),
+
+        /// View Community Button (inside box right side)
+        SizedBox(
+          height: 34,
+          child: ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.deepRed,
+              elevation: 0,
+              padding: const EdgeInsets.symmetric(horizontal: 14),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            child: const Text(
+              "View Community",
+              style: TextStyle(
+                fontSize: 11.5,
+                fontWeight: FontWeight.w900,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+
+            const SizedBox(height: 10),
+
+           
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              child: Text(
+                "Event Schedule",
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w900,
+                  color: AppColors.charcoal,
                 ),
-              ],
+              ),
             ),
-            // Facilities
-            EventFacilitiesSection(facilities: facilities),
+            const SizedBox(height: 10),
 
-            const SizedBox(height: 24),
-            EventInfo(),
-            const SizedBox(height: 24),
-
-            // Action Buttons Section (scrollable with content)
-            EventActionButtonsSection(
-              firstButtonTab: () {},
-              secondButtonTab: () {},
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              child: Row(
+                children: const [
+                  Expanded(child: _ScheduleCard(time: "08:00", label: "Rider Check-in")),
+                  SizedBox(width: 10),
+                  Expanded(child: _ScheduleCard(time: "08:30", label: "Safety briefing")),
+                  SizedBox(width: 10),
+                  Expanded(child: _ScheduleCard(time: "09:00", label: "Race start")),
+                ],
+              ),
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: 18),
+
+           
+
+          Padding(
+  padding: const EdgeInsets.symmetric(horizontal: 2),
+  child: EventFacilitiesSection(
+    facilities: const [
+      {"icon": "assets/icons/water.png", "label": "Water"},
+      {"icon": "assets/icons/toilets.png", "label": "Toilets"},
+      {"icon": "assets/icons/parking.png", "label": "Parking"},
+      {"icon": "assets/icons/light.png", "label": "Medical"},
+    ],
+  ),
+),
+
+
+            const SizedBox(height: 18),
+
+            const EventInfo(),
+
+
+            const SizedBox(height: 18),
+
+         const EventRewardSection(
+  rewards: [
+    EventRewardItem(
+      iconPath: "assets/icons/trophy.png",
+      label: "300 Points",
+    ),
+    EventRewardItem(
+      iconPath: "assets/icons/trophy.png",
+      label: "Night Race...",
+    ),
+  ],
+),
+
+            const SizedBox(height: 14),
+Padding(
+  padding: const EdgeInsets.symmetric(horizontal: 2),
+  child: Container(
+    padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
+    decoration: BoxDecoration(
+      color: Colors.white, // 🔥 screenshot bg
+      borderRadius: BorderRadius.circular(14),
+      border: Border.all(
+        color: AppColors.lightBeige,
+        width: 1,
+      ),
+    ),
+    child: Row(
+      children: [
+        /// Left icon box
+        Container(
+          height: 44,
+          width: 44,
+          decoration: BoxDecoration(
+            color: const Color(0xFFFFF2D9),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Center(
+            child: Image.asset(
+              "assets/icons/bike.jpg", // 🔥 yaha tumhara icon path
+              width: 24,
+              height: 24,
+              fit: BoxFit.contain,
+            ),
+          ),
+        ),
+
+        const SizedBox(width: 12),
+
+        /// Title + subtitle
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Participants Preview",
+              style: TextStyle(
+                fontSize: 12.5,
+                fontWeight: FontWeight.w900,
+                color: AppColors.charcoal,
+              ),
+            ),
+            const SizedBox(height: 3),
+            Text(
+              "96 riders registered",
+              style: TextStyle(
+                fontSize: 11.2,
+                fontWeight: FontWeight.w700,
+                color: AppColors.charcoal.withValues(alpha: 0.60),
+              ),
+            ),
+          ],
+        ),
+      ],
+    ),
+  ),
+),
+
+
+            const SizedBox(height: 18),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              child: Column(
+                children: [
+                SizedBox(
+  width: double.infinity,
+  height: 52,
+  child: ElevatedButton(
+    onPressed: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const MYEVENET(),
+        ),
+      );
+    },
+    style: ElevatedButton.styleFrom(
+      backgroundColor: AppColors.deepRed,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(14),
+      ),
+    ),
+    child: const Text(
+      "View Past Result",
+      style: TextStyle(
+        fontSize: 13,
+        fontWeight: FontWeight.w900,
+        color: Colors.white,
+      ),
+    ),
+  ),
+),
+
+                  const SizedBox(height: 12),
+
+SizedBox(
+  width: double.infinity,
+  height: 52,
+child: !isRegistered  
+      ? ElevatedButton(
+         onPressed: isLoading
+    ? null
+    : () async {
+        setState(() => isLoading = true);
+
+        final result = await _eventsService.joinEvent(
+          eventId: widget.eventId,
+        );
+
+        setState(() => isLoading = false);
+
+        if (!context.mounted) return;
+
+        if (result.success) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(result.message ?? "Registered successfully")),
+          );
+
+          // UI update
+         setState(() => isRegistered = true);
+
+
+          // Navigate to success screen
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const RegistrationSuccessScreen(
+                eventTitle: "Abu Dhabi Night Race Series",
+                eventLocationLine: "Yas Marina Circuit",
+                date: "18 July 2026",
+                location: "Abu dhabi",
+                type: "Race",
+                community: "Abu Dhabi\nRoad Racers",
+                eventImagePath: "assets/images/cycling_1.png",
+                redArcImagePath: "assets/images/frame_1.png",
+              ),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(result.message ?? "Registration failed")),
+          );
+        }
+      },
+
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.deepRed,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(14),
+            ),
+          ),
+         child: Text(isLoading ? "Please wait..." : "Registration",
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w900,
+              color: Colors.white,
+            ),
+          ),
+        )
+      : OutlinedButton(
+    onPressed: isLoading
+        ? null
+        : () async {
+            // 🔥 Cancel screen open karo
+            final result = await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => CancelRegistrationScreen(
+                  eventId: widget.eventId,
+                ),
+              ),
+            );
+
+            // result = true means cancelled successfully
+            if (result == true) {
+              setState(() => isRegistered = false);
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Cancelled successfully")),
+              );
+            }
+          },
+    style: OutlinedButton.styleFrom(
+      side: const BorderSide(
+        color: AppColors.deepRed,
+        width: 1.4,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(14),
+      ),
+    ),
+    child: Text(
+      isLoading ? "Please wait..." : "Cancel Registration",
+      style: const TextStyle(
+        fontSize: 13,
+        fontWeight: FontWeight.w900,
+        color: AppColors.deepRed,
+      ),
+    ),
+  ),
+
+),
+
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 6),
           ],
         ),
       ),
     );
   }
 }
+class _SmallInfoCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String value;
+
+  const _SmallInfoCard({
+    required this.icon,
+    required this.title,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 76,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+      decoration: BoxDecoration(
+        color: AppColors.cardLightBackground,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: AppColors.lightBeige, width: 1),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, size: 18, color: AppColors.deepRed),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 10.5,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.charcoal.withValues(alpha: 0.55),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  value,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 11.7,
+                    height: 1.15,
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.charcoal,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ScheduleCard extends StatelessWidget {
+  final String time;
+  final String label;
+
+  const _ScheduleCard({required this.time, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 54,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      decoration: BoxDecoration(
+        color: AppColors.warmSand,
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            time,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w900,
+              color: AppColors.charcoal,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 10.5,
+              fontWeight: FontWeight.w900,
+              color: AppColors.charcoal,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+

@@ -2,7 +2,6 @@ import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/shared/widgets/adaptive_image.dart';
 import 'package:flutter/material.dart';
 
-/// Model for community category
 class CommunityCategory {
   final String title;
   final String imagePath;
@@ -13,53 +12,44 @@ class CommunityCategory {
   });
 }
 
-/// Grid widget displaying community categories
 class CommunityCategoriesGrid extends StatelessWidget {
   final Function(String category)? onCategoryTap;
+
+  /// Backend se types list aayegi
+  final List<String> types;
 
   const CommunityCategoriesGrid({
     super.key,
     this.onCategoryTap,
+    required this.types,
   });
 
-  // List of community categories matching the design
-  static final List<CommunityCategory> categories = [
-    const CommunityCategory(
-      title: 'Family Rides',
-      imagePath: 'assets/images/family-rides.png',
-    ),
-    const CommunityCategory(
-      title: 'Women (SheRides)',
-      imagePath: 'assets/images/she-rides.png',
-    ),
-    const CommunityCategory(
-      title: 'Youth Cycling',
-      imagePath: 'assets/images/youth.png',
-    ),
-    const CommunityCategory(
-      title: 'Racing & Performance',
-      imagePath: 'assets/images/racing.png',
-    ),
-    const CommunityCategory(
-      title: 'Weekend Social',
-      imagePath: 'assets/images/night-ride.png',
-    ),
-    const CommunityCategory(
-      title: 'Night Riders',
-      imagePath: 'assets/images/night-ride.png',
-    ),
-    const CommunityCategory(
-      title: 'MTB / Trail',
-      imagePath: 'assets/images/mtb-ride.png',
-    ),
-    const CommunityCategory(
-      title: 'Training & Clinics',
-      imagePath: 'assets/images/mtb-ride.png',
-    ),
-  ];
+  String _getImageForType(String type) {
+    final t = type.toLowerCase();
+
+    if (t.contains("family")) return 'assets/images/family-rides.png';
+    if (t.contains("women") || t.contains("she")) return 'assets/images/she-rides.png';
+    if (t.contains("youth")) return 'assets/images/youth.png';
+    if (t.contains("race") || t.contains("performance")) return 'assets/images/racing.png';
+    if (t.contains("weekend") || t.contains("social")) return 'assets/images/night-ride.png';
+    if (t.contains("night")) return 'assets/images/night-ride.png';
+    if (t.contains("mtb") || t.contains("trail")) return 'assets/images/mtb-ride.png';
+    if (t.contains("training") || t.contains("clinic")) return 'assets/images/mtb-ride.png';
+
+    // default
+    return 'assets/images/mtb-ride.png';
+  }
 
   @override
   Widget build(BuildContext context) {
+    // Convert backend types into UI categories
+    final categories = types.map((t) {
+      return CommunityCategory(
+        title: t,
+        imagePath: _getImageForType(t),
+      );
+    }).toList();
+
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -84,7 +74,6 @@ class CommunityCategoriesGrid extends StatelessWidget {
   }
 }
 
-/// Individual category card widget
 class _CategoryCard extends StatelessWidget {
   final CommunityCategory category;
   final VoidCallback? onTap;
@@ -109,7 +98,6 @@ class _CategoryCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Title at the top
               Text(
                 category.title,
                 textAlign: TextAlign.center,
@@ -123,7 +111,6 @@ class _CategoryCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(height: 12),
-              // Image illustration - takes most of the space
               Expanded(
                 child: Center(
                   child: AdaptiveImage(

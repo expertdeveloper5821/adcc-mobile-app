@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 
-/// Section displaying route details in a custom grid layout:
-/// - Left side (60%): 2x2 grid of 4 cards
-/// - Right side (40%): 1 tall card spanning both rows
 class RouteDetailsGridSection extends StatelessWidget {
   final Map<String, String> routeDetails;
 
@@ -17,249 +14,239 @@ class RouteDetailsGridSection extends StatelessWidget {
     final entries = routeDetails.entries.toList();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: _LayoutConstants.horizontalPadding,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSectionTitle(),
-          const SizedBox(height: _LayoutConstants.titleSpacing),
-          _buildGridLayout(entries),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSectionTitle() {
-    return const Text(
-      'Route Details',
-      style: TextStyle(
-        fontSize: _TextStyles.titleFontSize,
-        fontWeight: FontWeight.w600,
-        color: AppColors.textDark,
-      ),
-    );
-  }
-
-  Widget _buildGridLayout(List<MapEntry<String, String>> entries) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildLeftGrid(entries),
-        const SizedBox(width: _LayoutConstants.cardSpacing),
-        if (entries.length > _LayoutConstants.tallCardIndex)
-          _buildTallCard(entries[_LayoutConstants.tallCardIndex]),
-      ],
-    );
-  }
-
-  Widget _buildLeftGrid(List<MapEntry<String, String>> entries) {
-    return Expanded(
-      flex: _LayoutConstants.leftFlex,
-      child: Column(
-        children: [
-          _buildTopRow(entries),
-          const SizedBox(height: _LayoutConstants.cardSpacing),
-          _buildBottomRow(entries),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTopRow(List<MapEntry<String, String>> entries) {
-    return Row(
-      children: [
-        if (entries.isNotEmpty) ...[
-          Expanded(
-            child: RouteDetailCard(
-              label: entries[0].key,
-              value: entries[0].value,
+          const Text(
+            "Route Details",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textDark,
             ),
           ),
-          const SizedBox(width: _LayoutConstants.cardSpacing),
-        ],
-        if (entries.length > 1)
-          Expanded(
-            child: RouteDetailCard(
-              label: entries[1].key,
-              value: entries[1].value,
-            ),
-          ),
-      ],
-    );
-  }
+          const SizedBox(height: 12),
 
-  Widget _buildBottomRow(List<MapEntry<String, String>> entries) {
-    return Row(
-      children: [
-        if (entries.length > 2) ...[
-          Expanded(
-            child: RouteDetailCard(
-              label: entries[2].key,
-              value: entries[2].value,
-            ),
-          ),
-          const SizedBox(width: _LayoutConstants.cardSpacing),
-        ],
-        if (entries.length > 3)
-          Expanded(
-            child: RouteDetailCard(
-              label: entries[3].key,
-              value: entries[3].value,
-            ),
-          ),
-      ],
-    );
-  }
+          LayoutBuilder(
+            builder: (context, constraints) {
+            
+              const figmaTotalWidth = 357.0;
 
-  Widget _buildTallCard(MapEntry<String, String> entry) {
-    return Expanded(
-      flex: _LayoutConstants.rightFlex,
-      child: RouteDetailCard(
-        label: entry.key,
-        value: entry.value,
-        isTall: true,
+              // scale down only if screen is smaller
+              final scale = (constraints.maxWidth / figmaTotalWidth).clamp(0.85, 1.0);
+
+              return Transform.scale(
+                scale: scale,
+                alignment: Alignment.topLeft,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // ✅ Left 2x2
+                    Column(
+                      children: [
+                        Row(
+                          children: [
+                            _RouteDetailSmallCard(
+                              label: entries.isNotEmpty ? entries[0].key : "Distance",
+                              value: entries.isNotEmpty ? entries[0].value : "10 km",
+                            ),
+                            const SizedBox(width: 12),
+                            _RouteDetailSmallCard(
+                              label: entries.length > 1 ? entries[1].key : "Elevation",
+                              value: entries.length > 1 ? entries[1].value : "+12m",
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          children: [
+                            _RouteDetailSmallCard(
+                              label: entries.length > 2 ? entries[2].key : "Type",
+                              value: entries.length > 2 ? entries[2].value : "Loop Track",
+                            ),
+                            const SizedBox(width: 12),
+                            _RouteDetailSmallCard(
+                              label: entries.length > 3 ? entries[3].key : "Avg Time",
+                              value: entries.length > 3 ? entries[3].value : "18–25 min",
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(width: 12),
+
+                    // ✅ Right Tall Card
+                    _RouteDetailTallCard(
+                      label: entries.length > 4 ? entries[4].key : "Pace",
+                      value: entries.length > 4 ? entries[4].value : "Beginner / Casual",
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
 }
 
-/// Individual card widget for displaying a route detail
-class RouteDetailCard extends StatelessWidget {
+// =========================
+// ✅ Small Card (111x75)
+// =========================
+class _RouteDetailSmallCard extends StatelessWidget {
   final String label;
   final String value;
-  final bool isTall;
 
-  const RouteDetailCard({
-    super.key,
+  const _RouteDetailSmallCard({
     required this.label,
     required this.value,
-    this.isTall = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: isTall ? _CardConstants.tallCardHeight : _CardConstants.regularCardHeight,
-      padding: const EdgeInsets.all(_CardConstants.padding),
-      decoration: BoxDecoration(
-        color: AppColors.dustyRose,
-        borderRadius: BorderRadius.circular(_CardConstants.borderRadius),
-      ),
-      child: isTall ? _buildTallCardContent() : _buildRegularCardContent(),
-    );
-  }
-
-  Widget _buildRegularCardContent() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // Star and label on same row
-        Row(
+    return SizedBox(
+      width: 102,
+      height: 75,
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+        decoration: BoxDecoration(
+          color: AppColors.dustyRose,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Icon(
-              Icons.star_outline,
-              size: _CardConstants.starIconSize,
-              color: AppColors.deepRed,
+            // icon + label
+            Row(
+              children: [
+                Image.asset(
+                  "assets/icons/star.png",
+                  width: 16,
+                  height: 16,
+                  fit: BoxFit.contain,
+                  errorBuilder: (_, __, ___) {
+                    return const Icon(
+                      Icons.star_outline,
+                      size: 16,
+                      color: AppColors.deepRed,
+                    );
+                  },
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                      height: 1,
+                      color: AppColors.charcoal,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            SizedBox(width: _CardConstants.starLabelSpacing),
-            Expanded(
-              child: _buildLabel(),
+
+            const Spacer(),
+
+            // value aligned under label
+            Padding(
+              padding: const EdgeInsets.only(left: 24),
+              child: Text(
+                value,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.textDark,
+                  height: 1.15,
+                ),
+              ),
             ),
           ],
         ),
-        const SizedBox(height: _CardConstants.labelValueSpacing),
-        // Value aligned with label (not star) - add padding equal to star width + spacing
-        Padding(
-          padding: EdgeInsets.only(
-            left: _CardConstants.starIconSize + _CardConstants.starLabelSpacing,
-          ),
-          child: _buildValue(),
-        ),
-      ],
+      ),
     );
   }
+}
 
-  Widget _buildTallCardContent() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        // Star at top
-        const Icon(
-          Icons.star_outline,
-          size: _CardConstants.starIconSize,
-          color: AppColors.deepRed,
+// =========================
+// ✅ Tall Card (111x163)
+// =========================
+class _RouteDetailTallCard extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const _RouteDetailTallCard({
+    required this.label,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 111,
+      height: 163, // ✅ figma exact
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+        decoration: BoxDecoration(
+          color: AppColors.dustyRose,
+          borderRadius: BorderRadius.circular(12),
         ),
-        // Label and value at bottom
-        Column(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildLabel(),
-            const SizedBox(height: _CardConstants.labelValueSpacing),
-            _buildValue(),
+            // icon top
+            Image.asset(
+              "assets/icons/star.png",
+              width: 16,
+              height: 16,
+              fit: BoxFit.contain,
+              errorBuilder: (_, __, ___) {
+                return const Icon(
+                  Icons.star_outline,
+                  size: 16,
+                  color: AppColors.deepRed,
+                );
+              },
+            ),
+
+            const Spacer(),
+
+            // label + value bottom
+            Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.w400,
+                height: 1,
+                color: AppColors.charcoal,
+              ),
+            ),
+            const SizedBox(height: 6),
+
+            Text(
+              value,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: AppColors.textDark,
+                height: 1.15,
+              ),
+            ),
           ],
         ),
-      ],
-    );
-  }
-
-  Widget _buildLabel() {
-    return Text(
-      label,
-      style: const TextStyle(
-        fontSize: _TextStyles.labelFontSize,
-        color: AppColors.charcoal,
       ),
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
     );
   }
-
-  Widget _buildValue() {
-    return Text(
-      value,
-      style: const TextStyle(
-        fontSize: _TextStyles.valueFontSize,
-        fontWeight: FontWeight.w500,
-        color: AppColors.textDark,
-      ),
-      maxLines: isTall ? _TextStyles.tallCardMaxLines : _TextStyles.regularCardMaxLines,
-      overflow: TextOverflow.ellipsis,
-    );
-  }
-}
-
-/// Layout constants for the grid section
-class _LayoutConstants {
-  static const double horizontalPadding = 16.0;
-  static const double titleSpacing = 12.0;
-  static const double cardSpacing = 12.0;
-  static const int leftFlex = 6;
-  static const int rightFlex = 4;
-  static const int tallCardIndex = 4;
-}
-
-/// Card-specific constants
-class _CardConstants {
-  static const double regularCardHeight = 100.0;
-  static const double tallCardHeight = 212.0; // 2 * regularCardHeight + cardSpacing
-  static const double padding = 12.0;
-  static const double borderRadius = 12.0;
-  static const double starIconSize = 15.0;
-  static const double starLabelSpacing = 8.0;
-  static const double labelValueSpacing = 4.0;
-}
-
-/// Text styling constants
-class _TextStyles {
-  static const double titleFontSize = 20.0;
-  static const double labelFontSize = 10.0;
-  static const double valueFontSize = 12.0;
-  static const int regularCardMaxLines = 2;
-  static const int tallCardMaxLines = 3;
 }

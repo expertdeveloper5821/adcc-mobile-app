@@ -10,9 +10,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   try {
-    // Check if Firebase is already initialized (e.g., from iOS AppDelegate)
+
     if (Firebase.apps.isEmpty) {
-      // Initialize Firebase with timeout to prevent hanging
+
       await Firebase.initializeApp().timeout(
         const Duration(seconds: 10),
         onTimeout: () {
@@ -24,7 +24,7 @@ void main() async {
     }
   } catch (e) {
     print('[Firebase] Initialization failed: $e');
-    // You can show an error screen or handle it differently
+
   }
 
   runApp(const MyApp());
@@ -33,7 +33,7 @@ void main() async {
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  /// Call this from anywhere to change language
+
   static void setLocale(BuildContext context, Locale locale) {
     final state = context.findAncestorStateOfType<_MyAppState>();
     state?.setLocale(locale);
@@ -44,7 +44,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Locale _locale = const Locale('en'); // default language
+  Locale _locale = const Locale('en'); 
 
   void setLocale(Locale locale) {
     setState(() {
@@ -59,7 +59,6 @@ class _MyAppState extends State<MyApp> {
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
 
-      /// THIS IS THE KEY
       locale: _locale,
 
       localizationsDelegates: const [

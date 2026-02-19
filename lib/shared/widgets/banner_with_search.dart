@@ -10,6 +10,10 @@ class BannerWithSearch extends StatefulWidget {
   final ValueChanged<String>? onChangeHandler;
   final String? placeholder;
 
+  // ✅ Back button props
+  final bool showBackButton;
+  final VoidCallback? onBackTap;
+
   const BannerWithSearch({
     super.key,
     required this.imagePath,
@@ -19,6 +23,10 @@ class BannerWithSearch extends StatefulWidget {
     this.searchValue,
     this.onChangeHandler,
     this.placeholder,
+
+    // ✅ default false
+    this.showBackButton = false,
+    this.onBackTap,
   });
 
   @override
@@ -46,6 +54,17 @@ class _BannerWithSearchState extends State<BannerWithSearch> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
+  }
+
+  void _handleBack() {
+    if (widget.onBackTap != null) {
+      widget.onBackTap!();
+      return;
+    }
+
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
+    }
   }
 
   @override
@@ -84,6 +103,33 @@ class _BannerWithSearchState extends State<BannerWithSearch> {
             ),
           ),
 
+          // ✅ Back Button (Top Left)
+          if (widget.showBackButton)
+            Positioned(
+              top: 14,
+              left: 14,
+              child: SafeArea(
+                bottom: false,
+                child: Material(
+                  color: Colors.white,
+                  shape: const CircleBorder(),
+                  child: InkWell(
+                    customBorder: const CircleBorder(),
+                    onTap: _handleBack,
+                    child: const SizedBox(
+                      height: 40,
+                      width: 40,
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.red,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
           // Content
           Positioned(
             left: 16,
@@ -102,7 +148,7 @@ class _BannerWithSearchState extends State<BannerWithSearch> {
                   ),
                 ),
 
-                // Subtitle (if provided)
+                // Subtitle
                 if (widget.subtitle != null && widget.subtitle!.isNotEmpty) ...[
                   const SizedBox(height: 8),
                   Text(
@@ -115,7 +161,7 @@ class _BannerWithSearchState extends State<BannerWithSearch> {
                   ),
                 ],
 
-                // Search Bar (if enabled)
+                // Search Bar
                 if (widget.wantSearchBar) ...[
                   const SizedBox(height: 16),
                   Container(
@@ -129,7 +175,7 @@ class _BannerWithSearchState extends State<BannerWithSearch> {
                       onChanged: widget.onChangeHandler,
                       decoration: InputDecoration(
                         hintText: widget.placeholder ?? 'Search...',
-                        hintStyle: TextStyle(color: Colors.white),
+                        hintStyle: const TextStyle(color: Colors.white),
                         prefixIcon: const Icon(
                           Icons.search,
                           color: Colors.white70,
@@ -151,4 +197,3 @@ class _BannerWithSearchState extends State<BannerWithSearch> {
     );
   }
 }
-

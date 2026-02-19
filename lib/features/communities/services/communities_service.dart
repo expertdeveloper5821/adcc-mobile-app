@@ -1,15 +1,12 @@
 import 'package:adcc/core/constants/api_endpoints.dart';
 import 'package:adcc/core/services/api_client.dart';
-import 'package:adcc/core/services/api_response.dart';
 import 'package:adcc/core/services/api_exception.dart';
+import 'package:adcc/core/services/api_response.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-/// Communities Service for API calls
 class CommunitiesService {
   final _apiClient = ApiClient.instance;
-
-  /// Get all communities
   Future<ApiResponse<dynamic>> getCommunities({
     Map<String, dynamic>? queryParameters,
   }) async {
@@ -22,90 +19,157 @@ class CommunitiesService {
       debugPrint('=== Communities API Response ===');
       debugPrint('Status Code: ${response.statusCode}');
       debugPrint('Response Data Type: ${response.data.runtimeType}');
-      debugPrint('Response Data: ${response.data}');
 
-      if (response.statusCode == 200 && response.data != null) {
-        // Just log the response for now, user will handle filtering later
-        debugPrint('=== Communities Response Structure ===');
-        if (response.data is List) {
-          debugPrint('Response is a List with ${(response.data as List).length} items');
-        } else if (response.data is Map) {
-          final data = response.data as Map<String, dynamic>;
-          debugPrint('Response is a Map');
-          debugPrint('Map keys: ${data.keys.toList()}');
-          if (data.containsKey('data')) {
-            debugPrint('Data key exists, type: ${data['data']?.runtimeType}');
-          }
-          if (data.containsKey('communities')) {
-            debugPrint('Communities key exists, type: ${data['communities']?.runtimeType}');
-          }
-        }
-
+      if ((response.statusCode == 200 || response.statusCode == 201) &&
+          response.data != null) {
         return ApiResponse.success(
           data: response.data,
           statusCode: response.statusCode,
         );
-      } else {
-        return ApiResponse.error(
-          message: 'Failed to fetch communities',
-          statusCode: response.statusCode,
-        );
       }
+
+      return ApiResponse.error(
+        message: response.data?["message"] ?? 'Failed to fetch communities',
+        statusCode: response.statusCode,
+      );
     } on DioException catch (e) {
       final apiException = ApiException.fromDioException(e);
-      debugPrint('=== Communities API Error ===');
-      debugPrint('Error: ${apiException.toString()}');
-      debugPrint('Status Code: ${apiException.statusCode}');
+
       return ApiResponse.error(
         message: apiException.toString(),
         statusCode: apiException.statusCode,
       );
     } catch (e) {
-      debugPrint('=== Communities API Unexpected Error ===');
-      debugPrint('Error: $e');
       return ApiResponse.error(
         message: 'An unexpected error occurred: $e',
       );
     }
   }
 
-  /// Get community by ID
-  Future<ApiResponse<dynamic>> getCommunityById(String communityId) async {
+  Future<ApiResponse<dynamic>> joinCommunity({
+    required String communityId,
+  }) async {
     try {
-      final response = await _apiClient.get<dynamic>(
-        ApiEndpoints.communityById(communityId),
+      debugPrint("🤝 [Join Community] API Hit Start...");
+      debugPrint("🆔 Community ID: $communityId");
+
+      final response = await _apiClient.post<dynamic>(
+        ApiEndpoints.joinCommunity(communityId),
+        data: {}, // join me body required nahi hai
       );
 
-      debugPrint('=== Community Details API Response ===');
-      debugPrint('Status Code: ${response.statusCode}');
-      debugPrint('Response Data Type: ${response.data.runtimeType}');
-      debugPrint('Response Data: ${response.data}');
+      debugPrint("✅ [Join Community] Response Status: ${response.statusCode}");
+      debugPrint("📦 [Join Community] Response Data: ${response.data}");
 
-      if (response.statusCode == 200 && response.data != null) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         return ApiResponse.success(
           data: response.data,
           statusCode: response.statusCode,
-        );
-      } else {
-        return ApiResponse.error(
-          message: 'Failed to fetch community details',
-          statusCode: response.statusCode,
+          message: response.data?["message"] ?? "Community joined successfully",
         );
       }
+
+      return ApiResponse.error(
+        message: response.data?["message"] ?? "Failed to join community",
+        statusCode: response.statusCode,
+      );
     } on DioException catch (e) {
       final apiException = ApiException.fromDioException(e);
-      debugPrint('=== Community Details API Error ===');
-      debugPrint('Error: ${apiException.toString()}');
+
+      debugPrint("❌ [Join Community] DioException: ${apiException.toString()}");
+
       return ApiResponse.error(
         message: apiException.toString(),
         statusCode: apiException.statusCode,
       );
     } catch (e) {
-      debugPrint('=== Community Details API Unexpected Error ===');
-      debugPrint('Error: $e');
+      debugPrint("❌ [Join Community] Unexpected Error: $e");
+
       return ApiResponse.error(
-        message: 'An unexpected error occurred: $e',
+        message: "An unexpected error occurred: $e",
       );
     }
+  }
+
+  Future<ApiResponse<dynamic>> leaveCommunity({
+    required String communityId,
+    String? reason,
+    String? feedback,
+  }) async {
+    try {
+      debugPrint("🚪 [Leave Community] API Hit Start...");
+      debugPrint("🆔 Community ID: $communityId");
+      debugPrint("📌 Reason: $reason");
+      debugPrint("📝 Feedback: $feedback");
+
+      final response = await _apiClient.post<dynamic>(
+        ApiEndpoints.leaveCommunity(communityId),
+        data: {
+          "reason": reason,
+          "feedback": feedback,
+        },
+      );
+
+      debugPrint("✅ [Leave Community] Response Status: ${response.statusCode}");
+      debugPrint("📦 [Leave Community] Response Data: ${response.data}");
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return ApiResponse.success(
+          data: response.data,
+          statusCode: response.statusCode,
+          message: response.data?["message"] ?? "Community left successfully",
+        );
+      }
+
+      return ApiResponse.error(
+        message: response.data?["message"] ?? "Failed to leave community",
+        statusCode: response.statusCode,
+      );
+    } on DioException catch (e) {
+      final apiException = ApiException.fromDioException(e);
+
+      debugPrint("❌ [Leave Community] DioException: ${apiException.toString()}");
+
+      return ApiResponse.error(
+        message: apiException.toString(),
+        statusCode: apiException.statusCode,
+      );
+    } catch (e) {
+      debugPrint("❌ [Leave Community] Unexpected Error: $e");
+
+      return ApiResponse.error(
+        message: "An unexpected error occurred: $e",
+      );
+    }
+  }
+
+  Future<ApiResponse<dynamic>> getCityCommunities() {
+    return getCommunities(
+      queryParameters: {"category": "City Communities"},
+    );
+  }
+
+  Future<ApiResponse<dynamic>> getGroupCommunities() {
+    return getCommunities(
+      queryParameters: {"category": "Group Communities"},
+    );
+  }
+
+  Future<ApiResponse<dynamic>> getAwarenessCommunities() {
+    return getCommunities(
+      queryParameters: {"category": "Awareness & Special Communities"},
+    );
+  }
+
+  Future<ApiResponse<dynamic>> getCommunitiesByType(String type) {
+    return getCommunities(
+      queryParameters: {"type": type},
+    );
+  }
+
+  Future<ApiResponse<dynamic>> getCommunitiesByLocation(String location) {
+    return getCommunities(
+      queryParameters: {"location": location},
+    );
   }
 }
