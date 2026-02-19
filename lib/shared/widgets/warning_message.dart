@@ -19,13 +19,14 @@ class WarningMessage extends StatelessWidget {
   Color get _backgroundColor {
     switch (type) {
       case MessageType.warning:
-        return AppColors.paleGreen; // Green for warnings in your design
+        return AppColors.buttonGuest; // Green for warnings in your design
       case MessageType.info:
         return Colors.blue;
       case MessageType.success:
-        return Colors.green;
+        return AppColors.paleGreen;
       case MessageType.error:
-        return Colors.red;
+     return const Color(0xFFC12D32);
+
     }
   }
 
@@ -44,57 +45,66 @@ class WarningMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration: BoxDecoration(
-        color: _backgroundColor,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(
+return Container(
+  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+  decoration: BoxDecoration(
+    color: _backgroundColor,
+    borderRadius: BorderRadius.circular(12),
+  ),
+  child: IntrinsicHeight(
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // ✅ Icon perfect center vertically
+        Center(
+          child: Icon(
             _icon,
             color: Colors.black,
-            size: 20,
+            size: 17,
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: title != null
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title!,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+        ),
+
+        const SizedBox(width: 12),
+
+        Expanded(
+          child: title != null
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      title!,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        message,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  )
-                : Text(
-                    message,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
                     ),
+                    const SizedBox(height: 4),
+                    Text(
+                      message,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                )
+              : Text(
+                  message,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
                   ),
-          ),
-        ],
-      ),
-    );
+                ),
+        ),
+      ],
+    ),
+  ),
+);
+
   }
 }
 

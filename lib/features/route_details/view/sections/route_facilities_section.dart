@@ -25,6 +25,7 @@ class RouteFacilitiesSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
+
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -37,8 +38,9 @@ class RouteFacilitiesSection extends StatelessWidget {
             itemCount: facilities.length,
             itemBuilder: (context, index) {
               final facility = facilities[index];
-              return _buildFacilityCard(
-                icon: facility['icon'] as IconData,
+
+              return _FacilityCard(
+                iconPath: facility['icon'] as String,
                 label: facility['label'] as String,
               );
             },
@@ -47,11 +49,19 @@ class RouteFacilitiesSection extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildFacilityCard({
-    required IconData icon,
-    required String label,
-  }) {
+class _FacilityCard extends StatelessWidget {
+  final String iconPath;
+  final String label;
+
+  const _FacilityCard({
+    required this.iconPath,
+    required this.label,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -61,12 +71,23 @@ class RouteFacilitiesSection extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            icon,
-            size: 20,
-            color: AppColors.charcoal,
+          // ✅ Icon image
+          Image.asset(
+            iconPath,
+            width: 20,
+            height: 20,
+            fit: BoxFit.contain,
+            errorBuilder: (_, __, ___) {
+              return const Icon(
+                Icons.image,
+                size: 20,
+                color: AppColors.charcoal,
+              );
+            },
           ),
+
           const SizedBox(height: 8),
+
           Text(
             label,
             style: const TextStyle(
@@ -82,4 +103,3 @@ class RouteFacilitiesSection extends StatelessWidget {
     );
   }
 }
-

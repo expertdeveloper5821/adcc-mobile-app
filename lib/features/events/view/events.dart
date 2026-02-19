@@ -1,12 +1,15 @@
 import 'package:adcc/features/event_details/view/event_details_screen.dart';
+import 'package:adcc/features/events/sections/event_by_category.dart';
 import 'package:adcc/features/events/sections/event_categories_grid.dart';
 import 'package:adcc/features/events/sections/purpose_based_event_card.dart';
+import 'package:adcc/features/events/sections/upcoming_event_screen.dart';
 import 'package:adcc/features/events/view/special_ride_card.dart';
 import 'package:adcc/features/events/services/events_service.dart';
 import 'package:adcc/modals/grid_item.dart';
 import 'package:adcc/shared/widgets/banner_with_search.dart';
 import 'package:adcc/shared/widgets/category_selector.dart';
-import 'package:adcc/shared/widgets/community_event_card.dart';
+import 'package:adcc/shared/widgets/event_header.dart';
+
 import 'package:adcc/shared/widgets/section_header.dart';
 import 'package:flutter/material.dart';
 
@@ -22,14 +25,18 @@ class _EventsTabState extends State<EventsTab> {
   int selectedCategoryIndex = 0;
   bool _isLoading = true;
   String? _errorMessage;
+
+  String _searchQuery = '';
+
   List<Event> _events = [];
   final EventsService _eventsService = EventsService();
 
   final List<String> categories = [
     'All',
+    'Races',
     'Community Rides',
-    'Family & Kids',
-    'Shop',
+    'Training & Clinics',
+   
   ];
 
   // Static data for Purpose Based Events
@@ -74,24 +81,53 @@ class _EventsTabState extends State<EventsTab> {
 
     final response = await _eventsService.getEvents();
 
-    if (mounted) {
-      setState(() {
-        _isLoading = false;
-        if (response.success &&
-            response.data != null &&
-            response.data!.isNotEmpty) {
-          _events = response.data!;
-          _errorMessage = null;
-          debugPrint('Loaded ${_events.length} events successfully');
-        } else {
-          _errorMessage = response.message ?? 'Failed to load events';
-          _events = [];
-          debugPrint('Error loading events: $_errorMessage');
-          debugPrint('Response success: ${response.success}');
-          debugPrint('Response data: ${response.data}');
-        }
-      });
+    if (!mounted) return;
+
+    setState(() {
+      _isLoading = false;
+
+      if (response.success && response.data != null && response.data!.isNotEmpty) {
+        _events = response.data!;
+        _errorMessage = null;
+        debugPrint('Loaded ${_events.length} events successfully');
+      } else {
+        _errorMessage = response.message ?? 'Failed to load events';
+        _events = [];
+        debugPrint('Error loading events: $_errorMessage');
+        debugPrint('Response success: ${response.success}');
+        debugPrint('Response data: ${response.data}');
+      }
+    });
+  }
+
+  /// Local filter (API me category nahi aa rahi)
+  List<Event> get _filteredEvents {
+    List<Event> list = _events;
+
+    // 1) Category filter
+    if (selectedCategoryIndex != 0) {
+      final selected = categories[selectedCategoryIndex];
+
+      list = list.where((event) {
+        final eventCategory = event.derivedCategory ?? '';
+        return eventCategory.toLowerCase() == selected.toLowerCase();
+      }).toList();
     }
+
+    // 2) Search filter
+    if (_searchQuery.trim().isNotEmpty) {
+      final q = _searchQuery.trim().toLowerCase();
+
+      list = list.where((event) {
+        final title = event.title.toLowerCase();
+        final desc = (event.description ?? '').toLowerCase();
+        final address = (event.address ?? '').toLowerCase();
+
+        return title.contains(q) || desc.contains(q) || address.contains(q);
+      }).toList();
+    }
+
+    return list;
   }
 
   String _getImagePath(Event event) {
@@ -106,10 +142,34 @@ class _EventsTabState extends State<EventsTab> {
     return '${event.currentParticipants ?? 0}${event.maxParticipants != null ? '/${event.maxParticipants}' : ''} riders';
   }
 
+  void _applyCategoryFilterFromGrid(String categoryTitle) {
+    // Grid titles are different: Races, Community Rides, Training & Clinics...
+    // API me category nahi, so hum local mapping use karenge.
+
+    String mapped = 'All';
+
+    final t = categoryTitle.toLowerCase();
+
+    if (t.contains('community')) mapped = 'Community Rides';
+    if (t.contains('family')) mapped = 'Family & Kids';
+    if (t.contains('kids')) mapped = 'Family & Kids';
+    if (t.contains('shop')) mapped = 'Shop';
+
+    final index = categories.indexWhere(
+      (c) => c.toLowerCase() == mapped.toLowerCase(),
+    );
+
+    setState(() {
+      selectedCategoryIndex = index == -1 ? 0 : index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Convert API events to the format expected by the UI
-    final List<Map<String, String>> rides = _events.map((event) {
+    final eventsToShow = _filteredEvents;
+
+    // Convert filtered events to the format expected by the UI
+    final List<Map<String, String>> rides = eventsToShow.map((event) {
       return {
         "image": _getImagePath(event),
         "title": event.title,
@@ -181,22 +241,26 @@ class _EventsTabState extends State<EventsTab> {
                           horizontal: 8,
                         ),
                         children: [
-                          SizedBox(height: 16),
-                              BannerWithSearch(
-                                  imagePath: 'assets/images/cycling_1.png',
-                                  title: 'Events & Community Rides',
-                                  subtitle: 'Official cycling events organized by ADCC communities across the UAE',
-                                  wantSearchBar: true,
-                                  searchValue: "",
-                                  onChangeHandler: (value) {
-                                    // setState(() {
-                                    //   searchQuery = value;
-                                    // });
-                                  },
-                                  placeholder:
-                                      'Search events, communities, cities, or tracks...',
-                                ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
+
+                        EventHeader(
+  imagePath: 'assets/images/cycling_1.png',
+  title: 'Events & Community Rides',
+  subtitle:
+      'Official cycling events organized by ADCC communities across the UAE',
+  wantSearchBar: true,
+  searchValue: _searchQuery,
+  onChangeHandler: (value) {
+    setState(() {
+      _searchQuery = value;
+    });
+  },
+  placeholder: 'Search events, communities, cities, or tracks...',
+),
+
+
+                          const SizedBox(height: 16),
+
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: CategorySelector(
@@ -209,7 +273,9 @@ class _EventsTabState extends State<EventsTab> {
                               },
                             ),
                           ),
-                          SizedBox(height: 30),
+
+                          const SizedBox(height: 30),
+
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -217,11 +283,22 @@ class _EventsTabState extends State<EventsTab> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 10),
                                 child: SectionHeader(
-                                  title: 'Upcoming Events',
-                                  onViewAll: () {},
-                                ),
+  title: 'Upcoming Events',
+  onViewAll: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => Upcomingevent(
+          events: _filteredEvents, // current filtered list
+        ),
+      ),
+    );
+  },
+),
+
                               ),
                               const SizedBox(height: 16),
+
                               rides.isEmpty
                                   ? Padding(
                                       padding: const EdgeInsets.symmetric(
@@ -238,7 +315,8 @@ class _EventsTabState extends State<EventsTab> {
                                       ),
                                     )
                                   : SizedBox(
-                                      height: 400, // Match SpecialRideCard height
+                                      height:
+                                          400, // Match SpecialRideCard height
                                       child: ListView.separated(
                                         scrollDirection: Axis.horizontal,
                                         padding: const EdgeInsets.symmetric(
@@ -248,21 +326,28 @@ class _EventsTabState extends State<EventsTab> {
                                         separatorBuilder: (_, __) =>
                                             const SizedBox(width: 16),
                                         itemBuilder: (context, index) {
-                                          final event = _events[index];
+                                          final event = eventsToShow[index];
+
                                           return SpecialRideCard(
                                             imagePath: _getImagePath(event),
                                             title: event.title,
                                             date: event.formattedDate ?? "TBD",
                                             time: event.eventTime,
-                                            distance: event.additionalData?['distance']?.toString() ?? 
-                                                     event.additionalData?['routeDistance']?.toString(),
+                                            distance: event.additionalData?['distance']
+                                                    ?.toString() ??
+                                                event.additionalData?['routeDistance']
+                                                    ?.toString(),
                                             location: event.address,
-                                            venue: event.additionalData?['venue']?.toString() ?? 
-                                                   event.additionalData?['circuit']?.toString(),
+                                            venue: event.additionalData?['venue']
+                                                    ?.toString() ??
+                                                event.additionalData?['circuit']
+                                                    ?.toString(),
                                             riders: _formatParticipants(event),
                                             eventType: 'Open',
-                                            groupName: event.createdBy?['name']?.toString() ?? 
-                                                      event.createdBy?['groupName']?.toString(),
+                                            groupName: event.createdBy?['name']
+                                                    ?.toString() ??
+                                                event.createdBy?['groupName']
+                                                    ?.toString(),
                                             eventId: event.id,
                                             onShare: () {
                                               debugPrint('Share tapped');
@@ -272,7 +357,8 @@ class _EventsTabState extends State<EventsTab> {
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                    builder: (_) => EventDetailsScreen(
+                                                    builder: (_) =>
+                                                        EventDetailsScreen(
                                                       eventId: event.id,
                                                     ),
                                                   ),
@@ -285,7 +371,9 @@ class _EventsTabState extends State<EventsTab> {
                                     ),
                             ],
                           ),
+
                           const SizedBox(height: 24),
+
                           // Events by Category Section
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -294,9 +382,19 @@ class _EventsTabState extends State<EventsTab> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 16),
                                 child: SectionHeader(
-                                  title: 'Events by Category',
-                                  onViewAll: () {},
-                                ),
+  title: 'Events by Category',
+  onViewAll: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => EventsByCategoryViewAll(
+          events: _events, 
+        ),
+      ),
+    );
+  },
+),
+
                               ),
                               const SizedBox(height: 16),
                               Padding(
@@ -305,14 +403,19 @@ class _EventsTabState extends State<EventsTab> {
                                 child: EventCategoriesGrid(
                                   onCategoryTap: (category) {
                                     // Handle category tap
-                                    debugPrint('Event category tapped: $category');
+                                    debugPrint(
+                                        'Event category tapped: $category');
+
+                                    _applyCategoryFilterFromGrid(category);
                                   },
                                 ),
                               ),
                             ],
                           ),
+
                           const SizedBox(height: 30),
-                          // Purpose Based Events Section
+
+                          // Purpose Based Events Section (STATIC as per requirement)
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -322,8 +425,8 @@ class _EventsTabState extends State<EventsTab> {
                                 child: SectionHeader(
                                   title: 'Purpose Based Events',
                                   onViewAll: () {
-                                    // Handle view all tap
-                                    debugPrint('View all purpose based events');
+                                    debugPrint(
+                                        'View all purpose based events');
                                   },
                                 ),
                               ),
@@ -346,7 +449,8 @@ class _EventsTabState extends State<EventsTab> {
                                       date: event['date']!,
                                       groupName: event['groupName']!,
                                       onTap: () {
-                                        debugPrint('Tapped on ${event['title']}');
+                                        debugPrint(
+                                            'Tapped on ${event['title']}');
                                       },
                                     );
                                   },
@@ -354,7 +458,10 @@ class _EventsTabState extends State<EventsTab> {
                               ),
                             ],
                           ),
+
                           const SizedBox(height: 24),
+
+                          // Commented code stays as-is (as you asked)
 
                           // Column(
                           //   crossAxisAlignment: CrossAxisAlignment.start,

@@ -17,7 +17,7 @@ class RoutePhotosSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Route Views & Community Photos',
+            'Tracks Views & Community Photos',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w600,

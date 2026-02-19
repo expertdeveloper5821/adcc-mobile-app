@@ -4,24 +4,37 @@ import '../../../core/services/api_client.dart';
 import '../../../core/services/api_exception.dart';
 import '../../../core/services/api_response.dart';
 import '../../../core/constants/api_endpoints.dart';
+import '../../../core/services/token_storage_service.dart';
 
 /// Event model
 class Event {
   final String id;
   final String title;
   final String? description;
-  final String? mainImage; // Base64 image data URI
+
+  /// Base64 image data URI
+  final String? mainImage;
+
   final String? eventDate;
   final String? eventTime;
   final String? address;
+
   final int? maxParticipants;
   final int? currentParticipants;
+
   final int? minAge;
   final int? maxAge;
+
   final String? youtubeLink;
   final String? status;
+
   final Map<String, dynamic>? createdBy;
+
+  /// Full raw JSON store (for future usage)
   final Map<String, dynamic>? additionalData;
+
+  /// Local derived category (backend doesn't send category currently)
+  final String? derivedCategory;
 
   Event({
     required this.id,
@@ -39,27 +52,52 @@ class Event {
     this.status,
     this.createdBy,
     this.additionalData,
+    this.derivedCategory,
   });
 
   /// Create Event from JSON
   factory Event.fromJson(Map<String, dynamic> json) {
+    final title = json['title']?.toString() ?? '';
+
     return Event(
       id: json['_id']?.toString() ?? json['id']?.toString() ?? '',
-      title: json['title']?.toString() ?? '',
+      title: title,
       description: json['description']?.toString(),
       mainImage: json['mainImage']?.toString(),
       eventDate: json['eventDate']?.toString(),
       eventTime: json['eventTime']?.toString(),
       address: json['address']?.toString(),
-      maxParticipants: json['maxParticipants'] as int?,
-      currentParticipants: json['currentParticipants'] as int?,
-      minAge: json['minAge'] as int?,
-      maxAge: json['maxAge'] as int?,
+      maxParticipants: json['maxParticipants'] is int
+          ? json['maxParticipants'] as int
+          : int.tryParse(json['maxParticipants']?.toString() ?? ''),
+      currentParticipants: json['currentParticipants'] is int
+          ? json['currentParticipants'] as int
+          : int.tryParse(json['currentParticipants']?.toString() ?? ''),
+      minAge: json['minAge'] is int
+          ? json['minAge'] as int
+          : int.tryParse(json['minAge']?.toString() ?? ''),
+      maxAge: json['maxAge'] is int
+          ? json['maxAge'] as int
+          : int.tryParse(json['maxAge']?.toString() ?? ''),
       youtubeLink: json['youtubeLink']?.toString(),
       status: json['status']?.toString(),
-      createdBy: json['createdBy'] as Map<String, dynamic>?,
+      createdBy: json['createdBy'] is Map<String, dynamic>
+          ? json['createdBy'] as Map<String, dynamic>
+          : null,
       additionalData: json,
+      derivedCategory: _deriveCategoryFromTitle(title),
     );
+  }
+
+  /// Category derive helper (backend doesn't send category)
+  static String _deriveCategoryFromTitle(String title) {
+    final t = title.toLowerCase();
+
+    if (t.contains('family') || t.contains('kids')) return 'Family & Kids';
+    if (t.contains('shop')) return 'Shop';
+    if (t.contains('community') || t.contains('ride')) return 'Community Rides';
+
+    return 'Community Rides';
   }
 
   /// Get formatted date string
@@ -87,7 +125,8 @@ class Event {
     }
   }
 
-  /// Get participants string
+  /// IMPORTANT:
+  /// EventDetailsScreen is using this.
   String get participantsString {
     if (currentParticipants != null && maxParticipants != null) {
       return '$currentParticipants/$maxParticipants';
@@ -116,6 +155,7 @@ class Event {
       'youtubeLink': youtubeLink,
       'status': status,
       'createdBy': createdBy,
+      'derivedCategory': derivedCategory,
       ...?additionalData,
     };
   }
@@ -138,81 +178,47 @@ class EventsService {
       debugPrint('=== Events API Response ===');
       debugPrint('Status Code: ${response.statusCode}');
       debugPrint('Response Data Type: ${response.data.runtimeType}');
-      debugPrint('Response Data: $response.data');
+      debugPrint('Response Data: ${response.data}');
 
-      if (response.statusCode == 200 && response.data != null) {
+      if ((response.statusCode == 200 || response.statusCode == 201) &&
+          response.data != null) {
         try {
-          // Handle different response structures
           List<dynamic> eventsData = [];
 
           if (response.data is List) {
-            // Direct array response
-            debugPrint('Response is a List');
             eventsData = response.data as List<dynamic>;
           } else if (response.data is Map) {
             final data = response.data as Map<String, dynamic>;
-            debugPrint('Response is a Map');
-            debugPrint('Map keys: ${data.keys.toList()}');
-            debugPrint('data key exists: ${data.containsKey('data')}');
-            debugPrint('data type: ${data['data']?.runtimeType}');
 
-            // Handle nested structure: {success: true, data: {events: [...]}}
             if (data['data'] != null && data['data'] is Map) {
               final nestedData = data['data'] as Map<String, dynamic>;
-              debugPrint('Nested data keys: ${nestedData.keys.toList()}');
-              debugPrint(
-                  'events key exists: ${nestedData.containsKey('events')}');
               eventsData = nestedData['events'] as List<dynamic>? ?? [];
-              debugPrint(
-                  'Found ${eventsData.length} events in nested structure');
-            }
-            // Handle flat structure: {data: [...], success: true}
-            else if (data['data'] != null && data['data'] is List) {
-              debugPrint('Found events in flat data structure');
+            } else if (data['events'] != null && data['events'] is List) {
+              eventsData = data['events'] as List<dynamic>;
+            } else if (data['data'] != null && data['data'] is List) {
               eventsData = data['data'] as List<dynamic>;
             }
-            // Handle direct events key: {events: [...]}
-            else if (data['events'] != null && data['events'] is List) {
-              debugPrint('Found events in direct events key');
-              eventsData = data['events'] as List<dynamic>;
-            } else {
-              debugPrint('No events found in any expected structure');
-              debugPrint('Available keys: ${data.keys.toList()}');
-            }
-          } else {
-            debugPrint(
-                'Response is neither List nor Map: ${response.data.runtimeType}');
           }
 
           debugPrint('Final eventsData length: ${eventsData.length}');
-
-          if (eventsData.isEmpty) {
-            return ApiResponse.error(
-              message: 'No events found in response',
-              statusCode: response.statusCode,
-            );
-          }
 
           final events = eventsData
               .map((json) {
                 try {
                   return Event.fromJson(json as Map<String, dynamic>);
-                } catch (e, stackTrace) {
-                  // Log individual event parsing errors but continue
+                } catch (e, st) {
                   debugPrint('Error parsing event: $e');
-                  debugPrint('Event JSON: $json');
-                  debugPrint('Stack trace: $stackTrace');
+                  debugPrint('Stack: $st');
+                  debugPrint('JSON: $json');
                   return null;
                 }
               })
-              .whereType<Event>() // Filter out null values
+              .whereType<Event>()
               .toList();
-
-          debugPrint('Successfully parsed ${events.length} events');
 
           if (events.isEmpty) {
             return ApiResponse.error(
-              message: 'Failed to parse any events from response',
+              message: 'No events parsed from response',
               statusCode: response.statusCode,
             );
           }
@@ -221,21 +227,22 @@ class EventsService {
             data: events,
             statusCode: response.statusCode,
           );
-        } catch (e, stackTrace) {
+        } catch (e, st) {
           debugPrint('=== Error in getEvents parsing ===');
           debugPrint('Error: $e');
-          debugPrint('Stack trace: $stackTrace');
+          debugPrint('Stack: $st');
+
           return ApiResponse.error(
             message: 'Failed to parse events data: $e',
             statusCode: response.statusCode,
           );
         }
-      } else {
-        return ApiResponse.error(
-          message: 'Failed to fetch events',
-          statusCode: response.statusCode,
-        );
       }
+
+      return ApiResponse.error(
+        message: 'Failed to fetch events',
+        statusCode: response.statusCode,
+      );
     } on DioException catch (e) {
       final apiException = ApiException.fromDioException(e);
       return ApiResponse.error(
@@ -249,6 +256,124 @@ class EventsService {
     }
   }
 
+  /// ✅ JOIN EVENT (FIXED)
+  Future<ApiResponse<dynamic>> joinEvent({
+    required String eventId,
+  }) async {
+    try {
+      debugPrint("🤝 [Join Event] API Hit Start...");
+      debugPrint("🆔 Event ID: $eventId");
+
+      // 🔥 Try to get userId dynamically
+      String? userId = await TokenStorageService.getUserId();
+
+      // 🔥 TEMP fallback static
+      userId ??= "69959a9430e2025c6208df05";
+
+      final body = {
+        "eventId": eventId,
+        "userId": userId,
+        "status": "joined",
+      };
+
+      debugPrint("📦 [Join Event] Body: $body");
+
+      final response = await _apiClient.post<dynamic>(
+        ApiEndpoints.joinEvent(eventId),
+        data: body,
+      );
+
+      debugPrint("✅ [Join Event] Status: ${response.statusCode}");
+      debugPrint("📦 [Join Event] Data: ${response.data}");
+
+      if ((response.statusCode == 200 || response.statusCode == 201) &&
+          response.data != null &&
+          response.data["success"] == true) {
+        return ApiResponse.success(
+          data: response.data,
+          statusCode: response.statusCode,
+          message: response.data["message"] ?? "Registered successfully",
+        );
+      }
+
+      return ApiResponse.error(
+        message: response.data?["message"] ?? "Failed to register",
+        statusCode: response.statusCode,
+      );
+    } on DioException catch (e) {
+      final apiException = ApiException.fromDioException(e);
+
+      debugPrint("❌ [Join Event] DioException: ${apiException.toString()}");
+
+      return ApiResponse.error(
+        message: apiException.toString(),
+        statusCode: apiException.statusCode,
+      );
+    } catch (e) {
+      debugPrint("❌ [Join Event] Unexpected Error: $e");
+      return ApiResponse.error(message: "Unexpected error: $e");
+    }
+  }
+
+  /// ✅ CANCEL EVENT (FIXED)
+  Future<ApiResponse<dynamic>> cancelEvent({
+    required String eventId,
+    required String reason,
+  }) async {
+    try {
+      debugPrint("🚫 [Cancel Event] API Hit Start...");
+      debugPrint("🆔 Event ID: $eventId");
+      debugPrint("📌 Reason: $reason");
+
+      String? userId = await TokenStorageService.getUserId();
+      userId ??= "69959a9430e2025c6208df05";
+
+      final body = {
+        "eventId": eventId,
+        "userId": userId,
+        "status": "cancelled",
+        "reason": reason,
+      };
+
+      debugPrint("📦 [Cancel Event] Body: $body");
+
+      final response = await _apiClient.post<dynamic>(
+        ApiEndpoints.cancelEvent(eventId),
+        data: body,
+      );
+
+      debugPrint("✅ [Cancel Event] Status: ${response.statusCode}");
+      debugPrint("📦 [Cancel Event] Data: ${response.data}");
+
+      if ((response.statusCode == 200 || response.statusCode == 201) &&
+          response.data != null &&
+          response.data["success"] == true) {
+        return ApiResponse.success(
+          data: response.data,
+          statusCode: response.statusCode,
+          message: response.data["message"] ?? "Registration cancelled",
+        );
+      }
+
+      return ApiResponse.error(
+        message: response.data?["message"] ?? "Failed to cancel registration",
+        statusCode: response.statusCode,
+      );
+    } on DioException catch (e) {
+      final apiException = ApiException.fromDioException(e);
+
+      debugPrint("❌ [Cancel Event] DioException: ${apiException.toString()}");
+
+      return ApiResponse.error(
+        message: apiException.toString(),
+        statusCode: apiException.statusCode,
+      );
+    } catch (e) {
+      debugPrint("❌ [Cancel Event] Unexpected Error: $e");
+      return ApiResponse.error(message: "Unexpected error: $e");
+    }
+  }
+
   /// Get event by ID
   Future<ApiResponse<Event>> getEventById(String eventId) async {
     try {
@@ -259,7 +384,7 @@ class EventsService {
       debugPrint('=== Event Details API Response ===');
       debugPrint('Status Code: ${response.statusCode}');
       debugPrint('Response Data Type: ${response.data.runtimeType}');
-      debugPrint('Response Data: $response.data');
+      debugPrint('Response Data: ${response.data}');
 
       if (response.statusCode == 200 && response.data != null) {
         try {
@@ -267,33 +392,17 @@ class EventsService {
 
           if (response.data is Map) {
             final data = response.data as Map<String, dynamic>;
-            debugPrint('Response is a Map');
-            debugPrint('Map keys: ${data.keys.toList()}');
 
-            // Handle nested structure: {success: true, data: {event: {...}}}
             if (data['data'] != null && data['data'] is Map) {
               final nestedData = data['data'] as Map<String, dynamic>;
-              debugPrint('Nested data keys: ${nestedData.keys.toList()}');
 
-              // Check if event is nested inside data
               if (nestedData['event'] != null && nestedData['event'] is Map) {
                 eventData = nestedData['event'] as Map<String, dynamic>;
-                debugPrint('Found event in nested structure');
               } else {
-                // Event data is directly in data
                 eventData = nestedData;
-                debugPrint('Event data is directly in data');
               }
-            }
-            // Handle flat structure: {data: {...}}
-            else if (data['data'] != null && data['data'] is Map) {
-              eventData = data['data'] as Map<String, dynamic>;
-              debugPrint('Found event in flat data structure');
-            }
-            // Handle direct event object
-            else {
+            } else {
               eventData = data;
-              debugPrint('Event data is at root level');
             }
           } else {
             return ApiResponse.error(
@@ -302,29 +411,28 @@ class EventsService {
             );
           }
 
-          debugPrint('Event data keys: ${eventData.keys.toList()}');
           final event = Event.fromJson(eventData);
-          debugPrint('Successfully parsed event: ${event.title}');
 
           return ApiResponse.success(
             data: event,
             statusCode: response.statusCode,
           );
-        } catch (e, stackTrace) {
+        } catch (e, st) {
           debugPrint('=== Error in getEventById parsing ===');
           debugPrint('Error: $e');
-          debugPrint('Stack trace: $stackTrace');
+          debugPrint('Stack: $st');
+
           return ApiResponse.error(
             message: 'Failed to parse event data: $e',
             statusCode: response.statusCode,
           );
         }
-      } else {
-        return ApiResponse.error(
-          message: 'Failed to fetch event',
-          statusCode: response.statusCode,
-        );
       }
+
+      return ApiResponse.error(
+        message: 'Failed to fetch event',
+        statusCode: response.statusCode,
+      );
     } on DioException catch (e) {
       final apiException = ApiException.fromDioException(e);
       return ApiResponse.error(

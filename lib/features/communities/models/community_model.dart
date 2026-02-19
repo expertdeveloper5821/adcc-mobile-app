@@ -2,9 +2,22 @@ class CommunityModel {
   final String id;
   final String title;
   final String description;
+
+  /// Example: Club, Youth, group
   final String type;
+
+  /// Example: ["City Communities"], ["Group Communities"]
   final List<String> category;
+
+  /// From backend
+  final String? location;
+  final String? trackName;
+  final String? terrain;
+  final double? distance;
+
+  /// Image (backend gives base64 in "image")
   final String? imageUrl;
+
   final bool? isJoined;
   final int? membersCount;
   final int? eventsCount;
@@ -15,6 +28,10 @@ class CommunityModel {
     required this.description,
     required this.type,
     required this.category,
+    this.location,
+    this.trackName,
+    this.terrain,
+    this.distance,
     this.imageUrl,
     this.isJoined,
     this.membersCount,
@@ -26,15 +43,29 @@ class CommunityModel {
       id: json['_id'] ?? '',
       title: json['title'] ?? '',
       description: json['description'] ?? '',
-      type: json['type'] ?? '',
+      type: (json['type'] ?? '').toString(),
       category:
           json['category'] != null ? List<String>.from(json['category']) : [],
+
+      // NEW FIELDS
+      location: json['location']?.toString(),
+      trackName: json['trackName']?.toString(),
+      terrain: json['terrain']?.toString(),
+      distance: _parseDouble(json['distance']),
+
+      // image (base64)
       imageUrl: json['imageUrl'] ?? json['image'] ?? json['imagePath'],
+
       isJoined: json['isJoined'] ?? json['joined'] ?? false,
+
+      // membersCount: backend has "memberCount"
       membersCount: _parseCount(
-          json['membersCount'] ?? json['members'] ?? json['memberCount']),
+        json['membersCount'] ?? json['members'] ?? json['memberCount'],
+      ),
+
       eventsCount: _parseCount(
-          json['eventsCount'] ?? json['events'] ?? json['eventCount']),
+        json['eventsCount'] ?? json['events'] ?? json['eventCount'],
+      ),
     );
   }
 
@@ -45,6 +76,10 @@ class CommunityModel {
       'description': description,
       'type': type,
       'category': category,
+      'location': location,
+      'trackName': trackName,
+      'terrain': terrain,
+      'distance': distance,
       'imageUrl': imageUrl,
       'isJoined': isJoined,
       'membersCount': membersCount,
@@ -52,44 +87,39 @@ class CommunityModel {
     };
   }
 
-  /// Helper method to safely parse count values that might be int or List
   static int? _parseCount(dynamic value) {
     if (value == null) return null;
     if (value is int) return value;
     if (value is List) return value.length;
-    if (value is String) {
-      final parsed = int.tryParse(value);
-      return parsed;
-    }
+    if (value is String) return int.tryParse(value);
     return null;
   }
 
-  // Helper method to check if community belongs to a specific category (case-insensitive)
-  bool hasCategory(String categoryName) {
-    final lowerCategoryName = categoryName.toLowerCase();
-    return category.any((cat) => cat.toLowerCase() == lowerCategoryName);
+  static double? _parseDouble(dynamic value) {
+    if (value == null) return null;
+    if (value is num) return value.toDouble();
+    if (value is String) return double.tryParse(value);
+    return null;
   }
 
-  // Helper method to check if community belongs to any of the given categories (case-insensitive, EXACT match only)
+  bool hasCategory(String categoryName) {
+    final lowerCategoryName = categoryName.toLowerCase().trim();
+    return category.any((cat) => cat.toLowerCase().trim() == lowerCategoryName);
+  }
+
   bool hasAnyCategory(List<String> categories) {
     if (category.isEmpty) return false;
 
-    // Convert to lowercase for case-insensitive comparison
     final lowerCategories =
         categories.map((c) => c.toLowerCase().trim()).toList();
     final lowerCommunityCategories =
         category.map((c) => c.toLowerCase().trim()).toList();
 
-    // Only check for EXACT matches (case-insensitive)
-    for (var keyword in lowerCategories) {
-      for (var cat in lowerCommunityCategories) {
-        // Exact match only - no partial matching
-        if (cat == keyword) {
-          return true;
-        }
+    for (final keyword in lowerCategories) {
+      for (final cat in lowerCommunityCategories) {
+        if (cat == keyword) return true;
       }
     }
-
     return false;
   }
 }

@@ -1,3 +1,4 @@
+import 'package:adcc/features/routes/view/official_cycling_track_page.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/section_header.dart';
@@ -50,22 +51,6 @@ class _OfficialCyclingTracksSectionState
     },
   ];
 
-  void _scrollLeft() {
-    _scrollController.animateTo(
-      _scrollController.offset - 300,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );
-  }
-
-  void _scrollRight() {
-    _scrollController.animateTo(
-      _scrollController.offset + 300,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );
-  }
-
   @override
   void dispose() {
     _scrollController.dispose();
@@ -77,71 +62,40 @@ class _OfficialCyclingTracksSectionState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Header with navigation buttons
-        Row(
-          children: [
-            Expanded(
-              child: SectionHeader(
-                title: 'Official Cycling Tracks',
-                onViewAll: () {},
-                showViewAll: false,
-              ),
-            ),
-            // Navigation buttons
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: _scrollLeft,
-                  child: Container(
-                    width: 36,
-                    height: 36,
-                    decoration: BoxDecoration(
-                      color: AppColors.warmSand,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.arrow_back,
-                      color: Colors.black,
-                      size: 20,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                GestureDetector(
-                  onTap: _scrollRight,
-                  child: Container(
-                    width: 36,
-                    height: 36,
-                    decoration: BoxDecoration(
-                      color: AppColors.warmSand,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.arrow_forward,
-                      color: Colors.black,
-                      size: 20,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        // Scrollable 2-column grid
+
+      SectionHeader(
+  title: 'Official Cycling Tracks',
+  showViewAll: true,
+  onViewAll: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const OfficialCyclingTracksPage(),
+      ),
+    );
+  },
+),
+
+
+        const SizedBox(height:20),
+
+
         SizedBox(
-          height: 360,
+          height: 303,
           child: ListView.separated(
             controller: _scrollController,
             scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
             itemCount: (tracks.length / 2).ceil(),
             separatorBuilder: (_, __) => const SizedBox(width: 16),
             itemBuilder: (context, index) {
               final firstIndex = index * 2;
               final secondIndex = firstIndex + 1;
+
               return Row(
                 children: [
                   _buildTrackCard(
+                    context: context,
                     imagePath: tracks[firstIndex]['image'],
                     tag: tracks[firstIndex]['tag'],
                     title: tracks[firstIndex]['title'],
@@ -152,6 +106,7 @@ class _OfficialCyclingTracksSectionState
                   if (secondIndex < tracks.length) ...[
                     const SizedBox(width: 12),
                     _buildTrackCard(
+                      context: context,
                       imagePath: tracks[secondIndex]['image'],
                       tag: tracks[secondIndex]['tag'],
                       title: tracks[secondIndex]['title'],
@@ -170,6 +125,7 @@ class _OfficialCyclingTracksSectionState
   }
 
   Widget _buildTrackCard({
+    required BuildContext context,
     required String imagePath,
     required String tag,
     required String title,
@@ -180,11 +136,11 @@ class _OfficialCyclingTracksSectionState
     return GestureDetector(
       onTap: () {},
       child: Container(
-        width: 180,
-        height: 340,
+        width: 169,
+        height: 303,
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(12),
           color: AppColors.cardLightBackground,
         ),
         child: Column(
@@ -197,8 +153,8 @@ class _OfficialCyclingTracksSectionState
                 children: [
                   Image.asset(
                     imagePath,
-                    width: double.infinity,
-                    height: 180,
+                    width:157,
+                    height: 161,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return Container(
@@ -233,8 +189,9 @@ class _OfficialCyclingTracksSectionState
                 ],
               ),
             ),
+
             const SizedBox(height: 12),
-            // Content - Expanded to push button to bottom
+
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -244,7 +201,6 @@ class _OfficialCyclingTracksSectionState
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Title
                       Text(
                         title,
                         style: const TextStyle(
@@ -256,7 +212,7 @@ class _OfficialCyclingTracksSectionState
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 8),
-                      // Date, time and riders
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -300,48 +256,66 @@ class _OfficialCyclingTracksSectionState
                       ),
                     ],
                   ),
-                  // View Route button - width according to text, aligned consistently
+
                   Align(
-                    alignment: Alignment.centerLeft,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => RouteDetailsScreen(
-                              routeData: {
-                                'image': imagePath,
-                                'title': title,
-                                'date': date,
-                                'time': time,
-                                'riders': riders,
-                                'tag': tag,
-                              },
-                            ),
-                          ),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.deepRed,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 10,
-                        ),
-                        minimumSize: Size.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: const Text(
-                        'View Track',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
+  alignment: Alignment.centerLeft,
+  child: SizedBox(
+    width: 93,
+    height: 30,
+    child: ElevatedButton(
+      onPressed: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => RouteDetailsScreen(
+              routeData: {
+                'image': imagePath,
+                'title': title,
+                'date': date,
+                'time': time,
+                'riders': riders,
+                'tag': tag,
+              },
+            ),
+          ),
+        );
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppColors.deepRed,
+        foregroundColor: Colors.white,
+
+       
+        padding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 7,
+        ),
+
+  
+        side: const BorderSide(
+          color: Colors.white,
+          width: 1.24,
+        ),
+
+
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(9.12),
+        ),
+
+
+        minimumSize: Size.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        elevation: 0, 
+      ),
+      child: const Text(
+        'View Track',
+        style: TextStyle(
+          fontSize: 13,
+          fontWeight: FontWeight.w600,
+          height: 1, // ✅ text center
+        ),
+      ),
+    ),
+  ),
+)
                 ],
               ),
             ),
@@ -351,4 +325,3 @@ class _OfficialCyclingTracksSectionState
     );
   }
 }
-

@@ -1,5 +1,6 @@
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/communities/models/community_model.dart';
+import 'package:adcc/features/communities/sections/explore_community_screen.dart';
 import 'package:adcc/shared/widgets/adaptive_image.dart';
 import 'package:adcc/shared/widgets/app_button.dart';
 import 'package:flutter/material.dart';
@@ -116,7 +117,7 @@ class _CommunitiesAwarenessState extends State<CommunitiesAwareness> {
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Text(
-                        "racing",
+                        categoryName,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 11,
@@ -232,8 +233,12 @@ class _CommunitiesAwarenessState extends State<CommunitiesAwareness> {
                       child: AppButton(
                         label: "Explore",
                         onPressed: () {
-                          // Handle explore community
-                          debugPrint('Explore ${community.title}');
+                          Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (_) => ExploreCommunityScreen(community: community),
+    ),
+  );
                         },
                         backgroundColor: AppColors.deepRed,
                         height: 34,
