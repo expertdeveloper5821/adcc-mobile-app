@@ -42,7 +42,7 @@ class RouteDetailsGridSection extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // ✅ Left 2x2
+                  
                     Column(
                       children: [
                         Row(
@@ -77,7 +77,7 @@ class RouteDetailsGridSection extends StatelessWidget {
 
                     const SizedBox(width: 12),
 
-                    // ✅ Right Tall Card
+                   
                     _RouteDetailTallCard(
                       label: entries.length > 4 ? entries[4].key : "Pace",
                       value: entries.length > 4 ? entries[4].value : "Beginner / Casual",
@@ -93,9 +93,6 @@ class RouteDetailsGridSection extends StatelessWidget {
   }
 }
 
-// =========================
-// ✅ Small Card (111x75)
-// =========================
 class _RouteDetailSmallCard extends StatelessWidget {
   final String label;
   final String value;
@@ -176,9 +173,7 @@ class _RouteDetailSmallCard extends StatelessWidget {
   }
 }
 
-// =========================
-// ✅ Tall Card (111x163)
-// =========================
+
 class _RouteDetailTallCard extends StatelessWidget {
   final String label;
   final String value;
@@ -192,7 +187,7 @@ class _RouteDetailTallCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 111,
-      height: 163, // ✅ figma exact
+      height: 163,
       child: Container(
         padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
         decoration: BoxDecoration(

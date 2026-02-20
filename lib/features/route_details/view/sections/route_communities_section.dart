@@ -46,7 +46,7 @@ class RouteCommunitiesSection extends StatelessWidget {
           const SizedBox(height: 12),
 
           SizedBox(
-            height: 273, // ✅ card height
+            height: 273, 
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
@@ -93,20 +93,20 @@ class CommunityCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 358, // ✅ figma width
-      height: 273, // ✅ figma height
+      width: 358, 
+      height: 273, 
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(11.59),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(11.59), // ✅ outer radius
+            borderRadius: BorderRadius.circular(11.59), 
             child: Container(
-              color: const Color(0xFFFFF3E2), // screenshot style bg
+              color: const Color(0xFFFFF3E2),
               child: Column(
                 children: [
-                  // ✅ Image (no top padding)
+                  
                   SizedBox(
                     width: 358,
                     height: 178.66,
@@ -114,7 +114,7 @@ class CommunityCard extends StatelessWidget {
                       children: [
                         Positioned.fill(
                           child: ClipRRect(
-                            // ✅ image radius
+                           
                             borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(10.46),
                               topRight: Radius.circular(10.46),
@@ -147,7 +147,6 @@ class CommunityCard extends StatelessWidget {
                     ),
                   ),
 
-                  // ✅ Bottom content (fixed, overflow safe)
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
@@ -182,7 +181,7 @@ class CommunityCard extends StatelessWidget {
                           Row(
                             children: [
                               Image.asset(
-                                "assets/icons/members.png", // ✅ replace icon
+                                "assets/icons/members.png", 
                                 width: 16,
                                 height: 16,
                                 fit: BoxFit.contain,

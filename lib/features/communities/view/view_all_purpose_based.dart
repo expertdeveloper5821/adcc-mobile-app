@@ -30,9 +30,7 @@ class _ViewAllPurposeCommunitiesScreenState
     "Corporate",
   ];
 
-  /// SAME LOGIC:
-  /// - Filter
-  /// - Agar empty aaya to fallback me list show karo
+
   List<CommunityModel> get filteredList {
     final all = widget.communities;
     if (all.isEmpty) return [];
@@ -80,7 +78,7 @@ class _ViewAllPurposeCommunitiesScreenState
 
     final filtered = all.where(matches).toList();
 
-    // 🔥 FIX: empty mat karo, fallback show karo
+
     if (filtered.isEmpty) return all;
 
     return filtered;

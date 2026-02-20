@@ -3,22 +3,22 @@ class CommunityModel {
   final String title;
   final String description;
 
-  /// Example: Club, Youth, group
+
   final String type;
 
-  /// Example: ["City Communities"], ["Group Communities"]
+
   final List<String> category;
 
-  /// From backend
+ 
   final String? location;
   final String? trackName;
   final String? terrain;
   final double? distance;
 
-  /// Image (backend gives base64 in "image")
+
   final String? imageUrl;
 
-  final bool? isJoined;
+ bool isJoined;
   final int? membersCount;
   final int? eventsCount;
 
@@ -33,7 +33,7 @@ class CommunityModel {
     this.terrain,
     this.distance,
     this.imageUrl,
-    this.isJoined,
+  this.isJoined = false,   
     this.membersCount,
     this.eventsCount,
   });
@@ -56,7 +56,10 @@ class CommunityModel {
       // image (base64)
       imageUrl: json['imageUrl'] ?? json['image'] ?? json['imagePath'],
 
-      isJoined: json['isJoined'] ?? json['joined'] ?? false,
+isJoined: (json['isJoined'] ??
+          json['joined'] ??
+          json['isMember'] ??
+          false) == true,
 
       // membersCount: backend has "memberCount"
       membersCount: _parseCount(

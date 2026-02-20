@@ -71,7 +71,7 @@ class _FacilityCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // ✅ Icon image
+          
           Image.asset(
             iconPath,
             width: 20,

@@ -10,7 +10,6 @@ class BannerWithSearch extends StatefulWidget {
   final ValueChanged<String>? onChangeHandler;
   final String? placeholder;
 
-  // ✅ Back button props
   final bool showBackButton;
   final VoidCallback? onBackTap;
 
@@ -24,7 +23,6 @@ class BannerWithSearch extends StatefulWidget {
     this.onChangeHandler,
     this.placeholder,
 
-    // ✅ default false
     this.showBackButton = false,
     this.onBackTap,
   });
@@ -103,7 +101,7 @@ class _BannerWithSearchState extends State<BannerWithSearch> {
             ),
           ),
 
-          // ✅ Back Button (Top Left)
+          
           if (widget.showBackButton)
             Positioned(
               top: 14,

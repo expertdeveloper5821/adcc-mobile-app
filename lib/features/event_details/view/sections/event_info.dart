@@ -23,7 +23,7 @@ class EventInfo extends StatelessWidget {
 
           const SizedBox(height: 10),
 
-          /// Main Box
+      
           Container(
             width: 358,
             height: 79,
@@ -31,7 +31,6 @@ class EventInfo extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white,
 
-              /// ✅ No outline border (as you said)
               borderRadius: BorderRadius.circular(12),
             ),
             child: Row(
@@ -83,7 +82,7 @@ class _JoinItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        /// ✅ Tick icon (image style)
+     
         Container(
           height: 18,
           width: 18,

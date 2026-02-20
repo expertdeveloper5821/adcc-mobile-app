@@ -18,11 +18,11 @@ class RouteHeaderSection extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(22),
         child: SizedBox(
-          height: 330, // screenshot ke close
+          height: 330, 
           width: double.infinity,
           child: Stack(
             children: [
-              // ✅ Background Image
+              
               Positioned.fill(
                 child: Image.asset(
                   imagePath,
@@ -41,7 +41,6 @@ class RouteHeaderSection extends StatelessWidget {
                 ),
               ),
 
-              // ✅ Optional subtle overlay (makes back button pop)
               Positioned.fill(
                 child: Container(
                   color: Colors.black.withValues(alpha: 0.03),
@@ -52,7 +51,7 @@ class RouteHeaderSection extends StatelessWidget {
   left: -35,
   bottom: -35,
   child: Image.asset(
-    'assets/images/frame_1.png', // ✅ your image path
+    'assets/images/frame_1.png', 
     width: 160,
     height: 160,
     fit: BoxFit.contain,
@@ -63,7 +62,7 @@ class RouteHeaderSection extends StatelessWidget {
 ),
 
 
-              // ✅ Back Button (white circle)
+           
               Positioned(
                 left: 14,
                 top: 14,

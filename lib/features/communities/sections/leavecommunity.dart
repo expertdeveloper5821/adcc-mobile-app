@@ -44,53 +44,20 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
 
     final reason = reasons[selectedReasonIndex];
     final feedback = feedbackController.text.trim();
-
     final communityId = widget.community.id;
 
-    debugPrint("");
-    debugPrint("=====================================");
-    debugPrint("🚪 [Leave Community] Button Pressed");
-    debugPrint("=====================================");
-
-    // ✅ Check Community ID
-    debugPrint("🆔 Community ID: $communityId");
-    if (communityId.isEmpty) {
-      debugPrint("❌ Community ID is EMPTY");
-    } else {
-      debugPrint("✅ Community ID FOUND");
-    }
-
-    // ✅ Reason + feedback
-    debugPrint("📌 Selected Reason: $reason");
-    debugPrint("📝 Feedback: ${feedback.isEmpty ? "EMPTY" : feedback}");
-
-    // 🔥 UPDATED: Token checks - Firebase token pe focus
     final firebaseToken = await TokenStorageService.getFirebaseToken();
     final backendToken = await TokenStorageService.getAccessToken();
     final refreshToken = await TokenStorageService.getRefreshToken();
 
-    debugPrint("");
-    debugPrint("🔐 [Token Debug - UPDATED]");
-    debugPrint("🔥 Firebase Token: ${firebaseToken == null ? "NULL" : "FOUND"}");
-    debugPrint("🔑 Backend Token: ${backendToken == null ? "NULL" : "FOUND"}");
-    debugPrint("🔁 Refresh Token: ${refreshToken == null ? "NULL" : "FOUND"}");
-
-    // Optional: Print token values (NOT recommended for production)
     if (firebaseToken != null) {
-      debugPrint("🔥 Firebase Token Value: ${firebaseToken.substring(0, 25)}...");
-      // 🔥 Check if it's actually a Firebase token (starts with eyJhbGciOiJSUzI1Ni)
-      final isFirebaseToken = firebaseToken.startsWith('eyJhbGciOiJSUzI1Ni');
-      debugPrint("🔥 Is Actually Firebase Token: $isFirebaseToken");
-    }
-    if (backendToken != null) {
-      debugPrint("🔑 Backend Token Value: ${backendToken.substring(0, 25)}...");
+      firebaseToken.substring(0, 25);
+      firebaseToken.startsWith('eyJhbGciOiJSUzI1Ni');
     }
 
-    debugPrint("");
-    debugPrint("🚪 [Leave Community] API Call Start...");
-    debugPrint("➡️ communityId: $communityId");
-    debugPrint("➡️ reason: $reason");
-    debugPrint("➡️ feedback: ${feedback.isEmpty ? null : feedback}");
+    if (backendToken != null) {
+      backendToken.substring(0, 25);
+    }
 
     final res = await _communitiesService.leaveCommunity(
       communityId: communityId,
@@ -98,28 +65,19 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
       feedback: feedback.isEmpty ? null : feedback,
     );
 
-    debugPrint("");
-    debugPrint("📦 [Leave Community] API Final Result");
-    debugPrint("✅ success: ${res.success}");
-    debugPrint("📩 message: ${res.message}");
-    debugPrint("🔢 statusCode: ${res.statusCode}");
-    debugPrint("📦 data: ${res.data}");
-    debugPrint("=====================================");
-    debugPrint("");
-
     setState(() => isLoading = false);
 
     if (!mounted) return;
 
     if (res.success) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Community left successfully ✅")),
+        const SnackBar(content: Text("Community left successfully ")),
       );
       Navigator.pop(context, true);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(res.message ?? "Failed to leave community ❌"),
+          content: Text(res.message ?? "Failed to leave community "),
         ),
       );
     }
@@ -153,9 +111,7 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 18),
-
               Stack(
                 alignment: Alignment.center,
                 children: [
@@ -181,9 +137,7 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
                   ),
                 ],
               ),
-
               const SizedBox(height: 16),
-
               const Text(
                 "Leave Community",
                 textAlign: TextAlign.center,
@@ -194,9 +148,7 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
                   height: 1.15,
                 ),
               ),
-
               const SizedBox(height: 10),
-
               const Text(
                 "We're sorry to see you go.\nYour feedback helps us improve.",
                 textAlign: TextAlign.center,
@@ -207,9 +159,7 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
                   height: 1.35,
                 ),
               ),
-
               const SizedBox(height: 18),
-
               Expanded(
                 child: ListView(
                   physics: const BouncingScrollPhysics(),
@@ -223,7 +173,6 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
                       ),
                     ),
                     const SizedBox(height: 12),
-
                     ...List.generate(reasons.length, (index) {
                       final isSelected = selectedReasonIndex == index;
 
@@ -238,9 +187,7 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
                         ),
                       );
                     }),
-
                     const SizedBox(height: 18),
-
                     const Text(
                       "Additional Feedback",
                       style: TextStyle(
@@ -249,9 +196,7 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
                         color: Colors.black,
                       ),
                     ),
-
                     const SizedBox(height: 10),
-
                     Container(
                       height: 110,
                       padding: const EdgeInsets.symmetric(
@@ -285,9 +230,7 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
                   ],
                 ),
               ),
-
               const SizedBox(height: 16),
-
               AppButton(
                 label: isLoading ? "Leaving..." : "Leave Community",
                 onPressed: isLoading ? null : _leaveCommunity,

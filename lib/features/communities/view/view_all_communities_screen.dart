@@ -1,4 +1,3 @@
-import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/communities/models/community_model.dart';
 import 'package:adcc/features/communities/sections/community_list_card.dart';
 import 'package:adcc/features/communities/sections/community_type_details.dart';
@@ -87,18 +86,12 @@ class _ViewAllCommunitiesScreenState extends State<ViewAllCommunitiesScreen> {
         break;
 
       case CommunitySortType.upcomingEvents:
-        // Upcoming Events => max eventsCount (same as active for now)
+
         list.sort((a, b) => (b.eventsCount ?? 0).compareTo(a.eventsCount ?? 0));
         break;
 
       case CommunitySortType.recentlyCreated:
-        // If you have createdAt field, use it
-        // Otherwise fallback: no sorting
-        // Example (if exists):
-        // list.sort((a, b) => (b.createdAt ?? DateTime(2000))
-        //     .compareTo(a.createdAt ?? DateTime(2000)));
-
-        // Fallback: keep original order
+ 
         break;
     }
 
@@ -125,14 +118,14 @@ class _ViewAllCommunitiesScreenState extends State<ViewAllCommunitiesScreen> {
               ),
             ),
 
-            /// Content
+     
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
                   const SizedBox(height: 24),
 
-                  /// Filter Pills
+              
                   CategorySelector(
                     categories: filterPills,
                     selectedIndex: selectedIndex,
@@ -145,7 +138,7 @@ class _ViewAllCommunitiesScreenState extends State<ViewAllCommunitiesScreen> {
 
                   const SizedBox(height: 24),
 
-                  /// Count + Sort Dropdown
+
                   _buildHeader(),
 
                   const SizedBox(height: 16),
@@ -161,7 +154,6 @@ class _ViewAllCommunitiesScreenState extends State<ViewAllCommunitiesScreen> {
     );
   }
 
-  // ---------------- Count + Sort ----------------
 
   Widget _buildHeader() {
     return Row(
@@ -256,7 +248,7 @@ class _ViewAllCommunitiesScreenState extends State<ViewAllCommunitiesScreen> {
     );
   }
 
-  // ---------------- List ----------------
+
 
   Widget _buildList() {
     if (filteredList.isEmpty) {

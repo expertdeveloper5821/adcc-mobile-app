@@ -30,7 +30,7 @@ class CommunityListCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                /// ---------------- IMAGE ----------------
+
                 SizedBox(
                   width: 358,
                   height: 178.6592,
@@ -54,7 +54,7 @@ class CommunityListCard extends StatelessWidget {
                         ),
                       ),
 
-                      /// Tag (top-left)
+                    
                       Positioned(
                         left: 12,
                         top: 12,
@@ -83,7 +83,7 @@ class CommunityListCard extends StatelessWidget {
                   ),
                 ),
 
-                /// ---------------- CONTENT ----------------
+
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(14, 10, 14, 10),
@@ -105,7 +105,7 @@ class CommunityListCard extends StatelessWidget {
 
                         const SizedBox(height: 4),
 
-                        /// Subtitle
+               
                         Text(
                           community.description,
                           maxLines: 2,
@@ -120,7 +120,7 @@ class CommunityListCard extends StatelessWidget {
 
                         const Spacer(),
 
-                        /// Bottom Stats Row
+
                         Row(
                           children: [
                             Icon(
@@ -163,7 +163,7 @@ class CommunityListCard extends StatelessWidget {
 
                             const Spacer(),
 
-                            /// Avatars + count
+
                             const _AvatarStack(countText: "+456"),
                           ],
                         ),
@@ -180,9 +180,6 @@ class CommunityListCard extends StatelessWidget {
   }
 }
 
-/// ----------------------------------------------------------------
-/// Avatar Stack Widget
-/// ----------------------------------------------------------------
 class _AvatarStack extends StatelessWidget {
   final String countText;
 

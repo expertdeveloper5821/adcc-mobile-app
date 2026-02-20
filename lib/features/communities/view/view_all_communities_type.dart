@@ -79,7 +79,6 @@ class _CommunityTypeScreenState extends State<CommunityTypeScreen> {
 
     final filtered = all.where(matches).toList();
 
-    /// 🔥 MAIN FIX: agar empty aa raha hai to bhi UI me list dikhao
     if (filtered.isEmpty) {
       return all.take(6).toList();
     }
@@ -129,7 +128,6 @@ class _CommunityTypeScreenState extends State<CommunityTypeScreen> {
 
             const SizedBox(height: 18),
 
-            /// SAME CARD LIKE VIEW ALL
             ...List.generate(list.length, (index) {
               final c = list[index];
 

@@ -33,16 +33,16 @@ class _AuthWrapperState extends State<AuthWrapper> {
           '🔐 [AuthWrapper] Token exists: ${token != null && token.isNotEmpty}');
 
       if (token != null && token.isNotEmpty) {
-        debugPrint('✅ [AuthWrapper] Token found, checking if expired...');
+     
         final isExpired = await TokenStorageService.isTokenExpired();
 
         if (isExpired) {
-          debugPrint('⚠️ [AuthWrapper] Token is expired, clearing tokens...');
+    
           await TokenStorageService.clearTokens();
           debugPrint(
               '🔓 [AuthWrapper] User is NOT authenticated (token expired)');
         } else {
-          debugPrint('✅ [AuthWrapper] Token is valid, user is authenticated');
+        
         }
 
         final isAuthenticated = !isExpired;
@@ -68,7 +68,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
         }
       }
     } catch (e) {
-      debugPrint('❌ [AuthWrapper] Error checking auth status: $e');
+  
       // On error, assume not authenticated for security
       if (mounted) {
         setState(() {
@@ -93,11 +93,11 @@ class _AuthWrapperState extends State<AuthWrapper> {
     // Route to home if authenticated, otherwise to onboarding
     // This check happens every time the app starts
     if (_isAuthenticated) {
-      debugPrint('✅ [AuthWrapper] User authenticated - showing HomeScreen');
+     
       return const HomeScreen();
     } else {
       debugPrint(
-          '🔓 [AuthWrapper] User not authenticated - showing OnboardingScreen');
+          ' [AuthWrapper] User not authenticated - showing OnboardingScreen');
       return const OnboardingScreen();
     }
   }

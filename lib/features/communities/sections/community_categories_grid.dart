@@ -36,13 +36,13 @@ class CommunityCategoriesGrid extends StatelessWidget {
     if (t.contains("mtb") || t.contains("trail")) return 'assets/images/mtb-ride.png';
     if (t.contains("training") || t.contains("clinic")) return 'assets/images/mtb-ride.png';
 
-    // default
+    
     return 'assets/images/mtb-ride.png';
   }
 
   @override
   Widget build(BuildContext context) {
-    // Convert backend types into UI categories
+
     final categories = types.map((t) {
       return CommunityCategory(
         title: t,

@@ -35,8 +35,7 @@ class _RoutePreviewSectionState extends State<RoutePreviewSection> {
       const LatLng(24.4812, 54.3519); // Abu Dhabi default
 
   void _onDistanceCalculated(double distance) {
-    // Distance is calculated and displayed in the map widget
-    // This callback can be used for additional features if needed
+    
   }
 
   @override

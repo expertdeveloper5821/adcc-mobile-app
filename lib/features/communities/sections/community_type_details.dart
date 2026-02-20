@@ -2,6 +2,7 @@ import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/communities/models/community_model.dart';
 import 'package:adcc/features/communities/sections/community_highlight_track_card.dart';
 import 'package:adcc/features/communities/sections/join_community_screen.dart';
+import 'package:adcc/features/communities/sections/leavecommunity.dart';
 import 'package:adcc/features/communities/services/communities_service.dart';
 import 'package:adcc/shared/widgets/app_button.dart';
 import 'package:adcc/shared/widgets/banner_header.dart';
@@ -21,9 +22,10 @@ class CommunityCityDetails extends StatefulWidget {
 
 class _CommunityCityDetailsState extends State<CommunityCityDetails> {
   int selectedTabIndex = 0;
-
-  bool joined = false;   // ✅ NOT final
   bool isLoading = false;
+  
+  //  Local variable to track join status
+  late bool _isJoined;
 
   final CommunitiesService _communitiesService = CommunitiesService();
 
@@ -35,16 +37,25 @@ class _CommunityCityDetailsState extends State<CommunityCityDetails> {
   ];
 
   @override
-void initState() {
-  super.initState();
-  joined = widget.community.isJoined ?? false;
-}
+  void initState() {
+    super.initState();
+    //  Initialize from community model
+    _isJoined = widget.community.isJoined;
+  }
+
+  //  Method to refresh community data
+  Future<void> _refreshCommunityData() async {
+    // You can optionally fetch fresh data from API here
+    setState(() {
+      _isJoined = widget.community.isJoined;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final c = widget.community;
 
     final title = c.title.trim().isEmpty ? "Community" : c.title.trim();
-
     final description = c.description.trim().isEmpty
         ? "A friendly community for families and leisure riders.\n\nFocused on safe group riding, cycling education for kids, and weekend outdoor activities."
         : c.description.trim();
@@ -56,8 +67,6 @@ void initState() {
     final members = c.membersCount ?? 0;
     final events = c.eventsCount ?? 0;
 
-
-
     return Scaffold(
       backgroundColor: const Color(0xFFF8F5EF),
       body: SafeArea(
@@ -65,7 +74,7 @@ void initState() {
           physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.fromLTRB(16, 14, 16, 18),
           children: [
-             // TOP BANNER IMAGE
+            // TOP BANNER IMAGE
             BannerHeadder(
               imagePath: 'assets/images/cycling_1.png',
               title: " ",
@@ -151,65 +160,108 @@ void initState() {
             _TabContent(selectedTabIndex: selectedTabIndex),
 
             const SizedBox(height: 18),
-AppButton(
-  label: isLoading
-      ? "Please wait..."
-      : (joined ? "Leave Community" : "Join Community"),
-  onPressed: isLoading
-      ? null
-      : () async {
-          final c = widget.community;
-          final service = CommunitiesService();
 
-          if (!joined) {
-            setState(() => isLoading = true);
-
-            final result = await service.joinCommunity(
-              communityId: c.id,
-            );
-
-            setState(() => isLoading = false);
-
-     if (result.success) {
-  setState(() => joined = true);
-
-  await Future.delayed(const Duration(milliseconds: 300));
-
-  if (!context.mounted) return;
-
-  Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(
-      builder: (_) => JoinCommunity(community: c),
-    ),
-  );
-
-
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(result.message ?? "Join failed")),
-              );
-            }
-          } else {
-            // Leave screen ya leave api call tum already bana chuke ho
-            // yaha tum leave flow call kar sakte ho
-          }
-        },
-  type: joined ? AppButtonType.danger : AppButtonType.primary,
-  backgroundColor: const Color(0xFFB11212),
-  textColor: Colors.white,
-  borderRadius: 16,
-  height: 52,
-),
-
-
+            //  JOIN/LEAVE BUTTON with proper state management
+            AppButton(
+              label: isLoading
+                  ? "Please wait..."
+                  : (_isJoined ? "Leave Community" : "Join Community"),
+              onPressed: isLoading ? null : _handleJoinLeave,
+              type: _isJoined ? AppButtonType.danger : AppButtonType.primary,
+              backgroundColor: const Color(0xFFB11212),
+              textColor: Colors.white,
+              borderRadius: 16,
+              height: 52,
+            ),
           ],
         ),
       ),
     );
   }
+
+  //  Separate method to handle join/leave logic
+  Future<void> _handleJoinLeave() async {
+    if (!_isJoined) {
+      // JOIN COMMUNITY
+      setState(() => isLoading = true);
+
+      final result = await _communitiesService.joinCommunity(
+        communityId: widget.community.id,
+      );
+
+      setState(() => isLoading = false);
+
+      if (!mounted) return;
+
+      if (result.success) {
+        // Update local state
+        setState(() {
+          _isJoined = true;
+          widget.community.isJoined = true;
+        });
+
+        // Show success message
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Community joined successfully! 🎉"),
+            backgroundColor: Colors.green,
+          ),
+        );
+
+        // Navigate to JoinCommunity screen WITHOUT replacing
+        // This ensures when we come back, state is preserved
+        final shouldRefresh = await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => JoinCommunity(
+              community: widget.community,
+            ),
+          ),
+        );
+
+        // If JoinCommunity returns true, refresh data
+        if (shouldRefresh == true && mounted) {
+          _refreshCommunityData();
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(result.message ?? "Join failed ❌"),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } else {
+      // LEAVE COMMUNITY
+      final result = await Navigator.push<bool>(
+        context,
+        MaterialPageRoute(
+          builder: (_) => LeaveCommunity(
+            community: widget.community,
+          ),
+        ),
+      );
+
+      if (result == true && mounted) {
+        // Update local state
+        setState(() {
+          _isJoined = false;
+          widget.community.isJoined = false;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Community left successfully "),
+            backgroundColor: Colors.orange,
+          ),
+        );
+      }
+    }
+  }
 }
 
+// Rest of the widgets remain the same...
 class _ShareBadge extends StatelessWidget {
   final VoidCallback onTap;
 
@@ -226,7 +278,6 @@ class _ShareBadge extends StatelessWidget {
             "assets/icons/share.png",
             height: 25,
             width: 25,
-            // color: AppColors.brand_green, // agar png white ho
           ),
           const SizedBox(width: 6),
         ],
@@ -254,58 +305,57 @@ class _InfoGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   Widget tile({
-  required String iconPath,
-  required String label,
-  required String value,
-}) {
-  return Container(
-    padding: const EdgeInsets.all(14),
-    decoration: BoxDecoration(
-      color: const Color(0xFFF5EDE0),
-      borderRadius: BorderRadius.circular(16),
-    ),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Image.asset(
-          iconPath,
-          height: 18,
-          width: 18,
-          color: AppColors.goldenOchre, // agar icon single color hai
+    Widget tile({
+      required String iconPath,
+      required String label,
+      required String value,
+    }) {
+      return Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF5EDE0),
+          borderRadius: BorderRadius.circular(16),
         ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF6B6B6B),
-                ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.asset(
+              iconPath,
+              height: 18,
+              width: 18,
+              color: AppColors.goldenOchre,
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFF6B6B6B),
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    value,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 4),
-              Text(
-                value,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.black,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
-      ],
-    ),
-  );
-}
-
+      );
+    }
 
     return GridView.count(
       crossAxisCount: 2,
@@ -314,46 +364,42 @@ class _InfoGrid extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       childAspectRatio: 1.55,
-    children: [
-  tile(
-    iconPath: "assets/icons/city.png",
-    label: "City",
-    value: city,
-  ),
-  tile(
-    iconPath: "assets/icons/category.png",
-    label: "Category",
-    value: category,
-  ),
-  tile(
-    iconPath: "assets/icons/primary_tracks.png",
-    label: "Primary Track",
-    value: primaryTrack,
-  ),
-  tile(
-    iconPath: "assets/icons/founded.png",
-    label: "Founded",
-    value: founded,
-  ),
-  tile(
-    iconPath: "assets/icons/upcoming_events.png",
-    label: "Upcoming Events",
-    value: upcomingEvents,
-  ),
-  tile(
-    iconPath: "assets/icons/members.png",
-    label: "Members",
-    value: members,
-  ),
-],
-
+      children: [
+        tile(
+          iconPath: "assets/icons/city.png",
+          label: "City",
+          value: city,
+        ),
+        tile(
+          iconPath: "assets/icons/category.png",
+          label: "Category",
+          value: category,
+        ),
+        tile(
+          iconPath: "assets/icons/primary_tracks.png",
+          label: "Primary Track",
+          value: primaryTrack,
+        ),
+        tile(
+          iconPath: "assets/icons/founded.png",
+          label: "Founded",
+          value: founded,
+        ),
+        tile(
+          iconPath: "assets/icons/upcoming_events.png",
+          label: "Upcoming Events",
+          value: upcomingEvents,
+        ),
+        tile(
+          iconPath: "assets/icons/members.png",
+          label: "Members",
+          value: members,
+        ),
+      ],
     );
   }
 }
 
-/// ------------------------------------------------------------
-/// HIGHLIGHTS
-/// ------------------------------------------------------------
 class _HighlightsCard extends StatelessWidget {
   const _HighlightsCard();
 
@@ -420,6 +466,7 @@ class _HighlightsCard extends StatelessWidget {
     );
   }
 }
+
 class _TabsRow extends StatelessWidget {
   final List<String> tabs;
   final int selectedIndex;
@@ -447,25 +494,16 @@ class _TabsRow extends StatelessWidget {
             onTap: () => onTap(index),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 180),
-
-              /// ✅ Fixed width + height
               width: 72,
               height: 38,
-
-              /// ✅ Exact padding
               padding: const EdgeInsets.fromLTRB(15, 9, 15, 9),
-
               decoration: BoxDecoration(
                 color: isSelected
                     ? AppColors.goldenOchre
                     : const Color(0xFFF1F2F4),
-
-                /// ✅ Radius 12px
                 borderRadius: BorderRadius.circular(12),
               ),
-
               alignment: Alignment.center,
-
               child: Text(
                 tabs[index],
                 maxLines: 1,
@@ -519,9 +557,6 @@ class _TabContent extends StatelessWidget {
   }
 }
 
-/// ------------------------------------------------------------
-/// HORIZONTAL CARDS
-/// ------------------------------------------------------------
 class _HorizontalCards extends StatelessWidget {
   final String title;
   final String subtitle;
@@ -533,23 +568,22 @@ class _HorizontalCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  return SizedBox(
-  height: 250,
-  child: ListView.separated(
-    scrollDirection: Axis.horizontal,
-    physics: const BouncingScrollPhysics(),
-    itemCount: 4,
-    separatorBuilder: (_, __) => const SizedBox(width: 14),
-    itemBuilder: (context, index) {
-      return CommunityHighlightTrackCard(
-        imagePath: "assets/images/cycling_1.png",
-        title: title,
-        subtitle: subtitle,
-        onTap: () {},
-      );
-    },
-  ),
-);
-
+    return SizedBox(
+      height: 250,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
+        itemCount: 4,
+        separatorBuilder: (_, __) => const SizedBox(width: 14),
+        itemBuilder: (context, index) {
+          return CommunityHighlightTrackCard(
+            imagePath: "assets/images/cycling_1.png",
+            title: title,
+            subtitle: subtitle,
+            onTap: () {},
+          );
+        },
+      ),
+    );
   }
 }

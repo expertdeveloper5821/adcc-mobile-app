@@ -34,7 +34,7 @@ class CommunityHighlightTrackCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                /// IMAGE (NO TOP PADDING)
+
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10.4581),
                   child: Image.asset(
@@ -45,13 +45,12 @@ class CommunityHighlightTrackCard extends StatelessWidget {
                   ),
                 ),
 
-                /// CONTENT PADDING (only for text)
                 Padding(
                   padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      /// TITLE
+                
                       Text(
                         title,
                         maxLines: 1,
@@ -65,7 +64,7 @@ class CommunityHighlightTrackCard extends StatelessWidget {
 
                       const SizedBox(height: 7.7248),
 
-                      /// SUBTITLE
+              
                       Text(
                         subtitle,
                         maxLines: 1,

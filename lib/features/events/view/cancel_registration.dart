@@ -46,7 +46,7 @@ class _CancelRegistrationScreenState extends State<CancelRegistrationScreen> {
     if (!mounted) return;
 
     if (result.success) {
-      // 🔥 Success -> pop with true
+     
       Navigator.pop(context, true);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

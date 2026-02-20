@@ -63,11 +63,11 @@ class _CommunitiesAwarenessState extends State<CommunitiesAwareness> {
   Widget _buildCommunityCard({
     required CommunityModel community,
   }) {
-    // Get category name for tag (use first category or default)
+
     final categoryName =
         community.category.isNotEmpty ? community.category.first : 'Community';
 
-    // Format members and events count
+
     final membersCount = community.membersCount ?? 0;
     final eventsCount = community.eventsCount ?? 0;
     final formattedMembers = _formatNumber(membersCount);
@@ -75,7 +75,7 @@ class _CommunitiesAwarenessState extends State<CommunitiesAwareness> {
 
     return GestureDetector(
       onTap: () {
-        // Handle community tap
+      
         debugPrint('Tapped on ${community.title}');
       },
       child: Container(
@@ -87,7 +87,7 @@ class _CommunitiesAwarenessState extends State<CommunitiesAwareness> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image with category tag overlay
+
             ClipRRect(
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16),
@@ -103,7 +103,7 @@ class _CommunitiesAwarenessState extends State<CommunitiesAwareness> {
                     fit: BoxFit.cover,
                     placeholderColor: AppColors.softCream,
                   ),
-                  // Category tag overlay
+
                   Positioned(
                     top: 12,
                     left: 12,
@@ -129,7 +129,7 @@ class _CommunitiesAwarenessState extends State<CommunitiesAwareness> {
                 ],
               ),
             ),
-            // Content section
+
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(12),
@@ -153,11 +153,11 @@ class _CommunitiesAwarenessState extends State<CommunitiesAwareness> {
                             overflow: TextOverflow.ellipsis,
                           ),
                           const SizedBox(height: 10),
-                          // Statistics row
+                
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              // Members count
+                    
                               Flexible(
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
@@ -184,7 +184,7 @@ class _CommunitiesAwarenessState extends State<CommunitiesAwareness> {
                                 ),
                               ),
                               const SizedBox(width: 8),
-                              // Events count
+                
                               Flexible(
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
@@ -213,7 +213,7 @@ class _CommunitiesAwarenessState extends State<CommunitiesAwareness> {
                             ],
                           ),
                           const SizedBox(height: 10),
-                          // Description
+                     
                           Text(
                             community.description,
                             style: TextStyle(
@@ -227,7 +227,7 @@ class _CommunitiesAwarenessState extends State<CommunitiesAwareness> {
                         ],
                       ),
                     ),
-                    // Explore button
+                  
                     Padding(
                       padding: const EdgeInsets.only(top: 8),
                       child: AppButton(

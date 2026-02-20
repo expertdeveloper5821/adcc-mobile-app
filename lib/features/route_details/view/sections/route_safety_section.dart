@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
 
 class RouteSafetySection extends StatelessWidget {
   final String safetyMessage;
@@ -20,7 +19,7 @@ class RouteSafetySection extends StatelessWidget {
         height: 136,
         padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
         decoration: BoxDecoration(
-          color: const Color(0xFFC12D32), // ✅ screenshot red
+          color: const Color(0xFFC12D32), 
           borderRadius: BorderRadius.circular(11.59),
         ),
         child: Column(

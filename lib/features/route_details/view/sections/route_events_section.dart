@@ -1,81 +1,75 @@
+import 'package:adcc/core/theme/app_colors.dart';
+import 'package:adcc/features/routes/Models/event_model.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
+import 'package:intl/intl.dart';
+import 'dart:convert';
+
 
 class RouteEventsSection extends StatelessWidget {
-  final List<Map<String, dynamic>> events;
+  final List<EventModel> events;
 
-  const RouteEventsSection({
-    super.key,
-    required this.events,
-  });
+  const RouteEventsSection({super.key, required this.events});
+
+  String _formatEventDate(DateTime date) {
+    final now = DateTime.now();
+    final tomorrow = DateTime(now.year, now.month, now.day + 1);
+    final eventDate = DateTime(date.year, date.month, date.day);
+
+    if (eventDate == DateTime(now.year, now.month, now.day)) return "Today";
+    if (eventDate == tomorrow) return "Tomorrow";
+    return DateFormat('EEE, MMM d').format(date);
+  }
+
+  String _getStatusText(String status) {
+    switch (status.toLowerCase()) {
+      case 'upcoming': return 'Open';
+      case 'ongoing': return 'Live';
+      case 'completed': return 'Completed';
+      case 'cancelled': return 'Cancelled';
+      default: return status;
+    }
+  }
+
+  Color _getStatusColor(String status) {
+    switch (status.toLowerCase()) {
+      case 'upcoming': return const Color(0xFF328700);
+      case 'ongoing': return AppColors.deepRed;
+      case 'completed': return Colors.grey;
+      case 'cancelled': return Colors.red;
+      default: return const Color(0xFF328700);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> data = events.isNotEmpty
-        ? events
-        : [
-            {
-              "image": "assets/images/cycling_1.png",
-              "featured": true,
-              "status": "Registered",
-              "title": "Bike Abu Dhabi Gran Fondo 2025",
-              "frequency": "Every Sunday",
-              "location": "Abu Dhabi",
-              "distance": "150 km",
-            },
-            {
-              "image": "assets/images/cycling_1.png",
-              "featured": false,
-              "status": "Open",
-              "title": "Hudayriyat Community Ride",
-              "frequency": "Friday",
-              "location": "Abu Dhabi",
-              "distance": "35 km",
-            },
-            {
-              "image": "assets/images/cycling_1.png",
-              "featured": true,
-              "status": "Registered",
-              "title": "Night Ride at Yas Marina",
-              "frequency": "Tomorrow",
-              "location": "Abu Dhabi",
-              "distance": "18 km",
-            },
-          ];
+    if (events.isEmpty) return const SizedBox.shrink();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Events on this track",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: AppColors.textDark,
-            ),
-          ),
+          const Text("Events on this track", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: AppColors.textDark)),
           const SizedBox(height: 12),
-
           SizedBox(
             height: 210,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
-              itemCount: data.length,
+              itemCount: events.length,
               separatorBuilder: (_, __) => const SizedBox(width: 14),
               itemBuilder: (context, index) {
-                final e = data[index];
-
+                final event = events[index];
+                final isFeatured = event.category.toLowerCase().contains('featured') || event.rank <= 3;
                 return _EventCard(
-                  imagePath: e["image"] as String,
-                  title: e["title"] as String,
-                  status: e["status"] as String,
-                  frequency: e["frequency"] as String,
-                  location: e["location"] as String,
-                  distance: e["distance"] as String,
-                  featured: e["featured"] as bool? ?? false,
+                  imageUrl: event.mainImage.isNotEmpty ? event.mainImage : event.eventImage,
+                  title: event.title,
+                  status: _getStatusText(event.status),
+                  statusColor: _getStatusColor(event.status),
+                  frequency: _formatEventDate(event.eventDate),
+                  location: event.address.split(',').first,
+                  distance: "${event.distance} km",
+                  featured: isFeatured,
                   onShareTap: () {},
                   onTap: () {},
                 );
@@ -89,21 +83,22 @@ class RouteEventsSection extends StatelessWidget {
 }
 
 class _EventCard extends StatelessWidget {
-  final String imagePath;
+  final String imageUrl;
   final String title;
   final String status;
+  final Color statusColor;
   final String frequency;
   final String location;
   final String distance;
   final bool featured;
-
   final VoidCallback onTap;
   final VoidCallback onShareTap;
 
   const _EventCard({
-    required this.imagePath,
+    required this.imageUrl,
     required this.title,
     required this.status,
+    required this.statusColor,
     required this.frequency,
     required this.location,
     required this.distance,
@@ -116,6 +111,7 @@ class _EventCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 310,
+      height: 210,
       child: Material(
         color: Colors.transparent,
         child: InkWell(
@@ -125,33 +121,10 @@ class _EventCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             child: Stack(
               children: [
-                // Background Image
-                Positioned.fill(
-                  child: Image.asset(
-                    imagePath,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) {
-                      return Container(color: AppColors.softCream);
-                    },
-                  ),
-                ),
-
-                // Overlay
-                Positioned.fill(
-                  child: Container(
-                    color: Colors.black.withValues(alpha: 0.12),
-                  ),
-                ),
-
-                // Featured chip
+                Positioned.fill(child: _buildImage()),
+                Positioned.fill(child: Container(color: Colors.black.withValues(alpha: 0.12))),
                 if (featured)
-                  const Positioned(
-                    top: 12,
-                    left: 12,
-                    child: _MiniChip(text: "Featured"),
-                  ),
-
-                // Share button (image)
+                  const Positioned(top: 12, left: 12, child: _MiniChip(text: "Featured", isFeatured: true)),
                 Positioned(
                   top: 12,
                   right: 12,
@@ -161,123 +134,39 @@ class _EventCard extends StatelessWidget {
                     child: InkWell(
                       customBorder: const CircleBorder(),
                       onTap: onShareTap,
-                      child: SizedBox(
-                        width: 34,
-                        height: 34,
-                        child: Center(
-                          child: Image.asset(
-                            "assets/icons/share.png",
-                            width: 18,
-                            height: 18,
-                            fit: BoxFit.contain,
-                            errorBuilder: (_, __, ___) {
-                              return const Icon(
-                                Icons.share,
-                                color: Colors.white,
-                                size: 18,
-                              );
-                            },
-                          ),
+                      child: Center(
+                        child: Image.asset(
+                          "assets/icons/share.png",
+                          width: 25,
+                          height: 25,
+                          errorBuilder: (_, __, ___) => const Icon(Icons.share, color: Colors.white, size: 18),
                         ),
                       ),
                     ),
                   ),
                 ),
-
-                // Bottom info card
                 Positioned(
                   left: 10,
                   right: 10,
                   bottom: 10,
                   child: Container(
                     padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(14),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.08),
-                          blurRadius: 16,
-                          offset: const Offset(0, 8),
-                        ),
-                      ],
-                    ),
+                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(14)),
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Status chip
-                        _MiniChip(text: status),
-
+                        _MiniChip(text: status, statusColor: statusColor, isRegistered: status.toLowerCase() == 'open'),
                         const SizedBox(height: 6),
-
-                        Text(
-                          title,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.textDark,
-                          ),
-                        ),
-
+                        Text(title, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.textDark)),
                         const SizedBox(height: 8),
-
-                        // Meta row (icons -> image)
                         Row(
                           children: [
-                            const _AssetMetaIcon(
-                              iconPath: "assets/icons/lighting.png",
-                            ),
-                            const SizedBox(width: 6),
-                            Flexible(
-                              child: Text(
-                                frequency,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.textSecondary,
-                                ),
-                              ),
-                            ),
-
+                            _buildMetaItem("assets/icons/lighting.png", frequency),
                             const SizedBox(width: 12),
-
-                            const _AssetMetaIcon(
-                              iconPath: "assets/icons/location.png",
-                            ),
-                            const SizedBox(width: 6),
-                            Flexible(
-                              child: Text(
-                                location,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.textSecondary,
-                                ),
-                              ),
-                            ),
-
+                            _buildMetaItem("assets/icons/water_statoins.png", location),
                             const SizedBox(width: 12),
-
-                            const _AssetMetaIcon(
-                              iconPath: "assets/icons/km.png",
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              distance,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.textSecondary,
-                              ),
-                            ),
+                            _buildMetaItem("assets/icons/restrooms.png", distance),
                           ],
                         ),
                       ],
@@ -291,76 +180,76 @@ class _EventCard extends StatelessWidget {
       ),
     );
   }
-}
 
-/// ✅ Asset icon for meta row
-class _AssetMetaIcon extends StatelessWidget {
-  final String iconPath;
+  Widget _buildMetaItem(String iconPath, String text) {
+    return Expanded(
+      child: Row(
+        children: [
+          Image.asset(iconPath, width: 14, height: 14, errorBuilder: (_, __, ___) => const SizedBox(width: 14, height: 14)),
+          const SizedBox(width: 6),
+          Expanded(child: Text(text, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.textSecondary))),
+        ],
+      ),
+    );
+  }
 
-  const _AssetMetaIcon({
-    required this.iconPath,
-  });
+  Widget _buildImage() {
+    if (imageUrl.isEmpty) return _buildPlaceholder();
 
-  @override
-  Widget build(BuildContext context) {
-    return Image.asset(
-      iconPath,
-      width: 14,
-      height: 14,
-      fit: BoxFit.contain,
-      errorBuilder: (_, __, ___) {
-        return const SizedBox(width: 14, height: 14);
-      },
+    if (imageUrl.startsWith('data:image')) {
+      try {
+        final base64Data = imageUrl.contains('base64,') ? imageUrl.split('base64,').last : imageUrl;
+        final bytes = base64Decode(base64Data);
+        return Image.memory(bytes, fit: BoxFit.cover, errorBuilder: (_, __, ___) => _buildPlaceholder());
+      } catch (e) {
+        return _buildPlaceholder();
+      }
+    }
+
+    if (imageUrl.startsWith('http')) {
+      return Image.network(imageUrl, fit: BoxFit.cover, errorBuilder: (_, __, ___) => _buildPlaceholder());
+    }
+
+    return Image.asset(imageUrl, fit: BoxFit.cover, errorBuilder: (_, __, ___) => _buildPlaceholder());
+  }
+
+  Widget _buildPlaceholder() {
+    return Container(
+      color: AppColors.softCream,
+      child: const Center(child: Icon(Icons.event, size: 40, color: Colors.grey)),
     );
   }
 }
 
 class _MiniChip extends StatelessWidget {
   final String text;
+  final Color? statusColor;
+  final bool isRegistered;
+  final bool isFeatured;
 
-  const _MiniChip({
-    required this.text,
-  });
-
-  bool get _isRegistered => text.toLowerCase().contains("registered");
-
-  bool get _isFeatured => text.toLowerCase().contains("featured");
+  const _MiniChip({required this.text, this.statusColor, this.isRegistered = false, this.isFeatured = false});
 
   @override
   Widget build(BuildContext context) {
-    // Registered (Screenshot style)
-    final Color bg = _isRegistered
-        ? const Color(0xFF3EE606).withValues(alpha: 0.33)
-        : _isFeatured
-            ? AppColors.deepRed
-            : const Color(0xFF328700);
+    final Color bg = isFeatured
+        ? AppColors.deepRed
+        : isRegistered
+            ? const Color(0xFF3EE606).withValues(alpha: 0.33)
+            : (statusColor?.withValues(alpha: 0.33) ?? const Color(0xFF328700).withValues(alpha: 0.33));
 
-    final Color fg = _isRegistered ? const Color(0xFF328700) : Colors.white;
+    final Color fg = isFeatured ? Colors.white : (isRegistered ? const Color(0xFF328700) : (statusColor ?? const Color(0xFF328700)));
 
     return Container(
-      height: _isRegistered ? 20 : 24,
-      width: _isRegistered ? 74 :74,
-      padding: EdgeInsets.fromLTRB(
-        9,
-        _isRegistered ? 3 : 5,
-        9,
-        _isRegistered ? 4 : 5,
-      ),
-      decoration: BoxDecoration(
-        color: bg,
-        borderRadius: BorderRadius.circular(_isRegistered ? 4.969 : 7.52),
-      ),
+      height: isRegistered ? 20 : 24,
+      width: isRegistered ? 74 :74,
+      padding: EdgeInsets.fromLTRB(9, isRegistered ? 3 : 5, 9, isRegistered ? 4 : 5),
+      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(isRegistered ? 4.969 : 7.52)),
       child: Center(
         child: Text(
           text,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            fontSize: _isRegistered ? 9.983 : 11,
-            fontWeight: FontWeight.w600,
-            height: 1,
-            color: fg,
-          ),
+          style: TextStyle(fontSize: isRegistered ? 9.983 : 11, fontWeight: FontWeight.w600, height: 1, color: fg),
         ),
       ),
     );

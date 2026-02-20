@@ -1,7 +1,9 @@
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/communities/models/community_model.dart';
 import 'package:adcc/features/communities/sections/community_highlight_track_card.dart';
+import 'package:adcc/features/communities/sections/join_community_screen.dart';
 import 'package:adcc/features/communities/sections/leavecommunity.dart';
+import 'package:adcc/features/communities/services/communities_service.dart';
 import 'package:adcc/shared/widgets/banner_header.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +21,12 @@ class ExploreCommunityScreen extends StatefulWidget {
 
 class _ExploreCommunityScreenState extends State<ExploreCommunityScreen> {
   int selectedTabIndex = 0;
+  
+  //  Local state variables
+  late bool _isJoined;
+  bool isLoading = false;
+
+  final CommunitiesService _communitiesService = CommunitiesService();
 
   final List<String> tabs = const [
     "Events",
@@ -26,6 +34,20 @@ class _ExploreCommunityScreenState extends State<ExploreCommunityScreen> {
     "Gallery",
     "Updates",
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    //  Initialize from community model
+    _isJoined = widget.community.isJoined;
+  }
+
+  // Method to refresh local state
+  void _refreshJoinStatus() {
+    setState(() {
+      _isJoined = widget.community.isJoined;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +87,7 @@ class _ExploreCommunityScreenState extends State<ExploreCommunityScreen> {
                 ),
                 const SizedBox(width: 12),
 
-                // ✅ SHARE ICON
+                //  SHARE ICON
                 _ShareButton(
                   onTap: () {
                     // TODO: Share logic later
@@ -76,7 +98,7 @@ class _ExploreCommunityScreenState extends State<ExploreCommunityScreen> {
 
             const SizedBox(height: 8),
 
-            // ✅ Random 3-4 line description
+            //  Description
             Text(
               c.description.trim().isEmpty
                   ? "Join this community to explore group rides, training sessions, and weekend cycling meetups.\n"
@@ -126,25 +148,100 @@ class _ExploreCommunityScreenState extends State<ExploreCommunityScreen> {
 
             const SizedBox(height: 18),
 
-           _BottomButton(
-  title: "Leave Community",
-  onTap: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => LeaveCommunity(community: c),
-      ),
-    );
-  },
-),
-
+            //  Dynamic button based on join status
+            _BottomButton(
+              title: isLoading 
+                  ? "Please wait..." 
+                  : (_isJoined ? "Leave Community" : "Join Community"),
+              onTap: isLoading ? null : _handleJoinLeave,
+              isLoading: isLoading,
+              isJoined: _isJoined,
+            ),
           ],
         ),
       ),
     );
   }
-}
 
+  //  Main method to handle join/leave logic
+  Future<void> _handleJoinLeave() async {
+    if (!_isJoined) {
+      // JOIN COMMUNITY
+      setState(() => isLoading = true);
+
+      final result = await _communitiesService.joinCommunity(
+        communityId: widget.community.id,
+      );
+
+      setState(() => isLoading = false);
+
+      if (!mounted) return;
+
+      if (result.success) {
+        // Update local state
+        setState(() {
+          _isJoined = true;
+          widget.community.isJoined = true;
+        });
+
+        // Show success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Community joined successfully! 🎉"),
+            backgroundColor: Colors.green,
+          ),
+        );
+
+        // Navigate to JoinCommunity screen and wait for result
+        final shouldRefresh = await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => JoinCommunity(
+              community: widget.community,
+            ),
+          ),
+        );
+
+        // If JoinCommunity returns true, refresh data
+        if (shouldRefresh == true && mounted) {
+          _refreshJoinStatus();
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(result.message ?? "Join failed ❌"),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } else {
+      // LEAVE COMMUNITY
+      final result = await Navigator.push<bool>(
+        context,
+        MaterialPageRoute(
+          builder: (_) => LeaveCommunity(
+            community: widget.community,
+          ),
+        ),
+      );
+
+      if (result == true && mounted) {
+        // Update local state
+        setState(() {
+          _isJoined = false;
+          widget.community.isJoined = false;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Community left successfully "),
+            backgroundColor: Colors.orange,
+          ),
+        );
+      }
+    }
+  }
+}
 
 class _ShareButton extends StatelessWidget {
   final VoidCallback onTap;
@@ -208,7 +305,7 @@ class _InfoGrid extends StatelessWidget {
               iconPath,
               height: 18,
               width: 18,
-              color: AppColors.goldenOchre, // agar icons single color hain
+              color: AppColors.goldenOchre,
             ),
             const SizedBox(width: 10),
             Expanded(
@@ -285,10 +382,6 @@ class _InfoGrid extends StatelessWidget {
   }
 }
 
-
-/// --------------------------------------------
-/// HIGHLIGHTS CARD
-/// --------------------------------------------
 class _HighlightsCard extends StatelessWidget {
   const _HighlightsCard();
 
@@ -355,6 +448,7 @@ class _HighlightsCard extends StatelessWidget {
     );
   }
 }
+
 class _TabsRow extends StatelessWidget {
   final List<String> tabs;
   final int selectedIndex;
@@ -382,25 +476,16 @@ class _TabsRow extends StatelessWidget {
             onTap: () => onTap(index),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 180),
-
-              /// ✅ Fixed width + height
               width: 72,
               height: 38,
-
-              /// ✅ Exact padding
               padding: const EdgeInsets.fromLTRB(15, 9, 15, 9),
-
               decoration: BoxDecoration(
                 color: isSelected
                     ? AppColors.goldenOchre
                     : const Color(0xFFF1F2F4),
-
-                /// ✅ Radius 12px
                 borderRadius: BorderRadius.circular(12),
               ),
-
               alignment: Alignment.center,
-
               child: Text(
                 tabs[index],
                 maxLines: 1,
@@ -419,10 +504,6 @@ class _TabsRow extends StatelessWidget {
   }
 }
 
-
-/// --------------------------------------------
-/// TAB CONTENT
-/// --------------------------------------------
 class _TabContent extends StatelessWidget {
   final int selectedTabIndex;
 
@@ -458,9 +539,6 @@ class _TabContent extends StatelessWidget {
   }
 }
 
-/// --------------------------------------------
-/// HORIZONTAL CARDS
-/// --------------------------------------------
 class _HorizontalCards extends StatelessWidget {
   final String title;
   final String subtitle;
@@ -470,7 +548,7 @@ class _HorizontalCards extends StatelessWidget {
     required this.subtitle,
   });
 
-   @override
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 250,
@@ -494,11 +572,15 @@ class _HorizontalCards extends StatelessWidget {
 
 class _BottomButton extends StatelessWidget {
   final String title;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
+  final bool isLoading;
+  final bool isJoined;
 
   const _BottomButton({
     required this.title,
     required this.onTap,
+    required this.isLoading,
+    required this.isJoined,
   });
 
   @override
@@ -507,21 +589,32 @@ class _BottomButton extends StatelessWidget {
       height: 52,
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: onTap,
+        onPressed: isLoading ? null : onTap,
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFB11212),
+          backgroundColor: isJoined 
+              ? const Color(0xFFB11212)  // Red for leave
+              : const Color(0xFFB11212),  // Same red for join (or change if you want different)
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
         ),
-        child: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w900,
-            color: Colors.white,
-          ),
-        ),
+        child: isLoading
+            ? const SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                  strokeWidth: 2,
+                ),
+              )
+            : Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.white,
+                ),
+              ),
       ),
     );
   }

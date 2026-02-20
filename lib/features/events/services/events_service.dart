@@ -256,18 +256,15 @@ class EventsService {
     }
   }
 
-  /// ✅ JOIN EVENT (FIXED)
   Future<ApiResponse<dynamic>> joinEvent({
     required String eventId,
   }) async {
     try {
-      debugPrint("🤝 [Join Event] API Hit Start...");
-      debugPrint("🆔 Event ID: $eventId");
+    
 
-      // 🔥 Try to get userId dynamically
+    
       String? userId = await TokenStorageService.getUserId();
 
-      // 🔥 TEMP fallback static
       userId ??= "69959a9430e2025c6208df05";
 
       final body = {
@@ -276,16 +273,13 @@ class EventsService {
         "status": "joined",
       };
 
-      debugPrint("📦 [Join Event] Body: $body");
 
       final response = await _apiClient.post<dynamic>(
         ApiEndpoints.joinEvent(eventId),
         data: body,
       );
 
-      debugPrint("✅ [Join Event] Status: ${response.statusCode}");
-      debugPrint("📦 [Join Event] Data: ${response.data}");
-
+     
       if ((response.statusCode == 200 || response.statusCode == 201) &&
           response.data != null &&
           response.data["success"] == true) {
@@ -315,15 +309,13 @@ class EventsService {
     }
   }
 
-  /// ✅ CANCEL EVENT (FIXED)
+  ///  CANCEL EVENT (FIXED)
   Future<ApiResponse<dynamic>> cancelEvent({
     required String eventId,
     required String reason,
   }) async {
     try {
-      debugPrint("🚫 [Cancel Event] API Hit Start...");
-      debugPrint("🆔 Event ID: $eventId");
-      debugPrint("📌 Reason: $reason");
+   
 
       String? userId = await TokenStorageService.getUserId();
       userId ??= "69959a9430e2025c6208df05";
@@ -335,15 +327,14 @@ class EventsService {
         "reason": reason,
       };
 
-      debugPrint("📦 [Cancel Event] Body: $body");
+    
 
       final response = await _apiClient.post<dynamic>(
         ApiEndpoints.cancelEvent(eventId),
         data: body,
       );
 
-      debugPrint("✅ [Cancel Event] Status: ${response.statusCode}");
-      debugPrint("📦 [Cancel Event] Data: ${response.data}");
+    
 
       if ((response.statusCode == 200 || response.statusCode == 201) &&
           response.data != null &&
@@ -362,14 +353,13 @@ class EventsService {
     } on DioException catch (e) {
       final apiException = ApiException.fromDioException(e);
 
-      debugPrint("❌ [Cancel Event] DioException: ${apiException.toString()}");
 
       return ApiResponse.error(
         message: apiException.toString(),
         statusCode: apiException.statusCode,
       );
     } catch (e) {
-      debugPrint("❌ [Cancel Event] Unexpected Error: $e");
+    
       return ApiResponse.error(message: "Unexpected error: $e");
     }
   }
@@ -381,10 +371,7 @@ class EventsService {
         ApiEndpoints.eventById(eventId),
       );
 
-      debugPrint('=== Event Details API Response ===');
-      debugPrint('Status Code: ${response.statusCode}');
-      debugPrint('Response Data Type: ${response.data.runtimeType}');
-      debugPrint('Response Data: ${response.data}');
+    
 
       if (response.statusCode == 200 && response.data != null) {
         try {
@@ -418,10 +405,7 @@ class EventsService {
             statusCode: response.statusCode,
           );
         } catch (e, st) {
-          debugPrint('=== Error in getEventById parsing ===');
-          debugPrint('Error: $e');
-          debugPrint('Stack: $st');
-
+        
           return ApiResponse.error(
             message: 'Failed to parse event data: $e',
             statusCode: response.statusCode,

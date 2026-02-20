@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 
-/// Custom API exception class
 class ApiException implements Exception {
   final String message;
   final int? statusCode;
@@ -99,10 +98,10 @@ class ApiException implements Exception {
     }
   }
 
-  /// Get error message from response data
+
   String? getErrorMessage() {
     if (data is Map<String, dynamic>) {
-      // Try common error message fields
+
       return data['message'] as String? ??
           data['error'] as String? ??
           data['error_message'] as String?;

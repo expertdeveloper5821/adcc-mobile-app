@@ -200,9 +200,7 @@ class _BackCircleButton extends StatelessWidget {
   }
 }
 
-/// ------------------------------------------------------------
-/// RESULT CARD (PIXEL PERFECT)
-/// ------------------------------------------------------------
+
 class _ResultCard extends StatelessWidget {
   final String title;
   final String value;

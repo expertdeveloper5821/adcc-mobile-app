@@ -211,7 +211,7 @@ Padding(
 
         const SizedBox(width: 10),
 
-        /// View Community Button (inside box right side)
+       
         SizedBox(
           height: 34,
           child: ElevatedButton(
@@ -312,7 +312,7 @@ Padding(
   child: Container(
     padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
     decoration: BoxDecoration(
-      color: Colors.white, // 🔥 screenshot bg
+      color: Colors.white, 
       borderRadius: BorderRadius.circular(14),
       border: Border.all(
         color: AppColors.lightBeige,
@@ -331,7 +331,7 @@ Padding(
           ),
           child: Center(
             child: Image.asset(
-              "assets/icons/bike.jpg", // 🔥 yaha tumhara icon path
+              "assets/icons/bike.jpg", 
               width: 24,
               height: 24,
               fit: BoxFit.contain,
@@ -395,7 +395,10 @@ Padding(
         borderRadius: BorderRadius.circular(14),
       ),
     ),
-    child: const Text(
+child: Row(
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
+    const Text(
       "View Past Result",
       style: TextStyle(
         fontSize: 13,
@@ -403,6 +406,17 @@ Padding(
         color: Colors.white,
       ),
     ),
+    const SizedBox(width: 8),
+
+    Image.asset(
+      "assets/icons/arrow_right.png", 
+      width: 18,
+      height: 18,
+      fit: BoxFit.contain,
+      color: Colors.white, 
+    ),
+  ],
+),
   ),
 ),
 
@@ -477,7 +491,7 @@ child: !isRegistered
     onPressed: isLoading
         ? null
         : () async {
-            // 🔥 Cancel screen open karo
+           
             final result = await Navigator.push(
               context,
               MaterialPageRoute(
@@ -487,7 +501,6 @@ child: !isRegistered
               ),
             );
 
-            // result = true means cancelled successfully
             if (result == true) {
               setState(() => isRegistered = false);
 
@@ -599,7 +612,7 @@ class _ScheduleCard extends StatelessWidget {
       height: 54,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
-        color: AppColors.warmSand,
+        color: AppColors.goldenOchre,
         borderRadius: BorderRadius.circular(14),
       ),
       child: Column(
@@ -610,7 +623,7 @@ class _ScheduleCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w900,
-              color: AppColors.charcoal,
+              color:Colors.white,
             ),
           ),
           const SizedBox(height: 4),
@@ -621,7 +634,7 @@ class _ScheduleCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 10.5,
               fontWeight: FontWeight.w900,
-              color: AppColors.charcoal,
+           color:Colors.white,
             ),
           ),
         ],

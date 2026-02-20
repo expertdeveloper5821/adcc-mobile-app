@@ -316,7 +316,7 @@ class _EventsTabState extends State<EventsTab> {
                                     )
                                   : SizedBox(
                                       height:
-                                          400, // Match SpecialRideCard height
+                                          400, 
                                       child: ListView.separated(
                                         scrollDirection: Axis.horizontal,
                                         padding: const EdgeInsets.symmetric(
@@ -374,7 +374,7 @@ class _EventsTabState extends State<EventsTab> {
 
                           const SizedBox(height: 24),
 
-                          // Events by Category Section
+                      
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -402,7 +402,7 @@ class _EventsTabState extends State<EventsTab> {
                                     const EdgeInsets.symmetric(horizontal: 16),
                                 child: EventCategoriesGrid(
                                   onCategoryTap: (category) {
-                                    // Handle category tap
+                                  
                                     debugPrint(
                                         'Event category tapped: $category');
 
@@ -415,7 +415,7 @@ class _EventsTabState extends State<EventsTab> {
 
                           const SizedBox(height: 30),
 
-                          // Purpose Based Events Section (STATIC as per requirement)
+                         
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -461,65 +461,6 @@ class _EventsTabState extends State<EventsTab> {
 
                           const SizedBox(height: 24),
 
-                          // Commented code stays as-is (as you asked)
-
-                          // Column(
-                          //   crossAxisAlignment: CrossAxisAlignment.start,
-                          //   children: [
-                          //     Padding(
-                          //       padding:
-                          //           const EdgeInsets.symmetric(horizontal: 10),
-                          //       child: SectionHeader(
-                          //         title: 'Upcoming Rides &\nActivities',
-                          //         showViewAll: false,
-                          //         onViewAll: () {},
-                          //       ),
-                          //     ),
-                          //     const SizedBox(height: 16),
-                          //     Padding(
-                          //       padding:
-                          //           const EdgeInsets.symmetric(horizontal: 10),
-                          //       child: const UpcomingRides(),
-                          //     ),
-                          //   ],
-                          // ),
-                          // const SizedBox(height: 30),
-                          // Column(
-                          //   crossAxisAlignment: CrossAxisAlignment.start,
-                          //   children: [
-                          //     Padding(
-                          //       padding:
-                          //           const EdgeInsets.symmetric(horizontal: 10),
-                          //       child: SectionHeader(
-                          //         title: 'Upcoming Tracks',
-                          //         onViewAll: () {},
-                          //       ),
-                          //     ),
-                          //     const SizedBox(height: 16),
-                          //     const UpcomingTracksList(),
-                          //   ],
-                          // ),
-                          // const SizedBox(height: 30),
-                          // Column(
-                          //   crossAxisAlignment: CrossAxisAlignment.start,
-                          //   children: [
-                          //     Padding(
-                          //       padding:
-                          //           const EdgeInsets.symmetric(horizontal: 10),
-                          //       child: SectionHeader(
-                          //         title: 'Most Ride Tracks',
-                          //         onViewAll: () {},
-                          //       ),
-                          //     ),
-                          //     const SizedBox(height: 10),
-                          //     Padding(
-                          //       padding: const EdgeInsets.all(16),
-                          //       child: AsymmetricImageGrid(
-                          //         items: items,
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
                         ],
                       ),
           ),

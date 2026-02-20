@@ -20,7 +20,7 @@ class RouteTitleSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ✅ Open chip
+     
           _StatusChip(text: status),
 
           const SizedBox(height: 10),
@@ -68,9 +68,7 @@ class RouteTitleSection extends StatelessWidget {
   }
 }
 
-// =======================
-// ✅ Status Chip Widget
-// =======================
+
 class _StatusChip extends StatelessWidget {
   final String text;
 
@@ -79,11 +77,11 @@ class _StatusChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 51,
+      width: 90,
       height: 24,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: const Color(0xFFBFF3A2), // screenshot bg
+          color: const Color(0xFFBFF3A2), 
           borderRadius: BorderRadius.circular(7.52),
         ),
         child: Padding(
@@ -97,7 +95,7 @@ class _StatusChip extends StatelessWidget {
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
                 height: 1,
-                color: Color(0xFF328700), // screenshot green
+                color: Color(0xFF328700), 
               ),
             ),
           ),

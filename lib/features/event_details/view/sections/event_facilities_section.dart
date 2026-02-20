@@ -37,7 +37,7 @@ class EventFacilitiesSection extends StatelessWidget {
               crossAxisSpacing: 12,
               mainAxisSpacing: 12,
 
-              /// 🔥 This ratio makes the cell close to your exact W/H
+            
               childAspectRatio: _cardW / _cardH,
             ),
             itemCount: facilities.length,
@@ -81,7 +81,7 @@ class _AmenityCard extends StatelessWidget {
           left: 8.5801,
         ),
         decoration: BoxDecoration(
-          /// ✅ Background from your design (#FFEF D7)
+        
           color: const Color(0xFFFFEFD7),
           borderRadius: BorderRadius.circular(12),
         ),
@@ -110,7 +110,7 @@ class _AmenityCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                fontSize: 11.4727, // 🔥 15 is too big for this small card
+                fontSize: 11.4727, 
                 fontWeight: FontWeight.w400,
                 color: AppColors.charcoal,
                 height: 1,

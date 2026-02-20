@@ -202,11 +202,11 @@ class PurposeBasedEventCard extends StatelessWidget {
                       /// Date with Calendar Icon
                       Row(
                         children: [
-                          Icon(
-                            Icons.calendar_month_outlined,
-                            size: 16,
-                            color: Colors.black87,
-                          ),
+                          Image.asset(
+      'assets/icons/calender.png', // 👈 apni image
+      height: 16,
+      width: 16,
+    ),
                           const SizedBox(width: 6),
                           Text(
                             date,

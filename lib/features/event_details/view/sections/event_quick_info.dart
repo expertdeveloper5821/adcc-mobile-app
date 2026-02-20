@@ -68,9 +68,6 @@ class EventQuickInfoSection extends StatelessWidget {
   }
 }
 
-/// ------------------------------------------------------------
-/// PILL CARD (same as your UI)
-/// ------------------------------------------------------------
 class _PillInfo extends StatelessWidget {
   final String title;
   final String value;
@@ -86,7 +83,7 @@ class _PillInfo extends StatelessWidget {
       height: 56,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-        /// ✅ Quick Info ka background WHITE
+
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.lightBeige, width: 1),

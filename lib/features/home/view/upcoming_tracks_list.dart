@@ -1,4 +1,3 @@
-import 'package:adcc/shared/widgets/track_card.dart';
 import 'package:flutter/material.dart';
 
 class UpcomingTracksList extends StatelessWidget {

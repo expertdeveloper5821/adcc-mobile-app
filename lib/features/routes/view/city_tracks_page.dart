@@ -74,7 +74,7 @@ class _CityTracksPageState extends State<CityTracksPage> {
 
             const SizedBox(height: 12),
 
-            // ✅ Track Cards (global TrackCard)
+          
             ...tracks.map(
               (t) => Padding(
                 padding: const EdgeInsets.only(bottom: 14),
@@ -89,7 +89,6 @@ class _CityTracksPageState extends State<CityTracksPage> {
                   difficulty: t.difficulty,
                   status: t.status,
 
-                  // ✅ Navigate to RouteDetailsScreen
                   onTap: () {
                     Navigator.push(
                       context,

@@ -70,7 +70,7 @@ class _TrackHeaderState extends State<TrackHeader> {
       width: 358,
       height: 242,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(12), // ✅ radius 12
+        borderRadius: BorderRadius.circular(12), //  radius 12
         child: Stack(
           children: [
             // Background Image

@@ -2,7 +2,7 @@ class TrackModel {
   final String id;
   final String title;
   final String description;
-  final String image; // base64 or url
+  final String image; 
   final String city;
   final String address;
   final String zipcode;

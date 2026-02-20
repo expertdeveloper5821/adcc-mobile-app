@@ -1,4 +1,3 @@
-import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/event_details/view/event_details_screen.dart';
 import 'package:adcc/features/events/services/events_service.dart';
 import 'package:adcc/shared/widgets/banner_header.dart';
@@ -165,7 +164,7 @@ class _UpcomingeventState extends State<Upcomingevent> {
                     title: e.title,
                     date: e.formattedDate ?? "TBD",
 
-                    // ✅ ye 4 fields tumhare design me show ho rahe hai
+                
                     time: e.eventTime,
                     distance: e.additionalData?['distance']?.toString() ??
                         e.additionalData?['routeDistance']?.toString(),
@@ -173,10 +172,9 @@ class _UpcomingeventState extends State<Upcomingevent> {
                     venue: e.additionalData?['venue']?.toString() ??
                         e.additionalData?['circuit']?.toString(),
 
-                    // ✅ top chip (Race/Open)
                     eventType: "Open",
 
-                    // ✅ group name
+           
                     groupName: e.createdBy?['name']?.toString() ??
                         e.createdBy?['groupName']?.toString(),
 

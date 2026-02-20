@@ -248,7 +248,7 @@ class _EmailPasswordLoginScreenState extends State<EmailPasswordLoginScreen> {
         response.statusCode! < 300) {
       final body = response.data;
 
-      debugPrint("✅ [Backend API] Verify Response: $body");
+      debugPrint(" [Backend API] Verify Response: $body");
 
       if (body is Map<String, dynamic>) {
         final data = body["data"];
@@ -293,7 +293,7 @@ if (user is Map<String, dynamic>) {
           // confirm saved
           final savedRefresh = await TokenStorageService.getRefreshToken();
           debugPrint(
-            "✅ [Storage] Refresh token now: ${savedRefresh == null ? "NULL" : "FOUND"}",
+            " [Storage] Refresh token now: ${savedRefresh == null ? "NULL" : "FOUND"}",
           );
 
           return true;

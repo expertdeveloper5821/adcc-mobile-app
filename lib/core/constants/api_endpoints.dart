@@ -16,9 +16,9 @@ class ApiEndpoints {
   static String leaveCommunity(String id) => '$communities/$id/leave';
   static String joinCommunity(String id) => '$communities/$id/join';
 
-  // ✅ Tracks
   static const String tracks = '$v1/tracks';
-
+static String trackRelatedEvents(String trackId) =>
+    '$v1/tracks/$trackId/events/results';
   
   // Authentication endpoints
   static const String auth = '$v1/auth';

@@ -31,9 +31,7 @@ class TrackCard extends StatelessWidget {
     this.height = 281,
   });
 
-  // =========================
-  // IMAGE BUILDER (Asset/Network/Base64)
-  // =========================
+ 
   Widget _buildTrackImage() {
     // 1) BASE64 image: data:image/jpeg;base64,xxxx
     if (imagePath.startsWith("data:image")) {
@@ -104,7 +102,7 @@ class TrackCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // ✅ IMAGE
+               
                 ClipRRect(
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10),
@@ -152,7 +150,7 @@ class TrackCard extends StatelessWidget {
                   ),
                 ),
 
-                // ✅ CONTENT
+                //  CONTENT
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
@@ -259,9 +257,7 @@ class TrackCard extends StatelessWidget {
   }
 }
 
-// =========================
-// Small Chip
-// =========================
+
 class _SmallChip extends StatelessWidget {
   final String text;
   final Color bg;
@@ -293,9 +289,6 @@ class _SmallChip extends StatelessWidget {
   }
 }
 
-// =========================
-// Asset Icon
-// =========================
 class _AssetIcon extends StatelessWidget {
   final String assetPath;
   final double size;
@@ -319,9 +312,7 @@ class _AssetIcon extends StatelessWidget {
   }
 }
 
-// =========================
-// Amenity Item
-// =========================
+
 class _AmenityItem extends StatelessWidget {
   final String iconPath;
   final String label;

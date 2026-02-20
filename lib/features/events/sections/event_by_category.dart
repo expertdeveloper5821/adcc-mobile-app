@@ -29,7 +29,7 @@ class _EventsByCategoryViewAllState extends State<EventsByCategoryViewAll> {
     "Training & Clinics",
   ];
 
-  /// ⭐ Mapping (Grid categories ko match karne ke liye)
+
   String _derivedCategory(Event e) {
     final title = e.title.toLowerCase();
     final desc = (e.description ?? '').toLowerCase();
@@ -131,10 +131,7 @@ class _EventsByCategoryViewAllState extends State<EventsByCategoryViewAll> {
 
             const SizedBox(height: 16),
 
-            /// (Optional) Search - tumne UI me abhi use nahi kiya,
-            /// but logic rakha hai. Agar future me add karna ho to yaha add kar lena.
-
-            /// List
+          
             if (list.isEmpty)
               const Padding(
                 padding: EdgeInsets.only(top: 80),
@@ -203,7 +200,7 @@ class _EventsByCategoryViewAllState extends State<EventsByCategoryViewAll> {
                       );
                     },
 
-                    /// Open chip tap
+               
                     onOpen: () {
                       if (e.id.isEmpty) return;
 

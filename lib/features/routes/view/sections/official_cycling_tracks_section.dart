@@ -146,7 +146,7 @@ class _OfficialCyclingTracksSectionState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image with tag
+
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Stack(
@@ -310,7 +310,7 @@ class _OfficialCyclingTracksSectionState
         style: TextStyle(
           fontSize: 13,
           fontWeight: FontWeight.w600,
-          height: 1, // ✅ text center
+          height: 1, 
         ),
       ),
     ),
