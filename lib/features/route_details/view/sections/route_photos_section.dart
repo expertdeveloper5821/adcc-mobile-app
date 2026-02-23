@@ -54,7 +54,7 @@ class RoutePhotosSection extends StatelessWidget {
                     : const SizedBox.shrink(),
               ),
               const SizedBox(width: 12),
-              // Second column: Two images stacked (narrower)
+             
               Expanded(
                 flex: 2, 
                 child: Column(

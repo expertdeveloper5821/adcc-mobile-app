@@ -25,7 +25,7 @@ class RoutePreviewSection extends StatefulWidget {
 }
 
 class _RoutePreviewSectionState extends State<RoutePreviewSection> {
-  // Default locations (Abu Dhabi, UAE) - replace with actual route data
+
   LatLng get _startLocation =>
       widget.startLocation ??
       const LatLng(24.4539, 54.3773); // Abu Dhabi default

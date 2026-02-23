@@ -38,40 +38,46 @@ class CommunityModel {
     this.eventsCount,
   });
 
-  factory CommunityModel.fromJson(Map<String, dynamic> json) {
-    return CommunityModel(
-      id: json['_id'] ?? '',
-      title: json['title'] ?? '',
-      description: json['description'] ?? '',
-      type: (json['type'] ?? '').toString(),
-      category:
-          json['category'] != null ? List<String>.from(json['category']) : [],
+ factory CommunityModel.fromJson(Map<String, dynamic> json) {
+  return CommunityModel(
+    id: json['_id'] ?? '',
+    title: json['title'] ?? '',
+    description: json['description'] ?? '',
 
-      // NEW FIELDS
-      location: json['location']?.toString(),
-      trackName: json['trackName']?.toString(),
-      terrain: json['terrain']?.toString(),
-      distance: _parseDouble(json['distance']),
+    // type can be List or String
+    type: json['type'] is List
+        ? (json['type'] as List).join(', ')
+        : json['type']?.toString() ?? '',
 
-      // image (base64)
-      imageUrl: json['imageUrl'] ?? json['image'] ?? json['imagePath'],
+    // FIXED CATEGORY PARSING
+    category: _parseCategory(json['category']),
 
-isJoined: (json['isJoined'] ??
-          json['joined'] ??
-          json['isMember'] ??
-          false) == true,
+    location: json['location']?.toString(),
+    trackName: json['trackName']?.toString(),
+    terrain: json['terrain']?.toString(),
+    distance: _parseDouble(json['distance']),
 
-      // membersCount: backend has "memberCount"
-      membersCount: _parseCount(
-        json['membersCount'] ?? json['members'] ?? json['memberCount'],
-      ),
+    imageUrl: json['imageUrl'] ?? json['image'] ?? json['imagePath'],
 
-      eventsCount: _parseCount(
-        json['eventsCount'] ?? json['events'] ?? json['eventCount'],
-      ),
-    );
-  }
+    isJoined: (json['isJoined'] ??
+            json['joined'] ??
+            json['isMember'] ??
+            false) ==
+        true,
 
+    membersCount: _parseCount(
+      json['membersCount'] ??
+          json['members'] ??
+          json['memberCount'],
+    ),
+
+    eventsCount: _parseCount(
+      json['eventsCount'] ??
+          json['events'] ??
+          json['eventCount'],
+    ),
+  );
+}
   Map<String, dynamic> toJson() {
     return {
       '_id': id,
@@ -125,4 +131,18 @@ isJoined: (json['isJoined'] ??
     }
     return false;
   }
+
+  static List<String> _parseCategory(dynamic value) {
+  if (value == null) return [];
+
+  if (value is List) {
+    return value.map((e) => e.toString()).toList();
+  }
+
+  if (value is String) {
+    return [value];
+  }
+
+  return [];
+}
 }

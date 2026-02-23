@@ -10,9 +10,11 @@ class CommunitiesService {
   Future<ApiResponse<dynamic>> getCommunities({
     Map<String, dynamic>? queryParameters,
   }) async {
+    const endpoint = ApiEndpoints.communities;
+
     try {
       final response = await _apiClient.get<dynamic>(
-        ApiEndpoints.communities,
+        endpoint,
         queryParameters: queryParameters,
       );
 
@@ -45,24 +47,27 @@ class CommunitiesService {
   Future<ApiResponse<dynamic>> joinCommunity({
     required String communityId,
   }) async {
+    final endpoint = ApiEndpoints.joinCommunity(communityId);
+
     try {
       final response = await _apiClient.post<dynamic>(
-        ApiEndpoints.joinCommunity(communityId),
+        endpoint,
         data: {},
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return ApiResponse.success(
-          data: response.data,
-          statusCode: response.statusCode,
-          message: response.data?["message"] ??
-              "Community joined successfully",
-        );
+        if (response.data != null && response.data["success"] == true) {
+          return ApiResponse.success(
+            data: response.data,
+            statusCode: response.statusCode,
+            message: response.data?["message"] ??
+                "Community joined successfully",
+          );
+        }
       }
 
       return ApiResponse.error(
-        message:
-            response.data?["message"] ?? "Failed to join community",
+        message: response.data?["message"] ?? "Failed to join community",
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
@@ -84,27 +89,32 @@ class CommunitiesService {
     String? reason,
     String? feedback,
   }) async {
+    final endpoint = ApiEndpoints.leaveCommunity(communityId);
+
     try {
+      final requestData = {
+        if (reason != null) "reason": reason,
+        if (feedback != null) "feedback": feedback,
+      };
+
       final response = await _apiClient.post<dynamic>(
-        ApiEndpoints.leaveCommunity(communityId),
-        data: {
-          "reason": reason,
-          "feedback": feedback,
-        },
+        endpoint,
+        data: requestData,
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return ApiResponse.success(
-          data: response.data,
-          statusCode: response.statusCode,
-          message: response.data?["message"] ??
-              "Community left successfully",
-        );
+        if (response.data != null && response.data["success"] == true) {
+          return ApiResponse.success(
+            data: response.data,
+            statusCode: response.statusCode,
+            message: response.data?["message"] ??
+                "Community left successfully",
+          );
+        }
       }
 
       return ApiResponse.error(
-        message:
-            response.data?["message"] ?? "Failed to leave community",
+        message: response.data?["message"] ?? "Failed to leave community",
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
@@ -135,21 +145,17 @@ class CommunitiesService {
 
   Future<ApiResponse<dynamic>> getAwarenessCommunities() {
     return getCommunities(
-      queryParameters: {
-        "category": "Awareness & Special Communities"
-      },
+      queryParameters: {"category": "Awareness & Special Communities"},
     );
   }
 
-  Future<ApiResponse<dynamic>> getCommunitiesByType(
-      String type) {
+  Future<ApiResponse<dynamic>> getCommunitiesByType(String type) {
     return getCommunities(
       queryParameters: {"type": type},
     );
   }
 
-  Future<ApiResponse<dynamic>> getCommunitiesByLocation(
-      String location) {
+  Future<ApiResponse<dynamic>> getCommunitiesByLocation(String location) {
     return getCommunities(
       queryParameters: {"location": location},
     );

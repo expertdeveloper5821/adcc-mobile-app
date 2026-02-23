@@ -1,4 +1,3 @@
-import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/event_details/view/event_details_screen.dart';
 import 'package:adcc/features/events/services/events_service.dart';
 import 'package:adcc/features/events/view/special_ride_card.dart';

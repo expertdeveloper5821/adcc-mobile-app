@@ -1,4 +1,5 @@
-import 'package:adcc/core/services/token_storage_service.dart';
+// features/communities/sections/leave_community_screen.dart
+
 import 'package:adcc/features/communities/models/community_model.dart';
 import 'package:adcc/features/communities/services/communities_service.dart';
 import 'package:adcc/shared/widgets/app_button.dart';
@@ -18,11 +19,12 @@ class LeaveCommunity extends StatefulWidget {
 
 class _LeaveCommunityState extends State<LeaveCommunity> {
   final CommunitiesService _communitiesService = CommunitiesService();
-
+  
   bool isLoading = false;
-
-  int selectedReasonIndex = 3;
+  int selectedReasonIndex = -1; // Start with no reason selected
   final TextEditingController feedbackController = TextEditingController();
+  
+  late CommunityModel _community;
 
   final List<String> reasons = const [
     "Not Active Anymore",
@@ -34,53 +36,72 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    _community = widget.community;
+    
+    debugPrint('🔴 LeaveCommunity initState:');
+    debugPrint('   Community: ${_community.title}');
+    debugPrint('   Is Joined: ${_community.isJoined}');
+  }
+
+  @override
   void dispose() {
     feedbackController.dispose();
     super.dispose();
   }
 
   Future<void> _leaveCommunity() async {
+    // Validate that a reason is selected
+    if (selectedReasonIndex == -1) {
+      _showSnackBar(
+        message: "Please select a reason for leaving",
+        isError: true,
+      );
+      return;
+    }
+    
     setState(() => isLoading = true);
 
     final reason = reasons[selectedReasonIndex];
     final feedback = feedbackController.text.trim();
-    final communityId = widget.community.id;
 
-    final firebaseToken = await TokenStorageService.getFirebaseToken();
-    final backendToken = await TokenStorageService.getAccessToken();
-    final refreshToken = await TokenStorageService.getRefreshToken();
-
-    if (firebaseToken != null) {
-      firebaseToken.substring(0, 25);
-      firebaseToken.startsWith('eyJhbGciOiJSUzI1Ni');
-    }
-
-    if (backendToken != null) {
-      backendToken.substring(0, 25);
-    }
-
-    final res = await _communitiesService.leaveCommunity(
-      communityId: communityId,
+    final result = await _communitiesService.leaveCommunity(
+      communityId: _community.id,
       reason: reason,
       feedback: feedback.isEmpty ? null : feedback,
     );
 
-    setState(() => isLoading = false);
-
     if (!mounted) return;
 
-    if (res.success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Community left successfully ")),
+    setState(() => isLoading = false);
+
+    if (result.success) {
+      // Show success message
+      _showSnackBar(
+        message: "You have left the community",
+        isError: false,
       );
+      
+      // Return true to indicate successful leave
       Navigator.pop(context, true);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(res.message ?? "Failed to leave community "),
-        ),
+      _showSnackBar(
+        message: result.message ?? "Failed to leave community",
+        isError: true,
       );
     }
+  }
+
+  void _showSnackBar({required String message, required bool isError}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: isError ? Colors.red : Colors.green,
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.all(16),
+      ),
+    );
   }
 
   @override
@@ -92,6 +113,7 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
           padding: const EdgeInsets.fromLTRB(16, 14, 16, 18),
           child: Column(
             children: [
+              // Header with back button
               Align(
                 alignment: Alignment.centerLeft,
                 child: GestureDetector(
@@ -111,7 +133,10 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
                   ),
                 ),
               ),
+              
               const SizedBox(height: 18),
+              
+              // Icon
               Stack(
                 alignment: Alignment.center,
                 children: [
@@ -123,32 +148,31 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
                       shape: BoxShape.circle,
                     ),
                   ),
-                  Positioned(
-                    left: 26,
-                    top: 42,
-                    child: Container(
-                      height: 10,
-                      width: 10,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFB11212),
-                        shape: BoxShape.circle,
-                      ),
-                    ),
+                  const Icon(
+                    Icons.exit_to_app,
+                    size: 70,
+                    color: Color(0xFFB11212),
                   ),
                 ],
               ),
+              
               const SizedBox(height: 16),
-              const Text(
-                "Leave Community",
+              
+              // Title
+              Text(
+                "Leave ${_community.title}",
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w900,
                   color: Color(0xFF1E1E1E),
                   height: 1.15,
                 ),
               ),
+              
               const SizedBox(height: 10),
+              
+              // Subtitle
               const Text(
                 "We're sorry to see you go.\nYour feedback helps us improve.",
                 textAlign: TextAlign.center,
@@ -159,44 +183,57 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
                   height: 1.35,
                 ),
               ),
+              
               const SizedBox(height: 18),
+              
+              // Reasons list
               Expanded(
                 child: ListView(
                   physics: const BouncingScrollPhysics(),
                   children: [
                     const Text(
-                      "Reason:",
+                      "Reason for leaving:",
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w900,
                         color: Colors.black,
                       ),
                     ),
+                    
                     const SizedBox(height: 12),
+                    
+                    // Reason tiles
                     ...List.generate(reasons.length, (index) {
                       final isSelected = selectedReasonIndex == index;
-
+                      
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 10),
                         child: _ReasonTile(
                           title: reasons[index],
                           isSelected: isSelected,
                           onTap: () {
-                            setState(() => selectedReasonIndex = index);
+                            setState(() {
+                              selectedReasonIndex = index;
+                            });
                           },
                         ),
                       );
                     }),
+                    
                     const SizedBox(height: 18),
+                    
+                    // Feedback section
                     const Text(
-                      "Additional Feedback",
+                      "Additional Feedback (Optional)",
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w900,
                         color: Colors.black,
                       ),
                     ),
+                    
                     const SizedBox(height: 10),
+                    
                     Container(
                       height: 110,
                       padding: const EdgeInsets.symmetric(
@@ -217,7 +254,7 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
                           color: Colors.black,
                         ),
                         decoration: const InputDecoration(
-                          hintText: "Tell Us More....",
+                          hintText: "Tell us more...",
                           hintStyle: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
@@ -230,7 +267,10 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
                   ],
                 ),
               ),
+              
               const SizedBox(height: 16),
+              
+              // Leave button
               AppButton(
                 label: isLoading ? "Leaving..." : "Leave Community",
                 onPressed: isLoading ? null : _leaveCommunity,
@@ -248,6 +288,7 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
   }
 }
 
+// Reason Tile Widget
 class _ReasonTile extends StatelessWidget {
   final String title;
   final bool isSelected;
@@ -261,9 +302,6 @@ class _ReasonTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final borderColor =
-        isSelected ? const Color(0xFFB11212) : const Color(0xFFE7DECF);
-
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -273,7 +311,7 @@ class _ReasonTile extends StatelessWidget {
           color: const Color(0xFFF5EDE0),
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-            color: borderColor,
+            color: isSelected ? const Color(0xFFB11212) : const Color(0xFFE7DECF),
             width: isSelected ? 1.6 : 1.0,
           ),
         ),
@@ -289,15 +327,15 @@ class _ReasonTile extends StatelessWidget {
                 ),
               ),
             ),
+            
+            // Radio indicator
             Container(
               height: 18,
               width: 18,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: isSelected
-                      ? const Color(0xFFB11212)
-                      : const Color(0xFFBDBDBD),
+                  color: isSelected ? const Color(0xFFB11212) : const Color(0xFFBDBDBD),
                   width: 2,
                 ),
               ),

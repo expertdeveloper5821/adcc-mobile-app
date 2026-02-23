@@ -592,8 +592,8 @@ class _BottomButton extends StatelessWidget {
         onPressed: isLoading ? null : onTap,
         style: ElevatedButton.styleFrom(
           backgroundColor: isJoined 
-              ? const Color(0xFFB11212)  // Red for leave
-              : const Color(0xFFB11212),  // Same red for join (or change if you want different)
+              ? const Color(0xFFB11212)  
+              : const Color(0xFFB11212),  
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),

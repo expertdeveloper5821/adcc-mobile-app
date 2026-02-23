@@ -117,9 +117,9 @@ class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
             const SizedBox(height: 24),
             _buildEventsSection(),
             const SizedBox(height: 24),
-            RouteCommunitiesSection(
-              communities: widget.routeData['communities'] as List<Map<String, dynamic>>? ?? [],
-            ),
+           RouteCommunitiesSection(
+  trackId: widget.routeData['_id']?.toString() ?? widget.routeData['id']?.toString() ?? "dummy-id",
+),
             const SizedBox(height: 24),
             RouteSafetySection(
               safetyMessage: widget.routeData['safetyMessage'] as String? ??

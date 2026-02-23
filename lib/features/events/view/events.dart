@@ -1,15 +1,12 @@
 import 'package:adcc/features/event_details/view/event_details_screen.dart';
+import 'package:adcc/features/event_details/view/sections/event_header_section.dart';
 import 'package:adcc/features/events/sections/event_by_category.dart';
 import 'package:adcc/features/events/sections/event_categories_grid.dart';
 import 'package:adcc/features/events/sections/purpose_based_event_card.dart';
 import 'package:adcc/features/events/sections/upcoming_event_screen.dart';
 import 'package:adcc/features/events/view/special_ride_card.dart';
 import 'package:adcc/features/events/services/events_service.dart';
-import 'package:adcc/modals/grid_item.dart';
-import 'package:adcc/shared/widgets/banner_with_search.dart';
 import 'package:adcc/shared/widgets/category_selector.dart';
-import 'package:adcc/shared/widgets/event_header.dart';
-
 import 'package:adcc/shared/widgets/section_header.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +14,6 @@ class EventsTab extends StatefulWidget {
   const EventsTab({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _EventsTabState createState() => _EventsTabState();
 }
 
@@ -179,25 +175,6 @@ class _EventsTabState extends State<EventsTab> {
         "eventId": event.id,
       };
     }).toList();
-
-    final items = [
-      GridItem(
-        title: 'Hudayriyat',
-        image: 'assets/images/ride_events.png',
-      ),
-      GridItem(
-        title: 'Yas',
-        image: 'assets/images/ride_events.png',
-      ),
-      GridItem(
-        title: 'Corniche',
-        image: 'assets/images/ride_events.png',
-      ),
-      GridItem(
-        title: 'Al Ain Climb',
-        image: 'assets/images/ride_events.png',
-      ),
-    ];
 
     return SafeArea(
       child: Column(

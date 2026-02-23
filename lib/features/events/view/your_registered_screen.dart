@@ -154,7 +154,9 @@ class RegistrationSuccessScreen extends StatelessWidget {
                   height: 52,
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                 onPressed: () {
+  Navigator.of(context).popUntil((route) => route.isFirst);
+},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.deepRed,
                       elevation: 0,

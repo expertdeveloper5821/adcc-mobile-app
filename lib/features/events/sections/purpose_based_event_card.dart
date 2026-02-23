@@ -135,15 +135,15 @@ class PurposeBasedEventCard extends StatelessWidget {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              /// Background Image - fills entire card
+          
               _buildImage(),
 
-              /// Group Name Badge (Top Left) - Figma styled with blur
+             
               Positioned(
                 top: 16,
                 left: 16,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(39602500), // Pill shape
+                  borderRadius: BorderRadius.circular(39602500), 
                   child: BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                     child: Container(
@@ -152,8 +152,8 @@ class PurposeBasedEventCard extends StatelessWidget {
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color.fromRGBO(26, 28, 32, 0.33), // rgba(26, 28, 32, 0.33)
-                        borderRadius: BorderRadius.circular(39602500), // Pill shape
+                        color: const Color.fromRGBO(26, 28, 32, 0.33), 
+                        borderRadius: BorderRadius.circular(39602500), 
                       ),
                       child: Text(
                         groupName,
@@ -168,7 +168,6 @@ class PurposeBasedEventCard extends StatelessWidget {
                 ),
               ),
 
-              /// Bottom White Information Panel
               Positioned(
                 left: 0,
                 right: 0,

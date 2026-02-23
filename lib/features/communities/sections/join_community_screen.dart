@@ -1,3 +1,5 @@
+// features/communities/sections/join_community_screen.dart
+
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/communities/models/community_model.dart';
 import 'package:adcc/features/communities/sections/my_community_screen.dart';
@@ -5,7 +7,7 @@ import 'package:adcc/shared/widgets/adaptive_image.dart';
 import 'package:adcc/shared/widgets/app_button.dart';
 import 'package:flutter/material.dart';
 
-class JoinCommunity extends StatelessWidget {
+class JoinCommunity extends StatefulWidget {
   final CommunityModel community;
 
   const JoinCommunity({
@@ -14,13 +16,30 @@ class JoinCommunity extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final title = community.title.trim().isEmpty
-        ? "Abu Dhabi Road Racers"
-        : community.title.trim();
+  State<JoinCommunity> createState() => _JoinCommunityState();
+}
 
-    final members = community.membersCount ?? 2800;
-    final location = (community.location ?? "Abu Dhabi").trim();
+class _JoinCommunityState extends State<JoinCommunity> {
+  late CommunityModel _community;
+
+  @override
+  void initState() {
+    super.initState();
+    _community = widget.community;
+    
+    debugPrint('🎉 JoinCommunity Screen - Community: ${_community.title}');
+    debugPrint('🎉 JoinCommunity Screen - Is Joined: ${_community.isJoined}');
+    debugPrint('🎉 JoinCommunity Screen - Members: ${_community.membersCount}');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final title = _community.title.trim().isEmpty
+        ? "Abu Dhabi Road Racers"
+        : _community.title.trim();
+
+    final members = _community.membersCount ?? 2800;
+    final location = (_community.location ?? "Abu Dhabi").trim();
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F5EF),
@@ -66,7 +85,7 @@ class JoinCommunity extends StatelessWidget {
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: GestureDetector(
-                                  onTap: () => Navigator.pop(context),
+                                  onTap: () => Navigator.pop(context, true), // Return true to indicate success
                                   child: Container(
                                     height: 36,
                                     width: 36,
@@ -110,6 +129,11 @@ class JoinCommunity extends StatelessWidget {
                                         ),
                                       ),
                                     ),
+                                    const Icon(
+                                      Icons.check_circle,
+                                      size: 60,
+                                      color: Colors.green,
+                                    ),
                                   ],
                                 ),
                               ),
@@ -149,6 +173,7 @@ class JoinCommunity extends StatelessWidget {
                                 title: title,
                                 members: members,
                                 location: location,
+                                imageUrl: _community.imageUrl,
                               ),
 
                               const SizedBox(height: 18),
@@ -169,19 +194,43 @@ class JoinCommunity extends StatelessWidget {
                               _NextOptionTile(
                                 icon: Icons.notifications_active_rounded,
                                 title: "Notifications Enabled",
-                                onTap: () {},
+                                onTap: () {
+                                  // Navigate to notifications settings
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text("Notifications feature coming soon"),
+                                      behavior: SnackBarBehavior.floating,
+                                    ),
+                                  );
+                                },
                               ),
                               const SizedBox(height: 10),
                               _NextOptionTile(
                                 icon: Icons.chat_bubble_rounded,
                                 title: "Join Community Chats",
-                                onTap: () {},
+                                onTap: () {
+                                  // Navigate to community chats
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text("Chat feature coming soon"),
+                                      behavior: SnackBarBehavior.floating,
+                                    ),
+                                  );
+                                },
                               ),
                               const SizedBox(height: 10),
                               _NextOptionTile(
                                 icon: Icons.calendar_month_rounded,
                                 title: "Upcoming Events",
-                                onTap: () {},
+                                onTap: () {
+                                  // Navigate to community events
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text("Events feature coming soon"),
+                                      behavior: SnackBarBehavior.floating,
+                                    ),
+                                  );
+                                },
                               ),
 
                               const SizedBox(height: 18),
@@ -190,17 +239,19 @@ class JoinCommunity extends StatelessWidget {
                         ),
                       ),
 
-                      /// FIXED BOTTOM BUTTON
+                  
                       AppButton(
                         label: "Start Exploring",
                         onPressed: () {
-                          Navigator.pushReplacement(
+                         
+                          Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
                               builder: (_) => Mycommunity(
-                                myCommunities: [community],
+                                myCommunities: [_community],
                               ),
                             ),
+                            (route) => false, 
                           );
                         },
                         type: AppButtonType.primary,
@@ -225,11 +276,13 @@ class _JoinedCommunityCard extends StatelessWidget {
   final String title;
   final int members;
   final String location;
+  final String? imageUrl;
 
   const _JoinedCommunityCard({
     required this.title,
     required this.members,
     required this.location,
+    this.imageUrl,
   });
 
   @override
@@ -248,7 +301,7 @@ class _JoinedCommunityCard extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(14),
                   child: AdaptiveImage(
-                    imagePath: "assets/images/cycling_1.png",
+                    imagePath: imageUrl ?? "assets/images/cycling_1.png",
                     width: 76,
                     height: 76,
                     fit: BoxFit.cover,

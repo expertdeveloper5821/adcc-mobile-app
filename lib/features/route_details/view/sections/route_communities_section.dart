@@ -1,35 +1,33 @@
+import 'package:adcc/features/communities/models/community_model.dart';
+import 'package:adcc/features/routes/services/tracks_services.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 
-class RouteCommunitiesSection extends StatelessWidget {
-  final List<Map<String, dynamic>> communities;
+import 'dart:convert';
+class RouteCommunitiesSection extends StatefulWidget {
+  final String trackId; 
 
   const RouteCommunitiesSection({
     super.key,
-    required this.communities,
+    required this.trackId,
   });
 
   @override
-  Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> data = communities.isNotEmpty
-        ? communities
-        : [
-            {
-              "image": "assets/images/cycling_1.png",
-              "joined": true,
-              "title": "Abu Dhabi Road Racers",
-              "subtitle": "Weekly high-pace road rides & race training",
-              "members": "2,800 members",
-            },
-            {
-              "image": "assets/images/cycling_1.png",
-              "joined": false,
-              "title": "Yas Cycling Club",
-              "subtitle": "Social rides • Weekly sessions • Beginners welcome",
-              "members": "1,820 members",
-            },
-          ];
+  State<RouteCommunitiesSection> createState() => _RouteCommunitiesSectionState();
+}
 
+class _RouteCommunitiesSectionState extends State<RouteCommunitiesSection> {
+  late Future<List<CommunityModel>> _communitiesFuture;
+  final TracksService _tracksService = TracksService();
+
+  @override
+  void initState() {
+    super.initState();
+    _communitiesFuture = _tracksService.getTrackRelatedCommunities(widget.trackId);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -37,7 +35,7 @@ class RouteCommunitiesSection extends StatelessWidget {
         children: [
           const Text(
             "Communities Using This Track",
-                      style: TextStyle(
+            style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w600,
               color: AppColors.textDark,
@@ -46,22 +44,60 @@ class RouteCommunitiesSection extends StatelessWidget {
           const SizedBox(height: 12),
 
           SizedBox(
-            height: 273, 
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              physics: const BouncingScrollPhysics(),
-              itemCount: data.length,
-              separatorBuilder: (_, __) => const SizedBox(width: 14),
-              itemBuilder: (context, index) {
-                final c = data[index];
+            height: 273,
+            child: FutureBuilder<List<CommunityModel>>(
+              future: _communitiesFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-                return CommunityCard(
-                  imagePath: c["image"] as String,
-                  title: c["title"] as String,
-                  subtitle: c["subtitle"] as String,
-                  members: c["members"] as String,
-                  joined: c["joined"] as bool? ?? false,
-                  onTap: () {},
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      "Error loading communities",
+                      style: TextStyle(color: AppColors.textSecondary),
+                    ),
+                  );
+                }
+
+                final communities = snapshot.data ?? [];
+
+                if (communities.isEmpty) {
+                  return const Center(
+                    child: Text(
+                      "No communities found for this track",
+                      style: TextStyle(
+                        color: AppColors.textSecondary,
+                        fontSize: 14,
+                      ),
+                    ),
+                  );
+                }
+
+                return ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: communities.length,
+                  separatorBuilder: (_, __) => const SizedBox(width: 14),
+                  itemBuilder: (context, index) {
+                    final community = communities[index];
+
+                    return CommunityCard(
+                      imagePath: community.imageUrl ?? 'assets/images/cycling_1.png',
+                      title: community.title,
+                      subtitle: community.description.isNotEmpty
+                          ? community.description
+                          : "Cycling community • ${community.trackName ?? 'Various tracks'}",
+                      members: community.membersCount != null
+                          ? "${community.membersCount!.toStringAsFixed(0)} members"
+                          : "Unknown members",
+                      joined: community.isJoined,
+                      onTap: () {
+                        
+                      },
+                    );
+                  },
                 );
               },
             ),
@@ -119,13 +155,7 @@ class CommunityCard extends StatelessWidget {
                               topLeft: Radius.circular(10.46),
                               topRight: Radius.circular(10.46),
                             ),
-                            child: Image.asset(
-                              imagePath,
-                              fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) {
-                                return Container(color: AppColors.softCream);
-                              },
-                            ),
+                          child: _buildImage(),
                           ),
                         ),
 
@@ -181,7 +211,7 @@ class CommunityCard extends StatelessWidget {
                           Row(
                             children: [
                               Image.asset(
-                                "assets/icons/members.png", 
+                                "assets/icons/per.jpg", 
                                 width: 16,
                                 height: 16,
                                 fit: BoxFit.contain,
@@ -216,7 +246,57 @@ class CommunityCard extends StatelessWidget {
       ),
     );
   }
+  Widget _buildImage() {
+  if (imagePath.isEmpty) {
+    return _placeholder();
+  }
+
+  // If base64 image
+  if (imagePath.startsWith("data:image")) {
+    try {
+      final base64String = imagePath.split(',').last;
+
+      return Image.memory(
+        base64Decode(base64String),
+        fit: BoxFit.cover,
+        gaplessPlayback: true,
+      );
+    } catch (e) {
+      debugPrint("Base64 decode failed: $e");
+      return _placeholder();
+    }
+  }
+
+  // If network image
+  if (imagePath.startsWith("http")) {
+    return Image.network(
+      imagePath,
+      fit: BoxFit.cover,
+      errorBuilder: (_, __, ___) => _placeholder(),
+    );
+  }
+
+  // If local asset
+  return Image.asset(
+    imagePath,
+    fit: BoxFit.cover,
+    errorBuilder: (_, __, ___) => _placeholder(),
+  );
 }
+Widget _placeholder() {
+  return Container(
+    color: AppColors.softCream,
+    child: const Center(
+      child: Icon(
+        Icons.image,
+        size: 40,
+        color: Colors.grey,
+      ),
+    ),
+  );
+}
+}
+
 
 class _JoinChip extends StatelessWidget {
   const _JoinChip();
