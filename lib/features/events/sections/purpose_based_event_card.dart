@@ -135,15 +135,15 @@ class PurposeBasedEventCard extends StatelessWidget {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              /// Background Image - fills entire card
+          
               _buildImage(),
 
-              /// Group Name Badge (Top Left) - Figma styled with blur
+             
               Positioned(
                 top: 16,
                 left: 16,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(39602500), // Pill shape
+                  borderRadius: BorderRadius.circular(39602500), 
                   child: BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                     child: Container(
@@ -152,8 +152,8 @@ class PurposeBasedEventCard extends StatelessWidget {
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color.fromRGBO(26, 28, 32, 0.33), // rgba(26, 28, 32, 0.33)
-                        borderRadius: BorderRadius.circular(39602500), // Pill shape
+                        color: const Color.fromRGBO(26, 28, 32, 0.33), 
+                        borderRadius: BorderRadius.circular(39602500), 
                       ),
                       child: Text(
                         groupName,
@@ -168,7 +168,6 @@ class PurposeBasedEventCard extends StatelessWidget {
                 ),
               ),
 
-              /// Bottom White Information Panel
               Positioned(
                 left: 0,
                 right: 0,
@@ -202,11 +201,11 @@ class PurposeBasedEventCard extends StatelessWidget {
                       /// Date with Calendar Icon
                       Row(
                         children: [
-                          Icon(
-                            Icons.calendar_month_outlined,
-                            size: 16,
-                            color: Colors.black87,
-                          ),
+                          Image.asset(
+      'assets/icons/calender.png', // 👈 apni image
+      height: 16,
+      width: 16,
+    ),
                           const SizedBox(width: 6),
                           Text(
                             date,

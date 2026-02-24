@@ -1,144 +1,205 @@
-import 'dart:convert';
-import 'dart:typed_data';
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../shared/widgets/back_button_widget.dart';
 
-class EventHeaderSection extends StatelessWidget {
+
+class EventHeader extends StatefulWidget {
   final String imagePath;
-  final VoidCallback onBack;
+  final String title;
+  final String? subtitle;
 
-  const EventHeaderSection({
+  final bool wantSearchBar;
+  final String? searchValue;
+  final ValueChanged<String>? onChangeHandler;
+  final String? placeholder;
+
+  final bool showBackButton;
+  final VoidCallback? onBackTap;
+
+  const EventHeader({
     super.key,
     required this.imagePath,
-    required this.onBack,
+    required this.title,
+    this.subtitle,
+    this.wantSearchBar = false,
+    this.searchValue,
+    this.onChangeHandler,
+    this.placeholder,
+    this.showBackButton = true,
+    this.onBackTap,
   });
 
-  bool get _isNetworkImage {
-    return imagePath.startsWith('http://') || imagePath.startsWith('https://');
+  @override
+  State<EventHeader> createState() => _EventHeaderState();
+}
+
+class _EventHeaderState extends State<EventHeader> {
+  late TextEditingController _searchController;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController = TextEditingController(text: widget.searchValue ?? '');
   }
 
-  bool get _isBase64Image {
-    return imagePath.startsWith('data:image/');
-  }
-
-  Widget _buildImage() {
-    if (_isBase64Image) {
-      // Handle base64 image
-      try {
-        return Image.memory(
-          _base64Decode(imagePath),
-          width: double.infinity,
-          height: 300,
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) {
-            return Container(
-              height: 300,
-              color: AppColors.softCream,
-              child: const Icon(
-                Icons.error_outline,
-                size: 48,
-                color: Colors.grey,
-              ),
-            );
-          },
-        );
-      } catch (e) {
-        return Container(
-          height: 300,
-          color: AppColors.softCream,
-          child: const Icon(
-            Icons.error_outline,
-            size: 48,
-            color: Colors.grey,
-          ),
-        );
-      }
-    } else if (_isNetworkImage) {
-      return Image.network(
-        imagePath,
-        width: double.infinity,
-        height: 300,
-        fit: BoxFit.cover,
-        loadingBuilder: (context, child, loadingProgress) {
-          if (loadingProgress == null) return child;
-          return Container(
-            height: 300,
-            color: AppColors.softCream,
-            child: Center(
-              child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
-                        loadingProgress.expectedTotalBytes!
-                    : null,
-              ),
-            ),
-          );
-        },
-        errorBuilder: (context, error, stackTrace) {
-          return Container(
-            height: 300,
-            color: AppColors.softCream,
-            child: const Icon(
-              Icons.error_outline,
-              size: 48,
-              color: Colors.grey,
-            ),
-          );
-        },
-      );
-    } else {
-      return Image.asset(
-        imagePath,
-        width: double.infinity,
-        height: 300,
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) {
-          return Container(
-            height: 300,
-            color: AppColors.softCream,
-            child: const Icon(
-              Icons.error_outline,
-              size: 48,
-              color: Colors.grey,
-            ),
-          );
-        },
-      );
+  @override
+  void didUpdateWidget(covariant EventHeader oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.searchValue != oldWidget.searchValue) {
+      _searchController.text = widget.searchValue ?? '';
     }
   }
 
-  /// Decode base64 image data URI
-  Uint8List _base64Decode(String dataUri) {
-    // Remove data URI prefix (e.g., "data:image/png;base64,")
-    final base64String =
-        dataUri.contains(',') ? dataUri.split(',')[1] : dataUri;
-    return base64Decode(base64String);
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _handleBack() {
+    if (widget.onBackTap != null) {
+      widget.onBackTap!();
+      return;
+    }
+
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          // Back Button - positioned above the image with spacing
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: AppBackButton(
-                onBack: onBack,
-                iconPath: 'assets/icons/leftArrow.png',
+    return SizedBox(
+      height: 306,
+      width: double.infinity,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: Stack(
+          children: [
+            /// Background Image (520w) + Left Shift (-81)
+            Positioned(
+              left: -81,
+              top: 0,
+              bottom: 0,
+              child: Image.asset(
+                widget.imagePath,
+                width: 520,
+                height: 306,
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) {
+                  return Container(
+                    width: 520,
+                    height: 306,
+                    color: AppColors.softCream,
+                  );
+                },
               ),
             ),
-          ),
-          // Background Image with rounded corners
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: _buildImage(),
-          ),
-        ],
+
+
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.black.withValues(alpha: 0.05),
+                      Colors.black.withValues(alpha: 0.85),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+            
+
+            Positioned(
+              left: 16,
+              right: 16,
+              bottom: 16,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  /// Title
+                  Text(
+                    widget.title,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white,
+                      height: 1.1,
+                    ),
+                  ),
+
+                  /// Subtitle
+                  if (widget.subtitle != null && widget.subtitle!.isNotEmpty) ...[
+                    const SizedBox(height: 6),
+                    Text(
+                      widget.subtitle!,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 11.5,
+                        fontWeight: FontWeight.w700,
+                        height: 1.25,
+                        color: Colors.white.withValues(alpha: 0.85),
+                      ),
+                    ),
+                  ],
+
+                  /// Search Bar
+                  if (widget.wantSearchBar) ...[
+                    const SizedBox(height: 14),
+                    Container(
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.22),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: TextField(
+                        controller: _searchController,
+                        onChanged: widget.onChangeHandler,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12.5,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: widget.placeholder ??
+                              "Search events, communities, cities, or tracks...",
+                          hintStyle: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.70),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          prefixIcon: Container(
+                            margin: const EdgeInsets.all(10),
+                            height: 26,
+                            width: 26,
+                            decoration: BoxDecoration(
+                              color: Colors.black.withValues(alpha: 0.35),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.search,
+                              size: 16,
+                              color: Colors.white,
+                            ),
+                          ),
+                          border: InputBorder.none,
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 12,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

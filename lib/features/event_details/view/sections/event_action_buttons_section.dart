@@ -19,7 +19,7 @@ class EventActionButtonsSection extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Route Details (PDF)
+       
           AppButton(
             label: 'Route Details (PDF)',
             onPressed: firstButtonTab,
@@ -28,7 +28,7 @@ class EventActionButtonsSection extends StatelessWidget {
             suffixIcon: Icons.file_download_outlined,
           ),
           const SizedBox(height: 12),
-          // Safety Guidelines (PDF)
+    
           AppButton(
             label: 'Safety Guidelines (PDF)',
             onPressed: secondButtonTab,

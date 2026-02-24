@@ -1,13 +1,15 @@
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/communities/models/community_model.dart';
 import 'package:adcc/features/communities/sections/communities_awareness.dart';
-import 'package:adcc/features/communities/sections/community_card.dart';
 import 'package:adcc/features/communities/sections/community_categories_grid.dart';
 import 'package:adcc/features/communities/sections/community_horizontal_card.dart';
-import 'package:adcc/features/communities/sections/view_all_communities_screen.dart';
+import 'package:adcc/features/communities/sections/community_type_details.dart';
+import 'package:adcc/features/communities/view/view_all_communities_screen.dart';
+import 'package:adcc/features/communities/view/view_all_communities_type.dart';
+import 'package:adcc/features/communities/view/view_all_purpose_based.dart';
 import 'package:adcc/features/communities/services/communities_service.dart';
-import 'package:adcc/shared/widgets/back_button_widget.dart';
 import 'package:adcc/shared/widgets/banner_with_search.dart';
+import 'package:adcc/shared/widgets/community_header.dart';
 import 'package:adcc/shared/widgets/section_header.dart';
 import 'package:flutter/material.dart';
 
@@ -21,43 +23,32 @@ class CommunitiesScreen extends StatefulWidget {
 class _CommunitiesScreenState extends State<CommunitiesScreen> {
   int selectedFilterIndex = 0;
   String searchQuery = '';
+
   bool _isLoading = true;
   String? _errorMessage;
+
   final CommunitiesService _communitiesService = CommunitiesService();
+
+  List<CommunityModel> _cityCommunities = [];
+  List<CommunityModel> _groupCommunities = [];
+  List<CommunityModel> _awarenessCommunities = [];
+
   List<CommunityModel> _allCommunities = [];
 
-  final List<String> filterPills = [
+  final List<String> filterPills = const [
     'All',
     'Abu Dhabi',
     'Al Ain',
     'Western Region',
   ];
 
-  // Category mappings for different sections - matching API category values
-  final List<String> _cityCommunityCategories = ['City Communities'];
-  final List<String> _groupCommunityCategories = ['Group Communities'];
-  final List<String> _awarenessCommunityCategories = [
-    'Awareness & Special Communities'
-  ];
-
   @override
   void initState() {
     super.initState();
-    _loadCommunities();
+    _loadAllSections();
   }
 
-  @override
-  void dispose() {
-    // Clear state when component unmounts to ensure fresh data on next mount
-    _allCommunities = [];
-    _isLoading = true;
-    _errorMessage = null;
-    searchQuery = '';
-    selectedFilterIndex = 0;
-    super.dispose();
-  }
-
-  Future<void> _loadCommunities() async {
+  Future<void> _loadAllSections() async {
     if (!mounted) return;
 
     setState(() {
@@ -66,304 +57,275 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
     });
 
     try {
-      final response = await _communitiesService.getCommunities();
+      final results = await Future.wait([
+        _communitiesService.getCityCommunities(),
+        _communitiesService.getGroupCommunities(),
+        _communitiesService.getAwarenessCommunities(),
+      ]);
 
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
+      if (!mounted) return;
 
-          if (response.success && response.data != null) {
-            // Extract communities from nested structure
-            List<dynamic> communitiesList = [];
+      List<CommunityModel> parse(dynamic resData) {
+        final raw = resData;
 
-            if (response.data is Map) {
-              final data = response.data as Map<String, dynamic>;
+        List<dynamic> communitiesList = [];
 
-              // Try different response structures
-              if (data.containsKey('data') && data['data'] is Map) {
-                final nestedData = data['data'] as Map<String, dynamic>;
-                if (nestedData.containsKey('communities')) {
-                  communitiesList = nestedData['communities'] as List;
-                }
-              } else if (data.containsKey('communities')) {
-                communitiesList = data['communities'] as List;
-              } else if (data.containsKey('data') && data['data'] is List) {
-                communitiesList = data['data'] as List;
-              }
-            } else if (response.data is List) {
-              communitiesList = response.data as List;
-            }
-
-            // Parse communities into model objects
-            _allCommunities = communitiesList
-                .map((json) =>
-                    CommunityModel.fromJson(json as Map<String, dynamic>))
-                .toList();
-
-            _errorMessage = null;
-          } else {
-            _errorMessage = response.message ?? 'Failed to load communities';
-            _allCommunities = [];
+        if (raw is Map<String, dynamic>) {
+          if (raw['data'] is Map &&
+              (raw['data'] as Map).containsKey('communities') &&
+              (raw['data'] as Map)['communities'] is List) {
+            communitiesList = (raw['data'] as Map)['communities'] as List;
+          } else if (raw['communities'] is List) {
+            communitiesList = raw['communities'] as List;
           }
-        });
+        } else if (raw is List) {
+          communitiesList = raw;
+        }
+
+        return communitiesList
+            .whereType<Map<String, dynamic>>()
+            .map((e) => CommunityModel.fromJson(e))
+            .toList();
       }
-    } catch (e) {
-      if (mounted) {
+
+      final cityRes = results[0];
+      final groupRes = results[1];
+      final awarenessRes = results[2];
+
+      if (!cityRes.success || !groupRes.success || !awarenessRes.success) {
         setState(() {
           _isLoading = false;
-          _errorMessage = 'An unexpected error occurred: $e';
+          _errorMessage = "Failed to load communities";
         });
+        return;
       }
+
+      final cityList = parse(cityRes.data);
+      final groupList = parse(groupRes.data);
+      final awarenessList = parse(awarenessRes.data);
+
+      setState(() {
+        _isLoading = false;
+
+        _cityCommunities = cityList;
+        _groupCommunities = groupList;
+        _awarenessCommunities = awarenessList;
+
+        _allCommunities = [
+          ...cityList,
+          ...groupList,
+          ...awarenessList,
+        ];
+
+        _errorMessage = null;
+      });
+    } catch (e) {
+      if (!mounted) return;
+
+      setState(() {
+        _isLoading = false;
+        _errorMessage = "Unexpected error: $e";
+      });
     }
   }
 
-  // Filter communities by category
-  List<CommunityModel> _getFilteredCommunities() {
-    List<CommunityModel> filtered = _allCommunities;
+  List<String> get _backendTypes {
+    final set = <String>{};
 
-    // Apply search filter
-    if (searchQuery.isNotEmpty) {
-      filtered = filtered.where((community) {
-        final query = searchQuery.toLowerCase();
-        return community.title.toLowerCase().contains(query) ||
-            community.description.toLowerCase().contains(query) ||
-            community.category.any((cat) => cat.toLowerCase().contains(query));
-      }).toList();
+    for (final c in _allCommunities) {
+      final t = c.type.trim();
+      if (t.isNotEmpty) set.add(t);
     }
 
-    // Apply location filter (if needed based on filter pills)
-    if (selectedFilterIndex > 0) {
-      final selectedLocation = filterPills[selectedFilterIndex];
-      filtered = filtered.where((community) {
-        return community.title
-            .toLowerCase()
-            .contains(selectedLocation.toLowerCase());
-      }).toList();
-    }
-
-    return filtered;
+    final list = set.toList();
+    list.sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
+    return list;
   }
 
-  // Get communities for City Communities section - ONLY communities with exact "City Communities" category
-  List<CommunityModel> _getCityCommunities() {
-    final filtered = _getFilteredCommunities();
+  List<CommunityModel> _applySearch(List<CommunityModel> input) {
+    if (searchQuery.trim().isEmpty) return input;
 
-    return filtered.where((community) {
-      return community.hasAnyCategory(_cityCommunityCategories);
+    final q = searchQuery.trim().toLowerCase();
+
+    return input.where((c) {
+      return c.title.toLowerCase().contains(q) ||
+          c.description.toLowerCase().contains(q) ||
+          c.category.any((cat) => cat.toLowerCase().contains(q)) ||
+          c.type.toLowerCase().contains(q) ||
+          (c.location ?? '').toLowerCase().contains(q) ||
+          (c.trackName ?? '').toLowerCase().contains(q) ||
+          (c.terrain ?? '').toLowerCase().contains(q) ||
+          (c.distance?.toString() ?? '').contains(q);
     }).toList();
   }
 
-  // Get communities for Community Groups section - ONLY communities with exact "Group Communities" category
-  List<CommunityModel> _getGroupCommunities() {
-    final filtered = _getFilteredCommunities();
+  List<CommunityModel> _applyCityPills(List<CommunityModel> input) {
+    if (selectedFilterIndex == 0) return input;
 
-    return filtered.where((community) {
-      return community.hasAnyCategory(_groupCommunityCategories);
+    final selected = filterPills[selectedFilterIndex].toLowerCase();
+
+    return input.where((c) {
+      return (c.location ?? '').toLowerCase().contains(selected);
     }).toList();
   }
 
-  // Get communities for Awareness & Special Communities section - ONLY communities with exact "Awareness & Special Communities" category
-  List<CommunityModel> _getAwarenessCommunities() {
-    final filtered = _getFilteredCommunities();
+  List<CommunityModel> get _filteredCityCommunities =>
+      _applySearch(_applyCityPills(_cityCommunities));
 
-    return filtered.where((community) {
-      return community.hasAnyCategory(_awarenessCommunityCategories);
-    }).toList();
-  }
+  List<CommunityModel> get _filteredGroupCommunities =>
+      _applySearch(_groupCommunities);
+
+  List<CommunityModel> get _filteredAwarenessCommunities =>
+      _applySearch(_awarenessCommunities);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                // Header with Back Button
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    children: [
-                      AppBackButton(
-                        backgroundColor:
-                            AppColors.paleGreen.withValues(alpha: 0.36),
-                        iconColor: AppColors.brand_green,
-                        onBack: () {
-                          if (Navigator.of(context).canPop()) {
-                            Navigator.of(context).pop();
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: _isLoading
-                      ? const Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : _errorMessage != null
-                          ? Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.error_outline,
-                                    size: 64,
-                                    color: Colors.grey[400],
-                                  ),
-                                  const SizedBox(height: 16),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 32,
-                                    ),
-                                    child: Text(
-                                      _errorMessage!,
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
-                                        fontSize: 16,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 16),
-                                  ElevatedButton(
-                                    onPressed: _loadCommunities,
-                                    child: const Text('Retry'),
-                                  ),
-                                ],
-                              ),
-                            )
-                          : ListView(
-                              physics: const BouncingScrollPhysics(),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                              ),
-                              children: [
-                                BannerWithSearch(
-                                  imagePath: 'assets/images/cycling_1.png',
-                                  title: 'Communities',
-                                  wantSearchBar: true,
-                                  searchValue: searchQuery,
-                                  onChangeHandler: (value) {
-                                    setState(() {
-                                      searchQuery = value;
-                                    });
-                                  },
-                                  placeholder:
-                                      'Search by track name, city, distance or terrain...',
-                                ),
-                                const SizedBox(height: 24),
-                                SectionHeader(
-                                  title: 'Communities in Your City',
-                                  onViewAll: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) =>
-                                            ViewAllCommunitiesScreen(
-                                          title: 'Communities in Your City',
-                                          communities:
-                                              _getAwarenessCommunities(),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                                const SizedBox(height: 24),
-                                _buildAwarenessCommunitiesSection(),
-                                const SizedBox(height: 24),
-
-                                SectionHeader(
-                                  title: 'Browse by Community Type',
-                                  onViewAll: () {},
-                                ),
-                                const SizedBox(height: 24),
-                                CommunityCategoriesGrid(
-                                  onCategoryTap: (category) {
-                                    // Handle category tap
-                                    debugPrint('Category tapped: $category');
-                                  },
-                                ),
-                                const SizedBox(height: 24),
-                                // const SizedBox(height: 24),
-                                // SectionHeader(
-                                //   title: 'City Communities',
-                                //   onViewAll: () {},
-                                // ),
-                                // const SizedBox(height: 24),
-                                // _buildCityCommunitiesSection(),
-                                // const SizedBox(height: 24),
-                                SectionHeader(
-                                  title: 'Purpose-Based Communities',
-                                  onViewAll: () {},
-                                ),
-                                const SizedBox(height: 24),
-                                _buildGroupCommunitiesSection(),
-                              ],
-                            ),
-                ),
-              ],
-            ),
-          ],
-        ),
+        child: _isLoading
+            ? const _CommunitiesLoadingUI()
+            : (_errorMessage != null
+                ? _CommunitiesErrorUI(
+                    message: _errorMessage!,
+                    onRetry: _loadAllSections,
+                  )
+                : _buildMainUI(context)),
       ),
     );
   }
 
-  Widget _buildCityCommunitiesSection() {
-    final cityCommunities = _getCityCommunities();
+  Widget _buildMainUI(BuildContext context) {
+    return ListView(
+      physics: const BouncingScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+      children: [
+        const SizedBox(height: 16),
 
-    if (cityCommunities.isEmpty) {
-      return const SizedBox(
-        height: 100,
-        child: Center(
-          child: Text(
-            'No city communities found',
-            style: TextStyle(color: Colors.grey),
-          ),
+      CommunityHeader(
+  imagePath: 'assets/images/cycling_1.png',
+  title: 'Communities',
+  wantSearchBar: true,
+  showBackButton: true,
+  searchValue: searchQuery,
+  onChangeHandler: (value) {
+    setState(() => searchQuery = value);
+  },
+  placeholder: 'Search by track name, city, distance or terrain...',
+),
+
+
+        const SizedBox(height: 24),
+
+        // CITY
+        SectionHeader(
+          title: 'Communities in Your City',
+          onViewAll: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => ViewAllCommunitiesScreen(
+                  title: 'Communities in Your City',
+                  communities: _filteredCityCommunities,
+                ),
+              ),
+            );
+          },
         ),
-      );
-    }
 
-    return SizedBox(
-      height: 280,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: cityCommunities.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 16),
-        itemBuilder: (context, index) {
-          final community = cityCommunities[index];
-          return CommunityCard(
-            category: community.category.isNotEmpty
-                ? community.category.first
-                : 'Community',
-            title: community.title,
-            imagePath: community.imageUrl ?? 'assets/images/cycling_1.png',
-            joined: community.isJoined ?? false,
-            description: community.description,
-            onTap: () {
-              // Handle community tap
-            },
-            onExplore: () {
-              // Handle explore community
-            },
-          );
-        },
-      ),
+        const SizedBox(height: 24),
+        CommunitiesAwareness(
+          communities: _filteredCityCommunities,
+        ),
+
+        const SizedBox(height: 24),
+
+        // TYPES
+        SectionHeader(
+          title: 'Browse by Community Type',
+          onViewAll: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => CommunityTypeScreen(
+                  title: "Community Types",
+                  communities: _applySearch(_allCommunities),
+                ),
+              ),
+            );
+          },
+        ),
+
+        const SizedBox(height: 24),
+
+        CommunityCategoriesGrid(
+          types: _backendTypes,
+          onCategoryTap: (type) async {
+            final res = await _communitiesService.getCommunitiesByType(type);
+
+            if (!res.success || res.data == null) return;
+
+            List<CommunityModel> list = [];
+            final raw = res.data;
+
+            if (raw is Map<String, dynamic> &&
+                raw['data'] is Map &&
+                (raw['data'] as Map)['communities'] is List) {
+              list = ((raw['data'] as Map)['communities'] as List)
+                  .whereType<Map<String, dynamic>>()
+                  .map((e) => CommunityModel.fromJson(e))
+                  .toList();
+            }
+
+            if (!context.mounted) return;
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => ViewAllCommunitiesScreen(
+                  title: type,
+                  communities: list,
+                ),
+              ),
+            );
+          },
+        ),
+
+        const SizedBox(height: 24),
+
+        // PURPOSE BASED
+        SectionHeader(
+          title: 'Purpose-Based Communities',
+          onViewAll: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => ViewAllPurposeCommunitiesScreen(
+                  title: "Purpose-Based Communities",
+                  communities: _filteredGroupCommunities,
+                ),
+              ),
+            );
+          },
+        ),
+
+        const SizedBox(height: 24),
+        _buildGroupCommunitiesSection(),
+        const SizedBox(height: 24),
+      ],
     );
   }
 
   Widget _buildGroupCommunitiesSection() {
-    final groupCommunities = _getGroupCommunities();
+    final groupCommunities = _filteredGroupCommunities;
 
     if (groupCommunities.isEmpty) {
       return const SizedBox(
-        height: 100,
+        height: 120,
         child: Center(
           child: Text(
             'No community groups found',
-            style: TextStyle(color: Colors.grey),
+            style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w600),
           ),
         ),
       );
@@ -373,40 +335,183 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
       height: 250,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
         itemCount: groupCommunities.length,
         separatorBuilder: (_, __) => const SizedBox(width: 16),
         itemBuilder: (context, index) {
           final community = groupCommunities[index];
+
           return CommunityHorizontalCard(
             title: community.title,
             description: community.description,
             imagePath: community.imageUrl ?? 'assets/images/cycling_1.png',
-            onExplore: () {
-              // Handle explore community
-            },
+       onExplore: () {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (_) => CommunityCityDetails(community: community),
+    ),
+  );
+},
+
           );
         },
       ),
     );
   }
+}
 
-  Widget _buildAwarenessCommunitiesSection() {
-    final awarenessCommunities = _getAwarenessCommunities();
+class _CommunitiesLoadingUI extends StatelessWidget {
+  const _CommunitiesLoadingUI();
 
-    if (awarenessCommunities.isEmpty) {
-      return const SizedBox(
-        height: 100,
-        child: Center(
-          child: Text(
-            'No awareness communities found',
-            style: TextStyle(color: Colors.grey),
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+      children: [
+        const SizedBox(height: 16),
+
+        // Banner placeholder
+        Container(
+          height: 180,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: const Color(0xFFF1F2F4),
+            borderRadius: BorderRadius.circular(18),
           ),
         ),
-      );
-    }
 
-    return CommunitiesAwareness(
-      communities: awarenessCommunities,
+        const SizedBox(height: 24),
+
+        // Section title placeholder
+        Container(
+          height: 18,
+          width: 220,
+          decoration: BoxDecoration(
+            color: const Color(0xFFF1F2F4),
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+
+        const SizedBox(height: 16),
+
+        // Big card placeholder
+        Container(
+          height: 220,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: const Color(0xFFF1F2F4),
+            borderRadius: BorderRadius.circular(18),
+          ),
+        ),
+
+        const SizedBox(height: 24),
+
+        // Another section
+        Container(
+          height: 18,
+          width: 260,
+          decoration: BoxDecoration(
+            color: const Color(0xFFF1F2F4),
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+
+        const SizedBox(height: 16),
+
+        Container(
+          height: 140,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: const Color(0xFFF1F2F4),
+            borderRadius: BorderRadius.circular(18),
+          ),
+        ),
+
+        const SizedBox(height: 24),
+
+        Container(
+          height: 18,
+          width: 240,
+          decoration: BoxDecoration(
+            color: const Color(0xFFF1F2F4),
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+
+        const SizedBox(height: 16),
+
+        SizedBox(
+          height: 250,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: 3,
+            separatorBuilder: (_, __) => const SizedBox(width: 16),
+            itemBuilder: (context, index) {
+              return Container(
+                width: 220,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF1F2F4),
+                  borderRadius: BorderRadius.circular(18),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _CommunitiesErrorUI extends StatelessWidget {
+  final String message;
+  final VoidCallback onRetry;
+
+  const _CommunitiesErrorUI({
+    required this.message,
+    required this.onRetry,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.error_outline, size: 44, color: Colors.redAccent),
+            const SizedBox(height: 14),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: Colors.black87,
+              ),
+            ),
+            const SizedBox(height: 18),
+            ElevatedButton(
+              onPressed: onRetry,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.goldenOchre,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+              ),
+              child: const Text(
+                "Retry",
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

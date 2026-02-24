@@ -17,7 +17,7 @@ class RoutePhotosSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Route Views & Community Photos',
+            'Tracks Views & Community Photos',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w600,
@@ -28,7 +28,7 @@ class RoutePhotosSection extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // First column: Long image (wider)
+             
               Expanded(
                 flex: 3, // More width for long image
                 child: photoPaths.isNotEmpty
@@ -54,9 +54,9 @@ class RoutePhotosSection extends StatelessWidget {
                     : const SizedBox.shrink(),
               ),
               const SizedBox(width: 12),
-              // Second column: Two images stacked (narrower)
+             
               Expanded(
-                flex: 2, // Less width for right column
+                flex: 2, 
                 child: Column(
                   children: [
                     // Top image

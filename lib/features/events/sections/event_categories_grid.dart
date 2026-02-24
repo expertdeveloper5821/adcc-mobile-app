@@ -26,27 +26,27 @@ class EventCategoriesGrid extends StatelessWidget {
   static final List<EventCategory> categories = [
     const EventCategory(
       title: 'Races',
-      imagePath: 'assets/images/racing.png',
+      imagePath: 'assets/icons/ra.png',
     ),
     const EventCategory(
       title: 'Community Rides',
-      imagePath: 'assets/images/family-rides.png',
+      imagePath: 'assets/icons/cf.png',
     ),
     const EventCategory(
       title: 'Training & Clinics',
-      imagePath: 'assets/images/mtb-ride.png',
+      imagePath: 'assets/icons/tc.png',
     ),
     const EventCategory(
       title: 'Awareness Rides',
-      imagePath: 'assets/images/racing.png',
+      imagePath: 'assets/icons/ra.png',
     ),
     const EventCategory(
       title: 'Family & Kids',
-      imagePath: 'assets/images/family-rides.png',
+      imagePath: 'assets/icons/cf.png',
     ),
     const EventCategory(
       title: 'Corporate',
-      imagePath: 'assets/images/mtb-ride.png',
+      imagePath: 'assets/icons/tc.png',
     ),
   ];
 

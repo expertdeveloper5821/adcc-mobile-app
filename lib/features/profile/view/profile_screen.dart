@@ -64,8 +64,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             'refreshToken': refreshToken,
           };
 
-          debugPrint('📤 [Logout API] Request URL: ${ApiEndpoints.authLogout}');
-          debugPrint('📤 [Logout API] Request Body: $requestData');
+          debugPrint(' [Logout API] Request URL: ${ApiEndpoints.authLogout}');
+          debugPrint(' [Logout API] Request Body: $requestData');
 
           final response = await apiClient.post<dynamic>(
             ApiEndpoints.authLogout,
@@ -73,33 +73,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
           );
 
           debugPrint(
-              '📥 [Logout API] Response Status Code: ${response.statusCode}');
-          debugPrint('📥 [Logout API] Response Body: ${response.data}');
+              ' [Logout API] Response Status Code: ${response.statusCode}');
+          debugPrint(' [Logout API] Response Body: ${response.data}');
 
           if (response.statusCode != null &&
               response.statusCode! >= 200 &&
               response.statusCode! < 300) {
-            debugPrint('✅ [Logout API] Logout successful');
+            debugPrint(' [Logout API] Logout successful');
           } else {
             debugPrint(
-                '⚠️ [Logout API] Logout API returned non-success status');
+                ' [Logout API] Logout API returned non-success status');
             // Continue with local logout even if API fails
           }
         } on DioException catch (e) {
-          debugPrint('❌ [Logout API] DioException: ${e.message}');
-          debugPrint('❌ [Logout API] Response: ${e.response?.data}');
+        
           // Continue with local logout even if API fails
         } catch (e) {
-          debugPrint('❌ [Logout API] Unexpected error: $e');
+       
           // Continue with local logout even if API fails
         }
       } else {
-        debugPrint('⚠️ [Logout] No refresh token found, skipping API call');
+        debugPrint(' [Logout] No refresh token found, skipping API call');
       }
 
       // Clear all tokens and user data locally
       await TokenStorageService.clearTokens();
-      debugPrint('✅ [Logout] Local tokens cleared');
+      debugPrint(' [Logout] Local tokens cleared');
 
       // Update authentication state
       if (mounted) {

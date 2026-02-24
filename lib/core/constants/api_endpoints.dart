@@ -8,11 +8,19 @@ class ApiEndpoints {
   // Events endpoints
   static const String events = '$v1/events';
   static String eventById(String id) => '$v1/events/$id';
-
+   static String joinEvent(String eventId) => '/v1/events/$eventId/joinEvent';
+  static String cancelEvent(String eventId) => '/v1/events/$eventId/cancel';
   // Community endpoints
   static const String communities = '$v1/communities';
   static String communityById(String id) => '$communities/$id';
+  static String leaveCommunity(String id) => '$communities/$id/leave';
+  static String joinCommunity(String id) => '$communities/$id/join';
 
+  static const String tracks = '$v1/tracks';
+static String trackRelatedEvents(String trackId) =>
+    '$v1/tracks/$trackId/events/results';
+    static String trackRelatedCommunities(String trackId) =>
+      '$v1/tracks/$trackId/communities/results';
   // Authentication endpoints
   static const String auth = '$v1/auth';
   static const String authVerify = '$auth/verify';

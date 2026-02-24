@@ -25,7 +25,7 @@ class RoutePreviewSection extends StatefulWidget {
 }
 
 class _RoutePreviewSectionState extends State<RoutePreviewSection> {
-  // Default locations (Abu Dhabi, UAE) - replace with actual route data
+
   LatLng get _startLocation =>
       widget.startLocation ??
       const LatLng(24.4539, 54.3773); // Abu Dhabi default
@@ -35,8 +35,7 @@ class _RoutePreviewSectionState extends State<RoutePreviewSection> {
       const LatLng(24.4812, 54.3519); // Abu Dhabi default
 
   void _onDistanceCalculated(double distance) {
-    // Distance is calculated and displayed in the map widget
-    // This callback can be used for additional features if needed
+    
   }
 
   @override

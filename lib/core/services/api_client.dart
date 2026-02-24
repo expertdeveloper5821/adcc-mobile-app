@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'api_interceptor.dart';
 
-/// API Client configuration
 class ApiConfig {
   static const String baseUrl = 'https://adcc-b4f3.onrender.com';
   static const Duration connectTimeout = Duration(seconds: 30);
@@ -9,7 +8,6 @@ class ApiConfig {
   static const Duration sendTimeout = Duration(seconds: 30);
 }
 
-/// Singleton API client with interceptors
 class ApiClient {
   static ApiClient? _instance;
   late final Dio _dio;
@@ -26,53 +24,27 @@ class ApiClient {
           'Accept': 'application/json',
         },
         validateStatus: (status) {
-          // Consider status codes less than 500 as success
-          return status != null && status < 500;
+          return status != null && status >= 200 && status < 300;
         },
       ),
     );
 
-    // Add interceptors
     _dio.interceptors.add(
       ApiInterceptor(
-        enableLogging: true, // Set to false in production if needed
+        enableLogging: true,
         maxRetries: 3,
         retryDelay: const Duration(seconds: 1),
       ),
     );
   }
 
-  /// Get singleton instance
   static ApiClient get instance {
     _instance ??= ApiClient._internal();
     return _instance!;
   }
 
-  /// Get Dio instance
   Dio get dio => _dio;
 
-  /// Update base URL (useful for environment switching)
-  void updateBaseUrl(String baseUrl) {
-    _dio.options.baseUrl = baseUrl;
-  }
-
-  /// Update headers
-  void updateHeaders(Map<String, dynamic> headers) {
-    _dio.options.headers.addAll(headers);
-  }
-
-  /// Clear headers
-  void clearHeaders() {
-    _dio.options.headers.clear();
-    _dio.options.headers.addAll({
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    });
-  }
-
-  // Convenience methods for common HTTP operations
-
-  /// GET request
   Future<Response<T>> get<T>(
     String path, {
     Map<String, dynamic>? queryParameters,
@@ -89,7 +61,6 @@ class ApiClient {
     );
   }
 
-  /// POST request
   Future<Response<T>> post<T>(
     String path, {
     dynamic data,
@@ -110,7 +81,6 @@ class ApiClient {
     );
   }
 
-  /// PUT request
   Future<Response<T>> put<T>(
     String path, {
     dynamic data,
@@ -131,7 +101,6 @@ class ApiClient {
     );
   }
 
-  /// PATCH request
   Future<Response<T>> patch<T>(
     String path, {
     dynamic data,
@@ -152,7 +121,6 @@ class ApiClient {
     );
   }
 
-  /// DELETE request
   Future<Response<T>> delete<T>(
     String path, {
     dynamic data,

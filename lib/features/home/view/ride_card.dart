@@ -28,7 +28,7 @@ class RideCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// IMAGE + TITLE OVERLAY
+  
           ClipRRect(
             borderRadius: BorderRadius.circular(18),
             child: Stack(
@@ -40,7 +40,7 @@ class RideCard extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
 
-                /// Gradient overlay
+       
                 Positioned.fill(
                   child: Container(
                     decoration: BoxDecoration(

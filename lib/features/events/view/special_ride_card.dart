@@ -5,8 +5,8 @@ import 'package:adcc/features/event_details/view/event_details_screen.dart';
 import 'package:flutter/material.dart';
 
 class SpecialRideCard extends StatelessWidget {
-  static const double _imageHeight = 400;
-  
+  static const double _cardHeight = 400;
+
   final String imagePath;
   final String title;
   final String date;
@@ -15,9 +15,13 @@ class SpecialRideCard extends StatelessWidget {
   final String? location;
   final String? venue;
   final String? riders;
-  final String? eventType; // e.g., "Race", "Open"
+
+  /// UI values
+  final String? eventType; // e.g., "Race"
   final String? groupName; // e.g., "Abu Dhabi Road Racers"
+  final String? city; // e.g., "Abu Dhabi"
   final String? eventId;
+
   final VoidCallback? onShare;
   final VoidCallback? onTap;
   final VoidCallback? onOpen;
@@ -35,6 +39,7 @@ class SpecialRideCard extends StatelessWidget {
     this.riders,
     this.eventType,
     this.groupName,
+    this.city,
     this.eventId,
     this.onShare,
     this.onTap,
@@ -42,385 +47,348 @@ class SpecialRideCard extends StatelessWidget {
     this.width = 350,
   });
 
-  bool get _isNetworkImage {
-    return imagePath.startsWith('http://') || imagePath.startsWith('https://');
-  }
+  bool get _isNetworkImage =>
+      imagePath.startsWith('http://') || imagePath.startsWith('https://');
 
-  bool get _isBase64Image {
-    return imagePath.startsWith('data:image/');
-  }
+  bool get _isBase64Image => imagePath.startsWith('data:image/');
 
-  Widget _buildImage() {
-    if (_isBase64Image) {
-      // Handle base64 image
-      try {
-          return SizedBox(
-          height: _imageHeight,
-          width: double.infinity,
-          child: Image.memory(
-            _base64Decode(imagePath),
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) {
-              return Container(
-                height: _imageHeight,
-                color: Colors.grey[200],
-                child: const Icon(
-                  Icons.error_outline,
-                  size: 48,
-                  color: Colors.grey,
-                ),
-              );
-            },
-          ),
-        );
-      } catch (e) {
-        return Container(
-          height: _imageHeight,
-          color: Colors.grey[200],
-          child: const Icon(
-            Icons.error_outline,
-            size: 48,
-            color: Colors.grey,
-          ),
-        );
-      }
-    } else if (_isNetworkImage) {
-      return SizedBox(
-        height: _imageHeight,
-        width: double.infinity,
-        child: Image.network(
-          imagePath,
-          fit: BoxFit.cover,
-          loadingBuilder: (context, child, loadingProgress) {
-            if (loadingProgress == null) return child;
-            return Container(
-              height: _imageHeight,
-              color: Colors.grey[200],
-              child: Center(
-                child: CircularProgressIndicator(
-                  value: loadingProgress.expectedTotalBytes != null
-                      ? loadingProgress.cumulativeBytesLoaded /
-                          loadingProgress.expectedTotalBytes!
-                      : null,
-                ),
-              ),
-            );
-          },
-          errorBuilder: (context, error, stackTrace) {
-            return Container(
-              height: _imageHeight,
-              color: Colors.grey[200],
-              child: const Icon(
-                Icons.error_outline,
-                size: 48,
-                color: Colors.grey,
-              ),
-            );
-          },
-        ),
-      );
-    } else {
-      return SizedBox(
-        height: _imageHeight,
-        width: double.infinity,
-        child: Image.asset(
-          imagePath,
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) {
-            return Container(
-              height: _imageHeight,
-              color: Colors.grey[200],
-              child: const Icon(
-                Icons.error_outline,
-                size: 48,
-                color: Colors.grey,
-              ),
-            );
-          },
-        ),
-      );
-    }
-  }
-
-  /// Decode base64 image data URI
   Uint8List _base64Decode(String dataUri) {
-    // Remove data URI prefix (e.g., "data:image/png;base64,")
     final base64String =
         dataUri.contains(',') ? dataUri.split(',')[1] : dataUri;
     return base64Decode(base64String);
   }
 
+  Widget _buildImage() {
+    if (_isBase64Image) {
+      try {
+        return Image.memory(
+          _base64Decode(imagePath),
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+        );
+      } catch (_) {
+        return Container(
+          color: Colors.grey[200],
+          child: const Icon(Icons.error_outline, size: 48, color: Colors.grey),
+        );
+      }
+    }
+
+    if (_isNetworkImage) {
+      return Image.network(
+        imagePath,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: double.infinity,
+        errorBuilder: (_, __, ___) => Container(
+          color: Colors.grey[200],
+          child: const Icon(Icons.error_outline, size: 48, color: Colors.grey),
+        ),
+        loadingBuilder: (context, child, progress) {
+          if (progress == null) return child;
+          return Container(
+            color: Colors.grey[200],
+            child: const Center(child: CircularProgressIndicator()),
+          );
+        },
+      );
+    }
+
+    return Image.asset(
+      imagePath,
+      fit: BoxFit.cover,
+      width: double.infinity,
+      height: double.infinity,
+      errorBuilder: (_, __, ___) => Container(
+        color: Colors.grey[200],
+        child: const Icon(Icons.error_outline, size: 48, color: Colors.grey),
+      ),
+    );
+  }
+
+  Widget _chip({
+    required String text,
+    required Color bg,
+    required Color fg,
+  }) {
+    return Container(
+      height: 20,
+      padding: const EdgeInsets.fromLTRB(9, 3, 9, 4),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(4.969),
+      ),
+      child: Center(
+        child: Text(
+          text,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            fontSize: 9.98,
+            fontWeight: FontWeight.w700,
+            height: 1,
+            color: fg,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final typeText = (eventType ?? 'Race').trim();
+    final cityText = (city ?? location ?? 'Abu Dhabi').trim();
+final id = eventId ?? "";
+
     return GestureDetector(
-      onTap: onTap ??
-          () {
-            if (eventId != null && eventId!.isNotEmpty) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => EventDetailsScreen(
-                    eventId: eventId!,
-                  ),
-                ),
-              );
-            }
+    onTap: onTap ??
+    () {
+      if (id.isEmpty) return;
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => EventDetailsScreen(eventId: id),
+        ),
+      );
+    
           },
       child: SizedBox(
         width: width,
+        height: _cardHeight,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(16),
-          child: SizedBox(
-            height: _imageHeight, // Container height matches image height
-            child: Stack(
-              children: [
+          child: Stack(
+            children: [
               /// Background Image
-              _buildImage(),
+              Positioned.fill(child: _buildImage()),
 
-              /// Top Row: Event Type Badge (Left) and Share Button (Right)
+              /// Top-left Badge: Race
               Positioned(
-                top: 16,
-                left: 16,
-                right: 16,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    /// Event Type Badge (Left)
-                    if (eventType != null)
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.deepRed,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          eventType!,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    /// Share Button (Right)
-                    GestureDetector(
-                      onTap: onShare,
-                      child: Container(
-                        width: 30,
-                        height: 30,
-                        decoration: const BoxDecoration(
-                          color: AppColors.deepRed,
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.share,
-                          color: Colors.white,
-                          size: 18,
-                        ),
+                left: 12,
+                top: 12,
+                child: Container(
+                  height: 22,
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFD92C2C),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Center(
+                    child: Text(
+                      typeText.isEmpty ? "Race" : typeText,
+                      style: const TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white,
                       ),
                     ),
-                  ],
+                  ),
                 ),
               ),
 
-              /// Bottom Info Card
+              /// Top-right Share Button
               Positioned(
-                left: 16,
-                right: 16,
-                bottom: 16,
-                child: Container(
-                  padding: const EdgeInsets.all(14),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFFF9EF),
-                    borderRadius: BorderRadius.circular(16),
+                right: 12,
+                top: 12,
+                child: InkWell(
+                  onTap: onShare,
+                  borderRadius: BorderRadius.circular(50),
+                  child: Container(
+                    height: 34,
+                    width: 34,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFD92C2C),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.share,
+                      size: 18,
+                      color: Colors.white,
+                    ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      /// Light Green Badge Buttons
-                      if (onOpen != null || groupName != null)
+                ),
+              ),
+
+              /// Bottom Info Card (Exact)
+              Positioned(
+                left: 15,
+                right: 15,
+                bottom: 14,
+                child: SizedBox(
+                  height: 128,
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFFF9EF),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        /// Row 1: Open + Abu Dhabi + Group
                         Row(
                           children: [
-                            if (onOpen != null)
-                              InkWell(
-                                onTap: onOpen,
+                            /// Open chip
+                            InkWell(
+                              onTap: onOpen,
+                              child: _chip(
+                                text: "Open",
+                                bg: const Color(0xFF3EE606).withValues(alpha: 0.33),
+                                fg: const Color(0xFF328700),
+                              ),
+                            ),
+
+                            const SizedBox(width: 6),
+
+                            /// City chip
+                            _chip(
+                              text: cityText.isEmpty ? "Abu Dhabi" : cityText,
+                              bg: const Color(0xFF3EE606).withValues(alpha: 0.33),
+                              fg: const Color(0xFF328700),
+                            ),
+
+                            if (groupName != null &&
+                                groupName!.trim().isNotEmpty)
+                              const SizedBox(width: 6),
+
+                            /// Group chip
+                            if (groupName != null &&
+                                groupName!.trim().isNotEmpty)
+                              Expanded(
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 6,
-                                  ),
+                                  height: 20,
+                                  padding: const EdgeInsets.fromLTRB(9, 3, 9, 4),
                                   decoration: BoxDecoration(
-                                    color: AppColors.electric_lime.withValues(alpha: 0.54),
-                                    borderRadius: BorderRadius.circular(8),
+                                    color: const Color(0xFFBFF3A2),
+                                    borderRadius: BorderRadius.circular(4.969),
                                   ),
-                                  child: const Text(
-                                    'Open',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black87,
+                                  child: Text(
+                                    groupName!,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 9.98,
+                                      fontWeight: FontWeight.w700,
+                                      height: 1,
+                                      color: Color(0xFF328700),
                                     ),
                                   ),
                                 ),
                               ),
-                            if (onOpen != null && groupName != null)
-                              const SizedBox(width: 8),
-                            if (groupName != null)
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 6,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: AppColors.paleGreen,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Text(
-                                  groupName!,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black87,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
-                              ),
                           ],
                         ),
-                      if (onOpen != null || groupName != null)
-                        const SizedBox(height: 10),
 
-                      /// Event Title
-                      Text(
-                        title,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+                        const SizedBox(height: 6),
+
+                        /// Title
+                        Text(
+                          title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 14.8,
+                            fontWeight: FontWeight.w800,
+                            color: AppColors.deepRed,
+                          ),
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 10),
 
-                      /// First Info Row: Date, Time, Distance
-                      /// TODO: Make dynamic - currently showing static values for design preview
-                      Row(
-                        children: [
-                          // Date - will be dynamic: date.isNotEmpty ? date : 'TBD'
-                          Icon(
-                            Icons.calendar_month_outlined,
-                            size: 16,
-                            color: Colors.black87,
-                          ),
-                          const SizedBox(width: 6),
-                          Flexible(
-                            child: Text(
-                              date.isNotEmpty ? date : '18 July 2026',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Colors.black87,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          // Time - will be dynamic: time ?? '5:30 AM'
-                          Icon(
-                            Icons.access_time_filled_outlined,
-                            size: 16,
-                            color: Colors.black87,
-                          ),
-                          const SizedBox(width: 6),
-                          Flexible(
-                            child: Text(
-                              time ?? '5:30 AM',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Colors.black87,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          // Distance - will be dynamic: distance ?? '42 km'
-                          Icon(
-                            Icons.merge_type_rounded,
-                            size: 16,
-                            color: Colors.black87,
-                          ),
-                          const SizedBox(width: 6),
-                          Flexible(
-                            child: Text(
-                              distance ?? '42 km',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Colors.black87,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
+                        const SizedBox(height: 8),
 
-                      /// Second Info Row: Location, Venue
-                      /// TODO: Make dynamic - currently showing static values for design preview
-                      Row(
-                        children: [
-                          // Location - will be dynamic: location ?? 'Abu Dhabi'
-                          Icon(
-                            Icons.location_on,
-                            size: 16,
-                            color: Colors.black87,
-                          ),
-                          const SizedBox(width: 6),
-                          Flexible(
-                            child: Text(
-                              location ?? 'Abu Dhabi',
+                        /// Row: Date + Time + KM
+                        Row(
+                          children: [
+                            const Icon(Icons.calendar_month_outlined,
+                                size: 14, color: Colors.black87),
+                            const SizedBox(width: 6),
+                            Expanded(
+                              child: Text(
+                                date,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 11.5,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            const Icon(Icons.access_time_filled_outlined,
+                                size: 14, color: Colors.black87),
+                            const SizedBox(width: 6),
+                            Text(
+                              (time ?? "5:30 AM"),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
-                                fontSize: 14,
+                                fontSize: 11.5,
+                                fontWeight: FontWeight.w700,
                                 color: Colors.black87,
                               ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
                             ),
-                          ),
-                          const SizedBox(width: 12),
-                          // Venue - will be dynamic: venue ?? 'Yas Marina Circuit'
-                          Icon(
-                            Icons.route,
-                            size: 16,
-                            color: Colors.black87,
-                          ),
-                          const SizedBox(width: 6),
-                          Flexible(
-                            child: Text(
-                              venue ?? 'Yas Marina Circuit',
+                            const SizedBox(width: 10),
+                            const Icon(Icons.merge_type_rounded,
+                                size: 14, color: Colors.black87),
+                            const SizedBox(width: 6),
+                            Text(
+                              (distance ?? "42 km"),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
-                                fontSize: 14,
+                                fontSize: 11.5,
+                                fontWeight: FontWeight.w700,
                                 color: Colors.black87,
                               ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        /// Row: Location + Venue
+                        Row(
+                          children: [
+                            const Icon(Icons.location_on,
+                                size: 14, color: Colors.black87),
+                            const SizedBox(width: 6),
+                            Expanded(
+                              child: Text(
+                                location ?? "Abu Dhabi",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 11.5,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            const Icon(Icons.route,
+                                size: 14, color: Colors.black87),
+                            const SizedBox(width: 6),
+                            Expanded(
+                              child: Text(
+                                venue ?? "Yas Marina Circuit",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 11.5,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-              ],
-            ),
+            ],
           ),
         ),
       ),

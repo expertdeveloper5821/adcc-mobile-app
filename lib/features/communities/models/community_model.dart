@@ -2,10 +2,23 @@ class CommunityModel {
   final String id;
   final String title;
   final String description;
+
+
   final String type;
+
+
   final List<String> category;
+
+ 
+  final String? location;
+  final String? trackName;
+  final String? terrain;
+  final double? distance;
+
+
   final String? imageUrl;
-  final bool? isJoined;
+
+ bool isJoined;
   final int? membersCount;
   final int? eventsCount;
 
@@ -15,29 +28,56 @@ class CommunityModel {
     required this.description,
     required this.type,
     required this.category,
+    this.location,
+    this.trackName,
+    this.terrain,
+    this.distance,
     this.imageUrl,
-    this.isJoined,
+  this.isJoined = false,   
     this.membersCount,
     this.eventsCount,
   });
 
-  factory CommunityModel.fromJson(Map<String, dynamic> json) {
-    return CommunityModel(
-      id: json['_id'] ?? '',
-      title: json['title'] ?? '',
-      description: json['description'] ?? '',
-      type: json['type'] ?? '',
-      category:
-          json['category'] != null ? List<String>.from(json['category']) : [],
-      imageUrl: json['imageUrl'] ?? json['image'] ?? json['imagePath'],
-      isJoined: json['isJoined'] ?? json['joined'] ?? false,
-      membersCount: _parseCount(
-          json['membersCount'] ?? json['members'] ?? json['memberCount']),
-      eventsCount: _parseCount(
-          json['eventsCount'] ?? json['events'] ?? json['eventCount']),
-    );
-  }
+ factory CommunityModel.fromJson(Map<String, dynamic> json) {
+  return CommunityModel(
+    id: json['_id'] ?? '',
+    title: json['title'] ?? '',
+    description: json['description'] ?? '',
 
+    // type can be List or String
+    type: json['type'] is List
+        ? (json['type'] as List).join(', ')
+        : json['type']?.toString() ?? '',
+
+    // FIXED CATEGORY PARSING
+    category: _parseCategory(json['category']),
+
+    location: json['location']?.toString(),
+    trackName: json['trackName']?.toString(),
+    terrain: json['terrain']?.toString(),
+    distance: _parseDouble(json['distance']),
+
+    imageUrl: json['imageUrl'] ?? json['image'] ?? json['imagePath'],
+
+    isJoined: (json['isJoined'] ??
+            json['joined'] ??
+            json['isMember'] ??
+            false) ==
+        true,
+
+    membersCount: _parseCount(
+      json['membersCount'] ??
+          json['members'] ??
+          json['memberCount'],
+    ),
+
+    eventsCount: _parseCount(
+      json['eventsCount'] ??
+          json['events'] ??
+          json['eventCount'],
+    ),
+  );
+}
   Map<String, dynamic> toJson() {
     return {
       '_id': id,
@@ -45,6 +85,10 @@ class CommunityModel {
       'description': description,
       'type': type,
       'category': category,
+      'location': location,
+      'trackName': trackName,
+      'terrain': terrain,
+      'distance': distance,
       'imageUrl': imageUrl,
       'isJoined': isJoined,
       'membersCount': membersCount,
@@ -52,44 +96,53 @@ class CommunityModel {
     };
   }
 
-  /// Helper method to safely parse count values that might be int or List
   static int? _parseCount(dynamic value) {
     if (value == null) return null;
     if (value is int) return value;
     if (value is List) return value.length;
-    if (value is String) {
-      final parsed = int.tryParse(value);
-      return parsed;
-    }
+    if (value is String) return int.tryParse(value);
     return null;
   }
 
-  // Helper method to check if community belongs to a specific category (case-insensitive)
-  bool hasCategory(String categoryName) {
-    final lowerCategoryName = categoryName.toLowerCase();
-    return category.any((cat) => cat.toLowerCase() == lowerCategoryName);
+  static double? _parseDouble(dynamic value) {
+    if (value == null) return null;
+    if (value is num) return value.toDouble();
+    if (value is String) return double.tryParse(value);
+    return null;
   }
 
-  // Helper method to check if community belongs to any of the given categories (case-insensitive, EXACT match only)
+  bool hasCategory(String categoryName) {
+    final lowerCategoryName = categoryName.toLowerCase().trim();
+    return category.any((cat) => cat.toLowerCase().trim() == lowerCategoryName);
+  }
+
   bool hasAnyCategory(List<String> categories) {
     if (category.isEmpty) return false;
 
-    // Convert to lowercase for case-insensitive comparison
     final lowerCategories =
         categories.map((c) => c.toLowerCase().trim()).toList();
     final lowerCommunityCategories =
         category.map((c) => c.toLowerCase().trim()).toList();
 
-    // Only check for EXACT matches (case-insensitive)
-    for (var keyword in lowerCategories) {
-      for (var cat in lowerCommunityCategories) {
-        // Exact match only - no partial matching
-        if (cat == keyword) {
-          return true;
-        }
+    for (final keyword in lowerCategories) {
+      for (final cat in lowerCommunityCategories) {
+        if (cat == keyword) return true;
       }
     }
-
     return false;
   }
+
+  static List<String> _parseCategory(dynamic value) {
+  if (value == null) return [];
+
+  if (value is List) {
+    return value.map((e) => e.toString()).toList();
+  }
+
+  if (value is String) {
+    return [value];
+  }
+
+  return [];
+}
 }
