@@ -24,10 +24,35 @@ class EventDetailsScreen extends StatefulWidget {
 
 class _EventDetailsScreenState extends State<EventDetailsScreen> {
 bool isRegistered = false;
-
+bool isStatusLoading = true;
 bool isLoading = false;
 final EventsService _eventsService = EventsService();
+@override
+void initState() {
+  super.initState();
+  _checkMemberStatus();
+}
+Future<void> _checkMemberStatus() async {
+  setState(() => isStatusLoading = true);
 
+  final result = await _eventsService.getMemberStatus(
+    eventId: widget.eventId,
+  );
+
+  if (!mounted) return;
+
+  if (result.success) {
+    setState(() {
+      isRegistered = result.data ?? false;
+      isStatusLoading = false;
+    });
+  } else {
+    setState(() {
+      isRegistered = false;
+      isStatusLoading = false;
+    });
+  }
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -421,13 +446,16 @@ child: Row(
 ),
 
                   const SizedBox(height: 12),
-
 SizedBox(
   width: double.infinity,
   height: 52,
-child: !isRegistered  
-      ? ElevatedButton(
-         onPressed: isLoading
+  child: isStatusLoading
+      ? const Center(
+          child: CircularProgressIndicator(),
+        )
+      : !isRegistered
+          ? ElevatedButton(
+            onPressed: isLoading
     ? null
     : () async {
         setState(() => isLoading = true);
@@ -441,15 +469,10 @@ child: !isRegistered
         if (!context.mounted) return;
 
         if (result.success) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(result.message ?? "Registered successfully")),
-          );
+      
+          await _checkMemberStatus();
 
-          // UI update
-         setState(() => isRegistered = true);
-
-
-          // Navigate to success screen
+     
           await Navigator.push(
             context,
             MaterialPageRoute(
@@ -457,7 +480,7 @@ child: !isRegistered
                 eventTitle: "Abu Dhabi Night Race Series",
                 eventLocationLine: "Yas Marina Circuit",
                 date: "18 July 2026",
-                location: "Abu dhabi",
+                location: "Abu Dhabi",
                 type: "Race",
                 community: "Abu Dhabi\nRoad Racers",
                 eventImagePath: "assets/images/cycling_1.png",
@@ -467,67 +490,68 @@ child: !isRegistered
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(result.message ?? "Registration failed")),
+            SnackBar(
+              content: Text(result.message ?? "Registration failed"),
+            ),
           );
         }
       },
-
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.deepRed,
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
-            ),
-          ),
-         child: Text(isLoading ? "Please wait..." : "Registration",
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w900,
-              color: Colors.white,
-            ),
-          ),
-        )
-      : OutlinedButton(
-    onPressed: isLoading
-        ? null
-        : () async {
-           
-            final result = await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => CancelRegistrationScreen(
-                  eventId: widget.eventId,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.deepRed,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
                 ),
               ),
-            );
-
-            if (result == true) {
-              setState(() => isRegistered = false);
-
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Cancelled successfully")),
-              );
-            }
-          },
-    style: OutlinedButton.styleFrom(
-      side: const BorderSide(
-        color: AppColors.deepRed,
-        width: 1.4,
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(14),
-      ),
-    ),
-    child: Text(
-      isLoading ? "Please wait..." : "Cancel Registration",
-      style: const TextStyle(
-        fontSize: 13,
-        fontWeight: FontWeight.w900,
-        color: AppColors.deepRed,
+              child: Text(
+                isLoading ? "Please wait..." : "Registration",
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.white,
+                ),
+              ),
+            )
+          : OutlinedButton(
+             onPressed: () async {
+  final result = await Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (_) => CancelRegistrationScreen(
+        eventId: widget.eventId,
       ),
     ),
-  ),
+  );
 
+  if (!mounted) return;
+
+  if (result == true) {
+  
+    await _checkMemberStatus();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Cancelled successfully")),
+    );
+  }
+},
+              style: OutlinedButton.styleFrom(
+                side: const BorderSide(
+                  color: AppColors.deepRed,
+                  width: 1.4,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+              ),
+              child: Text(
+                isLoading ? "Please wait..." : "Cancel Registration",
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w900,
+                  color: AppColors.deepRed,
+                ),
+              ),
+            ),
 ),
 
                 ],

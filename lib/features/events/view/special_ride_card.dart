@@ -143,11 +143,11 @@ final id = eventId ?? "";
 
   return GestureDetector(
   onTap: () {
-    debugPrint("🟢 Card tapped: $title");
-    debugPrint("🟢 Event ID: $id");
+    debugPrint(" Card tapped: $title");
+    debugPrint(" Event ID: $id");
 
     if (id.isEmpty) {
-      debugPrint("❌ Event ID empty — navigation blocked");
+      debugPrint(" Event ID empty — navigation blocked");
       return;
     }
 
@@ -155,7 +155,7 @@ final id = eventId ?? "";
   context,
   MaterialPageRoute(
     builder: (_) {
-      debugPrint("📌 Navigating to EventDetailsScreen with ID: $eventId");
+      debugPrint(" Navigating to EventDetailsScreen with ID: $eventId");
       return EventDetailsScreen(eventId: eventId!);
     },
   ),

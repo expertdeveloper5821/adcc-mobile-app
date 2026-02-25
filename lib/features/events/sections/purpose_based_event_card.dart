@@ -202,7 +202,7 @@ class PurposeBasedEventCard extends StatelessWidget {
                       Row(
                         children: [
                           Image.asset(
-      'assets/icons/calender.png', // 👈 apni image
+      'assets/icons/calender.png',
       height: 16,
       width: 16,
     ),

@@ -297,14 +297,14 @@ class EventsService {
     } on DioException catch (e) {
       final apiException = ApiException.fromDioException(e);
 
-      debugPrint("❌ [Join Event] DioException: ${apiException.toString()}");
+      debugPrint(" [Join Event] DioException: ${apiException.toString()}");
 
       return ApiResponse.error(
         message: apiException.toString(),
         statusCode: apiException.statusCode,
       );
     } catch (e) {
-      debugPrint("❌ [Join Event] Unexpected Error: $e");
+      debugPrint(" [Join Event] Unexpected Error: $e");
       return ApiResponse.error(message: "Unexpected error: $e");
     }
   }
@@ -366,14 +366,14 @@ class EventsService {
 /// Get event by ID
 Future<ApiResponse<Event>> getEventById(String eventId) async {
   try {
-    debugPrint("🌐 GET Event By ID: $eventId");
+    debugPrint(" GET Event By ID: $eventId");
 
     final response = await _apiClient.get<dynamic>(
       ApiEndpoints.eventById(eventId),
     );
 
-    debugPrint("📡 Status Code: ${response.statusCode}");
-    debugPrint("📦 Raw Response: ${response.data}");
+    debugPrint(" Status Code: ${response.statusCode}");
+    debugPrint(" Raw Response: ${response.data}");
 
 if ((response.statusCode == 200 || response.statusCode == 201) &&
     response.data != null &&
@@ -384,14 +384,14 @@ if ((response.statusCode == 200 || response.statusCode == 201) &&
       if (data is Map<String, dynamic>) {
         final event = Event.fromJson(data);
 
-        debugPrint("✅ Event Parsed Successfully: ${event.title}");
+        debugPrint(" Event Parsed Successfully: ${event.title}");
 
         return ApiResponse.success(
           data: event,
           statusCode: response.statusCode,
         );
       } else {
-        debugPrint("❌ Event data format invalid");
+        debugPrint("Event data format invalid");
         return ApiResponse.error(
           message: "Invalid event format",
           statusCode: response.statusCode,
@@ -399,7 +399,7 @@ if ((response.statusCode == 200 || response.statusCode == 201) &&
       }
     }
 
-    debugPrint("❌ API returned failure response");
+    debugPrint(" API returned failure response");
     return ApiResponse.error(
       message: response.data?["message"] ?? "Failed to fetch event",
       statusCode: response.statusCode,
@@ -407,14 +407,14 @@ if ((response.statusCode == 200 || response.statusCode == 201) &&
   } on DioException catch (e) {
     final apiException = ApiException.fromDioException(e);
 
-    debugPrint("❌ DioException in getEventById: ${apiException.toString()}");
+    debugPrint(" DioException in getEventById: ${apiException.toString()}");
 
     return ApiResponse.error(
       message: apiException.toString(),
       statusCode: apiException.statusCode,
     );
   } catch (e) {
-    debugPrint("❌ Unexpected error in getEventById: $e");
+    debugPrint("Unexpected error in getEventById: $e");
 
     return ApiResponse.error(
       message: "Unexpected error: $e",
