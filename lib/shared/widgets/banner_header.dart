@@ -7,7 +7,9 @@ class BannerHeadder extends StatelessWidget {
   final String? imagePath;      // Asset image
   final String? base64Image;    // API base64 image
   final String title;
+  final double height;
   final String subtitle;
+  final bool showNotificationIcon;
   final VoidCallback? onBackTap;
 
   const BannerHeadder({
@@ -15,6 +17,8 @@ class BannerHeadder extends StatelessWidget {
     this.imagePath,
     this.base64Image,
     required this.title,
+    this.height = 210,
+    this.showNotificationIcon = false,
     required this.subtitle,
     this.onBackTap,
   });
@@ -47,7 +51,7 @@ class BannerHeadder extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: SizedBox(
-        height: 210,
+        height: height,
         width: double.infinity,
         child: Stack(
           children: [
@@ -113,7 +117,55 @@ class BannerHeadder extends StatelessWidget {
               ),
             ),
 
-            /// Bottom Text
+            // notifocation Button (top-right)
+            if (showNotificationIcon)
+              Positioned(
+                right: 14,
+                top: 14,
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: onBackTap ?? () => Navigator.pop(context),
+                    borderRadius: BorderRadius.circular(999),
+                    child: Container(
+                      width: 42,
+                      height: 42,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      child: GestureDetector(
+                        onTap: () {
+                          // Handle notification tap
+                          debugPrint('Notification tapped');
+                        },
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: AppColors.paleGreen.withValues(alpha: 0.36),
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.2),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: const Icon(
+                            Icons.notifications,
+                            color: AppColors.deepRed,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+            // Text content (bottom-left)
             Positioned(
               left: 16,
               right: 16,

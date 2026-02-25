@@ -1,13 +1,12 @@
-import 'dart:io';
-
+import 'package:adcc/shared/widgets/banner_header.dart';
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/app_button.dart';
-import '../../../shared/widgets/back_button_widget.dart';
 import '../../../shared/widgets/search_box.dart';
 import '../../../shared/widgets/category_selector.dart';
 import '../../../shared/widgets/store_item_card.dart';
 import 'store_details_screen.dart';
+import 'sell_product_screen.dart';
 
 class StoreScreen extends StatefulWidget {
   const StoreScreen({super.key});
@@ -38,6 +37,7 @@ class _StoreScreenState extends State<StoreScreen> {
       'price': '7500 AED',
       'timePosted': '2 days ago',
       'location': 'Sharjah',
+      'category': 'Cycles',
     },
     {
       'id': 'product_2',
@@ -47,6 +47,7 @@ class _StoreScreenState extends State<StoreScreen> {
       'price': '1300 AED',
       'timePosted': '5 days ago',
       'location': 'Khusab',
+      'category': 'Apparel',
     },
     {
       'id': 'product_3',
@@ -56,6 +57,7 @@ class _StoreScreenState extends State<StoreScreen> {
       'price': '1800 AED',
       'timePosted': '1 day ago',
       'location': 'Al Ain',
+      'category': 'Accessories',
     },
     {
       'id': 'product_4',
@@ -65,50 +67,57 @@ class _StoreScreenState extends State<StoreScreen> {
       'price': '1300 AED',
       'timePosted': '5 days ago',
       'location': 'Khusab',
+      'category': 'Apparel',
     },
     {
+      'id': 'product_5',
       'image': 'assets/images/cycling_1.png',
       'title': 'Shimano Pedals & Shoes',
       'postedBy': 'Mark McEvoy',
       'price': '850 AED',
       'timePosted': '2 days ago',
       'location': 'Sharjah',
+      'category': 'Accessories',
     },
     {
-      'id': 'product_5',
+      'id': 'product_6',
       'image': 'assets/images/cycling_1.png',
       'title': 'Trek Domane',
       'postedBy': 'Mahmoud shaalan',
       'price': '7500 AED',
       'timePosted': '2 days ago',
       'location': 'Sharjah',
+      'category': 'Cycles',
     },
     {
-      'id': 'product_6',
+      'id': 'product_7',
       'image': 'assets/images/cycling_1.png',
       'title': 'DMT KR0 Road Shoes',
       'postedBy': 'Mark McEvoy',
       'price': '1300 AED',
       'timePosted': '5 days ago',
       'location': 'Khusab',
+      'category': 'Apparel',
     },
     {
-      'id': 'product_7',
+      'id': 'product_8',
       'image': 'assets/images/cycling_1.png',
       'title': 'Garmin Edge 1030 Plus',
       'postedBy': 'Khalid Al Nahyan',
       'price': '1800 AED',
       'timePosted': '1 day ago',
       'location': 'Al Ain',
+      'category': 'Accessories',
     },
     {
-      'id': 'product_8',
+      'id': 'product_9',
       'image': 'assets/images/cycling_1.png',
       'title': 'Shimano Pedals & Shoes',
       'postedBy': 'Mark McEvoy',
       'price': '850 AED',
       'timePosted': '2 days ago',
       'location': 'Sharjah',
+      'category': 'Accessories',
     },
   ];
 
@@ -207,84 +216,15 @@ class _StoreScreenState extends State<StoreScreen> {
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          // Back Button and Notification Bell - positioned above the image with spacing
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              AppBackButton(
-                backgroundColor: AppColors.paleGreen.withValues(alpha: 0.36),
-                iconColor: AppColors.brand_green,
-                onBack: () {
-                  if (Navigator.of(context).canPop()) {
-                    Navigator.of(context).pop();
-                  }
-                },
-              ),
-              GestureDetector(
-                onTap: () {
-                  // Handle notification tap
-                  debugPrint('Notification tapped');
-                },
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: AppColors.paleGreen.withValues(alpha: 0.36),
-                    shape: BoxShape.circle,
-                    // boxShadow: [
-                    //   BoxShadow(
-                    //     color: Colors.black.withValues(alpha: 0.2),
-                    //     blurRadius: 8,
-                    //     offset: const Offset(0, 2),
-                    //   ),
-                    // ],
-                  ),
-                  child: const Icon(
-                    Icons.notifications,
-                    color: AppColors.deepRed,
-                    size: 20,
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 12),
 
           // Header Image with rounded corners
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Stack(
-              children: [
-                Image.asset(
-                  'assets/images/store_header_banner.png',
-                  height: 400,
-                  width: double.infinity,
-                  fit: BoxFit.fill,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      height: 400,
-                      color: AppColors.softCream,
-                    );
-                  },
-                ),
-                // Gradient Overlay
-                Positioned.fill(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.black.withValues(alpha: 0.3),
-                          Colors.transparent,
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          BannerHeadder(
+            imagePath: 'assets/images/store_header_banner.png',
+            title: '',
+            subtitle: '',
+            onBackTap: () => Navigator.pop(context),
+            height: 350,
+            showNotificationIcon: true,
           ),
         ],
       ),
@@ -296,9 +236,9 @@ class _StoreScreenState extends State<StoreScreen> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
-          // 🔑 prevents overflow
+          // prevents overflow
           child: Text(
-            'Community Marketplace',
+            'Cycling Marketplace',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
@@ -312,7 +252,12 @@ class _StoreScreenState extends State<StoreScreen> {
         AppButton(
           label: '+ Sell',
           onPressed: () {
-            debugPrint('Sell button tapped');
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const SellProductScreen(),
+              ),
+            );
           },
           type: AppButtonType.primary,
           backgroundColor: AppColors.deepRed,
@@ -416,9 +361,13 @@ class _StoreScreenState extends State<StoreScreen> {
 
     // Filter by category
     if (_selectedCategoryIndex > 0) {
-      // In a real app, you would filter by actual category
-      // For now, we'll just return all products
-      // final category = _categories[_selectedCategoryIndex];
+      final selectedCategory = _categories[_selectedCategoryIndex];
+      
+      filtered = filtered.where((product) {
+        final productCategory = product['category'] ?? '';
+        return productCategory == selectedCategory;
+      }).toList();
+      
     }
 
     // Filter by search query

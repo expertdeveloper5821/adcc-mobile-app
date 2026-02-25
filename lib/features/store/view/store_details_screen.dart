@@ -1,6 +1,6 @@
+import 'package:adcc/shared/widgets/banner_header.dart';
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
-import 'sections/store_header_section.dart';
 import 'sections/store_product_info_section.dart';
 import 'sections/store_seller_section.dart';
 import 'sections/store_description_section.dart';
@@ -29,7 +29,6 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
     _loadProductData();
   }
 
-  // TODO: Replace with actual API call
   Future<void> _loadProductData() async {
     // Simulate API call
     await Future.delayed(const Duration(milliseconds: 500));
@@ -100,14 +99,15 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
         child: ListView(
           physics: const BouncingScrollPhysics(),
           children: [
-            // Header with back button and product image
-            StoreHeaderSection(
-              imagePath: _productData!['image'] as String,
-              onBack: () {
-                if (Navigator.of(context).canPop()) {
-                  Navigator.of(context).pop();
-                }
-              },
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: BannerHeadder(
+                imagePath: _productData!['image'] as String,
+                title: '',
+                subtitle: '',
+                onBackTap: () => Navigator.pop(context),
+                height: 350,
+              ),
             ),
 
             const SizedBox(height: 16),
