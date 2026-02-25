@@ -1,5 +1,6 @@
 import 'package:adcc/features/event_details/view/event_details_screen.dart';
 import 'package:adcc/features/event_details/view/sections/event_header_section.dart';
+import 'package:adcc/features/events/Model/model_events.dart';
 import 'package:adcc/features/events/sections/event_by_category.dart';
 import 'package:adcc/features/events/sections/event_categories_grid.dart';
 import 'package:adcc/features/events/sections/purpose_based_event_card.dart';
@@ -35,7 +36,7 @@ class _EventsTabState extends State<EventsTab> {
    
   ];
 
-  // Static data for Purpose Based Events
+ 
   static final List<Map<String, String>> _purposeBasedEvents = [
     {
       'imagePath': 'assets/images/ride_events.png',
@@ -127,7 +128,7 @@ class _EventsTabState extends State<EventsTab> {
   }
 
   String _getImagePath(Event event) {
-    // Use API base64 image if available, otherwise fallback to default
+   
     if (event.mainImage != null && event.mainImage!.isNotEmpty) {
       return event.mainImage!;
     }

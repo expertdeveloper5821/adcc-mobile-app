@@ -20,9 +20,9 @@ class EventRewardSection extends StatelessWidget {
           Text(
             "Rewards & Badges",
             style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w900,
-              color: AppColors.charcoal,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textDark,
             ),
           ),
 

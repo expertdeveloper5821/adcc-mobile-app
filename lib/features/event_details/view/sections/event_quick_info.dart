@@ -1,27 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:adcc/core/theme/app_colors.dart';
+import 'package:adcc/features/events/Model/model_events.dart';
 
 class EventQuickInfoSection extends StatelessWidget {
-  final String date;
-  final String time;
-  final String distance;
-
-  final String minAge;
-  final String segment;
-  final String registration;
+  final Event? event;
 
   const EventQuickInfoSection({
     super.key,
-    required this.date,
-    required this.time,
-    required this.distance,
-    required this.minAge,
-    required this.segment,
-    required this.registration,
+    required this.event,
   });
+
+  String _formatDistance() {
+    if (event?.distance == null) return "-";
+    return "${event!.distance} km";
+  }
+
+  String _formatMinAge() {
+    if (event?.minAge == null) return "-";
+    return "${event!.minAge}+";
+  }
+
+  String _formatRegistration() {
+    if (event == null) return "-";
+
+    if (event!.status == "upcoming") return "Open";
+    if (event!.status == "ongoing") return "Live";
+    if (event!.status == "completed") return "Closed";
+
+    return event!.status?.capitalize() ?? "-";
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (event == null) {
+      return const SizedBox();
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2),
       child: Column(
@@ -30,9 +44,9 @@ class EventQuickInfoSection extends StatelessWidget {
           const Text(
             "Quick Info",
             style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w900,
-              color: AppColors.charcoal,
+              fontSize:16 ,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textDark,
             ),
           ),
           const SizedBox(height: 10),
@@ -41,22 +55,50 @@ class EventQuickInfoSection extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Expanded(child: _PillInfo(title: "Date", value: date)),
+                  Expanded(
+                    child: _PillInfo(
+                      title: "Date",
+                      value: event!.formattedDate ?? "-",
+                    ),
+                  ),
                   const SizedBox(width: 10),
-                  Expanded(child: _PillInfo(title: "Time", value: time)),
+                  Expanded(
+                    child: _PillInfo(
+                      title: "Time",
+                      value: event!.eventTime ?? "-",
+                    ),
+                  ),
                   const SizedBox(width: 10),
-                  Expanded(child: _PillInfo(title: "Distance", value: distance)),
+                  Expanded(
+                    child: _PillInfo(
+                      title: "Distance",
+                      value: _formatDistance(),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 10),
               Row(
                 children: [
-                  Expanded(child: _PillInfo(title: "Min Age", value: minAge)),
-                  const SizedBox(width: 10),
-                  Expanded(child: _PillInfo(title: "Segment", value: segment)),
+                  Expanded(
+                    child: _PillInfo(
+                      title: "Min Age",
+                      value: _formatMinAge(),
+                    ),
+                  ),
                   const SizedBox(width: 10),
                   Expanded(
-                    child: _PillInfo(title: "Registration", value: registration),
+                    child: _PillInfo(
+                      title: "Segment",
+                      value: event!.difficulty ?? "-",
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: _PillInfo(
+                      title: "Registration",
+                      value: _formatRegistration(),
+                    ),
                   ),
                 ],
               ),
@@ -83,7 +125,6 @@ class _PillInfo extends StatelessWidget {
       height: 56,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.lightBeige, width: 1),
@@ -114,5 +155,13 @@ class _PillInfo extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+/// Capitalize Extension
+extension StringExtension on String {
+  String capitalize() {
+    if (isEmpty) return this;
+    return "${this[0].toUpperCase()}${substring(1)}";
   }
 }

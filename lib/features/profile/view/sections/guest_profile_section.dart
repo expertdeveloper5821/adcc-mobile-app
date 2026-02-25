@@ -25,7 +25,7 @@ class GuestProfileSection extends StatelessWidget {
         children: [
           const SizedBox(height: 20),
 
-          /// ================= WELCOME CARD =================
+       
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 14),
             child: Container(
@@ -167,7 +167,7 @@ class GuestProfileSection extends StatelessWidget {
   }
 }
 
-/// ================= GUEST OPTION BUTTON =================
+
 class _GuestOptionButton extends StatelessWidget {
   final String label;
   final VoidCallback onTap;

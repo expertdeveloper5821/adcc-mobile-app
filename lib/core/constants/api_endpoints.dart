@@ -19,7 +19,8 @@ class ApiEndpoints {
   static String communityById(String id) => '$communities/$id';
   static String leaveCommunity(String id) => '$communities/$id/leave';
   static String joinCommunity(String id) => '$communities/$id/join';
-
+  static String communityMemberStatus(String id) =>
+    '$v1/community-rides/$id/member-status';
 
 
   static const String tracks = '$v1/tracks';

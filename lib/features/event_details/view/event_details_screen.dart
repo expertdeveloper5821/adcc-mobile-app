@@ -3,13 +3,14 @@ import 'package:adcc/features/event_details/view/sections/event_facilities_secti
 import 'package:adcc/features/event_details/view/sections/event_info.dart';
 import 'package:adcc/features/event_details/view/sections/event_quick_info.dart';
 import 'package:adcc/features/event_details/view/sections/event_rewards_section.dart';
+import 'package:adcc/features/events/Model/model_events.dart';
 import 'package:adcc/features/events/services/events_service.dart';
 import 'package:adcc/features/events/view/cancel_registration.dart';
 import 'package:adcc/features/events/view/my_event_screen.dart';
 import 'package:adcc/features/events/view/your_registered_screen.dart';
 import 'package:adcc/shared/widgets/banner_header.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:convert';
 class EventDetailsScreen extends StatefulWidget {
   final String eventId;
 
@@ -26,11 +27,13 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
 bool isRegistered = false;
 bool isStatusLoading = true;
 bool isLoading = false;
+Event? _event;
 final EventsService _eventsService = EventsService();
 @override
 void initState() {
   super.initState();
   _checkMemberStatus();
+    _fetchEventDetails();  
 }
 Future<void> _checkMemberStatus() async {
   setState(() => isStatusLoading = true);
@@ -53,6 +56,71 @@ Future<void> _checkMemberStatus() async {
     });
   }
 }
+Future<void> _fetchEventDetails() async {
+
+  print("Event ID: ${widget.eventId}");
+
+  final result = await _eventsService.getEventById(widget.eventId);
+
+  if (!mounted) return;
+
+  if (result.success && result.data != null) {
+  setState(() {
+    _event = result.data;
+  });
+
+  final prettyJson = const JsonEncoder.withIndent('  ')
+      .convert(_event!.additionalData);
+  debugPrint(prettyJson, wrapWidth: 1024);
+
+}
+}
+String _getScheduleTime(int index) {
+  if (_event?.schedule != null &&
+      _event!.schedule!.length > index) {
+    return _event!.schedule![index]["time"] ?? "00:00";
+  }
+  return "00:00";
+}
+List<Map<String, dynamic>> _buildFacilities() {
+  if (_event?.amenities == null || _event!.amenities!.isEmpty) {
+    return [];
+  }
+
+
+  final Map<String, String> iconMap = {
+    "water": "assets/icons/water.png",
+    "toilets": "assets/icons/toilets.png",
+    "parking": "assets/icons/parking.png",
+    "medical": "assets/icons/light.png",
+    "first aid": "assets/icons/light.png",
+    "food": "assets/icons/food.png",
+  };
+
+  return _event!.amenities!.map<Map<String, dynamic>>((amenity) {
+    final key = amenity.toString().toLowerCase();
+
+    return {
+      "icon": iconMap[key] ?? "assets/icons/light.png", 
+      "label": _capitalize(key),
+    };
+  }).toList();
+}
+
+String _capitalize(String text) {
+  if (text.isEmpty) return text;
+  return text[0].toUpperCase() + text.substring(1);
+}
+
+
+String _getScheduleTitle(int index) {
+  if (_event?.schedule != null &&
+      _event!.schedule!.length > index) {
+    return _event!.schedule![index]["title"] ?? "-";
+  }
+  return "-";
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,19 +130,20 @@ Future<void> _checkMemberStatus() async {
           physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.fromLTRB(14, 12, 14, 22),
           children: [
-            BannerHeadder(
-              imagePath: 'assets/images/cycling_1.png',
-              title: 'Track Near You',
-              subtitle: 'Cycling tracks closest to your current location',
-              onBackTap: () => Navigator.pop(context),
-            ),
+           BannerHeadder(
+  base64Image: _event?.mainImage,
+  imagePath: 'assets/images/cycling_1.png', 
+  title: _event?.title ?? "",
+  subtitle: _event?.city ?? "",
+  onBackTap: () => Navigator.pop(context),
+),
 
             const SizedBox(height: 14),
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 2),
               child: Text(
-                "Abu Dhabi Night Race Series",
+                 _event?.title ?? "Loading...",
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w900,
@@ -101,7 +170,7 @@ Future<void> _checkMemberStatus() async {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    "The Abu Dhabi Night Race Series is a competitive\ncycling championship organized by the Abu Dhabi...",
+                     _event?.description ?? "Loading description...",
                     style: TextStyle(
                       fontSize: 12,
                       height: 1.35,
@@ -118,21 +187,21 @@ Future<void> _checkMemberStatus() async {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 2),
               child: Row(
-                children: const [
+                children:  [
                   Expanded(
                     child: _SmallInfoCard(
-                      icon: Icons.directions_bike_outlined,
-                      title: "Type",
-                      value: "Race",
-                    ),
+imagePath: "assets/icons/clock.png",
+  title: "Type",
+  value: _event?.category ?? "-",
+),
                   ),
                   SizedBox(width: 12),
                   Expanded(
-                    child: _SmallInfoCard(
-                      icon: Icons.groups_2_outlined,
-                      title: "Community",
-                      value: "Abu Dhabi Road\nRaces",
-                    ),
+                    child:_SmallInfoCard(
+ imagePath: "assets/icons/clock.png",
+  title: "Community",
+  value: _event?.city ?? "-",
+),
                   ),
                 ],
               ),
@@ -143,21 +212,21 @@ Future<void> _checkMemberStatus() async {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 2),
               child: Row(
-                children: const [
+                children:  [
                   Expanded(
                     child: _SmallInfoCard(
-                      icon: Icons.location_on_outlined,
-                      title: "City",
-                      value: "Abu Dhabi",
-                    ),
+imagePath: "assets/icons/clock.png",
+  title: "City",
+  value: _event?.city ?? "-",
+),
                   ),
                   SizedBox(width: 12),
                   Expanded(
-                    child: _SmallInfoCard(
-                      icon: Icons.emoji_events_outlined,
-                      title: "Total",
-                      value: "You Member Circle",
-                    ),
+                    child:_SmallInfoCard(
+imagePath: "assets/icons/clock.png",
+  title: "Total",
+  value: _event?.participantsString ?? "-",
+),
                   ),
                 ],
               ),
@@ -165,34 +234,27 @@ Future<void> _checkMemberStatus() async {
 
             const SizedBox(height: 18),
 
-EventQuickInfoSection(
-  date: "16 Jul 2026",
-  time: "5:30 AM",
-  distance: "42 km",
-  minAge: "10",
-  segment: "Beginner",
-  registration: "Free",
-),
+EventQuickInfoSection(event: _event),
 
 
           
             const SizedBox(height: 18),
-/// Organized By Title
+
 Padding(
   padding: const EdgeInsets.symmetric(horizontal: 2),
   child: Text(
     "Organized By",
     style: TextStyle(
-      fontSize: 13,
-      fontWeight: FontWeight.w900,
-      color: AppColors.charcoal,
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+      color: AppColors.textDark,
     ),
   ),
 ),
 
 const SizedBox(height: 10),
 
-/// Organized By Box (Button inside)
+
 Padding(
   padding: const EdgeInsets.symmetric(horizontal: 2),
   child: Container(
@@ -273,27 +335,41 @@ Padding(
               child: Text(
                 "Event Schedule",
                 style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w900,
-                  color: AppColors.charcoal,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textDark,
                 ),
               ),
             ),
             const SizedBox(height: 10),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2),
-              child: Row(
-                children: const [
-                  Expanded(child: _ScheduleCard(time: "08:00", label: "Rider Check-in")),
-                  SizedBox(width: 10),
-                  Expanded(child: _ScheduleCard(time: "08:30", label: "Safety briefing")),
-                  SizedBox(width: 10),
-                  Expanded(child: _ScheduleCard(time: "09:00", label: "Race start")),
-                ],
-              ),
-            ),
-
+           Padding(
+  padding: const EdgeInsets.symmetric(horizontal: 2),
+  child: Row(
+    children: [
+      Expanded(
+        child: _ScheduleCard(
+          time: _getScheduleTime(0),
+          label: _getScheduleTitle(0),
+        ),
+      ),
+      const SizedBox(width: 10),
+      Expanded(
+        child: _ScheduleCard(
+          time: _getScheduleTime(1),
+          label: _getScheduleTitle(1),
+        ),
+      ),
+      const SizedBox(width: 10),
+      Expanded(
+        child: _ScheduleCard(
+          time: _getScheduleTime(2),
+          label: _getScheduleTitle(2),
+        ),
+      ),
+    ],
+  ),
+),
             const SizedBox(height: 18),
 
            
@@ -301,19 +377,14 @@ Padding(
           Padding(
   padding: const EdgeInsets.symmetric(horizontal: 2),
   child: EventFacilitiesSection(
-    facilities: const [
-      {"icon": "assets/icons/water.png", "label": "Water"},
-      {"icon": "assets/icons/toilets.png", "label": "Toilets"},
-      {"icon": "assets/icons/parking.png", "label": "Parking"},
-      {"icon": "assets/icons/light.png", "label": "Medical"},
-    ],
-  ),
+  facilities: _buildFacilities(),
+),
 ),
 
 
             const SizedBox(height: 18),
 
-            const EventInfo(),
+          EventInfo(event: _event),
 
 
             const SizedBox(height: 18),
@@ -379,14 +450,16 @@ Padding(
               ),
             ),
             const SizedBox(height: 3),
-            Text(
-              "96 riders registered",
-              style: TextStyle(
-                fontSize: 11.2,
-                fontWeight: FontWeight.w700,
-                color: AppColors.charcoal.withValues(alpha: 0.60),
-              ),
-            ),
+           Text(
+  _event == null
+      ? "Loading..."
+      : "${_event!.currentParticipants ?? 0} riders registered",
+  style: TextStyle(
+    fontSize: 11.2,
+    fontWeight: FontWeight.w700,
+    color: AppColors.charcoal.withValues(alpha: 0.60),
+  ),
+),
           ],
         ),
       ],
@@ -473,21 +546,21 @@ SizedBox(
           await _checkMemberStatus();
 
      
-          await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => const RegistrationSuccessScreen(
-                eventTitle: "Abu Dhabi Night Race Series",
-                eventLocationLine: "Yas Marina Circuit",
-                date: "18 July 2026",
-                location: "Abu Dhabi",
-                type: "Race",
-                community: "Abu Dhabi\nRoad Racers",
-                eventImagePath: "assets/images/cycling_1.png",
-                redArcImagePath: "assets/images/frame_1.png",
-              ),
-            ),
-          );
+await Navigator.push(
+  context,
+  MaterialPageRoute(
+    builder: (_) => RegistrationSuccessScreen(
+      eventTitle: _event?.title ?? "",
+      eventLocationLine: _event?.address ?? "",
+      date: _event?.eventDate ?? "",
+      location: _event?.city ?? "",
+      type: _event?.category ?? "",
+      community: _event?.city ?? "", 
+      eventImagePath: "assets/images/cycling_1.png",
+      redArcImagePath: "assets/images/frame_1.png",
+    ),
+  ),
+);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -566,12 +639,12 @@ SizedBox(
   }
 }
 class _SmallInfoCard extends StatelessWidget {
-  final IconData icon;
+  final String imagePath;
   final String title;
   final String value;
 
   const _SmallInfoCard({
-    required this.icon,
+    required this.imagePath,
     required this.title,
     required this.value,
   });
@@ -584,38 +657,50 @@ class _SmallInfoCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.cardLightBackground,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.lightBeige, width: 1),
+        border: Border.all(
+          color: AppColors.lightBeige,
+          width: 1,
+        ),
       ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, size: 18, color: AppColors.deepRed),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 10.5,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.charcoal.withValues(alpha: 0.55),
-                  ),
+        
+          Row(
+            children: [
+              Image.asset(
+                imagePath,
+                width: 14,   
+                height: 14,
+                fit: BoxFit.contain,
+              ),
+              const SizedBox(width: 6),
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 10.5,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.charcoal.withValues(alpha: 0.55),
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  value,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 11.7,
-                    height: 1.15,
-                    fontWeight: FontWeight.w900,
-                    color: AppColors.charcoal,
-                  ),
-                ),
-              ],
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 6),
+
+         Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20), 
+            child: Text(
+              value,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 11.7,
+                height: 1.15,
+                fontWeight: FontWeight.w900,
+                color: AppColors.charcoal,
+              ),
             ),
           ),
         ],
@@ -623,7 +708,6 @@ class _SmallInfoCard extends StatelessWidget {
     );
   }
 }
-
 class _ScheduleCard extends StatelessWidget {
   final String time;
   final String label;

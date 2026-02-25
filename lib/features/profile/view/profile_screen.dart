@@ -1,3 +1,6 @@
+import 'package:adcc/features/profile/view/sections/my_badge_section.dart';
+import 'package:adcc/features/profile/view/sections/my_communities_section.dart';
+import 'package:adcc/features/profile/view/sections/my_joined_events_section.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import '../../../core/theme/app_colors.dart';
@@ -9,7 +12,6 @@ import 'sections/profile_header_section.dart';
 import 'sections/profile_menu_section.dart';
 import 'sections/route_details_integration_section.dart';
 import 'sections/guest_profile_section.dart';
-import '../../my_cycling_details/view/my_cycling_details_screen.dart';
 import '../../../features/auth/view/register_screen.dart';
 import '../../../features/auth/view/email_password_login_screen.dart';
 import '../../../features/events/view/events_screen.dart';
@@ -90,7 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           // Continue with local logout even if API fails
         } catch (e) {
        
-          // Continue with local logout even if API fails
+         
         }
       } else {
         debugPrint(' [Logout] No refresh token found, skipping API call');
@@ -244,17 +246,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
     }
 
-    // Show regular profile screen if authenticated
+ 
     return Container(
-      color: AppColors.softCream,
+      color: Colors.white,
       child: SafeArea(
         child: ListView(
           physics: const BouncingScrollPhysics(),
           padding: EdgeInsets.only(
-            bottom: 100, // Space for bottom navigation bar
+            bottom: 100, 
           ),
           children: [
-            // Header with Profile title (now scrollable)
+          
             ProfileHeaderSection(
               name: 'Andrew',
               location: 'Abu Dhabi City',
@@ -266,54 +268,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 'events': '14',
               },
             ),
-            // Menu Options (positioned to overlap header bottom by 20-30px)
-            Transform.translate(
-              offset: const Offset(
-                  0, -30), // Move up 30px to overlap only bottom of header
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: ProfileMenuSection(
-                  menuItems: [
-                    {
-                      'icon': 'assets/svg/colored_cycle.svg',
-                      'label': 'My cycling details',
-                    },
-                    {
-                      'icon': 'assets/svg/events_colored.svg',
-                      'label': 'Event history & results',
-                    },
-                    {
-                      'icon': 'assets/svg/win_badge.svg',
-                      'label': 'Badges & achievements',
-                    },
-                    {
-                      'icon': 'assets/svg/rewards_colored.svg',
-                      'label': 'Rewards and points',
-                    },
-                    {
-                      'icon': 'assets/svg/settings_colored.svg',
-                      'label': 'Settings & preferences',
-                    },
-                  ],
-                  onItemTap: (index, label) {
-                    if (index == 0) {
-                      // My cycling details
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const MyCyclingDetailsScreen(),
-                        ),
-                      );
-                      return;
-                    }
+const MyBadgesSection(),
+const SizedBox(height: 12),
 
-                    // TODO: handle other menu items
-                    debugPrint('Tapped: $label');
-                  },
-                ),
-              ),
-            ),
-            // Content below header with horizontal padding
+const MyCommunitiesSection(),
+const SizedBox(height: 12),
+
+const MyJoinedEventsSection(),
+
+const SizedBox(height: 16),
+
+const ProfileMenuSection(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
@@ -325,14 +290,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ServiceIntegration(
                         name: 'Garmin',
                         onConnect: () {
-                          // Handle connect action
+                    
                           debugPrint('Connect Garmin tapped');
                         },
                       ),
                       ServiceIntegration(
                         name: 'Wahoo',
                         onConnect: () {
-                          // Handle connect action
+                     
                           debugPrint('Connect Wahoo tapped');
                         },
                       ),
@@ -340,7 +305,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   
                   const SizedBox(height: 24),
-                  // Logout Button
+             
                   AppButton(
                     label: _isLoggingOut ? 'Logging out...' : 'Logout',
                     onPressed: _isLoggingOut ? null : _handleLogout,

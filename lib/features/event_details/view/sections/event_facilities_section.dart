@@ -14,15 +14,19 @@ class EventFacilitiesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (facilities.isEmpty) {
+      return const SizedBox(); // Nothing to show
+    }
+
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 2),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
             'Amenities',
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 16,
               fontWeight: FontWeight.w600,
               color: AppColors.textDark,
             ),
@@ -36,8 +40,6 @@ class EventFacilitiesSection extends StatelessWidget {
               crossAxisCount: 4,
               crossAxisSpacing: 12,
               mainAxisSpacing: 12,
-
-            
               childAspectRatio: _cardW / _cardH,
             ),
             itemCount: facilities.length,
@@ -45,8 +47,8 @@ class EventFacilitiesSection extends StatelessWidget {
               final facility = facilities[index];
 
               return _AmenityCard(
-                iconPath: facility['icon'] as String,
-                label: facility['label'] as String,
+                iconPath: facility['icon']?.toString() ?? "",
+                label: facility['label']?.toString() ?? "",
               );
             },
           ),
@@ -75,13 +77,12 @@ class _AmenityCard extends StatelessWidget {
       height: _h,
       child: Container(
         padding: const EdgeInsets.only(
-          top: 13.2461,
-          right: 8.9844,
-          bottom: 12.9105,
-          left: 8.5801,
+          top: 13.2,
+          right: 8.9,
+          bottom: 12.9,
+          left: 8.5,
         ),
         decoration: BoxDecoration(
-        
           color: const Color(0xFFFFEFD7),
           borderRadius: BorderRadius.circular(12),
         ),
@@ -101,16 +102,14 @@ class _AmenityCard extends StatelessWidget {
                 );
               },
             ),
-
             const SizedBox(height: 4),
-
             Text(
               label,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                fontSize: 11.4727, 
+                fontSize: 11.4,
                 fontWeight: FontWeight.w400,
                 color: AppColors.charcoal,
                 height: 1,

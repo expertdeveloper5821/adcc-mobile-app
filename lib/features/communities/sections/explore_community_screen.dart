@@ -34,20 +34,35 @@ class _ExploreCommunityScreenState extends State<ExploreCommunityScreen> {
     "Gallery",
     "Updates",
   ];
+@override
+void initState() {
+  super.initState();
+  _isJoined = false;
+  _checkMemberStatus();
+}
 
-  @override
-  void initState() {
-    super.initState();
-    //  Initialize from community model
-    _isJoined = widget.community.isJoined;
-  }
+  Future<void> _checkMemberStatus() async {
+  setState(() => isLoading = true);
 
-  // Method to refresh local state
-  void _refreshJoinStatus() {
+  final result =
+      await _communitiesService.getCommunityMemberStatus(
+    communityId: widget.community.id,
+  );
+
+  if (!mounted) return;
+
+  setState(() => isLoading = false);
+
+  if (result.success) {
+    final joined = result.data ?? false;
+
     setState(() {
-      _isJoined = widget.community.isJoined;
+      _isJoined = joined;
+      widget.community.isJoined = joined;
     });
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -163,84 +178,66 @@ class _ExploreCommunityScreenState extends State<ExploreCommunityScreen> {
     );
   }
 
-  //  Main method to handle join/leave logic
-  Future<void> _handleJoinLeave() async {
-    if (!_isJoined) {
-      // JOIN COMMUNITY
-      setState(() => isLoading = true);
+ Future<void> _handleJoinLeave() async {
+  if (!_isJoined) {
+    setState(() => isLoading = true);
 
-      final result = await _communitiesService.joinCommunity(
-        communityId: widget.community.id,
+    final result = await _communitiesService.joinCommunity(
+      communityId: widget.community.id,
+    );
+
+    setState(() => isLoading = false);
+
+    if (!mounted) return;
+
+    if (result.success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Community joined successfully! 🎉"),
+          backgroundColor: Colors.green,
+        ),
       );
 
-      setState(() => isLoading = false);
+      await _checkMemberStatus();
 
-      if (!mounted) return;
-
-      if (result.success) {
-        // Update local state
-        setState(() {
-          _isJoined = true;
-          widget.community.isJoined = true;
-        });
-
-        // Show success message
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Community joined successfully! 🎉"),
-            backgroundColor: Colors.green,
-          ),
-        );
-
-        // Navigate to JoinCommunity screen and wait for result
-        final shouldRefresh = await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => JoinCommunity(
-              community: widget.community,
-            ),
-          ),
-        );
-
-        // If JoinCommunity returns true, refresh data
-        if (shouldRefresh == true && mounted) {
-          _refreshJoinStatus();
-        }
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(result.message ?? "Join failed ❌"),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    } else {
-      // LEAVE COMMUNITY
-      final result = await Navigator.push<bool>(
+      await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => LeaveCommunity(
+          builder: (_) => JoinCommunity(
             community: widget.community,
           ),
         ),
       );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(result.message ?? "Join failed ❌"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  } else {
+    final result = await Navigator.push<bool>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => LeaveCommunity(
+          community: widget.community,
+        ),
+      ),
+    );
 
-      if (result == true && mounted) {
-        // Update local state
-        setState(() {
-          _isJoined = false;
-          widget.community.isJoined = false;
-        });
+    if (result == true && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Community left successfully"),
+          backgroundColor: Colors.orange,
+        ),
+      );
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Community left successfully "),
-            backgroundColor: Colors.orange,
-          ),
-        );
-      }
+      await _checkMemberStatus();
     }
   }
+}
 }
 
 class _ShareButton extends StatelessWidget {

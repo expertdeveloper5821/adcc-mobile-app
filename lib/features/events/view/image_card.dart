@@ -15,13 +15,12 @@ class ImageCard extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          /// Background image
+    
           Image.asset(
             item.image,
             fit: BoxFit.cover,
           ),
 
-          /// Dark gradient overlay
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(

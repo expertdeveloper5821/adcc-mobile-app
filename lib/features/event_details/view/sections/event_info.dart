@@ -1,65 +1,116 @@
 import 'package:flutter/material.dart';
 import 'package:adcc/core/theme/app_colors.dart';
+import 'package:adcc/features/events/Model/model_events.dart';
 
 class EventInfo extends StatelessWidget {
-  const EventInfo({super.key});
+  final Event? event;
+
+  const EventInfo({
+    super.key,
+    required this.event,
+  });
+
+  List<String> _buildEligibilityPoints() {
+    if (event == null) return [];
+
+    final points = <String>[];
+
+    if (event!.minAge != null) {
+      points.add("Age: ${event!.minAge}+");
+    }
+
+    if (event!.eligibility != null && event!.eligibility!.isNotEmpty) {
+      final e = event!.eligibility!.first;
+
+      points.add(
+        e["helmetRequired"] == true
+            ? "Helmet required"
+            : "Helmet not required",
+      );
+
+      points.add(
+        e["roadBikeOnly"] == true
+            ? "Road bike mandatory"
+            : "Road bike not mandatory",
+      );
+
+      points.add(
+        "Experience: ${_capitalize(e["experienceLevel"]?.toString() ?? "All")}",
+      );
+
+      points.add(
+        "Gender: ${_capitalize(e["gender"]?.toString() ?? "All")}",
+      );
+    }
+
+    return points;
+  }
+
+  String _capitalize(String text) {
+    if (text.isEmpty) return text;
+    return text[0].toUpperCase() + text.substring(1);
+  }
 
   @override
   Widget build(BuildContext context) {
+    final points = _buildEligibilityPoints();
+
+    if (points.isEmpty) {
+      return const SizedBox();
+    }
+
+    final half = (points.length / 2).ceil();
+    final leftColumn = points.sublist(0, half);
+    final rightColumn =
+        points.length > half ? points.sublist(half) : <String>[];
+
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 0),
+      padding: const EdgeInsets.symmetric(horizontal: 2),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// Title
-          Text(
+          const Text(
             "Who Can Join",
             style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w900,
-              color: AppColors.charcoal,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textDark,
             ),
           ),
+          const SizedBox(height: 12),
 
-          const SizedBox(height: 10),
-
-      
           Container(
-            width: 358,
-            height: 79,
-            padding: const EdgeInsets.fromLTRB(19, 16, 38, 16),
+            padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: Colors.white,
-
               borderRadius: BorderRadius.circular(12),
             ),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                /// Left Column
                 Expanded(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      _JoinItem(text: "Age: 18+"),
-                      SizedBox(height: 10),
-                      _JoinItem(text: "Helmet required"),
-                    ],
+                    children: leftColumn
+                        .map((e) => Padding(
+                              padding:
+                                  const EdgeInsets.only(bottom: 10),
+                              child: _JoinItem(text: e),
+                            ))
+                        .toList(),
                   ),
                 ),
-
                 const SizedBox(width: 20),
-
-                /// Right Column
                 Expanded(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      _JoinItem(text: "Road bike mandatory"),
-                      SizedBox(height: 10),
-                      _JoinItem(text: "Advanced experience"),
-                    ],
+                    children: rightColumn
+                        .map((e) => Padding(
+                              padding:
+                                  const EdgeInsets.only(bottom: 10),
+                              child: _JoinItem(text: e),
+                            ))
+                        .toList(),
                   ),
                 ),
               ],
@@ -81,35 +132,28 @@ class _JoinItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
      
-        Container(
-          height: 18,
+        Image.asset(
+          "assets/icons/tick.jpg", 
           width: 18,
-          decoration: const BoxDecoration(
-            color: Color(0xFF3A3A3A),
-            shape: BoxShape.circle,
-          ),
-          child: const Center(
-            child: Icon(
-              Icons.check,
-              size: 12,
-              color: Colors.white,
-            ),
-          ),
+          height: 18,
+          fit: BoxFit.contain,
         ),
 
         const SizedBox(width: 10),
 
+    
         Expanded(
           child: Text(
             text,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
-              color: AppColors.charcoal.withValues(alpha: 0.80),
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w500, // Medium
+              height: 17 / 13, // Line height approx 17px
+              letterSpacing: 0,
+              color: AppColors.charcoal,
             ),
           ),
         ),
