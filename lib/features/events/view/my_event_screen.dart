@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:adcc/core/theme/app_colors.dart';
+import 'package:adcc/features/events/Model/model_events.dart';
 import 'package:adcc/features/events/services/events_service.dart';
 import 'package:flutter/material.dart';
 

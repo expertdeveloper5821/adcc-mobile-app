@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../../shared/widgets/app_button.dart';
 
 class GuestProfileSection extends StatelessWidget {
   final VoidCallback onSignUpLogin;
@@ -18,112 +17,156 @@ class GuestProfileSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      physics: const BouncingScrollPhysics(),
-      padding: EdgeInsets.only(
-        bottom: 100, // Space for bottom navigation bar
+    return Container(
+      color: const Color(0xFFFFF9EF),
+      child: ListView(
+        padding: const EdgeInsets.only(bottom: 110),
+        physics: const BouncingScrollPhysics(),
+        children: [
+          const SizedBox(height: 20),
+
+       
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            child: Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: Column(
+                children: [
+                  /// Profile Icon
+                 Container(
+  width: 68,
+  height: 68,
+  decoration: const BoxDecoration(
+    color: Color(0xFFD4AF37),
+    shape: BoxShape.circle,
+  ),
+  child: ClipOval(
+    child: Padding(
+      padding: const EdgeInsets.all(18),
+      child: Image.asset(
+        'assets/icons/profile.png',
+        fit: BoxFit.contain,
       ),
-      children: [
-        // Sign Up / Login Section
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: Container(
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+    ),
+  ),
+),
+
+                  const SizedBox(height: 26),
+
+                  /// Title
+                  const Text(
+                    'Welcome to ADCC',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Outfit',
+                      fontSize: 21,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.charcoal,
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
+
+               Padding(
+  padding: const EdgeInsets.symmetric(horizontal: 10),
+  child: Text(
+    'Sign up to join events, connect with the community, and track your cycling journey.',
+    textAlign: TextAlign.center,
+    maxLines: 2,
+    overflow: TextOverflow.ellipsis,
+    style: TextStyle(
+      fontFamily: 'Outfit',
+      fontSize: 14,
+      fontWeight: FontWeight.w400,
+      height: 1.3, // Proper spacing
+      letterSpacing: 0.14,
+      color: AppColors.charcoal.withOpacity(0.95),
+    ),
+  ),
+),
+
+                  const SizedBox(height: 24),
+
+                  /// Button
+                  SizedBox(
+                    width: 328,
+                    height: 51,
+                    child: ElevatedButton(
+                      onPressed: onSignUpLogin,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFC12D32),
+                        foregroundColor: Colors.white,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: const Text(
+                        'Sign Up / Login',
+                        style: TextStyle(
+                          fontFamily: 'Outfit',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
+          ),
+
+          const SizedBox(height: 30),
+
+          /// ================= GUEST OPTIONS =================
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Circular golden-yellow icon with person silhouette and plus
-                Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE7B347), // Golden yellow
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Icons.person_add,
-                    color: Colors.white,
-                    size: 40,
-                  ),
-                ),
-                const SizedBox(height: 24),
-                // "Welcome to ADCC" text
                 const Text(
-                  'Welcome to ADCC',
+                  'Available as a guest:',
                   style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.charcoal,
+                    fontFamily: 'Outfit',
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    height: 1.0,
+                    color: Color(0xFF1A1C20),
                   ),
                 ),
-                const SizedBox(height: 12),
-                // Description text
-                Text(
-                  'Sign up to join events, connect with the community, and track your cycling journey.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: AppColors.charcoal.withValues(alpha: 0.7),
-                    height: 1.5,
-                  ),
+
+                const SizedBox(height: 18),
+
+                _GuestOptionButton(
+                  label: 'Browse Events',
+                  onTap: onBrowseEvents,
                 ),
-                const SizedBox(height: 24),
-                // Sign Up / Login Button
-                AppButton(
-                  label: 'Sign Up / Login',
-                  onPressed: onSignUpLogin,
-                  backgroundColor: const Color(0xFFC83E3E), // Red
-                  textColor: Colors.white,
-                  width: double.infinity,
+                const SizedBox(height: 14),
+
+                _GuestOptionButton(
+                  label: 'Explore Community',
+                  onTap: onExploreCommunity,
+                ),
+                const SizedBox(height: 14),
+
+                _GuestOptionButton(
+                  label: 'View Tracks',
+                  onTap: onViewRoutes,
                 ),
               ],
             ),
           ),
-        ),
-        // Available as a Guest Section
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 24),
-              const Text(
-                'Available as a guest:',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.charcoal,
-                ),
-              ),
-              const SizedBox(height: 16),
-              // Browse Events Button
-              _GuestOptionButton(
-                label: 'Browse Events',
-                onTap: onBrowseEvents,
-              ),
-              const SizedBox(height: 12),
-              // Explore Community Button
-              _GuestOptionButton(
-                label: 'Explore Community',
-                onTap: onExploreCommunity,
-              ),
-              const SizedBox(height: 12),
-              // View Routes Button
-              _GuestOptionButton(
-                label: 'View Tracks',
-                onTap: onViewRoutes,
-              ),
-              const SizedBox(height: 24),
-            ],
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
+
 
 class _GuestOptionButton extends StatelessWidget {
   final String label;
@@ -136,32 +179,38 @@ class _GuestOptionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        decoration: BoxDecoration(
-          color: AppColors.lightBeige, // #E9E4DB
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: AppColors.charcoal,
+    return SizedBox(
+      height: 45,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(13.3),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 19),
+          decoration: BoxDecoration(
+            color: const Color(0xFFE9E4DB),
+            borderRadius: BorderRadius.circular(13.3),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  label,
+                  style: const TextStyle(
+                    fontFamily: 'Outfit',
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    height: 1.0,
+                    color: AppColors.textDark,
+                  ),
+                ),
               ),
-            ),
-            const Icon(
-              Icons.chevron_right,
-              color: AppColors.charcoal,
-              size: 24,
-            ),
-          ],
+              const Icon(
+                Icons.chevron_right_rounded,
+                color: AppColors.charcoal,
+                size: 22,
+              ),
+            ],
+          ),
         ),
       ),
     );

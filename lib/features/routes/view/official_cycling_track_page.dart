@@ -12,10 +12,16 @@ class OfficialCyclingTracksPage extends StatefulWidget {
       _OfficialCyclingTracksPageState();
 }
 
-class _OfficialCyclingTracksPageState extends State<OfficialCyclingTracksPage> {
+class _OfficialCyclingTracksPageState
+    extends State<OfficialCyclingTracksPage> {
   int selectedFilterIndex = 0;
 
-  final List<String> filters = const ['All', 'Open', 'Limited', 'Closed'];
+  final List<String> filters = const [
+    'All',
+    'Open',
+    'Limited',
+    'Closed'
+  ];
 
   final List<_OfficialTrackItem> tracks = const [
     _OfficialTrackItem(
@@ -32,7 +38,7 @@ class _OfficialCyclingTracksPageState extends State<OfficialCyclingTracksPage> {
       city: 'Abu Dhabi',
       distanceKm: 32,
       difficulty: 'Beginner Friendly',
-      status: 'Open',
+      status: 'Limited',
       subtitle: 'Smooth road • Night riding • Facilities',
       imagePath: 'assets/images/track_1.png',
     ),
@@ -41,7 +47,7 @@ class _OfficialCyclingTracksPageState extends State<OfficialCyclingTracksPage> {
       city: 'Abu Dhabi',
       distanceKm: 15,
       difficulty: 'Beginner Friendly',
-      status: 'Open',
+      status: 'Closed',
       subtitle: 'Seafront route • Smooth surface • Restrooms',
       imagePath: 'assets/images/track_1.png',
     ),
@@ -59,7 +65,7 @@ class _OfficialCyclingTracksPageState extends State<OfficialCyclingTracksPage> {
       city: 'Abu Dhabi',
       distanceKm: 18,
       difficulty: 'Beginner Friendly',
-      status: 'Open',
+      status: 'Limited',
       subtitle: 'City views • Smooth route • Facilities',
       imagePath: 'assets/images/track_1.png',
     ),
@@ -74,41 +80,66 @@ class _OfficialCyclingTracksPageState extends State<OfficialCyclingTracksPage> {
     ),
   ];
 
+  /// ✅ FILTER FUNCTION
+  List<_OfficialTrackItem> _applyFilter() {
+    if (selectedFilterIndex == 0) {
+      return tracks; // All
+    }
+
+    final selectedStatus = filters[selectedFilterIndex];
+
+    return tracks
+        .where((t) =>
+            t.status.toLowerCase() ==
+            selectedStatus.toLowerCase())
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final filteredTracks = _applyFilter();
+
     return Scaffold(
       backgroundColor: const Color(0xFFF7F1E6),
       body: SafeArea(
         child: ListView(
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(16, 24, 16, 20),
+          padding:
+              const EdgeInsets.fromLTRB(16, 24, 16, 20),
           children: [
             const SizedBox(height: 6),
 
-            // Banner
+            /// 🔹 Banner
             BannerHeadder(
-              imagePath: 'assets/images/cycling_1.png',
-              title: 'Official Cycling Tracks',
+              imagePath:
+                  'assets/images/cycling_1.png',
+              title:
+                  'Official Cycling Tracks',
               subtitle: '',
-              onBackTap: () => Navigator.pop(context),
+              onBackTap: () =>
+                  Navigator.pop(context),
             ),
 
             const SizedBox(height: 16),
 
-            // Filters
+            /// 🔹 Filters
             CategorySelector(
               categories: filters,
-              selectedIndex: selectedFilterIndex,
+              selectedIndex:
+                  selectedFilterIndex,
               onSelected: (index) {
-                setState(() => selectedFilterIndex = index);
+                setState(() {
+                  selectedFilterIndex =
+                      index;
+                });
               },
             ),
 
             const SizedBox(height: 14),
 
-            // Count (as you want)
+            /// 🔹 Dynamic Count
             Text(
-              '${tracks.length} communities found',
+              '${filteredTracks.length} tracks found',
               style: const TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
@@ -118,35 +149,58 @@ class _OfficialCyclingTracksPageState extends State<OfficialCyclingTracksPage> {
 
             const SizedBox(height: 12),
 
-            // Cards list
-            ...tracks.map(
+            /// 🔹 Track List
+            if (filteredTracks.isEmpty)
+              const Padding(
+                padding:
+                    EdgeInsets.only(top: 40),
+                child: Center(
+                  child: Text(
+                    "No tracks found",
+                    style:
+                        TextStyle(fontSize: 14),
+                  ),
+                ),
+              ),
+
+            ...filteredTracks.map(
               (t) => Padding(
-                padding: const EdgeInsets.only(bottom: 14),
+                padding:
+                    const EdgeInsets.only(
+                        bottom: 14),
                 child: TrackCard(
                   width: double.infinity,
                   height: 281,
                   imagePath: t.imagePath,
                   title: t.title,
                   city: t.city,
-                  distance: "${t.distanceKm} km",
+                  distance:
+                      "${t.distanceKm} km",
                   subtitle: t.subtitle,
-                  difficulty: t.difficulty,
+                  difficulty:
+                      t.difficulty,
                   status: t.status,
-
-                  //  onTap -> RouteDetailsScreen
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => RouteDetailsScreen(
+                        builder: (_) =>
+                            RouteDetailsScreen(
                           routeData: {
-                            "image": t.imagePath,
-                            "title": t.title,
-                            "city": t.city,
-                            "distance": "${t.distanceKm} km",
-                            "subtitle": t.subtitle,
-                            "tag": t.difficulty,
-                            "status": t.status,
+                            "image":
+                                t.imagePath,
+                            "title":
+                                t.title,
+                            "city":
+                                t.city,
+                            "distance":
+                                "${t.distanceKm} km",
+                            "subtitle":
+                                t.subtitle,
+                            "tag":
+                                t.difficulty,
+                            "status":
+                                t.status,
                           },
                         ),
                       ),

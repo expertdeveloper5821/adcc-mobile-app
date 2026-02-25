@@ -1,5 +1,6 @@
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class RegistrationSuccessScreen extends StatelessWidget {
   final String eventTitle;
@@ -293,7 +294,7 @@ class _EventSummaryCard extends StatelessWidget {
                 child: _MiniInfoCard(
                   icon: Icons.calendar_month_rounded,
                   title: "When",
-                  value: date,
+                 value: _formatDate(date),
                 ),
               ),
               const SizedBox(width: 10),
@@ -447,5 +448,14 @@ class _ActionTile extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+String _formatDate(String rawDate) {
+  try {
+    final parsed = DateTime.parse(rawDate);
+    return DateFormat("dd MMM yyyy").format(parsed);
+  } catch (e) {
+    return rawDate; // fallback
   }
 }

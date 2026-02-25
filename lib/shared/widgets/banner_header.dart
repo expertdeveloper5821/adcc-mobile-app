@@ -1,8 +1,11 @@
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 
 class BannerHeadder extends StatelessWidget {
-  final String imagePath;
+  final String? imagePath;      // Asset image
+  final String? base64Image;    // API base64 image
   final String title;
   final double height;
   final String subtitle;
@@ -11,13 +14,37 @@ class BannerHeadder extends StatelessWidget {
 
   const BannerHeadder({
     super.key,
-    required this.imagePath,
+    this.imagePath,
+    this.base64Image,
     required this.title,
     this.height = 210,
     this.showNotificationIcon = false,
     required this.subtitle,
     this.onBackTap,
   });
+
+  ImageProvider _buildImage() {
+    // ✅ If base64 image available
+    if (base64Image != null &&
+        base64Image!.isNotEmpty &&
+        base64Image!.contains(',')) {
+      try {
+        final base64String = base64Image!.split(',').last;
+        Uint8List bytes = base64Decode(base64String);
+        return MemoryImage(bytes);
+      } catch (e) {
+        return const AssetImage('assets/images/cycling_1.png');
+      }
+    }
+
+    // ✅ If asset path available
+    if (imagePath != null && imagePath!.isNotEmpty) {
+      return AssetImage(imagePath!);
+    }
+
+    // ✅ Fallback
+    return const AssetImage('assets/images/cycling_1.png');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +55,10 @@ class BannerHeadder extends StatelessWidget {
         width: double.infinity,
         child: Stack(
           children: [
-            // Background Image
+            /// Background Image
             Positioned.fill(
-              child: Image.asset(
-                imagePath,
+              child: Image(
+                image: _buildImage(),
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
@@ -47,7 +74,7 @@ class BannerHeadder extends StatelessWidget {
               ),
             ),
 
-            // Gradient Overlay (bottom black)
+            /// Gradient Overlay
             Positioned.fill(
               child: Container(
                 decoration: BoxDecoration(
@@ -64,7 +91,7 @@ class BannerHeadder extends StatelessWidget {
               ),
             ),
 
-            // Back Button (top-left)
+            /// Back Button
             Positioned(
               left: 14,
               top: 14,
