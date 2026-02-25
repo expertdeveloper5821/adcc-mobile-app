@@ -188,27 +188,47 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Column(
             children: [
               // Header with Profile title
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                child: Row(
-                  children: [
-                    const SizedBox(width: 40), // Spacer for centering
-                    const Expanded(
-                      child: Center(
-                        child: Text(
-                          'Profile',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.charcoal,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 40), // Spacer for centering
-                  ],
-                ),
-              ),
+             Container(
+  color: const Color(0xFFFFF9EF), // Background color
+  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+  child: Stack(
+    alignment: Alignment.center,
+    children: [
+
+      /// 🔙 Back Arrow (Left Positioned)
+      Align(
+        alignment: Alignment.centerLeft,
+        child: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Container(
+            width: 44,
+            height: 44,
+            decoration: const BoxDecoration(
+              color: Color(0xFFE8B4B4), // soft red circle
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.arrow_back_rounded,
+              color: Color(0xFFC12D32),
+              size: 22,
+            ),
+          ),
+        ),
+      ),
+
+      /// 🏷 Profile Title (Perfect Center)
+      const Text(
+        'Profile',
+        style: TextStyle(
+          fontFamily: 'Outfit',
+          fontSize: 25,
+          fontWeight: FontWeight.w600,
+          color: AppColors.charcoal,
+        ),
+      ),
+    ],
+  ),
+),
               // Guest Profile Content
               Expanded(
                 child: GuestProfileSection(

@@ -14,7 +14,7 @@ class RouteDetailsGridSection extends StatelessWidget {
     final entries = routeDetails.entries.toList();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -26,65 +26,123 @@ class RouteDetailsGridSection extends StatelessWidget {
               color: AppColors.textDark,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
 
+          /// Responsive Layout
           LayoutBuilder(
             builder: (context, constraints) {
-            
-              const figmaTotalWidth = 357.0;
+              final screenWidth = constraints.maxWidth;
 
-              // scale down only if screen is smaller
-              final scale = (constraints.maxWidth / figmaTotalWidth).clamp(0.85, 1.0);
+              /// Minimum width required to look perfect
+              const double minRequiredWidth = 340;
 
-              return Transform.scale(
-                scale: scale,
-                alignment: Alignment.topLeft,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                  
-                    Column(
+              /// Small card height
+              const double smallCardHeight = 75;
+
+              /// Spacing
+              const double spacing = 12;
+
+              /// Tall card height (2 small cards + spacing)
+              final double tallCardHeight =
+                  (smallCardHeight * 2) + spacing;
+
+              Widget content = Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  /// LEFT GRID
+                  SizedBox(
+                    width: screenWidth * 0.65,
+                    child: Column(
                       children: [
                         Row(
                           children: [
-                            _RouteDetailSmallCard(
-                              label: entries.isNotEmpty ? entries[0].key : "Distance",
-                              value: entries.isNotEmpty ? entries[0].value : "10 km",
+                            Expanded(
+                              child: _RouteDetailSmallCard(
+                                height: smallCardHeight,
+                                label: entries.isNotEmpty
+                                    ? entries[0].key
+                                    : "Distance",
+                                value: entries.isNotEmpty
+                                    ? entries[0].value
+                                    : "10 km",
+                              ),
                             ),
-                            const SizedBox(width: 12),
-                            _RouteDetailSmallCard(
-                              label: entries.length > 1 ? entries[1].key : "Elevation",
-                              value: entries.length > 1 ? entries[1].value : "+12m",
+                            const SizedBox(width: spacing),
+                            Expanded(
+                              child: _RouteDetailSmallCard(
+                                height: smallCardHeight,
+                                label: entries.length > 1
+                                    ? entries[1].key
+                                    : "Elevation",
+                                value: entries.length > 1
+                                    ? entries[1].value
+                                    : "+12m",
+                              ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: spacing),
                         Row(
                           children: [
-                            _RouteDetailSmallCard(
-                              label: entries.length > 2 ? entries[2].key : "Type",
-                              value: entries.length > 2 ? entries[2].value : "Loop Track",
+                            Expanded(
+                              child: _RouteDetailSmallCard(
+                                height: smallCardHeight,
+                                label: entries.length > 2
+                                    ? entries[2].key
+                                    : "Type",
+                                value: entries.length > 2
+                                    ? entries[2].value
+                                    : "Loop Track",
+                              ),
                             ),
-                            const SizedBox(width: 12),
-                            _RouteDetailSmallCard(
-                              label: entries.length > 3 ? entries[3].key : "Avg Time",
-                              value: entries.length > 3 ? entries[3].value : "18–25 min",
+                            const SizedBox(width: spacing),
+                            Expanded(
+                              child: _RouteDetailSmallCard(
+                                height: smallCardHeight,
+                                label: entries.length > 3
+                                    ? entries[3].key
+                                    : "Avg Time",
+                                value: entries.length > 3
+                                    ? entries[3].value
+                                    : "18–25 min",
+                              ),
                             ),
                           ],
                         ),
                       ],
                     ),
+                  ),
 
-                    const SizedBox(width: 12),
+                  const SizedBox(width: spacing),
 
-                   
-                    _RouteDetailTallCard(
-                      label: entries.length > 4 ? entries[4].key : "Pace",
-                      value: entries.length > 4 ? entries[4].value : "Beginner / Casual",
+                  /// RIGHT TALL CARD
+                  SizedBox(
+                    width: screenWidth * 0.30,
+                    child: _RouteDetailTallCard(
+                      height: tallCardHeight,
+                      label: entries.length > 4
+                          ? entries[4].key
+                          : "Pace",
+                      value: entries.length > 4
+                          ? entries[4].value
+                          : "Beginner / Casual",
                     ),
-                  ],
-                ),
+                  ),
+                ],
               );
+
+              /// If screen too small → horizontal scroll
+              if (screenWidth < minRequiredWidth) {
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: SizedBox(
+                    width: minRequiredWidth,
+                    child: content,
+                  ),
+                );
+              }
+
+              return content;
             },
           ),
         ],
@@ -93,81 +151,64 @@ class RouteDetailsGridSection extends StatelessWidget {
   }
 }
 
+/// SMALL CARD
 class _RouteDetailSmallCard extends StatelessWidget {
   final String label;
   final String value;
+  final double height;
 
   const _RouteDetailSmallCard({
     required this.label,
     required this.value,
+    required this.height,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 102,
-      height: 75,
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
-        decoration: BoxDecoration(
-          color: AppColors.dustyRose,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // icon + label
-            Row(
-              children: [
-                Image.asset(
-                  "assets/icons/star.png",
-                  width: 16,
-                  height: 16,
-                  fit: BoxFit.contain,
-                  errorBuilder: (_, __, ___) {
-                    return const Icon(
-                      Icons.star_outline,
-                      size: 16,
-                      color: AppColors.deepRed,
-                    );
-                  },
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    label,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w400,
-                      height: 1,
-                      color: AppColors.charcoal,
-                    ),
+    return Container(
+      height: height,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.dustyRose,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(
+                Icons.star_outline,
+                size: 16,
+                color: AppColors.deepRed,
+              ),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.charcoal,
                   ),
                 ),
-              ],
-            ),
-
-            const Spacer(),
-
-            // value aligned under label
-            Padding(
-              padding: const EdgeInsets.only(left: 24),
-              child: Text(
-                value,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.textDark,
-                  height: 1.15,
-                ),
               ),
+            ],
+          ),
+          const Spacer(),
+          Text(
+            value,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textDark,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -177,70 +218,54 @@ class _RouteDetailSmallCard extends StatelessWidget {
 class _RouteDetailTallCard extends StatelessWidget {
   final String label;
   final String value;
+  final double height;
 
   const _RouteDetailTallCard({
     required this.label,
     required this.value,
+    required this.height,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 111,
-      height: 163,
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
-        decoration: BoxDecoration(
-          color: AppColors.dustyRose,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // icon top
-            Image.asset(
-              "assets/icons/star.png",
-              width: 16,
-              height: 16,
-              fit: BoxFit.contain,
-              errorBuilder: (_, __, ___) {
-                return const Icon(
-                  Icons.star_outline,
-                  size: 16,
-                  color: AppColors.deepRed,
-                );
-              },
+    return Container(
+      height: height,
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: AppColors.dustyRose,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Icon(
+            Icons.star_outline,
+            size: 18,
+            color: AppColors.deepRed,
+          ),
+          const Spacer(),
+          Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w400,
+              color: AppColors.charcoal,
             ),
-
-            const Spacer(),
-
-            // label + value bottom
-            Text(
-              label,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 10,
-                fontWeight: FontWeight.w400,
-                height: 1,
-                color: AppColors.charcoal,
-              ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            value,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textDark,
             ),
-            const SizedBox(height: 6),
-
-            Text(
-              value,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: AppColors.textDark,
-                height: 1.15,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

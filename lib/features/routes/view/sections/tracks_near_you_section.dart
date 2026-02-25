@@ -5,17 +5,23 @@ import 'package:adcc/shared/widgets/section_header.dart';
 import 'package:adcc/shared/widgets/track_card.dart';
 import 'package:adcc/features/route_details/view/route_details_screen.dart';
 import 'package:adcc/features/routes/view/track_near_you_all.dart';
-
-
-
 class TracksNearYouSection extends StatefulWidget {
-  const TracksNearYouSection({super.key});
+  final String selectedStatus;
+  final String searchQuery;
+
+  const TracksNearYouSection({
+    super.key,
+    required this.selectedStatus,
+    required this.searchQuery,
+  });
 
   @override
-  State<TracksNearYouSection> createState() => _TracksNearYouSectionState();
+  State<TracksNearYouSection> createState() =>
+      _TracksNearYouSectionState();
 }
 
-class _TracksNearYouSectionState extends State<TracksNearYouSection> {
+class _TracksNearYouSectionState
+    extends State<TracksNearYouSection> {
   final TracksService _tracksService = TracksService();
 
   late Future<List<TrackModel>> _futureTracks;
@@ -23,16 +29,34 @@ class _TracksNearYouSectionState extends State<TracksNearYouSection> {
   @override
   void initState() {
     super.initState();
-
-    
-   _futureTracks = _tracksService.getAllTracks();
-
+    _futureTracks = _tracksService.getAllTracks();
   }
 
+  List<TrackModel> _applyFilters(
+    List<TrackModel> tracks) {
+  return tracks.where((t) {
+
+  
+    final bool statusMatch =
+        widget.selectedStatus == "All" ||
+        t.status.toLowerCase() ==
+            widget.selectedStatus.toLowerCase();
+
+     final bool searchMatch =
+        widget.searchQuery.trim().isEmpty ||
+        t.title
+            .toLowerCase()
+            .contains(widget.searchQuery.toLowerCase());
+
+    return statusMatch && searchMatch;
+
+  }).toList();
+}
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment:
+          CrossAxisAlignment.start,
       children: [
         SectionHeader(
           title: "Tracks Near You",
@@ -40,39 +64,46 @@ class _TracksNearYouSectionState extends State<TracksNearYouSection> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => const TrackNearAllPage(),
+                builder: (_) =>
+                    const TrackNearAllPage(),
               ),
             );
           },
         ),
-
         const SizedBox(height: 12),
 
         FutureBuilder<List<TrackModel>>(
           future: _futureTracks,
           builder: (context, snapshot) {
-            // Loading
-            if (snapshot.connectionState == ConnectionState.waiting) {
+        
+            if (snapshot.connectionState ==
+                ConnectionState.waiting) {
               return const SizedBox(
                 height: 281,
-                child: Center(child: CircularProgressIndicator()),
+                child: Center(
+                  child:
+                      CircularProgressIndicator(),
+                ),
               );
             }
 
-            // Error
+      
             if (snapshot.hasError) {
               return SizedBox(
                 height: 281,
                 child: Center(
                   child: Text(
                     "Failed to load tracks",
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium,
                   ),
                 ),
               );
             }
 
-            final tracks = snapshot.data ?? [];
+        final allTracks = snapshot.data ?? [];
+final tracks = _applyFilters(allTracks);
 
             if (tracks.isEmpty) {
               return SizedBox(
@@ -80,7 +111,9 @@ class _TracksNearYouSectionState extends State<TracksNearYouSection> {
                 child: Center(
                   child: Text(
                     "No tracks found",
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium,
                   ),
                 ),
               );
@@ -89,12 +122,17 @@ class _TracksNearYouSectionState extends State<TracksNearYouSection> {
             return SizedBox(
               height: 281,
               child: ListView.separated(
-                padding: const EdgeInsets.only(left: 0, right: 0),
-                scrollDirection: Axis.horizontal,
-                physics: const BouncingScrollPhysics(),
+                scrollDirection:
+                    Axis.horizontal,
+                physics:
+                    const BouncingScrollPhysics(),
                 itemCount: tracks.length,
-                separatorBuilder: (_, __) => const SizedBox(width: 14),
-                itemBuilder: (context, index) {
+                separatorBuilder:
+                    (_, __) =>
+                        const SizedBox(
+                            width: 14),
+                itemBuilder:
+                    (context, index) {
                   final t = tracks[index];
 
                   final subtitle =
@@ -106,39 +144,60 @@ class _TracksNearYouSectionState extends State<TracksNearYouSection> {
                     imagePath: t.image,
                     title: t.title,
                     city: t.city,
-                    distance: "${t.distance ?? 0} km",
+                    distance:
+                        "${t.distance ?? 0} km",
                     subtitle: subtitle,
                     difficulty: t.difficulty,
                     status: t.status,
                     onTap: () {
-                      
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => RouteDetailsScreen(
+                          builder: (_) =>
+                              RouteDetailsScreen(
                             routeData: {
                               "id": t.id,
-                              "title": t.title,
-                              "description": t.description,
-                              "image": t.image,
+                              "title":
+                                  t.title,
+                              "description":
+                                  t.description,
+                              "image":
+                                  t.image,
                               "city": t.city,
-                              "address": t.address,
-                              "zipcode": t.zipcode,
-                              "distance": t.distance,
-                              "elevation": t.elevation,
-                              "type": t.type,
-                              "avgtime": t.avgtime,
-                              "pace": t.pace,
-                              "facilities": t.facilities,
-                              "status": t.status,
-                              "difficulty": t.difficulty,
-                              "country": t.country,
-                              "helmetRequired": t.helmetRequired,
-                              "nightRidingAllowed": t.nightRidingAllowed,
-                              "slug": t.slug,
-                              "trackType": t.trackType,
-                              "visibility": t.visibility,
-                              "surfaceType": t.surfaceType,
+                              "address":
+                                  t.address,
+                              "zipcode":
+                                  t.zipcode,
+                              "distance":
+                                  t.distance,
+                              "elevation":
+                                  t.elevation,
+                              "type":
+                                  t.type,
+                              "avgtime":
+                                  t.avgtime,
+                              "pace":
+                                  t.pace,
+                              "facilities":
+                                  t.facilities,
+                              "status":
+                                  t.status,
+                              "difficulty":
+                                  t.difficulty,
+                              "country":
+                                  t.country,
+                              "helmetRequired":
+                                  t.helmetRequired,
+                              "nightRidingAllowed":
+                                  t.nightRidingAllowed,
+                              "slug":
+                                  t.slug,
+                              "trackType":
+                                  t.trackType,
+                              "visibility":
+                                  t.visibility,
+                              "surfaceType":
+                                  t.surfaceType,
                             },
                           ),
                         ),

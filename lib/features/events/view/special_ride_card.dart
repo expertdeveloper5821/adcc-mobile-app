@@ -141,19 +141,26 @@ class SpecialRideCard extends StatelessWidget {
     final cityText = (city ?? location ?? 'Abu Dhabi').trim();
 final id = eventId ?? "";
 
-    return GestureDetector(
-    onTap: onTap ??
-    () {
-      if (id.isEmpty) return;
+  return GestureDetector(
+  onTap: () {
+    debugPrint("🟢 Card tapped: $title");
+    debugPrint("🟢 Event ID: $id");
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => EventDetailsScreen(eventId: id),
-        ),
-      );
-    
-          },
+    if (id.isEmpty) {
+      debugPrint("❌ Event ID empty — navigation blocked");
+      return;
+    }
+
+ Navigator.push(
+  context,
+  MaterialPageRoute(
+    builder: (_) {
+      debugPrint("📌 Navigating to EventDetailsScreen with ID: $eventId");
+      return EventDetailsScreen(eventId: eventId!);
+    },
+  ),
+);
+  },
       child: SizedBox(
         width: width,
         height: _cardHeight,

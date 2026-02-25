@@ -363,72 +363,101 @@ class EventsService {
       return ApiResponse.error(message: "Unexpected error: $e");
     }
   }
+/// Get event by ID
+Future<ApiResponse<Event>> getEventById(String eventId) async {
+  try {
+    debugPrint("🌐 GET Event By ID: $eventId");
 
-  /// Get event by ID
-  Future<ApiResponse<Event>> getEventById(String eventId) async {
-    try {
-      final response = await _apiClient.get<dynamic>(
-        ApiEndpoints.eventById(eventId),
-      );
+    final response = await _apiClient.get<dynamic>(
+      ApiEndpoints.eventById(eventId),
+    );
 
-    
+    debugPrint("📡 Status Code: ${response.statusCode}");
+    debugPrint("📦 Raw Response: ${response.data}");
 
-      if (response.statusCode == 200 && response.data != null) {
-        try {
-          Map<String, dynamic> eventData;
+if ((response.statusCode == 200 || response.statusCode == 201) &&
+    response.data != null &&
+    response.data["success"] == true){
 
-          if (response.data is Map) {
-            final data = response.data as Map<String, dynamic>;
+      final data = response.data["data"];
 
-            if (data['data'] != null && data['data'] is Map) {
-              final nestedData = data['data'] as Map<String, dynamic>;
+      if (data is Map<String, dynamic>) {
+        final event = Event.fromJson(data);
 
-              if (nestedData['event'] != null && nestedData['event'] is Map) {
-                eventData = nestedData['event'] as Map<String, dynamic>;
-              } else {
-                eventData = nestedData;
-              }
-            } else {
-              eventData = data;
-            }
-          } else {
-            return ApiResponse.error(
-              message: 'Invalid response format',
-              statusCode: response.statusCode,
-            );
-          }
+        debugPrint("✅ Event Parsed Successfully: ${event.title}");
 
-          final event = Event.fromJson(eventData);
-
-          return ApiResponse.success(
-            data: event,
-            statusCode: response.statusCode,
-          );
-        } catch (e, st) {
-        
-          return ApiResponse.error(
-            message: 'Failed to parse event data: $e',
-            statusCode: response.statusCode,
-          );
-        }
+        return ApiResponse.success(
+          data: event,
+          statusCode: response.statusCode,
+        );
+      } else {
+        debugPrint("❌ Event data format invalid");
+        return ApiResponse.error(
+          message: "Invalid event format",
+          statusCode: response.statusCode,
+        );
       }
+    }
 
-      return ApiResponse.error(
-        message: 'Failed to fetch event',
+    debugPrint("❌ API returned failure response");
+    return ApiResponse.error(
+      message: response.data?["message"] ?? "Failed to fetch event",
+      statusCode: response.statusCode,
+    );
+  } on DioException catch (e) {
+    final apiException = ApiException.fromDioException(e);
+
+    debugPrint("❌ DioException in getEventById: ${apiException.toString()}");
+
+    return ApiResponse.error(
+      message: apiException.toString(),
+      statusCode: apiException.statusCode,
+    );
+  } catch (e) {
+    debugPrint("❌ Unexpected error in getEventById: $e");
+
+    return ApiResponse.error(
+      message: "Unexpected error: $e",
+    );
+  }
+}
+Future<ApiResponse<bool>> getMemberStatus({
+  required String eventId,
+}) async {
+  try {
+    final response = await _apiClient.get<dynamic>(
+      ApiEndpoints.memberStatus(eventId),
+    );
+
+if ((response.statusCode == 200 || response.statusCode == 201) &&
+    response.data != null &&
+    response.data["success"] == true) {
+      
+      final data = response.data["data"];
+      final status = data?["status"]?.toString();
+
+ 
+      return ApiResponse.success(
+        data: status == "joined",
         statusCode: response.statusCode,
       );
-    } on DioException catch (e) {
-      final apiException = ApiException.fromDioException(e);
-      return ApiResponse.error(
-        message: apiException.toString(),
-        statusCode: apiException.statusCode,
-      );
-    } catch (e) {
-      return ApiResponse.error(
-        message: 'An unexpected error occurred: $e',
-      );
     }
-  }
 
+    return ApiResponse.error(
+      message: response.data?["message"] ?? "Failed to get member status",
+      statusCode: response.statusCode,
+    );
+  } on DioException catch (e) {
+    final apiException = ApiException.fromDioException(e);
+    return ApiResponse.error(
+      message: apiException.toString(),
+      statusCode: apiException.statusCode,
+    );
+  } catch (e) {
+    return ApiResponse.error(
+      message: "Unexpected error: $e",
+    );
+  }
+}
   
 }
