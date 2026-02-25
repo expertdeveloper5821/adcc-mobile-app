@@ -84,6 +84,51 @@ class CommunitiesService {
     }
   }
 
+   Future<ApiResponse<bool>> getCommunityMemberStatus({
+  required String communityId,
+}) async {
+  final endpoint =
+      ApiEndpoints.communityMemberStatus(communityId);
+
+  try {
+    final response = await _apiClient.get<dynamic>(endpoint);
+
+    if (response.statusCode == 200 &&
+        response.data != null &&
+        response.data["success"] == true) {
+      
+      final status =
+          response.data["data"]?["status"]?.toString();
+
+      final isJoined = status == "joined";
+
+      return ApiResponse.success(
+        data: isJoined,
+        statusCode: response.statusCode,
+      );
+    }
+
+    return ApiResponse.error(
+      message:
+          response.data?["message"] ??
+              "Failed to fetch member status",
+      statusCode: response.statusCode,
+    );
+  } on DioException catch (e) {
+    final apiException =
+        ApiException.fromDioException(e);
+
+    return ApiResponse.error(
+      message: apiException.toString(),
+      statusCode: apiException.statusCode,
+    );
+  } catch (e) {
+    return ApiResponse.error(
+      message: "Unexpected error occurred",
+    );
+  }
+}
+
   Future<ApiResponse<dynamic>> leaveCommunity({
     required String communityId,
     String? reason,

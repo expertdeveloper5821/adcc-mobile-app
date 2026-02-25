@@ -1,5 +1,5 @@
 import 'package:adcc/features/event_details/view/event_details_screen.dart';
-import 'package:adcc/features/events/services/events_service.dart';
+import 'package:adcc/features/events/Model/model_events.dart';
 import 'package:adcc/features/events/view/special_ride_card.dart';
 import 'package:adcc/shared/widgets/banner_header.dart';
 import 'package:adcc/shared/widgets/category_selector.dart';

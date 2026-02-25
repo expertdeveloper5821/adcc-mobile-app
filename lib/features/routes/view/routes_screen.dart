@@ -1,6 +1,5 @@
 import 'package:adcc/shared/widgets/track_header.dart';
 import 'package:flutter/material.dart';
-import '../../../shared/widgets/banner_with_search.dart';
 import '../../../shared/widgets/warning_message.dart';
 import '../../../shared/widgets/category_selector.dart';
 import 'sections/official_cycling_tracks_section.dart';
@@ -75,10 +74,10 @@ class _RoutesTabState extends State<RoutesTab> {
 
                 const SizedBox(height: 24),
 
-                  // Tracks Near You Section
-                const TracksNearYouSection(),
-              
-
+                 TracksNearYouSection(
+                  selectedStatus: filterPills[selectedFilterIndex],
+                   searchQuery: searchQuery,
+                 ),
                 const SizedBox(height: 32),
                   // Official Cycling Tracks Section
                 const OfficialCyclingTracksSection(),

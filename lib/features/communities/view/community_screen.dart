@@ -8,7 +8,6 @@ import 'package:adcc/features/communities/view/view_all_communities_screen.dart'
 import 'package:adcc/features/communities/view/view_all_communities_type.dart';
 import 'package:adcc/features/communities/view/view_all_purpose_based.dart';
 import 'package:adcc/features/communities/services/communities_service.dart';
-import 'package:adcc/shared/widgets/banner_with_search.dart';
 import 'package:adcc/shared/widgets/community_header.dart';
 import 'package:adcc/shared/widgets/section_header.dart';
 import 'package:flutter/material.dart';

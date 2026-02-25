@@ -35,14 +35,32 @@ class _CommunityCityDetailsState extends State<CommunityCityDetails> {
     "Gallery",
     "Updates",
   ];
+@override
+void initState() {
+  super.initState();
+  _isJoined = false;
+  _checkMemberStatus();
+}
 
-  @override
-  void initState() {
-    super.initState();
-    //  Initialize from community model
-    _isJoined = widget.community.isJoined;
+Future<void> _checkMemberStatus() async {
+  setState(() => isLoading = true);
+
+  final result =
+      await _communitiesService.getCommunityMemberStatus(
+    communityId: widget.community.id,
+  );
+
+  if (!mounted) return;
+
+  setState(() => isLoading = false);
+
+  if (result.success) {
+    setState(() {
+      _isJoined = result.data ?? false;
+      widget.community.isJoined = _isJoined;
+    });
   }
-
+}
   //  Method to refresh community data
   Future<void> _refreshCommunityData() async {
     // You can optionally fetch fresh data from API here
@@ -142,12 +160,12 @@ class _CommunityCityDetailsState extends State<CommunityCityDetails> {
 
             const SizedBox(height: 12),
 
-            // HIGHLIGHTS
+         
             const _HighlightsCard(),
 
             const SizedBox(height: 14),
 
-            // TABS
+       
             _TabsRow(
               tabs: tabs,
               selectedIndex: selectedTabIndex,
@@ -156,23 +174,27 @@ class _CommunityCityDetailsState extends State<CommunityCityDetails> {
 
             const SizedBox(height: 14),
 
-            // TAB CONTENT
+         
             _TabContent(selectedTabIndex: selectedTabIndex),
 
             const SizedBox(height: 18),
 
-            //  JOIN/LEAVE BUTTON with proper state management
-            AppButton(
-              label: isLoading
-                  ? "Please wait..."
-                  : (_isJoined ? "Leave Community" : "Join Community"),
-              onPressed: isLoading ? null : _handleJoinLeave,
-              type: _isJoined ? AppButtonType.danger : AppButtonType.primary,
-              backgroundColor: const Color(0xFFB11212),
-              textColor: Colors.white,
-              borderRadius: 16,
-              height: 52,
-            ),
+         
+         AppButton(
+  label: isLoading
+      ? "Checking..."
+      : (_isJoined
+          ? "Leave Community"
+          : "Join Community"),
+  onPressed: isLoading ? null : _handleJoinLeave,
+  type: _isJoined
+      ? AppButtonType.danger
+      : AppButtonType.primary,
+  backgroundColor: const Color(0xFFB11212),
+  textColor: Colors.white,
+  borderRadius: 16,
+  height: 52,
+),
           ],
         ),
       ),

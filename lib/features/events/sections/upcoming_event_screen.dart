@@ -1,5 +1,5 @@
 import 'package:adcc/features/event_details/view/event_details_screen.dart';
-import 'package:adcc/features/events/services/events_service.dart';
+import 'package:adcc/features/events/Model/model_events.dart';
 import 'package:adcc/shared/widgets/banner_header.dart';
 import 'package:adcc/shared/widgets/category_selector.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +40,7 @@ class _UpcomingeventState extends State<Upcomingevent> {
     return '${event.currentParticipants ?? 0}${event.maxParticipants != null ? '/${event.maxParticipants}' : ''} riders';
   }
 
-  // ⭐ local derived category mapping
+
   String _derivedCategory(Event e) {
     final title = e.title.toLowerCase();
     final desc = (e.description ?? '').toLowerCase();
@@ -126,7 +126,7 @@ class _UpcomingeventState extends State<Upcomingevent> {
 
             const SizedBox(height: 14),
 
-            // FOUND TEXT
+         
             Text(
               "${list.length} communities found",
               style: const TextStyle(
@@ -180,14 +180,13 @@ class _UpcomingeventState extends State<Upcomingevent> {
 
                     eventId: e.id,
 
-                    // width figma jaisa
                     width: 369,
 
                     onShare: () {
                       debugPrint("Share tapped: ${e.id}");
                     },
 
-                    // Open button tap
+                   
                     onOpen: () {
                       if (e.id.isEmpty) return;
 
@@ -199,7 +198,7 @@ class _UpcomingeventState extends State<Upcomingevent> {
                       );
                     },
 
-                    // Full card tap
+                  
                     onTap: () {
                       if (e.id.isEmpty) return;
 

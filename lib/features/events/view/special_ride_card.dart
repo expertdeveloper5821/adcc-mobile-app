@@ -17,9 +17,9 @@ class SpecialRideCard extends StatelessWidget {
   final String? riders;
 
   /// UI values
-  final String? eventType; // e.g., "Race"
-  final String? groupName; // e.g., "Abu Dhabi Road Racers"
-  final String? city; // e.g., "Abu Dhabi"
+  final String? eventType; 
+  final String? groupName; 
+  final String? city; 
   final String? eventId;
 
   final VoidCallback? onShare;
@@ -141,19 +141,26 @@ class SpecialRideCard extends StatelessWidget {
     final cityText = (city ?? location ?? 'Abu Dhabi').trim();
 final id = eventId ?? "";
 
-    return GestureDetector(
-    onTap: onTap ??
-    () {
-      if (id.isEmpty) return;
+  return GestureDetector(
+  onTap: () {
+    debugPrint(" Card tapped: $title");
+    debugPrint(" Event ID: $id");
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => EventDetailsScreen(eventId: id),
-        ),
-      );
-    
-          },
+    if (id.isEmpty) {
+      debugPrint(" Event ID empty — navigation blocked");
+      return;
+    }
+
+ Navigator.push(
+  context,
+  MaterialPageRoute(
+    builder: (_) {
+      debugPrint(" Navigating to EventDetailsScreen with ID: $eventId");
+      return EventDetailsScreen(eventId: eventId!);
+    },
+  ),
+);
+  },
       child: SizedBox(
         width: width,
         height: _cardHeight,
@@ -161,10 +168,10 @@ final id = eventId ?? "";
           borderRadius: BorderRadius.circular(16),
           child: Stack(
             children: [
-              /// Background Image
+             
               Positioned.fill(child: _buildImage()),
 
-              /// Top-left Badge: Race
+            
               Positioned(
                 left: 12,
                 top: 12,
