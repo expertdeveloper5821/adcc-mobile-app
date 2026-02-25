@@ -40,7 +40,7 @@ class _UpcomingeventState extends State<Upcomingevent> {
     return '${event.currentParticipants ?? 0}${event.maxParticipants != null ? '/${event.maxParticipants}' : ''} riders';
   }
 
-  // ⭐ local derived category mapping
+  // local derived category mapping
   String _derivedCategory(Event e) {
     final title = e.title.toLowerCase();
     final desc = (e.description ?? '').toLowerCase();

@@ -126,7 +126,26 @@ Color _resolveTextColor(BuildContext context, bool disabled, Color? defaultColor
         );
 
       case AppButtonType.primary:
-      return ElevatedButton(
+        // If a borderColor is provided, render as an outlined/secondary style
+        if (borderColor != null) {
+          return OutlinedButton(
+            onPressed: disabled ? null : onPressed,
+            style: OutlinedButton.styleFrom(
+              backgroundColor: backgroundColor,
+              padding: padding,
+              side: BorderSide(
+                color: borderColor!,
+                width: borderWidth,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(borderRadius),
+              ),
+            ),
+            child: _content(context, defaultTextColor: textColor ?? borderColor, disabled: disabled),
+          );
+        }
+
+        return ElevatedButton(
           onPressed: disabled ? null : onPressed,
           style: ElevatedButton.styleFrom(
             backgroundColor:

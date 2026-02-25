@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 
 /// A widget that can display images from assets, network URLs, or base64 data URIs
@@ -24,6 +25,10 @@ class AdaptiveImage extends StatelessWidget {
     return imagePath.startsWith('http://') || imagePath.startsWith('https://');
   }
 
+  bool get _isFileImage {
+    return imagePath.startsWith('/') || imagePath.startsWith('file://');
+  }
+
   bool get _isBase64Image {
     return imagePath.startsWith('data:image/');
   }
@@ -34,8 +39,30 @@ class AdaptiveImage extends StatelessWidget {
       return _buildBase64Image();
     } else if (_isNetworkImage) {
       return _buildNetworkImage();
+    } else if (_isFileImage) {
+      return _buildFileImage();
     } else {
       return _buildAssetImage();
+    }
+  }
+
+  Widget _buildFileImage() {
+    try {
+      final filePath = imagePath.startsWith('file://')
+          ? Uri.parse(imagePath).toFilePath()
+          : imagePath;
+      final file = File(filePath);
+      return Image.file(
+        file,
+        width: width,
+        height: height,
+        fit: fit,
+        errorBuilder: (context, error, stackTrace) {
+          return errorWidget ?? _defaultErrorWidget();
+        },
+      );
+    } catch (e) {
+      return errorWidget ?? _defaultErrorWidget();
     }
   }
 
