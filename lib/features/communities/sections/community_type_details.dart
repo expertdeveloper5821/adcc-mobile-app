@@ -7,7 +7,7 @@ import 'package:adcc/features/communities/services/communities_service.dart';
 import 'package:adcc/shared/widgets/app_button.dart';
 import 'package:adcc/shared/widgets/banner_header.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:convert';
 class CommunityCityDetails extends StatefulWidget {
   final CommunityModel community;
 
@@ -23,7 +23,7 @@ class CommunityCityDetails extends StatefulWidget {
 class _CommunityCityDetailsState extends State<CommunityCityDetails> {
   int selectedTabIndex = 0;
   bool isLoading = false;
-  
+  CommunityModel? _apiCommunity;
   //  Local variable to track join status
   late bool _isJoined;
 
@@ -38,10 +38,40 @@ class _CommunityCityDetailsState extends State<CommunityCityDetails> {
 @override
 void initState() {
   super.initState();
-  _isJoined = false;
+ _isJoined = false;
+
+
+
+  _fetchCommunityById(); 
   _checkMemberStatus();
 }
+Future<void> _fetchCommunityById() async {
+  setState(() => isLoading = true);
 
+  final communityId = widget.community.id;
+
+
+
+  final result = await _communitiesService.getCommunityById(
+    communityId: communityId,
+  );
+
+  if (!mounted) return;
+
+  setState(() => isLoading = false);
+  // 👇 YAHI PAR LIKHNA HAI
+print("FULL MODEL JSON:");
+print(jsonEncode(result.data?.toJson()));
+  if (result.data != null) {
+    setState(() {
+      _apiCommunity = result.data!;
+    });
+
+    final c = _apiCommunity!;
+
+   
+  }
+}
 Future<void> _checkMemberStatus() async {
   setState(() => isLoading = true);
 
@@ -71,19 +101,39 @@ Future<void> _checkMemberStatus() async {
 
   @override
   Widget build(BuildContext context) {
-    final c = widget.community;
+  if (_apiCommunity == null) {
+  return const Scaffold(
+    body: Center(
+      child: CircularProgressIndicator(),
+    ),
+  );
+}
 
-    final title = c.title.trim().isEmpty ? "Community" : c.title.trim();
-    final description = c.description.trim().isEmpty
-        ? "A friendly community for families and leisure riders.\n\nFocused on safe group riding, cycling education for kids, and weekend outdoor activities."
-        : c.description.trim();
+final c = _apiCommunity!;
+final title = c.title;
+final description = c.description;
 
-    final city = (c.location ?? "Abu Dhabi").trim();
-    final category = c.type.trim().isEmpty ? "Family" : c.type.trim();
-    final track = (c.trackName ?? "Corniche, Hudayriyat").trim();
+final city = c.city?.isNotEmpty == true
+    ? c.city!
+    : (c.location ?? "N/A");
 
-    final members = c.membersCount ?? 0;
-    final events = c.eventsCount ?? 0;
+final category = c.type.isNotEmpty ? c.type : "N/A";
+
+final track = c.trackName?.isNotEmpty == true
+    ? c.trackName!
+    : "N/A";
+
+final founded = (c.foundedYear ?? 0) > 0
+    ? c.foundedYear.toString()
+    : "N/A";
+
+final members = c.membersCount != null
+    ? c.membersCount.toString()
+    : "0";
+
+final events = c.eventsCount != null
+    ? c.eventsCount.toString()
+    : "0";
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F5EF),
@@ -93,12 +143,12 @@ Future<void> _checkMemberStatus() async {
           padding: const EdgeInsets.fromLTRB(16, 14, 16, 18),
           children: [
             // TOP BANNER IMAGE
-            BannerHeadder(
-              imagePath: 'assets/images/cycling_1.png',
-              title: " ",
-              subtitle: '',
-              onBackTap: () => Navigator.pop(context),
-            ),
+          BannerHeadder(
+  base64Image: c.imageUrl,   // 👈 API base64 image
+  title: title,              // 👈 Dynamic title
+  subtitle: '',              // 👈 Empty as requested
+  onBackTap: () => Navigator.pop(context),
+),
 
             const SizedBox(height: 14),
 
@@ -137,15 +187,14 @@ Future<void> _checkMemberStatus() async {
 
             const SizedBox(height: 16),
 
-            // INFO GRID
-            _InfoGrid(
-              city: city,
-              category: category,
-              primaryTrack: track,
-              founded: "2022",
-              upcomingEvents: "$events",
-              members: "$members",
-            ),
+         _InfoGrid(
+  city: city,
+  category: category,
+  primaryTrack: track,
+  founded: founded,
+  upcomingEvents: events,
+  members: members,
+),
 
             const SizedBox(height: 18),
 

@@ -38,6 +38,33 @@ class TracksService {
     }
   }
 
+
+    Future<TrackModel?> getTrackById(String trackId) async {
+  try {
+    final response =
+        await _dio.get(ApiEndpoints.trackById(trackId));
+
+    final body = response.data;
+
+    if (body is Map<String, dynamic>) {
+      final success = body["success"] ?? false;
+      final data = body["data"];
+
+      if (success && data is Map<String, dynamic>) {
+        return TrackModel.fromJson(data);
+      }
+    }
+
+    return null;
+  } on DioException catch (e) {
+    throw ApiException.fromDioException(e);
+  } catch (e) {
+    throw ApiException(
+      message: "Something went wrong while fetching track details.",
+    );
+  }
+}
+
   Future<List<EventModel>> getTrackRelatedEvents(String trackId) async {
     try {
       final response =

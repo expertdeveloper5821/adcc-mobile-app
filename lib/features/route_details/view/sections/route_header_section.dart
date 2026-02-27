@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 
@@ -11,6 +12,51 @@ class RouteHeaderSection extends StatelessWidget {
     required this.onBack,
   });
 
+  bool _isBase64(String path) {
+    return path.startsWith('data:image');
+  }
+
+  Widget _buildImage() {
+    if (imagePath.isEmpty) {
+      return _fallback();
+    }
+
+    try {
+      if (_isBase64(imagePath)) {
+        final base64String = imagePath.split(',').last;
+        return Image.memory(
+          base64Decode(base64String),
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+          errorBuilder: (_, __, ___) => _fallback(),
+        );
+      } else {
+        return Image.asset(
+          imagePath,
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+          errorBuilder: (_, __, ___) => _fallback(),
+        );
+      }
+    } catch (_) {
+      return _fallback();
+    }
+  }
+
+  Widget _fallback() {
+    return Container(
+      color: AppColors.softCream,
+      alignment: Alignment.center,
+      child: const Icon(
+        Icons.image,
+        size: 40,
+        color: Colors.black45,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -18,28 +64,11 @@ class RouteHeaderSection extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(22),
         child: SizedBox(
-          height: 330, 
+          height: 330,
           width: double.infinity,
           child: Stack(
             children: [
-              
-              Positioned.fill(
-                child: Image.asset(
-                  imagePath,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      color: AppColors.softCream,
-                      alignment: Alignment.center,
-                      child: const Icon(
-                        Icons.image,
-                        size: 34,
-                        color: Colors.black45,
-                      ),
-                    );
-                  },
-                ),
-              ),
+              Positioned.fill(child: _buildImage()),
 
               Positioned.fill(
                 child: Container(
@@ -47,22 +76,17 @@ class RouteHeaderSection extends StatelessWidget {
                 ),
               ),
 
-           Positioned(
-  left: -35,
-  bottom: -35,
-  child: Image.asset(
-    'assets/images/frame_1.png', 
-    width: 160,
-    height: 160,
-    fit: BoxFit.contain,
-    errorBuilder: (context, error, stackTrace) {
-      return const SizedBox();
-    },
-  ),
-),
+              Positioned(
+                left: -35,
+                bottom: -35,
+                child: Image.asset(
+                  'assets/images/frame_1.png',
+                  width: 160,
+                  height: 160,
+                  fit: BoxFit.contain,
+                ),
+              ),
 
-
-           
               Positioned(
                 left: 14,
                 top: 14,

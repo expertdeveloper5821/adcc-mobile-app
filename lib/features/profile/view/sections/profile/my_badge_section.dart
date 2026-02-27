@@ -17,7 +17,7 @@ class MyBadgesSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
 
-          /// ---------- HEADER ROW ----------
+    
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
@@ -54,7 +54,7 @@ class MyBadgesSection extends StatelessWidget {
 
           const SizedBox(height: 20),
 
-          /// ---------- BADGES LIST ----------
+         
           SizedBox(
             height: 95, // circle + label space
             child: ListView(
@@ -91,7 +91,7 @@ class _BadgeItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        /// --------- Circle 59.31 x 59.31 ----------
+  
         Container(
           width: 59.31,
           height: 59.31,

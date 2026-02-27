@@ -13,7 +13,6 @@ class MyCommunitiesSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
 
-          /// -------- HEADER --------
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
@@ -50,7 +49,7 @@ class MyCommunitiesSection extends StatelessWidget {
 
           const SizedBox(height: 16),
 
-          /// -------- CARD LIST --------
+ 
           SizedBox(
             height: 273,
             child: ListView.separated(
@@ -85,7 +84,7 @@ class _CommunityCard extends StatelessWidget {
           child: Column(
             children: [
 
-              /// -------- IMAGE SECTION --------
+      
               SizedBox(
                 width: 358,
                 height: 178.6592,
@@ -109,7 +108,6 @@ class _CommunityCard extends StatelessWidget {
                         color: Colors.black.withOpacity(0.10),
                       ),
 
-                      /// Joined Chip
                       Positioned(
                         top: 12,
                         left: 12,

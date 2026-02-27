@@ -29,7 +29,7 @@ class ProfileHeaderSection extends StatelessWidget {
           children: [
             const SizedBox(height: 16),
 
-         /// ---------------- HEADER ----------------
+       
 SizedBox(
   height: 60,
   child: Stack(
@@ -72,7 +72,7 @@ SizedBox(
 ),
             const SizedBox(height: 16),
 
-            /// ---------------- PROFILE IMAGE ----------------
+     
             Container(
               width: 107.03,
               height: 107.03,
@@ -88,7 +88,6 @@ SizedBox(
 
             const SizedBox(height: 16),
 
-            /// ---------------- NAME ----------------
             Text(
               name,
               style: const TextStyle(
@@ -100,7 +99,7 @@ SizedBox(
 
             const SizedBox(height: 8),
 
-            /// ---------------- LOCATION + SKILL ----------------
+     
             Text(
               '$location - $skillLevel',
               style: const TextStyle(
@@ -111,7 +110,6 @@ SizedBox(
 
             const SizedBox(height: 32),
 
-            /// ---------------- STATS ----------------
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 48),
               child: Row(
@@ -148,7 +146,7 @@ SizedBox(
   }) {
     return Column(
       children: [
-        /// --- Small Circle (40x40) ---
+
         Container(
           width: 40,
           height: 40,

@@ -92,7 +92,7 @@ class _EventCard extends StatelessWidget {
               ),
             ),
 
-            /// Overlay
+     
             Positioned.fill(
               child: Container(
                 color: Colors.black.withOpacity(0.12),

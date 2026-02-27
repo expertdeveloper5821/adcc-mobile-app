@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 
@@ -9,8 +10,58 @@ class RoutePhotosSection extends StatelessWidget {
     required this.photoPaths,
   });
 
+  bool _isBase64(String path) {
+    return path.startsWith('data:image');
+  }
+
+  Widget _buildImage(String path, double height) {
+    if (path.isEmpty) {
+      return _fallbackContainer(height);
+    }
+
+    try {
+      if (_isBase64(path)) {
+        final base64String = path.split(',').last;
+        return Image.memory(
+          base64Decode(base64String),
+          height: height,
+          width: double.infinity,
+          fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) => _fallbackContainer(height),
+        );
+      } else {
+        return Image.asset(
+          path,
+          height: height,
+          width: double.infinity,
+          fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) => _fallbackContainer(height),
+        );
+      }
+    } catch (_) {
+      return _fallbackContainer(height);
+    }
+  }
+
+  Widget _fallbackContainer(double height) {
+    return Container(
+      height: height,
+      width: double.infinity,
+      color: AppColors.softCream,
+      child: const Icon(
+        Icons.image,
+        size: 48,
+        color: AppColors.textSecondary,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (photoPaths.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -28,81 +79,32 @@ class RoutePhotosSection extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-             
+              // Left big image
               Expanded(
-                flex: 3, // More width for long image
-                child: photoPaths.isNotEmpty
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.asset(
-                          photoPaths[0],
-                          height: 200, // Tall image height
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Container(
-                              height: 200,
-                              color: AppColors.softCream,
-                              child: const Icon(
-                                Icons.image,
-                                size: 48,
-                                color: AppColors.textSecondary,
-                              ),
-                            );
-                          },
-                        ),
-                      )
-                    : const SizedBox.shrink(),
+                flex: 3,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: _buildImage(photoPaths[0], 200),
+                ),
               ),
               const SizedBox(width: 12),
-             
+
+              // Right side images
               Expanded(
-                flex: 2, 
+                flex: 2,
                 child: Column(
                   children: [
-                    // Top image
                     if (photoPaths.length > 1)
                       ClipRRect(
                         borderRadius: BorderRadius.circular(12),
-                        child: Image.asset(
-                          photoPaths[1],
-                          height: 94, // Half of 200 minus spacing
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Container(
-                              height: 94,
-                              color: AppColors.softCream,
-                              child: const Icon(
-                                Icons.image,
-                                size: 48,
-                                color: AppColors.textSecondary,
-                              ),
-                            );
-                          },
-                        ),
+                        child: _buildImage(photoPaths[1], 94),
                       ),
-                    if (photoPaths.length > 1) const SizedBox(height: 12),
-                    // Bottom image
+                    if (photoPaths.length > 1)
+                      const SizedBox(height: 12),
                     if (photoPaths.length > 2)
                       ClipRRect(
                         borderRadius: BorderRadius.circular(12),
-                        child: Image.asset(
-                          photoPaths[2],
-                          height: 94, // Half of 200 minus spacing
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Container(
-                              height: 94,
-                              color: AppColors.softCream,
-                              child: const Icon(
-                                Icons.image,
-                                size: 48,
-                                color: AppColors.textSecondary,
-                              ),
-                            );
-                          },
-                        ),
+                        child: _buildImage(photoPaths[2], 94),
                       ),
                   ],
                 ),
@@ -114,4 +116,3 @@ class RoutePhotosSection extends StatelessWidget {
     );
   }
 }
-

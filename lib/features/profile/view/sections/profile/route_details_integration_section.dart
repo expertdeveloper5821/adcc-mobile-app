@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../shared/widgets/app_button.dart';
+import '../../../../../core/theme/app_colors.dart';
+import '../../../../../shared/widgets/app_button.dart';
 
 class ServiceIntegration {
   final String name;
@@ -49,7 +49,7 @@ class RouteDetailsIntegrationSection extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFF2E3176).withValues(alpha: 0.1), // 10% opacity
+                      color: const Color(0xFF2E3176).withValues(alpha: 0.1), 
                       offset: const Offset(0, 4.38),
                       blurRadius: 30.65,
                       spreadRadius: 0,

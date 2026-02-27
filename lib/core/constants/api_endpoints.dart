@@ -24,11 +24,12 @@ class ApiEndpoints {
 
 
   static const String tracks = '$v1/tracks';
-static String trackRelatedEvents(String trackId) =>
+  static String trackRelatedEvents(String trackId) =>
     '$v1/tracks/$trackId/events/results';
-    static String trackRelatedCommunities(String trackId) =>
+  static String trackRelatedCommunities(String trackId) =>
       '$v1/tracks/$trackId/communities/results';
-
+  static String trackById(String id) => '$v1/tracks/$id';
+   
       
   // Authentication endpoints
   static const String auth = '$v1/auth';

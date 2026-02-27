@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../../core/theme/app_colors.dart';
 
 class GuestProfileSection extends StatelessWidget {
   final VoidCallback onSignUpLogin;
@@ -123,7 +123,7 @@ class GuestProfileSection extends StatelessWidget {
 
           const SizedBox(height: 30),
 
-          /// ================= GUEST OPTIONS =================
+     
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(

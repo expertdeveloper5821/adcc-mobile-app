@@ -1,22 +1,22 @@
-import 'package:adcc/features/profile/view/sections/my_badge_section.dart';
-import 'package:adcc/features/profile/view/sections/my_communities_section.dart';
-import 'package:adcc/features/profile/view/sections/my_joined_events_section.dart';
+import 'package:adcc/features/profile/view/sections/profile/my_badge_section.dart';
+import 'package:adcc/features/profile/view/sections/profile/my_communities_section.dart';
+import 'package:adcc/features/profile/view/sections/profile/my_joined_events_section.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/services/token_storage_service.dart';
-import '../../../core/services/api_client.dart';
-import '../../../core/constants/api_endpoints.dart';
-import '../../../shared/widgets/app_button.dart';
-import 'sections/profile_header_section.dart';
-import 'sections/profile_menu_section.dart';
-import 'sections/route_details_integration_section.dart';
-import 'sections/guest_profile_section.dart';
-import '../../../features/auth/view/register_screen.dart';
-import '../../../features/auth/view/email_password_login_screen.dart';
-import '../../../features/events/view/events_screen.dart';
-import '../../../features/communities/view/community_screen.dart';
-import '../../../features/routes/view/routes_screen_wrapper.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/services/token_storage_service.dart';
+import '../../../../core/services/api_client.dart';
+import '../../../../core/constants/api_endpoints.dart';
+import '../../../../shared/widgets/app_button.dart';
+import '../sections/profile/profile_header_section.dart';
+import '../sections/profile/profile_menu_section.dart';
+import '../sections/profile/route_details_integration_section.dart';
+import '../sections/guest_screen/guest_profile_section.dart';
+import '../../../auth/view/register_screen.dart';
+import '../../../auth/view/email_password_login_screen.dart';
+import '../../../events/view/events_screen.dart';
+import '../../../communities/view/community_screen.dart';
+import '../../../routes/view/routes_screen_wrapper.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -46,16 +46,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  /// Handle logout with API call
+
   Future<void> _handleLogout() async {
-    if (_isLoggingOut) return; // Prevent multiple calls
+    if (_isLoggingOut) return; 
 
     setState(() {
       _isLoggingOut = true;
     });
 
     try {
-      // Get refresh token before clearing
+      
       final refreshToken = await TokenStorageService.getRefreshToken();
 
       // Call logout API if refresh token exists
@@ -85,11 +85,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           } else {
             debugPrint(
                 ' [Logout API] Logout API returned non-success status');
-            // Continue with local logout even if API fails
+    
           }
         } on DioException catch (e) {
         
-          // Continue with local logout even if API fails
+         
         } catch (e) {
        
          
@@ -98,19 +98,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
         debugPrint(' [Logout] No refresh token found, skipping API call');
       }
 
-      // Clear all tokens and user data locally
       await TokenStorageService.clearTokens();
       debugPrint(' [Logout] Local tokens cleared');
 
-      // Update authentication state
+
       if (mounted) {
         setState(() {
           _isAuthenticated = false;
         });
       }
     } catch (e) {
-      debugPrint('❌ [Logout] Error during logout: $e');
-      // Even if there's an error, try to clear tokens and navigate
+    
+
       await TokenStorageService.clearTokens();
       if (mounted) {
         Navigator.pushAndRemoveUntil(
@@ -137,7 +136,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         builder: (_) => const EmailPasswordLoginScreen(),
       ),
     );
-    // Refresh authentication state after returning from login
+  
     _checkAuthentication();
   }
 
@@ -197,7 +196,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     alignment: Alignment.center,
     children: [
 
-      /// 🔙 Back Arrow (Left Positioned)
       Align(
         alignment: Alignment.centerLeft,
         child: GestureDetector(
@@ -218,7 +216,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
 
-      /// 🏷 Profile Title (Perfect Center)
+    
       const Text(
         'Profile',
         style: TextStyle(
@@ -278,7 +276,7 @@ const MyJoinedEventsSection(),
 
 const SizedBox(height: 16),
 
-const ProfileMenuSection(),
+ ProfileMenuSection(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(

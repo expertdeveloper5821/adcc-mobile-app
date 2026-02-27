@@ -2,6 +2,7 @@ import 'package:adcc/core/constants/api_endpoints.dart';
 import 'package:adcc/core/services/api_client.dart';
 import 'package:adcc/core/services/api_exception.dart';
 import 'package:adcc/core/services/api_response.dart';
+import 'package:adcc/features/communities/models/community_model.dart';
 import 'package:dio/dio.dart';
 
 class CommunitiesService {
@@ -205,4 +206,42 @@ class CommunitiesService {
       queryParameters: {"location": location},
     );
   }
+
+Future<ApiResponse<CommunityModel>> getCommunityById({
+  required String communityId,
+}) async {
+  final endpoint = ApiEndpoints.communityById(communityId);
+
+  try {
+    print("🔵 Calling API: $endpoint");
+
+    final response = await _apiClient.get<dynamic>(endpoint);
+
+    print("🟢 RAW API RESPONSE:");
+    print(response.data);
+
+if ((response.statusCode == 200 || response.statusCode == 201) &&
+    response.data != null &&
+    response.data["success"] == true) {
+
+      final community = CommunityModel.fromJson(response.data["data"]);
+
+      return ApiResponse.success(
+        data: community,
+        statusCode: response.statusCode,
+      );
+    }
+
+    return ApiResponse.error(
+      message: response.data?["message"] ?? "Failed to fetch community",
+      statusCode: response.statusCode,
+    );
+  } catch (e) {
+    print("🔴 ERROR IN getCommunityById: $e");
+    return ApiResponse.error(
+      message: "Unexpected error occurred",
+    );
+  }
+}
+
 }
