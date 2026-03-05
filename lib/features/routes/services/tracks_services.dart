@@ -9,34 +9,65 @@ import 'package:dio/dio.dart';
 class TracksService {
   final Dio _dio = ApiClient.instance.dio;
 
-  Future<List<TrackModel>> getAllTracks() async {
-    try {
-      final response = await _dio.get(ApiEndpoints.tracks);
-      final body = response.data;
-
-      if (body is Map<String, dynamic>) {
-        final data = body["data"];
-
-        if (data is Map<String, dynamic>) {
-          final tracksList = data["tracks"];
-
-          if (tracksList is List) {
-            return tracksList
-                .map((e) => TrackModel.fromJson(e as Map<String, dynamic>))
-                .toList();
-          }
-        }
-      }
-
-      return [];
-    } on DioException catch (e) {
-      throw ApiException.fromDioException(e);
-    } catch (e) {
-      throw ApiException(
-        message: "Something went wrong while fetching tracks.",
-      );
+ Future<List<TrackModel>> getAllTracks() async {
+  try {
+   final response = await ApiClient.instance.get(ApiEndpoints.tracks);
+    final body = response.data;
+    if (body is Map<String, dynamic>) {
+    final data = body["data"];
+    if (data is Map<String, dynamic>) {
+        final tracksList = data["tracks"];
+       if (tracksList is List) {
+         final tracks = tracksList
+              .map((e) {
+              
+                return TrackModel.fromJson(e as Map<String, dynamic>);
+              })
+              .toList();
+          return tracks;
+        } else {
     }
+      } else {
+      }
+    } else {
+    }
+    return [];
+  } on DioException catch (e) {
+    throw ApiException.fromDioException(e);
+  } catch (e) {
+
+
+    throw ApiException(
+      message: "Something went wrong while fetching tracks.",
+    );
   }
+}
+
+    Future<TrackModel?> getTrackById(String trackId) async {
+  try {
+    final response =
+        await _dio.get(ApiEndpoints.trackById(trackId));
+
+    final body = response.data;
+
+    if (body is Map<String, dynamic>) {
+      final success = body["success"] ?? false;
+      final data = body["data"];
+
+      if (success && data is Map<String, dynamic>) {
+        return TrackModel.fromJson(data);
+      }
+    }
+
+    return null;
+  } on DioException catch (e) {
+    throw ApiException.fromDioException(e);
+  } catch (e) {
+    throw ApiException(
+      message: "Something went wrong while fetching track details.",
+    );
+  }
+}
 
   Future<List<EventModel>> getTrackRelatedEvents(String trackId) async {
     try {

@@ -151,7 +151,7 @@ class _JoinItem extends StatelessWidget {
             style: const TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w500, // Medium
-              height: 17 / 13, // Line height approx 17px
+              height: 17 / 13, 
               letterSpacing: 0,
               color: AppColors.charcoal,
             ),

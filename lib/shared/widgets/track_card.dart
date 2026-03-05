@@ -104,10 +104,7 @@ class TrackCard extends StatelessWidget {
               children: [
                
                 ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                  ),
+              borderRadius: BorderRadius.circular(10),
                   child: SizedBox(
                     height: 150,
                     width: double.infinity,
@@ -130,7 +127,7 @@ class TrackCard extends StatelessWidget {
                           top: 12,
                           child: _SmallChip(
                             text: difficulty,
-                            bg: Colors.black.withValues(alpha: 0.28),
+                          bg: const Color(0x26000000),
                             fg: Colors.white,
                           ),
                         ),
@@ -141,7 +138,7 @@ class TrackCard extends StatelessWidget {
                           top: 12,
                           child: _SmallChip(
                             text: status,
-                            bg: Colors.black.withValues(alpha: 0.28),
+                    bg: const Color(0x26000000),
                             fg: Colors.white,
                           ),
                         ),

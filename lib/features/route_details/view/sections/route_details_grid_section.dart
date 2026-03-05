@@ -150,8 +150,6 @@ class RouteDetailsGridSection extends StatelessWidget {
     );
   }
 }
-
-/// SMALL CARD
 class _RouteDetailSmallCard extends StatelessWidget {
   final String label;
   final String value;
@@ -167,7 +165,7 @@ class _RouteDetailSmallCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: height,
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.fromLTRB(18, 20, 4, 12),
       decoration: BoxDecoration(
         color: AppColors.dustyRose,
         borderRadius: BorderRadius.circular(12),
@@ -175,37 +173,45 @@ class _RouteDetailSmallCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+
+          /// STAR + LABEL
           Row(
+
             children: [
-              const Icon(
-                Icons.star_outline,
-                size: 16,
-                color: AppColors.deepRed,
+              Image.asset(
+                "assets/icons/red_star.png",
+                width: 15.1146,
+                height: 14.412,
+                fit: BoxFit.contain,
               ),
+
               const SizedBox(width: 6),
-              Expanded(
-                child: Text(
-                  label,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.charcoal,
-                  ),
+
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.textDark,
                 ),
               ),
             ],
           ),
-          const Spacer(),
-          Text(
-            value,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: AppColors.textDark,
+
+          const SizedBox(height: 6),
+
+
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Text(
+              value,
+           
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w500,
+                color: Color(0XFF1A1C20),
+              ),
             ),
           ),
         ],
@@ -238,11 +244,12 @@ class _RouteDetailTallCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(
-            Icons.star_outline,
-            size: 18,
-            color: AppColors.deepRed,
-          ),
+          Image.asset(
+                "assets/icons/red_star.png",
+                width: 15.1146,
+                height: 14.412,
+                fit: BoxFit.contain,
+              ),
           const Spacer(),
           Text(
             label,
@@ -260,7 +267,7 @@ class _RouteDetailTallCard extends StatelessWidget {
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
-              fontSize: 14,
+              fontSize: 11,
               fontWeight: FontWeight.w600,
               color: AppColors.textDark,
             ),

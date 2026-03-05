@@ -1,7 +1,6 @@
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
-
 class EventHeader extends StatefulWidget {
   final String imagePath;
   final String title;
@@ -68,137 +67,174 @@ class _EventHeaderState extends State<EventHeader> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 306,
-      width: double.infinity,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: Stack(
-          children: [
-            /// Background Image (520w) + Left Shift (-81)
-            Positioned(
-              left: -81,
-              top: 0,
-              bottom: 0,
-              child: Image.asset(
-                widget.imagePath,
-                width: 520,
-                height: 306,
-                fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) {
-                  return Container(
-                    width: 520,
-                    height: 306,
-                    color: AppColors.softCream,
-                  );
-                },
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: SizedBox(
+        height: 306,
+        width: double.infinity,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: Stack(
+            children: [
+
+              /// Background Image
+              Positioned.fill(
+                child: Image.asset(
+                  widget.imagePath,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) {
+                    return Container(color: AppColors.softCream);
+                  },
+                ),
               ),
-            ),
 
-
-            Positioned.fill(
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.black.withValues(alpha: 0.05),
-                      Colors.black.withValues(alpha: 0.85),
-                    ],
+              /// Gradient Overlay
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.black.withValues(alpha: 0.05),
+                        Colors.black.withValues(alpha: 0.85),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
 
-            
-
-            Positioned(
-              left: 16,
-              right: 16,
-              bottom: 16,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  /// Title
-                  Text(
-                    widget.title,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w900,
+              /// Back Button
+              if (widget.showBackButton)
+                Positioned(
+                  top: 14,
+                  left: 14,
+                  child: SafeArea(
+                    bottom: false,
+                    child: Material(
                       color: Colors.white,
-                      height: 1.1,
+                      shape: const CircleBorder(),
+                      child: InkWell(
+                        customBorder: const CircleBorder(),
+                        onTap: _handleBack,
+                        child: const SizedBox(
+                          height: 40,
+                          width: 40,
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.red,
+                            size: 20,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
+                ),
 
-                  /// Subtitle
-                  if (widget.subtitle != null && widget.subtitle!.isNotEmpty) ...[
-                    const SizedBox(height: 6),
+              /// Bottom Content
+              Positioned(
+                left: 24,
+                right: 24,
+                bottom: 16,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+
+                    /// Title
                     Text(
-                      widget.subtitle!,
+                      widget.title,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 11.5,
-                        fontWeight: FontWeight.w700,
-                        height: 1.25,
-                        color: Colors.white.withValues(alpha: 0.85),
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                        height: 1.1,
                       ),
                     ),
-                  ],
 
-                  /// Search Bar
-                  if (widget.wantSearchBar) ...[
-                    const SizedBox(height: 14),
-                    Container(
-                      height: 44,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.22),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: TextField(
-                        controller: _searchController,
-                        onChanged: widget.onChangeHandler,
-                        style: const TextStyle(
+                    /// Subtitle
+                    if (widget.subtitle != null &&
+                        widget.subtitle!.isNotEmpty) ...[
+                      const SizedBox(height: 6),
+                      Text(
+                        widget.subtitle!,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
                           color: Colors.white,
-                          fontSize: 12.5,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: widget.placeholder ??
-                              "Search events, communities, cities, or tracks...",
-                          hintStyle: TextStyle(
-                            color: Colors.white.withValues(alpha: 0.70),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w700,
-                          ),
-                          prefixIcon: Container(
-                            margin: const EdgeInsets.all(10),
-                            height: 26,
-                            width: 26,
-                            decoration: BoxDecoration(
-                              color: Colors.black.withValues(alpha: 0.35),
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.search,
-                              size: 16,
-                              color: Colors.white,
-                            ),
-                          ),
-                          border: InputBorder.none,
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 14,
-                            vertical: 12,
-                          ),
                         ),
                       ),
-                    ),
+                    ],
+
+                    /// Search Bar
+                    if (widget.wantSearchBar) ...[
+                      const SizedBox(height: 14),
+
+                      Container(
+                        width: 311,
+                        height: 38,
+                        padding: const EdgeInsets.fromLTRB(14, 7, 28, 7.5),
+                        decoration: BoxDecoration(
+                          color: const Color(0x36FFFFFF),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          children: [
+
+                            /// Search Icon Container
+                            Container(
+                              height: 23.5,
+                              width: 23.5,
+                              decoration: BoxDecoration(
+                                color: const Color(0x408C8C8C),
+                                borderRadius: BorderRadius.circular(36.15),
+                              ),
+                              child: const Icon(
+                                Icons.search,
+                                size: 12,
+                                color: Colors.white,
+                              ),
+                            ),
+
+                            const SizedBox(width: 11),
+
+                            /// TextField
+                            Expanded(
+                              child: TextField(
+                                controller: _searchController,
+                                onChanged: widget.onChangeHandler,
+                                style: const TextStyle(
+                                  fontFamily: 'Outfit',
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  letterSpacing: -0.1,
+                                  color: Colors.white,
+                                ),
+                                decoration: InputDecoration(
+                                  hintText: widget.placeholder ??
+                                      "Search events, communities, cities, or tracks...",
+                                  hintStyle: const TextStyle(
+                                    fontFamily: 'Outfit',
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    letterSpacing: -0.1,
+                                    color: Colors.white,
+                                  ),
+                                  border: InputBorder.none,
+                                  isCollapsed: true,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ],
-                ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

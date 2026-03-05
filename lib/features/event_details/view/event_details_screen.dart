@@ -1,14 +1,15 @@
 import 'package:adcc/core/theme/app_colors.dart';
+import 'package:adcc/features/event_details/view/sections/bike_question_card.dart';
 import 'package:adcc/features/event_details/view/sections/event_facilities_section.dart';
+import 'package:adcc/features/event_details/view/sections/event_image_banner.dart';
 import 'package:adcc/features/event_details/view/sections/event_info.dart';
 import 'package:adcc/features/event_details/view/sections/event_quick_info.dart';
 import 'package:adcc/features/event_details/view/sections/event_rewards_section.dart';
 import 'package:adcc/features/events/Model/model_events.dart';
 import 'package:adcc/features/events/services/events_service.dart';
 import 'package:adcc/features/events/view/cancel_registration.dart';
-import 'package:adcc/features/events/view/my_event_screen.dart';
+import 'package:adcc/features/events/view/join_event.dart';
 import 'package:adcc/features/events/view/your_registered_screen.dart';
-import 'package:adcc/shared/widgets/banner_header.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 class EventDetailsScreen extends StatefulWidget {
@@ -130,11 +131,9 @@ String _getScheduleTitle(int index) {
           physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.fromLTRB(14, 12, 14, 22),
           children: [
-           BannerHeadder(
+       EventImageBanner(
   base64Image: _event?.mainImage,
-  imagePath: 'assets/images/cycling_1.png', 
-  title: _event?.title ?? "",
-  subtitle: _event?.city ?? "",
+  imagePath: 'assets/images/cycling_1.png',
   onBackTap: () => Navigator.pop(context),
 ),
 
@@ -145,9 +144,9 @@ String _getScheduleTitle(int index) {
               child: Text(
                  _event?.title ?? "Loading...",
                 style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w900,
-                  height: 1.1,
+                  fontSize: 22,
+                  fontWeight: FontWeight.w600,
+                  height: 1,
                   color: AppColors.deepRed,
                 ),
               ),
@@ -160,29 +159,63 @@ String _getScheduleTitle(int index) {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Description",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w900,
-                      color: AppColors.charcoal,
-                    ),
+                  Row(
+                    children: [
+                      Text(
+                        "Description",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                         color: Color(0XFF1A1C20),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Positioned(
+  left: 12,
+  top: 40, 
+  child: Container(
+    height: 20,
+    padding: const EdgeInsets.fromLTRB(11, 4, 11, 3),
+    decoration: BoxDecoration(
+      color: const Color(0x54C12D32), 
+      borderRadius: BorderRadius.circular(6),
+    ),
+    child: const Center(
+      child: Text(
+        "AED 200",
+        style: TextStyle(
+          fontSize: 9.9,
+          fontWeight: FontWeight.w600,
+          height: 1,
+          color: Color(0xFFC12D32),
+        ),
+      ),
+    ),
+  ),
+),
+                    ],
                   ),
                   const SizedBox(height: 6),
-                  Text(
-                     _event?.description ?? "Loading description...",
-                    style: TextStyle(
-                      fontSize: 12,
-                      height: 1.35,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.charcoal.withValues(alpha: 0.60),
-                    ),
-                  ),
-                ],
+             SizedBox(
+  width: 337,
+  child: Text(
+    _event?.description ?? "Loading description...",
+    maxLines: 2,
+    overflow: TextOverflow.ellipsis,
+    style: const TextStyle(
+      fontFamily: 'Outfit', 
+      fontSize: 14,
+      fontWeight: FontWeight.w400,
+      height: 1.35, 
+      letterSpacing: 0, 
+      color: Color(0XFF1A1C20),
+    ),
+  ),
+),         ],
               ),
             ),
 
-            const SizedBox(height: 14),
+            const SizedBox(height: 30),
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 2),
@@ -232,13 +265,13 @@ imagePath: "assets/icons/clock.png",
               ),
             ),
 
-            const SizedBox(height: 18),
+            const SizedBox(height: 30),
 
 EventQuickInfoSection(event: _event),
 
 
           
-            const SizedBox(height: 18),
+            const SizedBox(height: 30),
 
 Padding(
   padding: const EdgeInsets.symmetric(horizontal: 2),
@@ -326,7 +359,7 @@ Padding(
   ),
 ),
 
-            const SizedBox(height: 10),
+            const SizedBox(height: 30),
 
            
 
@@ -370,7 +403,7 @@ Padding(
     ],
   ),
 ),
-            const SizedBox(height: 18),
+            const SizedBox(height: 30),
 
            
 
@@ -382,13 +415,15 @@ Padding(
 ),
 
 
-            const SizedBox(height: 18),
+            const SizedBox(height: 30),
 
           EventInfo(event: _event),
 
 
-            const SizedBox(height: 18),
+            const SizedBox(height: 30),
+const BikeQuestionCard(),
 
+const SizedBox(height: 30),
          const EventRewardSection(
   rewards: [
     EventRewardItem(
@@ -402,7 +437,7 @@ Padding(
   ],
 ),
 
-            const SizedBox(height: 14),
+            const SizedBox(height: 30),
 Padding(
   padding: const EdgeInsets.symmetric(horizontal: 2),
   child: Container(
@@ -468,7 +503,7 @@ Padding(
 ),
 
 
-            const SizedBox(height: 18),
+            const SizedBox(height: 30),
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 2),
@@ -482,7 +517,7 @@ Padding(
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => const MYEVENET(),
+          builder: (_) => const JoinEvent(),
         ),
       );
     },
@@ -631,7 +666,40 @@ await Navigator.push(
               ),
             ),
 
-            const SizedBox(height: 6),
+            const SizedBox(height: 12),
+            const SizedBox(height: 12),
+
+SizedBox(
+  width: double.infinity,
+  height: 52,
+  child: OutlinedButton(
+    onPressed: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const JoinEvent(),
+        ),
+      );
+    },
+    style: OutlinedButton.styleFrom(
+      side: const BorderSide(
+        color: AppColors.deepRed,
+        width: 1.4,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(14),
+      ),
+    ),
+    child: const Text(
+      "Join Event",
+      style: TextStyle(
+        fontSize: 13,
+        fontWeight: FontWeight.w900,
+        color: AppColors.deepRed,
+      ),
+    ),
+  ),
+),
           ],
         ),
       ),

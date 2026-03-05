@@ -18,7 +18,9 @@ class _SellProductScreenState extends State<SellProductScreen> {
   final _priceController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _phoneController = TextEditingController();
-
+final _categoryController = TextEditingController();
+final _conditionController = TextEditingController();
+final _currencyController = TextEditingController();
   String _selectedCategory = 'Select category';
   String _selectedCondition = 'Select condition';
   String _selectedCurrency = 'AED';
@@ -88,14 +90,17 @@ class _SellProductScreenState extends State<SellProductScreen> {
     _phoneController.addListener(_validatePhone);
   }
 
-  @override
-  void dispose() {
-    _productNameController.dispose();
-    _priceController.dispose();
-    _descriptionController.dispose();
-    _phoneController.dispose();
-    super.dispose();
-  }
+ @override
+void dispose() {
+  _productNameController.dispose();
+  _priceController.dispose();
+  _descriptionController.dispose();
+  _phoneController.dispose();
+  _categoryController.dispose();
+  _conditionController.dispose();
+  _currencyController.dispose();
+  super.dispose();
+}
 
   // Photo picker method
   Future<void> _pickPhotosFromGallery() async {
@@ -314,31 +319,19 @@ class _SellProductScreenState extends State<SellProductScreen> {
                 // Category
                 _buildSectionLabel('Category'),
                 const SizedBox(height: 8),
-                _buildDropdown(
-                  value: _selectedCategory,
-                  items: _categories,
-                  errorText: _categoryError,
-                  onChanged: (value) {
-                    setState(
-                        () => _selectedCategory = value ?? _selectedCategory);
-                    _validateCategory();
-                  },
-                ),
+              _buildTextField(
+  controller: _categoryController,
+  placeholder: 'Select category',
+),
                 const SizedBox(height: 20),
 
                 // Condition
                 _buildSectionLabel('Condition'),
                 const SizedBox(height: 8),
-                _buildDropdown(
-                  value: _selectedCondition,
-                  items: _conditions,
-                  errorText: _conditionError,
-                  onChanged: (value) {
-                    setState(
-                        () => _selectedCondition = value ?? _selectedCondition);
-                    _validateCondition();
-                  },
-                ),
+_buildTextField(
+  controller: _conditionController,
+  placeholder: 'Select condition',
+),
                 const SizedBox(height: 20),
 
                 // Currency and Price
@@ -351,14 +344,10 @@ class _SellProductScreenState extends State<SellProductScreen> {
                         children: [
                           _buildSectionLabel('Currency'),
                           const SizedBox(height: 8),
-                          _buildDropdown(
-                            value: _selectedCurrency,
-                            items: _currencies,
-                            onChanged: (value) {
-                              setState(() =>
-                                  _selectedCurrency = value ?? _selectedCurrency);
-                            },
-                          ),
+                       _buildTextField(
+  controller: _currencyController,
+  placeholder: 'AED',
+),
                         ],
                       ),
                     ),
@@ -408,7 +397,7 @@ class _SellProductScreenState extends State<SellProductScreen> {
                 _buildTextField(
                   controller: _descriptionController,
                   placeholder: 'Describe your item, its condition, a...',
-                  maxLines: 4,
+                  maxLines: 1,
                   errorText: _descriptionError,
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
@@ -849,15 +838,15 @@ class _SellProductScreenState extends State<SellProductScreen> {
     // Mark form as submitted to enable error display
     setState(() => _formSubmitted = true);
 
-    // Validate all fields
-    _validateProductName();
-    _validatePrice();
-    _validateDescription();
-    _validatePhone();
-    _validateCategory();
-    _validateCondition();
-    _validateContactMethod();
-    _validateCity();
+    // // Validate all fields
+    // _validateProductName();
+    // _validatePrice();
+    // _validateDescription();
+    // _validatePhone();
+    // _validateCategory();
+    // _validateCondition();
+    // _validateContactMethod();
+    // _validateCity();
 
     // Check if there are any errors
     if (_productNameError == null &&
@@ -868,18 +857,8 @@ class _SellProductScreenState extends State<SellProductScreen> {
         _conditionError == null &&
         _contactMethodError == null &&
         _cityError == null) {
-      // Here you would typically submit the form data to your backend
-      debugPrint('Form submitted!');
-      debugPrint('Product Name: ${_productNameController.text}');
-      debugPrint('Category: $_selectedCategory');
-      debugPrint('Condition: $_selectedCondition');
-      debugPrint('Price: ${_priceController.text} $_selectedCurrency');
-      debugPrint('Description: ${_descriptionController.text}');
-      debugPrint('Contact Method: $_selectedContactMethod');
-      debugPrint('Phone: ${_phoneController.text}');
-      debugPrint('City: $_selectedCity');
+  
 
-      // Show success message
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Product listed successfully!'),
@@ -887,7 +866,7 @@ class _SellProductScreenState extends State<SellProductScreen> {
         ),
       );
 
-      // Navigate to the live-posted success screen
+                                                          
       Future.delayed(const Duration(milliseconds: 400), () {
         Navigator.push(
           context,

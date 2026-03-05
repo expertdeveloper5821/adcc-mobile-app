@@ -20,24 +20,26 @@ class RouteActionButtonsSection extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           // Open in Link My Ride Button
-          AppButton(
-            label: 'Open in Link My Ride',  
-            onPressed: onOpenLinkMyRide,
-            type: AppButtonType.primary,
-            backgroundColor: AppColors.deepRed,
-            suffixIcon: Icons.open_in_new,
-          ),
+         AppButton(
+  label: 'Open in Link My Ride',
+  onPressed: onOpenLinkMyRide,
+  type: AppButtonType.primary,
+  backgroundColor: AppColors.deepRed,
+  suffixImage: "assets/icons/units.png",
+  suffixImageColor: Colors.white,
+),
           const SizedBox(height: 12),
           // Open in Maps Button
-          AppButton(
-            label: 'Open in Maps',
-            onPressed: onOpenMaps,
-            type: AppButtonType.secondary,
-            borderColor: AppColors.deepRed,
-            textColor: AppColors.deepRed,
-            backgroundColor: Colors.transparent,
-            suffixIcon: Icons.open_in_new,
-          ),
+         AppButton(
+  label: 'Open in Maps',
+  onPressed: onOpenMaps,
+  type: AppButtonType.secondary,
+  borderColor: AppColors.deepRed,
+  textColor: AppColors.deepRed,
+  backgroundColor: Colors.transparent,
+  suffixImage: "assets/icons/units.png",
+  suffixImageColor: AppColors.deepRed,
+),
         ],
       ),
     );

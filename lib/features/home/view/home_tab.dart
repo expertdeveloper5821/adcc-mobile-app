@@ -1,13 +1,17 @@
 import 'package:adcc/features/home/view/horizontal_rideList.dart';
 import 'package:adcc/features/home/view/join_community_card.dart';
+import 'package:adcc/features/home/view/near_by_track.dart';
 import 'package:adcc/features/home/view/quick_actions_section.dart';
 import 'package:adcc/features/home/view/community_store_section.dart';
 import 'package:adcc/features/home/view/community_updates_section.dart';
 import 'package:adcc/features/home/view/promo_carousel.dart';
+import 'package:adcc/features/home/view/random_card.dart';
+import 'package:adcc/features/home/view/recently_posted_section.dart.dart';
 import 'package:adcc/features/home/view/ride_info_section.dart';
 import 'package:adcc/features/home/view/upcoming_tracks_list.dart';
 import 'package:adcc/features/home/view/weather_card.dart';
 import 'package:adcc/l10n/app_localizations.dart';
+import 'package:adcc/shared/widgets/section_header.dart';
 import 'package:flutter/material.dart';
 import '../../../shared/widgets/profile_header.dart';
 
@@ -54,41 +58,32 @@ class HomeTab extends StatelessWidget {
                   padding: const EdgeInsets.all(16),
                   child: QuickActionsSection(onTabChange: onTabChange),
                 ),
+                 const SizedBox(height: 24),
+                 const RandomCard(
+  image: "assets/images/cycling_1.png",
+  title: "Bike Abu Dhabi Gran Fondo 2025",
+  date: "21 Dec 2026",
+  distance: "150 Km",
+),
                 Padding(
                   padding: const EdgeInsets.only(top: 16),
                   child: HorizontalRideList(),
                 ),
 
                 const SizedBox(height: 24),
-                CommunityStoreSection(),
+                // CommunityStoreSection(),
 
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Upcoming Tracks',
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        child: const Row(
-                          children: [
-                            Text('View All'),
-                            SizedBox(width: 4),
-                            Icon(Icons.chevron_right, size: 18),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+               Padding(
+                 padding: const EdgeInsets.all(16.0),
+                 child: SectionHeader(title: "Upcoming Events"),
+               ),
+               const SizedBox(height: 6),
                 UpcomingTracksList(),
+                const SizedBox(height: 24),
 
+NearbyTracksSection(),
+const SizedBox(height: 24),
+RecentlyPost(),
                 const SizedBox(height: 24),
                 CommunityUpdatesSection(),
 

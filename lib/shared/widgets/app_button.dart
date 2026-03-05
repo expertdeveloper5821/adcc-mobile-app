@@ -17,7 +17,13 @@ class AppButton extends StatelessWidget {
   /// Icons
   final IconData? prefixIcon;
   final IconData? suffixIcon;
+  
+final String? prefixImage;
+final String? suffixImage;
 
+/// Image colors
+final Color? prefixImageColor;
+final Color? suffixImageColor;
   /// Layout
   final double height;
   final double? width;
@@ -43,8 +49,11 @@ class AppButton extends StatelessWidget {
     this.enabled = true,
 
     this.prefixIcon,
-    this.suffixIcon,
-
+this.suffixIcon,
+this.prefixImage,
+this.suffixImage,
+this.prefixImageColor,
+this.suffixImageColor,
     this.height = 48,
     this.width,
     this.padding = const EdgeInsets.symmetric(horizontal: 16),
@@ -85,23 +94,30 @@ Color _resolveTextColor(BuildContext context, bool disabled, Color? defaultColor
 
   Widget _buildButton(BuildContext context, bool disabled) {
     switch (type) {
-      case AppButtonType.secondary:
-        return OutlinedButton(
-          onPressed: disabled ? null : onPressed,
-          style: OutlinedButton.styleFrom(
-            backgroundColor: backgroundColor,
-            padding: padding,
-            side: BorderSide(
-              color: borderColor ?? Theme.of(context).primaryColor,
-              width: borderWidth,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
-            ),
-          ),
-          child: _content(context),
-        );
+    case AppButtonType.secondary:
+  final Color resolvedColor =
+      borderColor ?? textColor ?? Theme.of(context).primaryColor;
 
+  return OutlinedButton(
+    onPressed: disabled ? null : onPressed,
+    style: OutlinedButton.styleFrom(
+      backgroundColor: backgroundColor ?? Colors.white,
+      foregroundColor: resolvedColor, 
+      padding: padding,
+      side: BorderSide(
+        color: resolvedColor, 
+        width: borderWidth,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(borderRadius),
+      ),
+    ),
+    child: _content(
+      context,
+      defaultTextColor: resolvedColor,
+      disabled: disabled,
+    ),
+  );
       case AppButtonType.text:
         return TextButton(
           onPressed: disabled ? null : onPressed,
@@ -126,7 +142,7 @@ Color _resolveTextColor(BuildContext context, bool disabled, Color? defaultColor
         );
 
       case AppButtonType.primary:
-        // If a borderColor is provided, render as an outlined/secondary style
+       
         if (borderColor != null) {
           return OutlinedButton(
             onPressed: disabled ? null : onPressed,
@@ -160,41 +176,71 @@ Color _resolveTextColor(BuildContext context, bool disabled, Color? defaultColor
         );
     }
   }
-
-  Widget _content(BuildContext context, {Color? defaultTextColor,bool disabled = false,}) {
-    if (isLoading) {
-      return const SizedBox(
-        height: 22,
-        width: 22,
-        child: CircularProgressIndicator(strokeWidth: 2),
-      );
-    }
-
-    final Color resolvedTextColor =
-    _resolveTextColor(context, disabled, defaultTextColor);
-
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        if (prefixIcon != null) ...[
-          Icon(prefixIcon, size: 20, color: resolvedTextColor),
-          const SizedBox(width: 8),
-        ],
-        Text(
-          label,
-          style: textStyle ??
-              TextStyle(
-                color: resolvedTextColor,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-        ),
-        if (suffixIcon != null) ...[
-          const SizedBox(width: 8),
-          Icon(suffixIcon, size: 18, color: resolvedTextColor),
-        ],
-      ],
+Widget _content(BuildContext context,
+    {Color? defaultTextColor, bool disabled = false}) {
+  if (isLoading) {
+    return const SizedBox(
+      height: 22,
+      width: 22,
+      child: CircularProgressIndicator(strokeWidth: 2),
     );
   }
+
+  final Color resolvedTextColor =
+      _resolveTextColor(context, disabled, defaultTextColor);
+
+  return Row(
+    mainAxisSize: MainAxisSize.min,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+
+      /// Prefix Icon
+      if (prefixIcon != null) ...[
+        Icon(prefixIcon, size: 20, color: resolvedTextColor),
+        const SizedBox(width: 8),
+      ]
+
+      /// Prefix Image
+      else if (prefixImage != null) ...[
+        Image.asset(
+          prefixImage!,
+          height: 20,
+          width: 20,
+          color: prefixImageColor ?? resolvedTextColor,
+          colorBlendMode: BlendMode.srcIn,
+        ),
+        const SizedBox(width: 8),
+      ],
+
+      /// Label
+      Text(
+        label,
+        style: textStyle ??
+            TextStyle(
+              color: resolvedTextColor,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+      ),
+
+      /// Suffix Icon
+      if (suffixIcon != null) ...[
+        const SizedBox(width: 8),
+        Icon(suffixIcon, size: 18, color: resolvedTextColor),
+      ]
+
+      /// Suffix Image
+      else if (suffixImage != null) ...[
+        const SizedBox(width: 8),
+        Image.asset(
+          suffixImage!,
+          height: 18,
+          width: 18,
+          color: suffixImageColor ?? resolvedTextColor,
+          colorBlendMode: BlendMode.srcIn,
+        ),
+      ],
+    ],
+  );
+}
 }

@@ -2,7 +2,7 @@ import 'package:adcc/core/services/location_storage_service.dart';
 import 'package:adcc/features/events/view/events.dart';
 import 'package:adcc/features/home/view/home_tab.dart';
 import 'package:adcc/features/routes/view/routes_screen.dart';
-import 'package:adcc/features/profile/view/profile_screen.dart';
+import 'package:adcc/features/profile/view/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../core/services/permission_service.dart';
 

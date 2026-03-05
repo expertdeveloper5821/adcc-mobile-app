@@ -43,23 +43,27 @@ class RouteTitleSection extends StatelessWidget {
               ),
               const SizedBox(width: 12),
 
-              InkWell(
-                onTap: onShare,
-                borderRadius: BorderRadius.circular(999),
-                child: Container(
-                  height: 36,
-                  width: 36,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE6F4E6),
-                    borderRadius: BorderRadius.circular(999),
-                  ),
-                  child: const Icon(
-                    Icons.share_outlined,
-                    size: 18,
-                    color: AppColors.charcoal,
-                  ),
-                ),
-              ),
+             InkWell(
+  onTap: onShare,
+  borderRadius: BorderRadius.circular(999),
+  child: Container(
+    height: 35,
+    width: 35,
+    decoration: BoxDecoration(
+      color: const Color(0x5C99D3B5),
+      borderRadius: BorderRadius.circular(
+34652788),
+    ),
+    child: Center(
+      child: Image.asset(
+        "assets/icons/share_2.png", // apna image path
+        width: 18,
+        height: 18,
+        fit: BoxFit.contain,
+      ),
+    ),
+  ),
+),
             ],
           ),
         ],
@@ -77,7 +81,7 @@ class _StatusChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 90,
+      width: 60,
       height: 24,
       child: DecoratedBox(
         decoration: BoxDecoration(

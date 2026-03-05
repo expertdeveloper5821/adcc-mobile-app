@@ -23,16 +23,22 @@ class ApiInterceptor extends Interceptor {
     RequestInterceptorHandler handler,
   ) async {
     try {
-      final accessToken = await TokenStorageService.getAccessToken();
+    final accessToken = await TokenStorageService.getAccessToken();
 
-      final isRefreshApi = options.path.contains("/v1/auth/refresh");
 
-      if (!isRefreshApi) {
-        if (accessToken != null && accessToken.isNotEmpty) {
-          options.headers['Authorization'] = "Bearer $accessToken";
-        }
-      }
 
+final isRefreshApi = options.path.contains("/v1/auth/refresh");
+
+if (!isRefreshApi) {
+  if (accessToken != null && accessToken.isNotEmpty) {
+    options.headers['Authorization'] = "Bearer $accessToken";
+
+  } else {
+
+  }
+}
+
+print(" Headers: ${options.headers}");
       options.headers['Content-Type'] =
           options.headers['Content-Type'] ?? 'application/json';
       options.headers['Accept'] =
@@ -49,7 +55,9 @@ class ApiInterceptor extends Interceptor {
     Response response,
     ResponseInterceptorHandler handler,
   ) {
-    handler.next(response);
+
+
+handler.next(response);
   }
 
   @override

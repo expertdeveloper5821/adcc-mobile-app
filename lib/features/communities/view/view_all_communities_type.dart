@@ -24,6 +24,7 @@ class _CommunityTypeScreenState extends State<CommunityTypeScreen> {
 
   final List<String> filters = const [
     "Racing & Performance",
+    "Elite Community",
     "Family Rides",
     "Women",
   ];

@@ -25,7 +25,7 @@ class _ExploreCommunityScreenState extends State<ExploreCommunityScreen> {
   //  Local state variables
   late bool _isJoined;
   bool isLoading = false;
-
+CommunityModel? _apiCommunity;
   final CommunitiesService _communitiesService = CommunitiesService();
 
   final List<String> tabs = const [
@@ -38,9 +38,29 @@ class _ExploreCommunityScreenState extends State<ExploreCommunityScreen> {
 void initState() {
   super.initState();
   _isJoined = false;
+    _fetchCommunityById();  
   _checkMemberStatus();
 }
 
+Future<void> _fetchCommunityById() async {
+  setState(() => isLoading = true);
+
+  final result = await _communitiesService.getCommunityById(
+    communityId: widget.community.id,
+  );
+
+  if (!mounted) return;
+
+  setState(() => isLoading = false);
+
+  if (result.success && result.data != null) {
+    setState(() {
+      _apiCommunity = result.data!;
+    });
+  } else {
+    debugPrint("Failed to fetch community details");
+  }
+}
   Future<void> _checkMemberStatus() async {
   setState(() => isLoading = true);
 
@@ -66,7 +86,7 @@ void initState() {
 
   @override
   Widget build(BuildContext context) {
-    final c = widget.community;
+  final c = _apiCommunity ?? widget.community;
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F5EF),
@@ -75,13 +95,12 @@ void initState() {
           physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 20),
           children: [
-            // TOP BANNER IMAGE
-            BannerHeadder(
-              imagePath: 'assets/images/cycling_1.png',
-              title: " ",
-              subtitle: '',
-              onBackTap: () => Navigator.pop(context),
-            ),
+           BannerHeadder(
+  base64Image: c.imageUrl,
+  title: c.title,
+  subtitle: '',
+  onBackTap: () => Navigator.pop(context),
+),
 
             const SizedBox(height: 14),
 
@@ -105,7 +124,7 @@ void initState() {
                 //  SHARE ICON
                 _ShareButton(
                   onTap: () {
-                    // TODO: Share logic later
+                   
                   },
                 ),
               ],
@@ -114,12 +133,10 @@ void initState() {
             const SizedBox(height: 8),
 
             //  Description
-            Text(
-              c.description.trim().isEmpty
-                  ? "Join this community to explore group rides, training sessions, and weekend cycling meetups.\n"
-                      "Connect with riders, share routes, and stay updated on upcoming events.\n"
-                      "Perfect for cyclists who love consistency, fitness, and community spirit."
-                  : c.description,
+Text(
+  c.description.trim().isNotEmpty
+      ? c.description.trim()
+      : "No description available.",
               style: const TextStyle(
                 fontSize: 13,
                 height: 1.35,
@@ -193,7 +210,7 @@ void initState() {
     if (result.success) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("Community joined successfully! 🎉"),
+          content: Text("Community joined successfully! "),
           backgroundColor: Colors.green,
         ),
       );
@@ -211,7 +228,7 @@ void initState() {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(result.message ?? "Join failed ❌"),
+          content: Text(result.message ?? "Join failed "),
           backgroundColor: Colors.red,
         ),
       );
@@ -362,7 +379,9 @@ class _InfoGrid extends StatelessWidget {
         tile(
           iconPath: "assets/icons/founded.png",
           label: "Founded",
-          value: "2019",
+        value: (c.foundedYear ?? 0) > 0
+    ? c.foundedYear.toString()
+    : "—",
         ),
         tile(
           iconPath: "assets/icons/upcoming_events.png",

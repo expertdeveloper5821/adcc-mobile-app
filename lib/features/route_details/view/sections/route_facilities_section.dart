@@ -11,6 +11,10 @@ class RouteFacilitiesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (facilities.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -40,8 +44,8 @@ class RouteFacilitiesSection extends StatelessWidget {
               final facility = facilities[index];
 
               return _FacilityCard(
-                iconPath: facility['icon'] as String,
-                label: facility['label'] as String,
+                iconPath: facility['icon'] as String? ?? 'assets/icons/default.png',
+                label: facility['label'] as String? ?? '',
               );
             },
           ),
@@ -71,16 +75,16 @@ class _FacilityCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          
+
           Image.asset(
             iconPath,
-            width: 20,
-            height: 20,
+            width: 22,
+            height: 22,
             fit: BoxFit.contain,
             errorBuilder: (_, __, ___) {
               return const Icon(
                 Icons.image,
-                size: 20,
+                size: 22,
                 color: AppColors.charcoal,
               );
             },
@@ -91,7 +95,7 @@ class _FacilityCard extends StatelessWidget {
           Text(
             label,
             style: const TextStyle(
-              fontSize: 15,
+              fontSize: 14,
               color: AppColors.charcoal,
             ),
             textAlign: TextAlign.center,
