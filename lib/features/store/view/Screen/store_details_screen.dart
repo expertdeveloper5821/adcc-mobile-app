@@ -1,11 +1,12 @@
+import 'package:adcc/features/store/view/sections/Store%20Details/store_safety_secction.dart';
 import 'package:adcc/shared/widgets/banner_header.dart';
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_colors.dart';
-import 'sections/store_product_info_section.dart';
-import 'sections/store_seller_section.dart';
-import 'sections/store_description_section.dart';
-import 'sections/store_product_details_section.dart';
-import 'sections/store_action_buttons_section.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../sections/Store Details/store_product_info_section.dart';
+import '../sections/Store Details/store_seller_section.dart';
+import '../sections/Store Details/store_description_section.dart';
+import '../sections/Store Details/store_product_details_section.dart';
+import '../sections/Store Details/store_action_buttons_section.dart';
 
 class StoreDetailsScreen extends StatefulWidget {
   final String productId;
@@ -140,15 +141,16 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
               description: _productData!['description'] as String,
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: 40),
 
             // Product Details Section (tags/pills)
             StoreProductDetailsSection(
               details: _productData!['productDetails'] as List<String>,
             ),
 
-            const SizedBox(height: 24),
-
+            const SizedBox(height: 30),
+            const StoreSafetySection(),
+const SizedBox(height: 40),
             // Action Buttons Section
             StoreActionButtonsSection(
               onWhatsApp: () {

@@ -158,7 +158,7 @@ class _PillInfo extends StatelessWidget {
   }
 }
 
-/// Capitalize Extension
+
 extension StringExtension on String {
   String capitalize() {
     if (isEmpty) return this;

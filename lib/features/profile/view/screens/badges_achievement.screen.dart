@@ -35,12 +35,18 @@ class BadgesAchievementsScreen extends StatelessWidget {
         
                 const SizedBox(height: 20),
         
-                const RiderStatsSection(
-          riderLevel: "Rider Level: Intermediate",
-          totalBadges: "06",
-          totalPoints: "515",
-          inProgress: "03",
-        ),
+               const RiderStatsSection(
+  riderLevel: "Rider Level: Intermediate",
+
+  badgesTitle: "Total Badges",
+  badgesValue: "06",
+
+  pointsTitle: "Total Points",
+  pointsValue: "515",
+
+  progressTitle: "In Progress",
+  progressValue: "03",
+),
         const SizedBox(height: 20),
             LatestAchievementCard(),
         

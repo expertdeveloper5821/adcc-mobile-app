@@ -31,12 +31,18 @@ class RewardsPointsScreen extends StatelessWidget {
           
               const SizedBox(height: 20),
         
-                const RiderStatsSection(
-          riderLevel: "Rider Level: Intermediate",
-          totalBadges: "06",
-          totalPoints: "515",
-          inProgress: "03",
-        ),
+             const RiderStatsSection(
+  riderLevel: "Rider Level: Intermediate",
+
+  badgesTitle: "Earned This Month",
+  badgesValue: "475",
+
+  pointsTitle: "Reward Clamied",
+  pointsValue: "08",
+
+  progressTitle: "Current Tier",
+  progressValue: "Silver",
+),
         const SizedBox(height: 20),
         
               

@@ -111,7 +111,7 @@ class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // 🔥 FULL SCREEN LOADER
+  
     if (_isLoadingTrack || _track == null) {
       return const Scaffold(
         backgroundColor: AppColors.softCream,
@@ -169,7 +169,7 @@ class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
               onShare: () {},
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 9),
 
             RouteDescriptionSection(
               description: _track!.description,
@@ -179,18 +179,18 @@ class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
 
             RouteDetailsGridSection(routeDetails: routeDetails),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: 50),
 
             RouteFacilitiesSection(facilities: facilities),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: 30),
 
             RouteActionButtonsSection(
               onOpenLinkMyRide: () {},
               onOpenMaps: () {},
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: 50),
 
             RoutePhotosSection(photoPaths: photos),
 

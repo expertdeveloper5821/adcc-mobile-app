@@ -58,7 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       
       final refreshToken = await TokenStorageService.getRefreshToken();
 
-      // Call logout API if refresh token exists
+  
       if (refreshToken != null && refreshToken.isNotEmpty) {
         try {
           final apiClient = ApiClient.instance;
@@ -169,7 +169,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Show loading while checking authentication
+   
     if (_isCheckingAuth) {
       return Container(
         color: AppColors.softCream,

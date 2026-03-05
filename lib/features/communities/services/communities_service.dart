@@ -8,43 +8,59 @@ import 'package:dio/dio.dart';
 class CommunitiesService {
   final _apiClient = ApiClient.instance;
 
-  Future<ApiResponse<dynamic>> getCommunities({
-    Map<String, dynamic>? queryParameters,
-  }) async {
-    const endpoint = ApiEndpoints.communities;
+ Future<ApiResponse<dynamic>> getCommunities({
+  Map<String, dynamic>? queryParameters,
+}) async {
+  const endpoint = ApiEndpoints.communities;
 
-    try {
-      final response = await _apiClient.get<dynamic>(
-        endpoint,
-        queryParameters: queryParameters,
-      );
+  try {
+    print("============================================");
+    print("🌍 API CALL STARTED → GET $endpoint");
+    print("📦 Query Params → $queryParameters");
 
-      if ((response.statusCode == 200 || response.statusCode == 201) &&
-          response.data != null) {
-        return ApiResponse.success(
-          data: response.data,
-          statusCode: response.statusCode,
-        );
-      }
+    final response = await _apiClient.get<dynamic>(
+      endpoint,
+      queryParameters: queryParameters,
+    );
 
-      return ApiResponse.error(
-        message: response.data?["message"] ?? 'Failed to fetch communities',
+    print("✅ STATUS CODE → ${response.statusCode}");
+    print("📥 RAW RESPONSE DATA ↓↓↓");
+    print(response.data);
+
+    print("============================================");
+
+    if ((response.statusCode == 200 || response.statusCode == 201) &&
+        response.data != null) {
+      return ApiResponse.success(
+        data: response.data,
         statusCode: response.statusCode,
       );
-    } on DioException catch (e) {
-      final apiException = ApiException.fromDioException(e);
-
-      return ApiResponse.error(
-        message: apiException.toString(),
-        statusCode: apiException.statusCode,
-      );
-    } catch (e) {
-      return ApiResponse.error(
-        message: 'An unexpected error occurred',
-      );
     }
-  }
 
+    return ApiResponse.error(
+      message: response.data?["message"] ?? 'Failed to fetch communities',
+      statusCode: response.statusCode,
+    );
+  } on DioException catch (e) {
+    print("❌ DIO ERROR OCCURRED");
+    print("Status Code → ${e.response?.statusCode}");
+    print("Error Data → ${e.response?.data}");
+    print("Error Message → ${e.message}");
+
+    final apiException = ApiException.fromDioException(e);
+
+    return ApiResponse.error(
+      message: apiException.toString(),
+      statusCode: apiException.statusCode,
+    );
+  } catch (e) {
+    print("❌ UNEXPECTED ERROR → $e");
+
+    return ApiResponse.error(
+      message: 'An unexpected error occurred',
+    );
+  }
+}
   Future<ApiResponse<dynamic>> joinCommunity({
     required String communityId,
   }) async {

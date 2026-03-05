@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/route_details/view/route_details_screen.dart';
 import 'package:adcc/shared/widgets/banner_header.dart';
 import 'package:flutter/material.dart';
@@ -120,7 +121,7 @@ class _OfficialCyclingTracksPageState
                   Navigator.pop(context),
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 21),
 
             /// 🔹 Filters
             CategorySelector(
@@ -135,21 +136,21 @@ class _OfficialCyclingTracksPageState
               },
             ),
 
-            const SizedBox(height: 14),
+            const SizedBox(height: 35),
 
             /// 🔹 Dynamic Count
             Text(
-              '${filteredTracks.length} tracks found',
+              '${filteredTracks.length} communities found',
               style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
-                color: Colors.black54,
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                color:AppColors.charcoal,
               ),
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: 38),
 
-            /// 🔹 Track List
+           
             if (filteredTracks.isEmpty)
               const Padding(
                 padding:

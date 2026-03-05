@@ -59,7 +59,7 @@ Future<void> _fetchCommunityById() async {
   if (!mounted) return;
 
   setState(() => isLoading = false);
-  // 👇 YAHI PAR LIKHNA HAI
+ 
 print("FULL MODEL JSON:");
 print(jsonEncode(result.data?.toJson()));
   if (result.data != null) {
@@ -93,7 +93,7 @@ Future<void> _checkMemberStatus() async {
 }
   //  Method to refresh community data
   Future<void> _refreshCommunityData() async {
-    // You can optionally fetch fresh data from API here
+   
     setState(() {
       _isJoined = widget.community.isJoined;
     });
@@ -144,15 +144,14 @@ final events = c.eventsCount != null
           children: [
             // TOP BANNER IMAGE
           BannerHeadder(
-  base64Image: c.imageUrl,   // 👈 API base64 image
-  title: title,              // 👈 Dynamic title
-  subtitle: '',              // 👈 Empty as requested
+  base64Image: c.imageUrl,   
+  title: title,           
+  subtitle: '',             
   onBackTap: () => Navigator.pop(context),
 ),
 
             const SizedBox(height: 14),
 
-            // Title + share badge right
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -280,8 +279,7 @@ final events = c.eventsCount != null
           ),
         );
 
-        // Navigate to JoinCommunity screen WITHOUT replacing
-        // This ensures when we come back, state is preserved
+      
         final shouldRefresh = await Navigator.push(
           context,
           MaterialPageRoute(
@@ -298,7 +296,7 @@ final events = c.eventsCount != null
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(result.message ?? "Join failed ❌"),
+            content: Text(result.message ?? "Join failed "),
             backgroundColor: Colors.red,
           ),
         );

@@ -124,7 +124,7 @@ Future<void> _fetchCommunityById() async {
                 //  SHARE ICON
                 _ShareButton(
                   onTap: () {
-                    // TODO: Share logic later
+                   
                   },
                 ),
               ],
@@ -210,7 +210,7 @@ Text(
     if (result.success) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("Community joined successfully! 🎉"),
+          content: Text("Community joined successfully! "),
           backgroundColor: Colors.green,
         ),
       );
@@ -228,7 +228,7 @@ Text(
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(result.message ?? "Join failed ❌"),
+          content: Text(result.message ?? "Join failed "),
           backgroundColor: Colors.red,
         ),
       );

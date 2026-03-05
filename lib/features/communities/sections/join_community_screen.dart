@@ -1,5 +1,3 @@
-// features/communities/sections/join_community_screen.dart
-
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/communities/models/community_model.dart';
 import 'package:adcc/features/communities/sections/my_community_screen.dart';
@@ -27,9 +25,9 @@ class _JoinCommunityState extends State<JoinCommunity> {
     super.initState();
     _community = widget.community;
     
-    debugPrint('🎉 JoinCommunity Screen - Community: ${_community.title}');
-    debugPrint('🎉 JoinCommunity Screen - Is Joined: ${_community.isJoined}');
-    debugPrint('🎉 JoinCommunity Screen - Members: ${_community.membersCount}');
+    debugPrint(' JoinCommunity Screen - Community: ${_community.title}');
+    debugPrint(' JoinCommunity Screen - Is Joined: ${_community.isJoined}');
+    debugPrint(' JoinCommunity Screen - Members: ${_community.membersCount}');
   }
 
   @override

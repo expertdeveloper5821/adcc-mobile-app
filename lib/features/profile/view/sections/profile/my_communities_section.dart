@@ -133,7 +133,7 @@ class _CommunityCard extends StatelessWidget {
                 ),
               ),
 
-              /// -------- CONTENT --------
+           
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),

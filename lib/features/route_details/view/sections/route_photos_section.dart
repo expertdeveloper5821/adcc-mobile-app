@@ -70,7 +70,7 @@ class RoutePhotosSection extends StatelessWidget {
           const Text(
             'Tracks Views & Community Photos',
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 19,
               fontWeight: FontWeight.w600,
               color: AppColors.textDark,
             ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../shared/widgets/app_button.dart';
+import '../../../../../core/theme/app_colors.dart';
+import '../../../../../shared/widgets/app_button.dart';
 
 class StoreProductInfoSection extends StatelessWidget {
   final String title;
@@ -40,46 +40,59 @@ class StoreProductInfoSection extends StatelessWidget {
           const SizedBox(height: 12),
 
           // Location and Time
-          Row(
-            children: [
-              const Icon(
-                Icons.location_on,
-                size: 16,
-                color: AppColors.charcoal,
-              ),
-              const SizedBox(width: 4),
-              Text(
-                location,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: AppColors.charcoal,
-                ),
-              ),
-              const SizedBox(width: 8),
-              Container(
-                width: 4,
-                height: 4,
-                decoration: const BoxDecoration(
-                  color: AppColors.charcoal,
-                  shape: BoxShape.circle,
-                ),
-              ),
-              const SizedBox(width: 8),
-              const Icon(
-                Icons.access_time,
-                size: 16,
-                color: AppColors.charcoal,
-              ),
-              const SizedBox(width: 4),
-              Text(
-                timePosted,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: AppColors.charcoal,
-                ),
-              ),
-            ],
-          ),
+        // Location and Time
+Row(
+  children: [
+    /// Location Icon Image
+    Image.asset(
+      "assets/icons/location.png",
+      height: 16,
+      width: 16,
+      color: AppColors.charcoal,
+    ),
+
+    const SizedBox(width: 4),
+
+    Text(
+      location,
+      style: const TextStyle(
+        fontSize: 14,
+        color: AppColors.charcoal,
+      ),
+    ),
+
+    const SizedBox(width: 8),
+
+    Container(
+      width: 4,
+      height: 4,
+      decoration: const BoxDecoration(
+        color: AppColors.charcoal,
+        shape: BoxShape.circle,
+      ),
+    ),
+
+    const SizedBox(width: 8),
+
+    /// Time Icon Image
+    Image.asset(
+      "assets/icons/clock.png",
+      height: 14,
+      width: 14,
+      color: AppColors.charcoal,
+    ),
+
+    const SizedBox(width: 4),
+
+    Text(
+      timePosted,
+      style: const TextStyle(
+        fontSize: 14,
+        color: AppColors.charcoal,
+      ),
+    ),
+  ],
+),
 
           const SizedBox(height: 16),
 

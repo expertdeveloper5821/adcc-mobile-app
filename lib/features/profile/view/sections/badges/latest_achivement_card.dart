@@ -26,7 +26,7 @@ class LatestAchievementCard extends StatelessWidget {
               width: 47,
               height: 47,
               decoration: const BoxDecoration(
-                color: Color(0xFFE6D3A3),
+             color: Color(0x33000000),
                 shape: BoxShape.circle,
               ),
               child: Center(

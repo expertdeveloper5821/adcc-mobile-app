@@ -1,5 +1,8 @@
 import 'package:adcc/core/theme/app_colors.dart';
+import 'package:adcc/features/my_cycling_details/view/my_cycling_details_screen.dart';
 import 'package:adcc/features/profile/view/screens/badges_achievement.screen.dart';
+import 'package:adcc/features/profile/view/screens/cycling_details_screen.dart';
+import 'package:adcc/features/profile/view/screens/event_history_screen.dart';
 import 'package:adcc/features/profile/view/screens/my_challenges_screen.dart';
 import 'package:adcc/features/profile/view/screens/rewards_point_screen.dart';
 import 'package:adcc/features/profile/view/screens/settings_screen.dart';
@@ -37,6 +40,13 @@ class ProfileMenuSection extends StatelessWidget {
     _MenuItem(
       imagePath: "assets/icons/events_calender.gif",
       title: "My Events & Calendar",
+       onTap: () {
+  Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (context) => const EventHistoryScreen(),
+    ),
+  );
+},
     ),
     _Divider(),
 
@@ -60,6 +70,19 @@ class ProfileMenuSection extends StatelessWidget {
   Navigator.of(context).push(
     MaterialPageRoute(
       builder: (context) => const MyChallengesScreen(),
+    ),
+  );
+},
+    ),
+      _Divider(),
+
+    _MenuItem(
+      imagePath: "assets/icons/my_challenges.gif",
+      title: "My Cycling Details",
+         onTap: () {
+  Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (context) => const CyclingDetailsScreen(),
     ),
   );
 },

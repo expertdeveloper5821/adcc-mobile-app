@@ -1,12 +1,15 @@
+import 'package:adcc/features/store/view/sections/Store%20Screen/marketplace_search_box.dart';
+import 'package:adcc/features/store/view/sections/Store%20Screen/store_header.dart';
+import 'package:adcc/features/store/view/sections/Store%20Screen/store_product_grid.dart';
 import 'package:adcc/shared/widgets/banner_header.dart';
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../shared/widgets/app_button.dart';
-import '../../../shared/widgets/search_box.dart';
-import '../../../shared/widgets/category_selector.dart';
-import '../../../shared/widgets/store_item_card.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../shared/widgets/app_button.dart';
+import '../../../../shared/widgets/search_box.dart';
+import '../../../../shared/widgets/category_selector.dart';
+import '../../../../shared/widgets/store_item_card.dart';
 import 'store_details_screen.dart';
-import 'sell_product_screen.dart';
+import '../sell_product_screen.dart';
 
 class StoreScreen extends StatefulWidget {
   const StoreScreen({super.key});
@@ -134,9 +137,15 @@ class _StoreScreenState extends State<StoreScreen> {
       body: SafeArea(
         child: ListView(
           physics: const BouncingScrollPhysics(),
+           padding: const EdgeInsets.symmetric(vertical: 24),
           children: [
             // Header Section with Back Button, Notification, and Image
-            _buildHeaderSection(),
+           StoreHeader(
+    imagePath: 'assets/images/store_header_banner.png',
+    showBackButton: true,
+    showNotificationIcon: true,
+    onBackTap: () => Navigator.pop(context),
+  ),
 
             // Main Content
             Padding(
@@ -144,41 +153,22 @@ class _StoreScreenState extends State<StoreScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 28),
 
                   // Title and Sell Button
                   _buildTitleSection(),
 
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 21),
 
-                  // Search Box
-                  SearchBox(
-                    placeholder: 'Search marketplace...',
-                    backgroundColor: AppColors.dustyRose,
-                    iconColor: AppColors.charcoal,
-                    placeholderColor: AppColors.charcoal,
-                    enabledBorderColor:
-                        AppColors.charcoal.withValues(alpha: 0.1),
-                    enabledBorderWidth: 1.5,
-                    borderWidth: 1.5,
-                    borderRadius: 10,
-                    borderColor: AppColors.charcoal.withValues(alpha: 0.5),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.05),
-                        blurRadius: 10,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                    controller: _searchController,
-                    onChanged: (value) {
-                      setState(() {
-                        _searchQuery = value;
-                      });
-                    },
-                  ),
-
-                  const SizedBox(height: 16),
+                MarketplaceSearchBox(
+  controller: _searchController,
+  onChanged: (value) {
+    setState(() {
+      _searchQuery = value;
+    });
+  },
+),
+                  const SizedBox(height: 29),
 
                   // Category Filters
                   CategorySelector(
@@ -191,15 +181,25 @@ class _StoreScreenState extends State<StoreScreen> {
                     },
                   ),
 
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 40),
 
                   // Results Count and Filter Icon
                   _buildResultsHeader(),
 
-                  const SizedBox(height: 16),
-
-                  // Product Grid
-                  _buildProductGrid(),
+                  const SizedBox(height: 20),
+StoreProductGrid(
+  products: _getFilteredProducts(),
+  onTap: (product) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => StoreDetailsScreen(
+          productId: product['id'],
+        ),
+      ),
+    );
+  },
+),
 
                   const SizedBox(height: 24),
                 ],
@@ -207,26 +207,6 @@ class _StoreScreenState extends State<StoreScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildHeaderSection() {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-
-          // Header Image with rounded corners
-          BannerHeadder(
-            imagePath: 'assets/images/store_header_banner.png',
-            title: '',
-            subtitle: '',
-            onBackTap: () => Navigator.pop(context),
-            height: 350,
-            showNotificationIcon: true,
-          ),
-        ],
       ),
     );
   }
@@ -239,10 +219,10 @@ class _StoreScreenState extends State<StoreScreen> {
           // prevents overflow
           child: Text(
             'Cycling Marketplace',
-            maxLines: 1,
+            maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
-              fontSize: 25,
+              fontSize: 30,
               fontWeight: FontWeight.w600,
               color: AppColors.textDark,
             ),
@@ -297,11 +277,12 @@ class _StoreScreenState extends State<StoreScreen> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
-                Icons.filter_alt_outlined,
-                color: AppColors.textDark,
-                size: 20,
-              ),
+             Image.asset(
+  "assets/icons/filter.png",
+  height: 16,
+  width: 16,
+  color: AppColors.textDark, // अगर icon को tint देना हो
+),
               const SizedBox(width: 6),
               const Text(
                 'Filter',
@@ -318,43 +299,6 @@ class _StoreScreenState extends State<StoreScreen> {
     );
   }
 
-  Widget _buildProductGrid() {
-    final filteredProducts = _getFilteredProducts();
-
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 0.58,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 16,
-      ),
-      itemCount: filteredProducts.length,
-      itemBuilder: (context, index) {
-        final product = filteredProducts[index];
-        return StoreItemCard(
-          imagePath: product['image'] as String,
-          title: product['title'] as String,
-          postedBy: product['postedBy'] as String,
-          price: product['price'] as String,
-          timePosted: product['timePosted'] as String?,
-          location: product['location'] as String?,
-          onTap: () {
-            // Navigate to product details screen
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => StoreDetailsScreen(
-                  productId: product['id'] as String,
-                ),
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
 
   List<Map<String, dynamic>> _getFilteredProducts() {
     List<Map<String, dynamic>> filtered = List.from(_products);

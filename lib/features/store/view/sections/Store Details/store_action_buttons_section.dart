@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../shared/widgets/app_button.dart';
+import '../../../../../core/theme/app_colors.dart';
+import '../../../../../shared/widgets/app_button.dart';
 
 class StoreActionButtonsSection extends StatelessWidget {
   final VoidCallback onWhatsApp;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../../core/theme/app_colors.dart';
 
 class StoreDescriptionSection extends StatelessWidget {
   final String description;
@@ -19,7 +19,7 @@ class StoreDescriptionSection extends StatelessWidget {
           const Text(
             'Description',
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: FontWeight.w600,
               color: AppColors.textDark,
             ),
@@ -30,7 +30,7 @@ class StoreDescriptionSection extends StatelessWidget {
             style:  TextStyle(
               fontSize: 14,
               color: AppColors.textDark.withValues(alpha: 0.7),
-              height: 1.5,
+              height: 1.2,
             ),
           ),
         ],

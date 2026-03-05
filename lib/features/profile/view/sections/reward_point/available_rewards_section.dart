@@ -98,9 +98,9 @@ class RewardItemCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(53.8462),
                 ),
               child: Image.asset(
-  "assets/icons/trophy.png",
-  width: 35,
-  height: 35,
+  "assets/icons/medal.png",
+  width: 40,
+  height: 40,
   fit: BoxFit.cover,
 ),
               ),

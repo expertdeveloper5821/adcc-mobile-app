@@ -36,7 +36,31 @@ class _EventsTabState extends State<EventsTab> {
    
   ];
 
- 
+ String _derivedCategory(Event e) {
+  final title = e.title.toLowerCase();
+  final desc = (e.description ?? '').toLowerCase();
+
+  if (title.contains("race") ||
+      title.contains("series") ||
+      desc.contains("race")) {
+    return "Races";
+  }
+
+  if (title.contains("training") ||
+      title.contains("clinic") ||
+      desc.contains("training") ||
+      desc.contains("clinic")) {
+    return "Training & Clinics";
+  }
+
+  if (title.contains("community") ||
+      title.contains("ride") ||
+      desc.contains("community")) {
+    return "Community Rides";
+  }
+
+  return "Community Rides";
+}
   static final List<Map<String, String>> _purposeBasedEvents = [
     {
       'imagePath': 'assets/images/ride_events.png',
@@ -106,7 +130,7 @@ class _EventsTabState extends State<EventsTab> {
       final selected = categories[selectedCategoryIndex];
 
       list = list.where((event) {
-        final eventCategory = event.derivedCategory ?? '';
+      final eventCategory = _derivedCategory(event);
         return eventCategory.toLowerCase() == selected.toLowerCase();
       }).toList();
     }
@@ -237,10 +261,10 @@ class _EventsTabState extends State<EventsTab> {
 ),
 
 
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 35),
 
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            padding: const EdgeInsets.only(left: 16),
                             child: CategorySelector(
                               categories: categories,
                               selectedIndex: selectedCategoryIndex,
@@ -252,14 +276,14 @@ class _EventsTabState extends State<EventsTab> {
                             ),
                           ),
 
-                          const SizedBox(height: 30),
+                          const SizedBox(height: 50),
 
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
+                                    const EdgeInsets.symmetric(horizontal: 16),
                                 child: SectionHeader(
   title: 'Upcoming Events',
   onViewAll: () {
@@ -267,7 +291,7 @@ class _EventsTabState extends State<EventsTab> {
       context,
       MaterialPageRoute(
         builder: (_) => Upcomingevent(
-          events: _filteredEvents, // current filtered list
+          events: _filteredEvents, 
         ),
       ),
     );
@@ -275,13 +299,13 @@ class _EventsTabState extends State<EventsTab> {
 ),
 
                               ),
-                              const SizedBox(height: 16),
+                              const SizedBox(height: 24),
 
                               rides.isEmpty
                                   ? Padding(
                                       padding: const EdgeInsets.symmetric(
-                                        horizontal: 16,
-                                      ),
+                                          horizontal: 16,
+                                        ),
                                       child: Center(
                                         child: Text(
                                           'No events available',
@@ -294,15 +318,16 @@ class _EventsTabState extends State<EventsTab> {
                                     )
                                   : SizedBox(
                                       height:
-                                          400, 
+                                          319, 
+                                          width: 369,
                                       child: ListView.separated(
                                         scrollDirection: Axis.horizontal,
                                         padding: const EdgeInsets.symmetric(
-                                          horizontal: 16,
+                                          horizontal: 9,
                                         ),
                                         itemCount: rides.length,
                                         separatorBuilder: (_, __) =>
-                                            const SizedBox(width: 16),
+                                            const SizedBox(width: 6),
                                         itemBuilder: (context, index) {
                                           final event = eventsToShow[index];
 
@@ -321,7 +346,7 @@ class _EventsTabState extends State<EventsTab> {
                                                 event.additionalData?['circuit']
                                                     ?.toString(),
                                             riders: _formatParticipants(event),
-                                            eventType: 'Open',
+                                          eventType: _derivedCategory(event),
                                             groupName: event.createdBy?['name']
                                                     ?.toString() ??
                                                 event.createdBy?['groupName']
@@ -350,7 +375,7 @@ class _EventsTabState extends State<EventsTab> {
                             ],
                           ),
 
-                          const SizedBox(height: 24),
+                          const SizedBox(height: 50),
 
                       
                           Column(
@@ -374,7 +399,7 @@ class _EventsTabState extends State<EventsTab> {
 ),
 
                               ),
-                              const SizedBox(height: 16),
+                              const SizedBox(height: 19),
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 16),
@@ -391,7 +416,7 @@ class _EventsTabState extends State<EventsTab> {
                             ],
                           ),
 
-                          const SizedBox(height: 30),
+                          const SizedBox(height: 50),
 
                          
                           Column(
@@ -408,17 +433,17 @@ class _EventsTabState extends State<EventsTab> {
                                   },
                                 ),
                               ),
-                              const SizedBox(height: 16),
+                              const SizedBox(height: 25),
                               SizedBox(
                                 height: 320, // Match card height
                                 child: ListView.separated(
                                   scrollDirection: Axis.horizontal,
                                   padding: const EdgeInsets.symmetric(
-                                    horizontal: 16,
+                                    horizontal: 11,
                                   ),
                                   itemCount: _purposeBasedEvents.length,
                                   separatorBuilder: (_, __) =>
-                                      const SizedBox(width: 16),
+                                      const SizedBox(width: 6),
                                   itemBuilder: (context, index) {
                                     final event = _purposeBasedEvents[index];
                                     return PurposeBasedEventCard(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../../core/theme/app_colors.dart';
 
 class StoreSellerSection extends StatelessWidget {
   final String sellerName;
@@ -55,11 +55,13 @@ class StoreSellerSection extends StatelessWidget {
                     const SizedBox(height: 4),
                     Row(
                       children: [
-                        Icon(
-                          Icons.location_on,
-                          size: 14,
-                          color: AppColors.textDark.withValues(alpha: 0.6),
-                        ),
+                        Image.asset(
+      "assets/icons/location.png",
+      height: 16,
+      width: 16,
+      color: AppColors.charcoal,
+    ),
+
                         const SizedBox(width: 4),
                         Text(
                           sellerLocation,
@@ -104,7 +106,7 @@ class StoreSellerSection extends StatelessWidget {
                     children: [
                       const Icon(
                         Icons.star,
-                        color: Colors.yellow,
+                        color: Color(0XFFFFD502),
                         size: 14,
                       ),
                       const SizedBox(width: 4),

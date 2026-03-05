@@ -172,7 +172,7 @@ class _UpcomingeventState extends State<Upcomingevent> {
                     venue: e.additionalData?['venue']?.toString() ??
                         e.additionalData?['circuit']?.toString(),
 
-                    eventType: "Open",
+                  eventType: _derivedCategory(e),
 
            
                     groupName: e.createdBy?['name']?.toString() ??

@@ -28,7 +28,7 @@ class _ExploreByCitySectionState
         _tracksService.getAllTracks();
   }
 
-  /// 🔥 GROUP TRACKS BY CITY
+
   Map<String, int> _groupTracksByCity(
       List<TrackModel> tracks) {
     final Map<String, int> cityCount =

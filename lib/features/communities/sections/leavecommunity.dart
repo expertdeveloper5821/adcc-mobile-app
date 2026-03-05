@@ -40,7 +40,7 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
     super.initState();
     _community = widget.community;
     
-    debugPrint('🔴 LeaveCommunity initState:');
+    debugPrint(' LeaveCommunity initState:');
     debugPrint('   Community: ${_community.title}');
     debugPrint('   Is Joined: ${_community.isJoined}');
   }

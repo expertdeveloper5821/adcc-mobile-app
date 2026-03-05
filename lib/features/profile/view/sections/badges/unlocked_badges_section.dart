@@ -25,7 +25,7 @@ class UnlockedBadgesSection extends StatelessWidget {
             "6 earned",
             style: TextStyle(
               fontSize: 14,
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w500,
               color: Colors.black54,
             ),
           ),
@@ -138,21 +138,23 @@ class _BadgeCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Container(
-                // width: 32,
-                height: 32,
-                decoration: const BoxDecoration(
-                  color: Color(0xFFFFE1B2),
-                  shape: BoxShape.circle,
-                ),
-                child: const Center(
-                  child: Icon(
-                    Icons.workspace_premium,
-                    size: 18,
-                    color: Colors.orange,
-                  ),
-                ),
-              ),
+             Container(
+  width: 30,
+  height: 30,
+  decoration: const BoxDecoration(
+    color: Color(0xFFF0DDAF),
+    shape: BoxShape.circle,
+  ),
+  padding: const EdgeInsets.all(8),
+  child: Center(
+    child: Image.asset(
+      "assets/icons/medal.png",
+      width: 15,
+      height: 15,
+      fit: BoxFit.contain,
+    ),
+  ),
+),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(

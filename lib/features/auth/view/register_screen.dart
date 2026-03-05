@@ -1,3 +1,4 @@
+import 'package:adcc/features/auth/Services/auth_services.dart';
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/services/token_storage_service.dart';
@@ -15,7 +16,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final PageController _bannerController = PageController();
   int _currentBannerIndex = 0;
 
-  // Banner images - using same image 3 times for now
+
   final List<String> _bannerImages = [
     'assets/images/registeration_header_banner.png',
     'assets/images/registeration_header_banner.png',
@@ -28,15 +29,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _checkAuthAndRedirect();
   }
 
-  /// Check if user is already authenticated and redirect to home
+
   Future<void> _checkAuthAndRedirect() async {
     final isAuthenticated = await TokenStorageService.isAuthenticated();
     if (isAuthenticated && mounted) {
-      // User is already logged in, redirect to home and clear navigation stack
+
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (_) => const HomeScreen()),
-        (route) => false, // Remove all previous routes
+        (route) => false, 
       );
     }
   }
@@ -46,20 +47,42 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _bannerController.dispose();
     super.dispose();
   }
+bool _isLoading = false;
 
-  void _continueAsGuest(BuildContext context) {
-    // Navigate to homepage and clear navigation stack
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-        builder: (_) => const HomeScreen(),
+Future<void> _continueAsGuest(BuildContext context) async {
+  try {
+    setState(() {
+      _isLoading = true;
+    });
+
+    final response = await AuthService.guestLogin();
+
+    if (response.success) {
+      if (!mounted) return;
+
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => const HomeScreen()),
+        (route) => false,
+      );
+    }
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(e.toString()),
       ),
-      (route) => false, // Remove all previous routes
     );
+  } finally {
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
+}
 
   void _onDisabledButtonPressed() {
-    // Do nothing - just clickable but no action
+
   }
 
   void _navigateToEmailPasswordLogin() {
@@ -94,7 +117,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // Banner Slider Section (Top)
+     
           Positioned(
             top: 0,
             left: 0,
@@ -102,7 +125,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             height: MediaQuery.of(context).size.height * 0.3,
             child: Stack(
               children: [
-                // Banner Image Slider
+          
                 PageView.builder(
                   controller: _bannerController,
                   onPageChanged: (index) {
@@ -118,7 +141,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     );
                   },
                 ),
-                // Dark overlay
+              
                 Positioned.fill(
                   child: Container(
                     decoration: BoxDecoration(
@@ -153,7 +176,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                 ),
-                // "Create Profile" Text
+        
                 Positioned(
                   bottom: 40,
                   left: 0,
@@ -168,7 +191,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                 ),
-                // Banner Navigation Indicators (Small dots)
+          
                 Positioned(
                   bottom: 16,
                   left: 0,
@@ -191,7 +214,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                 ),
-                // Previous Button
+
                 if (_currentBannerIndex > 0)
                   Positioned(
                     left: 16,
@@ -216,7 +239,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                   ),
-                // Next Button
+
                 if (_currentBannerIndex < _bannerImages.length - 1)
                   Positioned(
                     right: 16,
@@ -245,7 +268,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ),
 
-          // Bottom Panel with Buttons
+         
           Positioned(
             top: MediaQuery.of(context).size.height * 0.3,
             left: 0,
@@ -270,7 +293,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         width: double.infinity,
                         height: 56,
                         child: ElevatedButton(
-                          onPressed: () => _continueAsGuest(context),
+                     onPressed: _isLoading ? null : () => _continueAsGuest(context),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.buttonGuest,
                             foregroundColor: AppColors.textDark,
@@ -280,22 +303,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             elevation: 0,
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(Icons.person_outline,
-                                  size: 24, color: AppColors.textDark),
-                              const SizedBox(width: 12),
-                              const Text(
-                                'Continue as Guest',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.textDark,
-                                ),
-                              ),
-                            ],
-                          ),
+                         child: _isLoading
+    ? const SizedBox(
+        height: 22,
+        width: 22,
+        child: CircularProgressIndicator(strokeWidth: 2),
+      )
+    : Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.person_outline,
+              size: 24, color: AppColors.textDark),
+          const SizedBox(width: 12),
+          const Text(
+            'Continue as Guest',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: AppColors.textDark,
+            ),
+          ),
+        ],
+      ),
                         ),
                       ),
 

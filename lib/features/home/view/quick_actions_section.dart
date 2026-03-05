@@ -1,6 +1,6 @@
 import 'package:adcc/features/communities/view/community_screen.dart';
 import 'package:adcc/features/home/view/quick_action_item.dart';
-import 'package:adcc/features/store/view/store_screen.dart';
+import 'package:adcc/features/store/view/Screen/store_screen.dart';
 import 'package:adcc/features/challenges/view/challenges_screen.dart';
 import 'package:adcc/features/routes/view/routes_screen_wrapper.dart';
 import 'package:adcc/features/events/view/events_screen.dart';

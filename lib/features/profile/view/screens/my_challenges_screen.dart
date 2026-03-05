@@ -48,7 +48,7 @@ class _MyChallengesScreenState extends State<MyChallengesScreen>
         ),
         child: const Icon(
           Icons.arrow_back,
-          color: Color(0xffC62828), // dark red arrow
+          color: Color(0xffC62828), 
           size: 20,
         ),
       ),
@@ -88,7 +88,7 @@ class _MyChallengesScreenState extends State<MyChallengesScreen>
         children: const [
           ChallengeList(),  // Completed
           ChallengeList(),  // Upcoming
-          ChallengeList(),  // Cancelled
+          ChallengeList(),  
         ],
       ),
     );

@@ -35,4 +35,5 @@ class ApiEndpoints {
   static const String auth = '$v1/auth';
   static const String authVerify = '$auth/verify';
   static const String authLogout = '$auth/logout';
+  static const String guestLogin = '$auth/guestLogin';
 }

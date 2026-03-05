@@ -3,16 +3,25 @@ import 'package:adcc/core/theme/app_colors.dart';
 
 class RiderStatsSection extends StatelessWidget {
   final String riderLevel;
-  final String totalBadges;
-  final String totalPoints;
-  final String inProgress;
+
+  final String badgesTitle;
+  final String badgesValue;
+
+  final String pointsTitle;
+  final String pointsValue;
+
+  final String progressTitle;
+  final String progressValue;
 
   const RiderStatsSection({
     super.key,
     required this.riderLevel,
-    required this.totalBadges,
-    required this.totalPoints,
-    required this.inProgress,
+    required this.badgesTitle,
+    required this.badgesValue,
+    required this.pointsTitle,
+    required this.pointsValue,
+    required this.progressTitle,
+    required this.progressValue,
   });
 
   @override
@@ -43,17 +52,11 @@ class RiderStatsSection extends StatelessWidget {
               riderLevel,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontFamily: 'Outfit',
-                fontWeight: FontWeight.w400,
-                fontSize: 12,
-                height: 1,
-                color: AppColors.charcoal,
-              ),
             ),
           ),
         ),
         const SizedBox(height: 16),
+
         SizedBox(
           height: 75,
           child: SingleChildScrollView(
@@ -62,18 +65,18 @@ class RiderStatsSection extends StatelessWidget {
             child: Row(
               children: [
                 _StatCard(
-                  title: "Total Badges",
-                  value: totalBadges,
+                  title: badgesTitle,
+                  value: badgesValue,
                 ),
                 const SizedBox(width: 13),
                 _StatCard(
-                  title: "Total Points",
-                  value: totalPoints,
+                  title: pointsTitle,
+                  value: pointsValue,
                 ),
                 const SizedBox(width: 13),
                 _StatCard(
-                  title: "In Progress",
-                  value: inProgress,
+                  title: progressTitle,
+                  value: progressValue,
                 ),
               ],
             ),
@@ -83,7 +86,6 @@ class RiderStatsSection extends StatelessWidget {
     );
   }
 }
-
 class _StatCard extends StatelessWidget {
   final String title;
   final String value;

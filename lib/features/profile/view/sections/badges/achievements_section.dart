@@ -32,50 +32,61 @@ class AchievementsSection extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        const Text(
-          "Achievements",
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-            letterSpacing: 0.5,
+ Widget _buildHeader() {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Row(
+        children: [
+         Image.asset(
+  "assets/icons/achive.png",   
+  height: 22,
+  width: 22,
+  fit: BoxFit.contain,
+),
+          SizedBox(width: 8),
+          Text(
+            "Achievements",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+              letterSpacing: 0.5,
+            ),
           ),
-        ),
-        Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: () {},
-            borderRadius: BorderRadius.circular(20),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              child: Row(
-                children: const [
-                  Text(
-                    "View All",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                    ),
-                  ),
-                  SizedBox(width: 4),
-                  Icon(
-                    Icons.chevron_right,
-                    size: 18,
+        ],
+      ),
+      Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {},
+          borderRadius: BorderRadius.circular(20),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            child: Row(
+              children: const [
+                Text(
+                  "View All",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
                     color: Colors.white,
                   ),
-                ],
-              ),
+                ),
+                SizedBox(width: 4),
+                Icon(
+                  Icons.chevron_right,
+                  size: 18,
+                  color: Colors.white,
+                ),
+              ],
             ),
           ),
         ),
-      ],
-    );
-  }
+      ),
+    ],
+  );
+}
 
   Widget _buildAchievementsGrid() {
     const double spacing = 12;
@@ -89,28 +100,28 @@ class AchievementsSection extends StatelessWidget {
           children: [
             Expanded(
               child: _AchievementItem(
-                imagePath: 'assets/icons/star_container.jpg',
+                imagePath: 'assets/icons/beginner.png',
                 label: "Beginner Loop\nBadge",
               ),
             ),
             const SizedBox(width: spacing),
             Expanded(
               child: _AchievementItem(
-                imagePath: 'assets/icons/star_container.jpg',
+                imagePath: 'assets/icons/night_rider.jpg',
                 label: "Night Rider",
               ),
             ),
             const SizedBox(width: spacing),
             Expanded(
               child: _AchievementItem(
-                imagePath: 'assets/icons/star_container.jpg',
+                imagePath: 'assets/icons/beginner.png',
                 label: "Awareness\nCampaign Rider",
               ),
             ),
             const SizedBox(width: spacing),
             Expanded(
               child: _AchievementItem(
-                imagePath: 'assets/icons/star_container.jpg',
+                imagePath: 'assets/icons/desert.jpg',
                 label: "Desert\nEndurance Finisher",
               ),
             ),
@@ -118,20 +129,20 @@ class AchievementsSection extends StatelessWidget {
         ),
         const SizedBox(height: rowSpacing),
 
-        /// SECOND ROW - ONLY 2 Items (Same size as first row)
+       
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               child: _AchievementItem(
-                imagePath: 'assets/icons/star_container.jpg',
+                imagePath: 'assets/icons/century_club.jpg',
                 label: "Century Club",
               ),
             ),
             const SizedBox(width: spacing),
             Expanded(
               child: _AchievementItem(
-                imagePath: 'assets/icons/star_container.jpg',
+                imagePath: 'assets/icons/streak_master.jpg',
                 label: "Streak Master",
               ),
             ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../../core/theme/app_colors.dart';
 
 class StoreProductDetailsSection extends StatelessWidget {
   final List<String> details;
@@ -20,7 +20,7 @@ class StoreProductDetailsSection extends StatelessWidget {
             'Product Details',
             style: TextStyle(
               fontSize: 20,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w600,
               color: AppColors.textDark,
             ),
           ),
