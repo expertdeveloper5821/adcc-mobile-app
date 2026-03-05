@@ -1,13 +1,10 @@
 import 'package:adcc/features/store/view/sections/Store%20Screen/marketplace_search_box.dart';
 import 'package:adcc/features/store/view/sections/Store%20Screen/store_header.dart';
 import 'package:adcc/features/store/view/sections/Store%20Screen/store_product_grid.dart';
-import 'package:adcc/shared/widgets/banner_header.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/app_button.dart';
-import '../../../../shared/widgets/search_box.dart';
 import '../../../../shared/widgets/category_selector.dart';
-import '../../../../shared/widgets/store_item_card.dart';
 import 'store_details_screen.dart';
 import '../sell_product_screen.dart';
 
@@ -30,7 +27,7 @@ class _StoreScreenState extends State<StoreScreen> {
     'Accessories',
   ];
 
-  // Sample product data - replace with actual data from API
+
   final List<Map<String, dynamic>> _products = [
     {
       'id': 'product_1',
@@ -139,7 +136,7 @@ class _StoreScreenState extends State<StoreScreen> {
           physics: const BouncingScrollPhysics(),
            padding: const EdgeInsets.symmetric(vertical: 24),
           children: [
-            // Header Section with Back Button, Notification, and Image
+       
            StoreHeader(
     imagePath: 'assets/images/store_header_banner.png',
     showBackButton: true,
@@ -155,7 +152,7 @@ class _StoreScreenState extends State<StoreScreen> {
                 children: [
                   const SizedBox(height: 28),
 
-                  // Title and Sell Button
+        
                   _buildTitleSection(),
 
                   const SizedBox(height: 21),
@@ -170,7 +167,7 @@ class _StoreScreenState extends State<StoreScreen> {
 ),
                   const SizedBox(height: 29),
 
-                  // Category Filters
+                 
                   CategorySelector(
                     categories: _categories,
                     selectedIndex: _selectedCategoryIndex,
@@ -183,7 +180,6 @@ class _StoreScreenState extends State<StoreScreen> {
 
                   const SizedBox(height: 40),
 
-                  // Results Count and Filter Icon
                   _buildResultsHeader(),
 
                   const SizedBox(height: 20),
@@ -271,8 +267,7 @@ StoreProductGrid(
         ),
         GestureDetector(
           onTap: () {
-            // Handle filter tap
-            debugPrint('Filter tapped');
+           
           },
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -281,7 +276,7 @@ StoreProductGrid(
   "assets/icons/filter.png",
   height: 16,
   width: 16,
-  color: AppColors.textDark, // अगर icon को tint देना हो
+  color: AppColors.textDark, 
 ),
               const SizedBox(width: 6),
               const Text(

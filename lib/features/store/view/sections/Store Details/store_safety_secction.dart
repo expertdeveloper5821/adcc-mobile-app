@@ -48,7 +48,6 @@ class StoreSafetySection extends StatelessWidget {
               ),
             ),
 
-            /// Description
             const Positioned(
               left: 47,
               top: 39,

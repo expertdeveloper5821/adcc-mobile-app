@@ -58,7 +58,7 @@ class _StoreProductCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-            /// IMAGE + LOCATION BADGE
+           
             Stack(
               children: [
                 ClipRRect(

@@ -99,9 +99,6 @@ class _EmailPasswordLoginScreenState extends State<EmailPasswordLoginScreen> {
     final email = _emailController.text.trim();
     final password = _passwordController.text;
 
-    debugPrint('🔐 [Firebase Auth] Starting authentication...');
-    debugPrint('📧 [Firebase Auth] Email: $email');
-    debugPrint('🔑 [Firebase Auth] Attempting sign in...');
 
     try {
       UserCredential? userCredential;
@@ -235,7 +232,7 @@ class _EmailPasswordLoginScreenState extends State<EmailPasswordLoginScreen> {
 
   try {
      await TokenStorageService.saveFirebaseToken(idToken);
-      debugPrint('🔥 [Storage] Firebase token saved during sign-in');
+      
     final apiClient = ApiClient.instance;
 
     final response = await apiClient.post<dynamic>(
@@ -259,9 +256,9 @@ if (user is Map<String, dynamic>) {
 
   if (userId != null && userId.isNotEmpty) {
     await TokenStorageService.saveUserId(userId);
-    debugPrint("👤 [Storage] UserId saved: $userId");
+    debugPrint(" [Storage] UserId saved: $userId");
   } else {
-    debugPrint("⚠️ [Storage] UserId missing in response");
+    debugPrint(" [Storage] UserId missing in response");
   }
 }
 
@@ -271,23 +268,23 @@ if (user is Map<String, dynamic>) {
     final userId = user["id"]?.toString();
     if (userId != null && userId.isNotEmpty) {
       await TokenStorageService.saveUserId(userId);
-      debugPrint("👤 [Storage] UserId saved: $userId");
+      debugPrint(" [Storage] UserId saved: $userId");
     }
   }
           final accessToken = data["accessToken"] as String?;
           final refreshToken = data["refreshToken"] as String?;
 
-          debugPrint("🔑 [Backend API] AccessToken Found: ${accessToken != null}");
-          debugPrint("🔁 [Backend API] RefreshToken Found: ${refreshToken != null}");
+          debugPrint(" [Backend API] AccessToken Found: ${accessToken != null}");
+          debugPrint(" [Backend API] RefreshToken Found: ${refreshToken != null}");
 
           if (accessToken != null && accessToken.isNotEmpty) {
             await TokenStorageService.saveAccessToken(accessToken);
-            debugPrint("💾 [Storage] Access token saved");
+            debugPrint(" [Storage] Access token saved");
           }
 
           if (refreshToken != null && refreshToken.isNotEmpty) {
             await TokenStorageService.saveRefreshToken(refreshToken);
-            debugPrint("💾 [Storage] Refresh token saved");
+            debugPrint(" [Storage] Refresh token saved");
           }
 
           // confirm saved
@@ -300,7 +297,7 @@ if (user is Map<String, dynamic>) {
         }
       }
 
-      debugPrint("❌ [Backend API] Token parsing failed!");
+      debugPrint(" [Backend API] Token parsing failed!");
       return false;
     } else {
       String errorMessage = 'Backend verification failed';
@@ -335,7 +332,7 @@ if (user is Map<String, dynamic>) {
 
     return false;
   } catch (e) {
-    debugPrint("❌ [Backend API] Error: $e");
+    debugPrint(" [Backend API] Error: $e");
 
     if (mounted && !_errorDialogShown) {
       _errorDialogShown = true;

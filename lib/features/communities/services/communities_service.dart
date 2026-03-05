@@ -14,20 +14,13 @@ class CommunitiesService {
   const endpoint = ApiEndpoints.communities;
 
   try {
-    print("============================================");
-    print("🌍 API CALL STARTED → GET $endpoint");
-    print("📦 Query Params → $queryParameters");
+
 
     final response = await _apiClient.get<dynamic>(
       endpoint,
       queryParameters: queryParameters,
     );
 
-    print("✅ STATUS CODE → ${response.statusCode}");
-    print("📥 RAW RESPONSE DATA ↓↓↓");
-    print(response.data);
-
-    print("============================================");
 
     if ((response.statusCode == 200 || response.statusCode == 201) &&
         response.data != null) {
@@ -42,10 +35,7 @@ class CommunitiesService {
       statusCode: response.statusCode,
     );
   } on DioException catch (e) {
-    print("❌ DIO ERROR OCCURRED");
-    print("Status Code → ${e.response?.statusCode}");
-    print("Error Data → ${e.response?.data}");
-    print("Error Message → ${e.message}");
+ 
 
     final apiException = ApiException.fromDioException(e);
 
@@ -54,7 +44,7 @@ class CommunitiesService {
       statusCode: apiException.statusCode,
     );
   } catch (e) {
-    print("❌ UNEXPECTED ERROR → $e");
+  
 
     return ApiResponse.error(
       message: 'An unexpected error occurred',
@@ -229,12 +219,10 @@ Future<ApiResponse<CommunityModel>> getCommunityById({
   final endpoint = ApiEndpoints.communityById(communityId);
 
   try {
-    print("🔵 Calling API: $endpoint");
+ 
 
     final response = await _apiClient.get<dynamic>(endpoint);
 
-    print("🟢 RAW API RESPONSE:");
-    print(response.data);
 
 if ((response.statusCode == 200 || response.statusCode == 201) &&
     response.data != null &&
@@ -253,7 +241,7 @@ if ((response.statusCode == 200 || response.statusCode == 201) &&
       statusCode: response.statusCode,
     );
   } catch (e) {
-    print("🔴 ERROR IN getCommunityById: $e");
+ 
     return ApiResponse.error(
       message: "Unexpected error occurred",
     );

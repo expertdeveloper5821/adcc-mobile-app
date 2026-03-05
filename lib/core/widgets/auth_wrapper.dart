@@ -24,13 +24,13 @@ class _AuthWrapperState extends State<AuthWrapper> {
 
   /// Check authentication status on app start/restart
   Future<void> _checkAuthStatus() async {
-    debugPrint('🔐 [AuthWrapper] Checking authentication status...');
+    debugPrint(' [AuthWrapper] Checking authentication status...');
 
     try {
       // Get token to check if it exists
       final token = await TokenStorageService.getAccessToken();
       debugPrint(
-          '🔐 [AuthWrapper] Token exists: ${token != null && token.isNotEmpty}');
+          ' [AuthWrapper] Token exists: ${token != null && token.isNotEmpty}');
 
       if (token != null && token.isNotEmpty) {
      
@@ -40,7 +40,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
     
           await TokenStorageService.clearTokens();
           debugPrint(
-              '🔓 [AuthWrapper] User is NOT authenticated (token expired)');
+              ' [AuthWrapper] User is NOT authenticated (token expired)');
         } else {
         
         }
@@ -54,17 +54,17 @@ class _AuthWrapperState extends State<AuthWrapper> {
           });
 
           debugPrint(
-              '🏠 [AuthWrapper] Routing to: ${isAuthenticated ? "HomeScreen" : "OnboardingScreen"}');
+              ' [AuthWrapper] Routing to: ${isAuthenticated ? "HomeScreen" : "OnboardingScreen"}');
         }
       } else {
         debugPrint(
-            '🔓 [AuthWrapper] No token found, user is NOT authenticated');
+            '[AuthWrapper] No token found, user is NOT authenticated');
         if (mounted) {
           setState(() {
             _isAuthenticated = false;
             _isLoading = false;
           });
-          debugPrint('🏠 [AuthWrapper] Routing to: OnboardingScreen');
+          debugPrint(' [AuthWrapper] Routing to: OnboardingScreen');
         }
       }
     } catch (e) {
@@ -90,8 +90,6 @@ class _AuthWrapperState extends State<AuthWrapper> {
       );
     }
 
-    // Route to home if authenticated, otherwise to onboarding
-    // This check happens every time the app starts
     if (_isAuthenticated) {
      
       return const HomeScreen();

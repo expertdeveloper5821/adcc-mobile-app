@@ -60,8 +60,8 @@ Future<void> _fetchCommunityById() async {
 
   setState(() => isLoading = false);
  
-print("FULL MODEL JSON:");
-print(jsonEncode(result.data?.toJson()));
+
+
   if (result.data != null) {
     setState(() {
       _apiCommunity = result.data!;

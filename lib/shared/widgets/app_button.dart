@@ -102,7 +102,7 @@ Color _resolveTextColor(BuildContext context, bool disabled, Color? defaultColor
     onPressed: disabled ? null : onPressed,
     style: OutlinedButton.styleFrom(
       backgroundColor: backgroundColor ?? Colors.white,
-      foregroundColor: resolvedColor, // 🔴 text/icon color fix
+      foregroundColor: resolvedColor, 
       padding: padding,
       side: BorderSide(
         color: resolvedColor, 
@@ -142,7 +142,7 @@ Color _resolveTextColor(BuildContext context, bool disabled, Color? defaultColor
         );
 
       case AppButtonType.primary:
-        // If a borderColor is provided, render as an outlined/secondary style
+       
         if (borderColor != null) {
           return OutlinedButton(
             onPressed: disabled ? null : onPressed,

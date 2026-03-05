@@ -250,7 +250,7 @@ final id = eventId ?? "";
 
                             const SizedBox(width: 6),
 
-                            /// City chip
+                         
                             _chip(
                               text: cityText.isEmpty ? "Abu Dhabi" : cityText,
                               bg: const Color(0xFF3EE606).withValues(alpha: 0.33),
@@ -264,7 +264,7 @@ Positioned(
     height: 20,
     padding: const EdgeInsets.fromLTRB(11, 4, 11, 3),
     decoration: BoxDecoration(
-      color: const Color(0x54C12D32), // #C12D3254 (with opacity)
+      color: const Color(0x54C12D32), 
       borderRadius: BorderRadius.circular(6),
     ),
     child: const Center(
@@ -373,10 +373,9 @@ Row(
       ],
     ),
 
-    /// DISTANCE
-   /// DISTANCE
+   
 Padding(
-  padding: const EdgeInsets.only(right: 16), // <-- adjust value if needed
+  padding: const EdgeInsets.only(right: 16), 
   child: Row(
     children: [
       Image.asset(

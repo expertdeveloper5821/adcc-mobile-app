@@ -22,7 +22,7 @@ class ListingsScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Image area with location badge
+      
           Stack(
             children: [
               ClipRRect(
@@ -150,7 +150,7 @@ class ListingsScreen extends StatelessWidget {
               ),
             ),
 
-            // Sold items (placeholder)
+       
             Center(
               child: Text(
                 'No sold items yet',

@@ -37,7 +37,7 @@ class _StoreHeaderState extends State<StoreHeader> {
         child: Stack(
           children: [
 
-            /// Banner Image (No Gradient)
+       
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: SizedBox(
@@ -50,7 +50,7 @@ class _StoreHeaderState extends State<StoreHeader> {
               ),
             ),
 
-            /// Top Buttons Row (Back + Notification)
+         
             Positioned(
               top: 14,
               left: 14,
@@ -92,7 +92,7 @@ class _StoreHeaderState extends State<StoreHeader> {
                             alignment: Alignment.center,
                             children: [
 
-                              /// Background circle
+               
                               Image.asset(
                                 "assets/icons/circle.png",
                                 height: 35,

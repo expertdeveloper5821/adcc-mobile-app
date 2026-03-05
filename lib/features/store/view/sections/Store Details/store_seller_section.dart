@@ -92,7 +92,7 @@ class StoreSellerSection extends StatelessWidget {
                   ],
                 ),
               ),
-              // Rating Badge - Aligned at top
+       
               Align(
                 alignment: Alignment.topCenter,
                 child: Container(

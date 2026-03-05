@@ -31,10 +31,9 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
   }
 
   Future<void> _loadProductData() async {
-    // Simulate API call
+
     await Future.delayed(const Duration(milliseconds: 500));
-    
-    // Sample data - replace with actual API response
+
     setState(() {
       _productData = {
         'id': widget.productId,
@@ -154,12 +153,10 @@ const SizedBox(height: 40),
             // Action Buttons Section
             StoreActionButtonsSection(
               onWhatsApp: () {
-                // Handle WhatsApp action
-                debugPrint('WhatsApp Seller tapped');
+              
               },
               onCall: () {
-                // Handle Call action
-                debugPrint('Call Seller tapped');
+              
               },
             ),
 

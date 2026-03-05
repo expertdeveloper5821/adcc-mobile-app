@@ -37,7 +37,6 @@ class _RoutesTabState extends State<RoutesTab> {
 
           const SizedBox(height: 16),
 
-          /// HEADER (left + right padding)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: TrackHeader(

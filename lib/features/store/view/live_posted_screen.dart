@@ -55,20 +55,20 @@ class LivePostedScreen extends StatelessWidget {
         child: Stack(
           children: [
 
-            /// RED FRAME IMAGE (Figma decoration)
+            /// FRAME IMAGE (NO PADDING)
             Positioned(
-              left: -80,
-              top: 180,
+              left: -95,
+              top: 185,
               child: Image.asset(
                 "assets/images/frame_1.png",
-                width:160,
+                width: 135,
                 fit: BoxFit.contain,
               ),
             ),
 
             /// MAIN CONTENT
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -94,7 +94,6 @@ class LivePostedScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-
                         Positioned(
                           left: 18,
                           top: 18,
@@ -126,11 +125,12 @@ class LivePostedScreen extends StatelessWidget {
 
                   const SizedBox(height: 8),
 
-                  /// SUBTITLE
+                  /// SUBTITLE (2 LINES)
                   Text(
-                    "You have successfully posted listing",
+                    "You have successfully\nposted listing",
                     style: TextStyle(
                       fontSize: 14,
+                      height: 1.4,
                       color: AppColors.textDark.withValues(alpha: 0.6),
                     ),
                     textAlign: TextAlign.center,
@@ -167,7 +167,7 @@ class LivePostedScreen extends StatelessWidget {
 
                         const SizedBox(width: 16),
 
-                        /// TEXT AREA
+               
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -212,7 +212,7 @@ class LivePostedScreen extends StatelessWidget {
 
                   const Spacer(),
 
-                  /// VIEW LISTING BUTTON
+                
                   SizedBox(
                     width: double.infinity,
                     child: AppButton(
@@ -237,7 +237,7 @@ class LivePostedScreen extends StatelessWidget {
 
                   const SizedBox(height: 12),
 
-                  /// POST ANOTHER ITEM
+             
                   AppButton(
                     label: "Post Another Item",
                     onPressed: () {

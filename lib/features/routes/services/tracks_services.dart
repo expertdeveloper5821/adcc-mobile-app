@@ -11,61 +11,31 @@ class TracksService {
 
  Future<List<TrackModel>> getAllTracks() async {
   try {
-    print("🚀 [Tracks API] Request Started");
-    print("📡 Endpoint: ${ApiEndpoints.tracks}");
-
    final response = await ApiClient.instance.get(ApiEndpoints.tracks);
-
-    print("📥 Status Code: ${response.statusCode}");
-    print("📦 Raw Response: ${response.data}");
-
     final body = response.data;
-
     if (body is Map<String, dynamic>) {
-      print("✅ Body is Map<String,dynamic>");
-
-      final data = body["data"];
-      print("📂 Data Field: $data");
-
-      if (data is Map<String, dynamic>) {
+    final data = body["data"];
+    if (data is Map<String, dynamic>) {
         final tracksList = data["tracks"];
-        print("📑 Tracks List: $tracksList");
-
-        if (tracksList is List) {
-          print("📊 Total Tracks: ${tracksList.length}");
-
-          final tracks = tracksList
+       if (tracksList is List) {
+         final tracks = tracksList
               .map((e) {
-                print("🔄 Parsing Track: $e");
+              
                 return TrackModel.fromJson(e as Map<String, dynamic>);
               })
               .toList();
-
-          print("✅ Tracks Parsed Successfully");
-          print("📦 Final Tracks Count: ${tracks.length}");
-
           return tracks;
         } else {
-          print("⚠ tracksList is not a List");
-        }
+    }
       } else {
-        print("⚠ data is not Map<String,dynamic>");
       }
     } else {
-      print("⚠ response body is not Map<String,dynamic>");
     }
-
-    print("❌ Returning Empty Track List");
     return [];
   } on DioException catch (e) {
-    print("🚨 DioException Occurred");
-    print("📛 Error Message: ${e.message}");
-    print("📊 Status Code: ${e.response?.statusCode}");
-    print("📥 Error Response: ${e.response?.data}");
-
     throw ApiException.fromDioException(e);
   } catch (e) {
-    print("💥 Unexpected Error: $e");
+
 
     throw ApiException(
       message: "Something went wrong while fetching tracks.",

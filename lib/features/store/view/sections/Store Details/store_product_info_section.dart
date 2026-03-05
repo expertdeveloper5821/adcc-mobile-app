@@ -39,11 +39,8 @@ class StoreProductInfoSection extends StatelessWidget {
 
           const SizedBox(height: 12),
 
-          // Location and Time
-        // Location and Time
 Row(
   children: [
-    /// Location Icon Image
     Image.asset(
       "assets/icons/location.png",
       height: 16,
@@ -114,7 +111,7 @@ Row(
                         color: AppColors.deepRed,
                       ),
                     ),
-                    // Original Price (if available)
+              
                     if (originalPrice != null) ...[
                       const SizedBox(height: 4),
                       Text(
@@ -129,12 +126,12 @@ Row(
                   ],
                 ),
               ),
-              // Negotiable Button
+           
               if (isNegotiable)
                 AppButton(
                   label: 'Negotiable',
                   onPressed: () {
-                    // Handle negotiable tap
+                
                   },
                   type: AppButtonType.secondary,
                   borderColor: AppColors.textDark,

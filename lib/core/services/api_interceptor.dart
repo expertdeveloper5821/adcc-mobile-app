@@ -25,21 +25,20 @@ class ApiInterceptor extends Interceptor {
     try {
     final accessToken = await TokenStorageService.getAccessToken();
 
-print("🌍 API Request → ${options.method} ${options.path}");
-print("🔐 AccessToken from storage: $accessToken");
+
 
 final isRefreshApi = options.path.contains("/v1/auth/refresh");
 
 if (!isRefreshApi) {
   if (accessToken != null && accessToken.isNotEmpty) {
     options.headers['Authorization'] = "Bearer $accessToken";
-    print("✅ Authorization header added");
+
   } else {
-    print("❌ No access token found");
+
   }
 }
 
-print("📨 Headers: ${options.headers}");
+print(" Headers: ${options.headers}");
       options.headers['Content-Type'] =
           options.headers['Content-Type'] ?? 'application/json';
       options.headers['Accept'] =
@@ -56,8 +55,7 @@ print("📨 Headers: ${options.headers}");
     Response response,
     ResponseInterceptorHandler handler,
   ) {
-   print("✅ Response [${response.statusCode}] → ${response.requestOptions.path}");
-print("📦 Response Data: ${response.data}");
+
 
 handler.next(response);
   }

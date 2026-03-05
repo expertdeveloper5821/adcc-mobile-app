@@ -48,7 +48,7 @@ class _ExploreByCitySectionState
     return cityCount;
   }
 
-  /// 🔥 CITY IMAGE MAPPING (KEEP SAME SVGs)
+
   String _getCityImage(String city) {
     switch (city.toLowerCase()) {
       case 'abu dhabi':

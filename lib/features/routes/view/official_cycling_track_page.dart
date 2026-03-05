@@ -81,7 +81,7 @@ class _OfficialCyclingTracksPageState
     ),
   ];
 
-  /// ✅ FILTER FUNCTION
+
   List<_OfficialTrackItem> _applyFilter() {
     if (selectedFilterIndex == 0) {
       return tracks; // All
@@ -110,7 +110,7 @@ class _OfficialCyclingTracksPageState
           children: [
             const SizedBox(height: 6),
 
-            /// 🔹 Banner
+    
             BannerHeadder(
               imagePath:
                   'assets/images/cycling_1.png',
@@ -123,7 +123,6 @@ class _OfficialCyclingTracksPageState
 
             const SizedBox(height: 21),
 
-            /// 🔹 Filters
             CategorySelector(
               categories: filters,
               selectedIndex:
@@ -138,7 +137,7 @@ class _OfficialCyclingTracksPageState
 
             const SizedBox(height: 35),
 
-            /// 🔹 Dynamic Count
+         
             Text(
               '${filteredTracks.length} communities found',
               style: const TextStyle(

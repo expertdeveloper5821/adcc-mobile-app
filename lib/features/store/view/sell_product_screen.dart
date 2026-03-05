@@ -857,18 +857,8 @@ _buildTextField(
         _conditionError == null &&
         _contactMethodError == null &&
         _cityError == null) {
-      // Here you would typically submit the form data to your backend
-      debugPrint('Form submitted!');
-      debugPrint('Product Name: ${_productNameController.text}');
-      debugPrint('Category: $_selectedCategory');
-      debugPrint('Condition: $_selectedCondition');
-      debugPrint('Price: ${_priceController.text} $_selectedCurrency');
-      debugPrint('Description: ${_descriptionController.text}');
-      debugPrint('Contact Method: $_selectedContactMethod');
-      debugPrint('Phone: ${_phoneController.text}');
-      debugPrint('City: $_selectedCity');
+  
 
-      // Show success message
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Product listed successfully!'),
@@ -876,7 +866,7 @@ _buildTextField(
         ),
       );
 
-      // Navigate to the live-posted success screen                                                             
+                                                          
       Future.delayed(const Duration(milliseconds: 400), () {
         Navigator.push(
           context,
