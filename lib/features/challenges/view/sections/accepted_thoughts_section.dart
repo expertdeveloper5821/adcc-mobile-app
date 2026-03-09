@@ -22,10 +22,11 @@ class AcceptedThoughtsSection extends StatelessWidget {
             color: AppColors.charcoal,
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 16),
         Container(
+          height: 159,
           decoration: BoxDecoration(
-            color: AppColors.lightBeige,
+            color: Color(0XFFE9E4DB),
             borderRadius: BorderRadius.circular(12),
           ),
           child: TextField(
@@ -34,8 +35,9 @@ class AcceptedThoughtsSection extends StatelessWidget {
             decoration: InputDecoration(
               hintText: 'Share details about your experience.',
               hintStyle: TextStyle(
-                color: AppColors.charcoal.withValues(alpha: 0.5),
-                fontSize: 14,
+                color: Color(0XFF33333366),
+                fontSize: 16,
+                fontWeight: FontWeight.w400
               ),
               border: InputBorder.none,
               contentPadding: const EdgeInsets.all(16),

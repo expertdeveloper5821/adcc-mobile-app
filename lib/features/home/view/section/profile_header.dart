@@ -17,7 +17,9 @@ class ProfileHeader extends StatefulWidget {
   @override
   State<ProfileHeader> createState() => _ProfileHeaderState();
 }
-class _ProfileHeaderState extends State<ProfileHeader> with WidgetsBindingObserver {
+
+class _ProfileHeaderState extends State<ProfileHeader>
+    with WidgetsBindingObserver {
   String _city = '';
   Timer? _refreshTimer;
 
@@ -38,18 +40,17 @@ class _ProfileHeaderState extends State<ProfileHeader> with WidgetsBindingObserv
 
   void _startPeriodicRefresh() {
     int checkCount = 0;
-    const maxChecks = 5; // Check 5 times over 10 seconds
-    const checkInterval = Duration(seconds: 2);
 
-    _refreshTimer = Timer.periodic(checkInterval, (timer) async {
+    _refreshTimer = Timer.periodic(const Duration(seconds: 2), (timer) async {
       checkCount++;
-      if (checkCount >= maxChecks) {
+
+      if (checkCount >= 5) {
         timer.cancel();
         return;
       }
-      // Refresh location to catch any updates after permission is granted
+
       await _loadLocation();
-      // Stop early if we got a location
+
       if (_city.isNotEmpty) {
         timer.cancel();
       }
@@ -58,7 +59,6 @@ class _ProfileHeaderState extends State<ProfileHeader> with WidgetsBindingObserv
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
       _loadLocation();
     }
@@ -69,6 +69,7 @@ class _ProfileHeaderState extends State<ProfileHeader> with WidgetsBindingObserv
 
     if (location != null && mounted) {
       final newCity = location['city'] ?? '';
+
       if (newCity != _city) {
         setState(() {
           _city = newCity;
@@ -79,12 +80,10 @@ class _ProfileHeaderState extends State<ProfileHeader> with WidgetsBindingObserv
 
   @override
   Widget build(BuildContext context) {
-    
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Row(
         children: [
-          // Profile Image
           CircleAvatar(
             radius: 26,
             backgroundImage: AssetImage(widget.profileImagePath),
@@ -92,7 +91,6 @@ class _ProfileHeaderState extends State<ProfileHeader> with WidgetsBindingObserv
 
           const SizedBox(width: 12),
 
-          // Name & Location
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,12 +109,15 @@ class _ProfileHeaderState extends State<ProfileHeader> with WidgetsBindingObserv
                       'assets/images/location.png',
                       height: 14,
                       width: 14,
-                      color: Colors.grey, // optional tint
+                      color: Colors.grey,
                     ),
                     const SizedBox(width: 4),
                     Text(
                       _city.isEmpty ? 'Fetching location...' : _city,
-                      style: const TextStyle(fontSize: 13, color: Colors.grey),
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: Colors.grey,
+                      ),
                     ),
                   ],
                 ),
@@ -124,23 +125,13 @@ class _ProfileHeaderState extends State<ProfileHeader> with WidgetsBindingObserv
             ),
           ),
 
-          // Notification Button
           GestureDetector(
             onTap: widget.onNotificationTap,
-            child: Container(
-              height: 40,
-              width: 40,
-              decoration: BoxDecoration(
-                color: Theme.of(context).scaffoldBackgroundColor,
-                shape: BoxShape.circle,
-              ),
-              child:  Center(
-                child: Image.asset(
-                  'assets/images/notification.png',
-                  height: 50,
-                  width: 50,
-                ),
-              ),
+            child: Image.asset(
+              'assets/icons/notification.gif',
+              height: 60,
+              width: 60,
+        
             ),
           ),
         ],

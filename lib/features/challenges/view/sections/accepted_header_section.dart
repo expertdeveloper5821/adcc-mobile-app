@@ -16,48 +16,47 @@ class AcceptedHeaderSection extends StatelessWidget {
       children: [
         // Trophy icon with gradient background
         Container(
-          width: 120,
-          height: 120,
+          width: 80,
+          height: 80,
           decoration: BoxDecoration(
+            shape: BoxShape.circle,
+           
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                Color.fromRGBO(206, 105, 33, 0.25),
-                Color.fromRGBO(239, 119, 34, 0.25),
+                const Color(0xFFCE6921).withOpacity(0.25),
+                const Color(0xFFEF7722).withOpacity(0.25),
               ],
             ),
-            shape: BoxShape.circle,
           ),
           child: Center(
             child: SvgPicture.asset(
               'assets/svg/winner_trophy.svg',
-              width: 60,
-              height: 60,
+              width: 40,
+              height: 40,
             ),
           ),
         ),
 
-        const SizedBox(height: 24),
+        const SizedBox(height: 22),
 
-        // Title
         const Text(
           'Challenge Complete!',
           style: TextStyle(
-            fontSize: 28,
+            fontSize: 24,
             fontWeight: FontWeight.w700,
             color: AppColors.charcoal,
           ),
         ),
 
-        const SizedBox(height: 8),
+        const SizedBox(height: 4),
 
-        // Subtitle
         Text(
           'How was your experience?',
           style: TextStyle(
             fontSize: 16,
-            color: AppColors.charcoal.withValues(alpha: 0.7),
+            color: Color(0XFF554E4E),
           ),
         ),
       ],

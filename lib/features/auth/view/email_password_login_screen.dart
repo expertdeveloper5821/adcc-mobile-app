@@ -632,7 +632,7 @@ if (user is Map<String, dynamic>) {
 
                       const SizedBox(height: 40),
 
-                      // Terms and Privacy Policy
+                   
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: Text(

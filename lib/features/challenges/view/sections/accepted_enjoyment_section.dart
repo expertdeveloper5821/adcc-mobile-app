@@ -36,45 +36,47 @@ class AcceptedEnjoymentSection extends StatelessWidget {
       },
     ];
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'What did you enjoy?',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: AppColors.charcoal,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'What did you enjoy?',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: AppColors.charcoal,
+            ),
           ),
-        ),
-        const SizedBox(height: 26),
-        Padding(
-          padding: const EdgeInsets.only(right: 40), // Add space on the right
-          child: GridView.builder(
+
+          const SizedBox(height: 26),
+
+          GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
+            itemCount: enjoyments.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 12,
               mainAxisSpacing: 12,
-              childAspectRatio: 1.6, // Adjusted for narrower cards
+              childAspectRatio: 155 / 96,
             ),
-            itemCount: enjoyments.length,
             itemBuilder: (context, index) {
-              final enjoyment = enjoyments[index];
+              final item = enjoyments[index];
               final isSelected =
-                  selectedEnjoyments.contains(enjoyment['id'] as String);
+                  selectedEnjoyments.contains(item['id'] as String);
 
               return _EnjoymentCard(
-                label: enjoyment['label'] as String,
-                imagePath: enjoyment['image'] as String,
+                label: item['label'] as String,
+                imagePath: item['image'] as String,
                 isSelected: isSelected,
-                onTap: () => onEnjoymentToggled(enjoyment['id'] as String),
+                onTap: () => onEnjoymentToggled(item['id'] as String),
               );
             },
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -95,47 +97,40 @@ class _EnjoymentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      borderRadius: BorderRadius.circular(9.95),
       onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        width: 155,
+        height: 96,
+        padding: const EdgeInsets.fromLTRB(20, 8, 11, 18),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.goldenOchre : AppColors.dustyRose,
-          border: Border.all(
-            color: isSelected ? AppColors.goldenOchre : AppColors.dustyRose,
-            width: 1.5,
-          ),
-          borderRadius: BorderRadius.circular(12),
+          color: isSelected
+              ? const Color(0xFFCF9F0C)
+              : const Color(0xFFFFF3E2),
+          borderRadius: BorderRadius.circular(9.95),
         ),
         child: Column(
-          mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            Image.asset(
+              imagePath,
               width: 30,
               height: 30,
-              child: Image.asset(
-                imagePath,
-                fit: BoxFit.contain,
-                errorBuilder: (context, error, stackTrace) {
-                  return const Icon(
-                    Icons.image,
-                    size: 24,
-                    color: AppColors.textSecondary,
-                  );
-                },
-              ),
+              fit: BoxFit.contain,
             ),
-            const SizedBox(height: 15),
+
+            const SizedBox(height: 11),
+
             Text(
               label,
-              style: const TextStyle(
-                fontSize: 14,
+              style: TextStyle(
+                fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: AppColors.charcoal,
+                color: isSelected
+                    ? Colors.white
+                    : AppColors.charcoal,
               ),
-              textAlign: TextAlign.left,
-              maxLines: 2,
+              maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
           ],

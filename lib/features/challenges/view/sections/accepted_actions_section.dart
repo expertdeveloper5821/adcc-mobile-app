@@ -33,24 +33,24 @@ class AcceptedActionsSection extends StatelessWidget {
           ),
         ),
 
-        const SizedBox(height: 12),
+        const SizedBox(height: 15),
 
-        // Continue button
-        AppButton(
-          label: 'Continue',
-          onPressed: onContinue,
-          type: AppButtonType.secondary,
-          borderColor: AppColors.dustyRose,
-          textColor: AppColors.charcoal,
-          backgroundColor: AppColors.dustyRose,
-          width: double.infinity,
-          height: 50,
-          borderRadius: 12,
-          textStyle: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+      AppButton(
+  label: 'Continue',
+  onPressed: onContinue,
+  type: AppButtonType.secondary,
+  borderColor: const Color(0xFF333333),
+  textColor: const Color(0xFF333333),
+  backgroundColor: Colors.transparent,
+  width: double.infinity,
+  height: 50,
+  borderRadius: 12,
+  textStyle: const TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: Color(0xFF333333),
+  ),
+),
       ],
     );
   }

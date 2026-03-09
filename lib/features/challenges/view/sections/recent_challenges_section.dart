@@ -34,7 +34,7 @@ class RecentChallengesSection extends StatelessWidget {
             color: AppColors.textDark,
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 20),
         ListView.separated(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),

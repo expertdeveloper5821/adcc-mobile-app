@@ -9,8 +9,11 @@ class PromoCarousel extends StatefulWidget {
 }
 
 class _PromoCarouselState extends State<PromoCarousel> {
-  final PageController _controller = PageController(viewportFraction: 0.9);
-  int _currentIndex = 0;
+
+  final PageController _controller = PageController(
+    viewportFraction: 0.86,
+    initialPage: 1,
+  );
 
   final List<PromoData> _items = [
     PromoData(
@@ -22,31 +25,35 @@ class _PromoCarouselState extends State<PromoCarousel> {
     ),
     PromoData(
       image: 'assets/images/cycling_1.png',
-      title: 'Ride Together.\nRide Stronger.',
-      subtitle: 'Discover',
-      highlight: 'Local Events',
-      buttonText: 'Explore',
+      title: 'Ride Together\nRide Stronger',
+      subtitle: 'Join Your',
+      highlight: 'First Community Ride',
+      buttonText: 'Find a ride',
+    ),
+    PromoData(
+      image: 'assets/images/cycling_1.png',
+      title: 'Explore Abu Dhabi\nCycling Routes',
+      subtitle: 'Join Your',
+      highlight: 'First Community Ride',
+      buttonText: 'Find a ride',
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 200,
-          child: PageView.builder(
-            controller: _controller,
-            itemCount: _items.length,
-            onPageChanged: (index) {
-              setState(() => _currentIndex = index);
-            },
-            itemBuilder: (context, index) {
-              return PromoCard(data: _items[index]);
-            },
-          ),
-        ),
-      ],
+    return SizedBox(
+      height: 170,
+      child: PageView.builder(
+        controller: _controller,
+        itemCount: _items.length,
+        padEnds: false,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 7.5),
+            child: PromoCard(data: _items[index]),
+          );
+        },
+      ),
     );
   }
 }

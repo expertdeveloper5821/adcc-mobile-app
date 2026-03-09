@@ -66,14 +66,14 @@ class CommunityUpdateCard extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: 17),
 
           // Post Image
           ClipRRect(
             borderRadius: BorderRadius.circular(16),
             child: Image.asset(
               postImage,
-              height: 220,
+              height: 255,
               width: double.infinity,
               fit: BoxFit.cover,
             ),
@@ -120,7 +120,7 @@ class CommunityUpdateCard extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 4),
+          const SizedBox(height: 11.5),
 
           // Caption
           RichText(

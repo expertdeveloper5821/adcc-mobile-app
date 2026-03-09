@@ -13,7 +13,7 @@ import 'package:adcc/features/home/view/weather_card.dart';
 import 'package:adcc/l10n/app_localizations.dart';
 import 'package:adcc/shared/widgets/section_header.dart';
 import 'package:flutter/material.dart';
-import '../../../shared/widgets/profile_header.dart';
+import 'section/profile_header.dart';
 
 class HomeTab extends StatelessWidget {
   final ValueChanged<int>? onTabChange;
@@ -39,11 +39,11 @@ class HomeTab extends StatelessWidget {
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.only(bottom: 24),
               children: [
-                SizedBox(height: 16),
+                SizedBox(height: 34),
 
                 SizedBox(child: PromoCarousel()),
 
-                SizedBox(height: 16),
+                SizedBox(height: 30),
 
                 WeatherCard(
                   city: l10n.cityAbuDhabi,
@@ -53,38 +53,51 @@ class HomeTab extends StatelessWidget {
                   lowTemp: 21,
                   weatherIcon: 'assets/images/weather_cloud.png',
                 ),
-
+                     SizedBox(height: 30),
                 Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: QuickActionsSection(onTabChange: onTabChange),
                 ),
+                const SizedBox(height:30 ),
+
+const Padding(
+  padding: EdgeInsets.symmetric(horizontal: 16),
+  child: Text(
+    "Featured Events",
+    style: TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.w600,
+    ),
+  ),
+),
+
                  const SizedBox(height: 24),
-                 const RandomCard(
+               const FeaturedEventCard(
   image: "assets/images/cycling_1.png",
   title: "Bike Abu Dhabi Gran Fondo 2025",
   date: "21 Dec 2026",
   distance: "150 Km",
 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 16),
+                  padding: const EdgeInsets.only(top: 50),
                   child: HorizontalRideList(),
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: 50),
                 // CommunityStoreSection(),
 
                Padding(
-                 padding: const EdgeInsets.all(16.0),
+                 padding: const EdgeInsets.symmetric(horizontal: 16),
                  child: SectionHeader(title: "Upcoming Events"),
                ),
-               const SizedBox(height: 6),
+               const SizedBox(height: 22),
                 UpcomingTracksList(),
-                const SizedBox(height: 24),
+                const SizedBox(height: 50),
 
 NearbyTracksSection(),
-const SizedBox(height: 24),
+const SizedBox(height: 52),
 RecentlyPost(),
-                const SizedBox(height: 24),
+                const SizedBox(height: 50),
                 CommunityUpdatesSection(),
 
                 const SizedBox(height: 24),

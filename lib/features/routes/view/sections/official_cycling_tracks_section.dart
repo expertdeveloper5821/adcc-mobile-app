@@ -192,13 +192,13 @@ class _OfficialCyclingTracksSectionState
 
             const SizedBox(height: 6),
 
-            Padding(
-                  padding: const EdgeInsets.only(right: 6),
-              child: Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+           Expanded(
+  child: Padding(
+    padding: const EdgeInsets.only(right: 6),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,

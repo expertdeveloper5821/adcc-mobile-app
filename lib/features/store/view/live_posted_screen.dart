@@ -38,7 +38,7 @@ class LivePostedScreen extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: AppColors.deepRed.withValues(alpha: 0.1),
+                color: AppColors.deepRed.withValues(alpha: 0.3),
                 shape: BoxShape.circle,
               ),
               child: const Icon(
@@ -57,8 +57,8 @@ class LivePostedScreen extends StatelessWidget {
 
             /// FRAME IMAGE (NO PADDING)
             Positioned(
-              left: -95,
-              top: 185,
+               left: -52,
+              top: 188,
               child: Image.asset(
                 "assets/images/frame_1.png",
                 width: 135,
@@ -116,9 +116,9 @@ class LivePostedScreen extends StatelessWidget {
                   const Text(
                     "Your item is live",
                     style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.textDark,
+                      fontSize: 30,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.charcoal,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -131,12 +131,13 @@ class LivePostedScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       height: 1.4,
+                      fontWeight: FontWeight.w400,
                       color: AppColors.textDark.withValues(alpha: 0.6),
                     ),
                     textAlign: TextAlign.center,
                   ),
 
-                  const SizedBox(height: 34),
+                  const SizedBox(height: 30),
 
                   /// LISTING CARD
                   Container(
@@ -160,7 +161,7 @@ class LivePostedScreen extends StatelessWidget {
                           child: AdaptiveImage(
                             imagePath: imagePath ?? "assets/images/cycling_1.png",
                             width: 100.5,
-                            height: 100,
+                            height: 110,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -189,8 +190,8 @@ class LivePostedScreen extends StatelessWidget {
                                 price ?? "",
                                 style: const TextStyle(
                                   fontSize: 15,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.deepRed,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.charcoal,
                                 ),
                               ),
 

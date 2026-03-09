@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../widgets/challenge_card.dart';
-import '../challenge_details_screen.dart';
+import '../../widgets/challenge_card.dart';
+import '../../challenge_details_screen.dart';
 
 class ActiveChallengesSection extends StatelessWidget {
   const ActiveChallengesSection({super.key});
@@ -54,7 +54,7 @@ class ActiveChallengesSection extends StatelessWidget {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: challenges.length,
-          separatorBuilder: (context, index) => const SizedBox(height: 16),
+          separatorBuilder: (context, index) => const SizedBox(height: 22),
           itemBuilder: (context, index) {
             final challenge = challenges[index];
             return ChallengeCard(

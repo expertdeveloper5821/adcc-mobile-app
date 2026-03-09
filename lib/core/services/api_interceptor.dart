@@ -140,8 +140,8 @@ handler.next(response);
       final dio = Dio(
         BaseOptions(
           baseUrl: "https://adcc-b4f3.onrender.com",
-          connectTimeout: const Duration(seconds: 30),
-          receiveTimeout: const Duration(seconds: 30),
+          connectTimeout: const Duration(seconds: 60),
+          receiveTimeout: const Duration(seconds: 60),
           headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
@@ -196,8 +196,8 @@ handler.next(response);
       final dio = Dio(
         BaseOptions(
           baseUrl: requestOptions.baseUrl,
-          connectTimeout: const Duration(seconds: 30),
-          receiveTimeout: const Duration(seconds: 30),
+          connectTimeout: const Duration(seconds: 60),
+          receiveTimeout: const Duration(seconds: 60),
           headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
@@ -237,9 +237,9 @@ handler.next(response);
           BaseOptions(
             baseUrl: requestOptions.baseUrl,
             connectTimeout:
-                const Duration(seconds: 30),
+                const Duration(seconds: 60),
             receiveTimeout:
-                const Duration(seconds: 30),
+                const Duration(seconds: 60),
             headers: {
               "Content-Type": "application/json",
               "Accept": "application/json",

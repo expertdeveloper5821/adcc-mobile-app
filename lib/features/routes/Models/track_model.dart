@@ -31,7 +31,7 @@ class TrackModel {
 
   final String area;
   final String safetyNotes;
-  final List<int> loopOptions;
+  final List<double> loopOptions;
 
   TrackModel({
     required this.id,
@@ -99,10 +99,9 @@ class TrackModel {
       surfaceType: json["surfaceType"] ?? "",
       area: json["area"] ?? "",
       safetyNotes: json["safetyNotes"] ?? "",
-      loopOptions: (json["loopOptions"] as List?)
-              ?.map((e) => e as int)
-              .toList() ??
-          [],
+     loopOptions: (json["loopOptions"] as List?)
+        ?.map((e) => (e as num).toDouble())
+        .toList() ?? [],
     );
   }
 }

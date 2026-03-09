@@ -1,5 +1,5 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
 
 class AcceptedRatingSection extends StatelessWidget {
   final int? selectedRating;
@@ -14,40 +14,43 @@ class AcceptedRatingSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 16),
+      width: 302,
+      height: 97,
       decoration: BoxDecoration(
-        color: AppColors.dustyRose,
-        borderRadius: BorderRadius.circular(10),
+        color: const Color(0xFFFFEFD7),
+        borderRadius: BorderRadius.circular(9.95),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Text(
             'Rate Your Experience',
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 15,
               fontWeight: FontWeight.w600,
               color: AppColors.charcoal,
             ),
-            textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 16),
+
+          const SizedBox(height: 10),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
             children: List.generate(5, (index) {
               final rating = index + 1;
-              final isSelected = selectedRating != null && rating <= selectedRating!;
-              
+              final isSelected =
+                  selectedRating != null && rating <= selectedRating!;
+
               return GestureDetector(
                 onTap: () => onRatingChanged(rating),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: Icon(
-                    isSelected ? Icons.star : Icons.star_border,
-                    color: isSelected ? AppColors.goldenOchre : AppColors.charcoal.withValues(alpha: 0.3),
-                    size: 32,
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                  child: Image.asset(
+                    'assets/icons/rate.png',
+                    width: 32,
+                    height: 33,
+                    color: const Color(0xFF767676),
+                    colorBlendMode: BlendMode.srcIn,
                   ),
                 ),
               );

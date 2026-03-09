@@ -19,42 +19,37 @@ class AcceptedDifficultySection extends StatelessWidget {
         const Text(
           'How was the difficulty?',
           style: TextStyle(
-            fontSize: 18,
+            fontSize: 20,
             fontWeight: FontWeight.w600,
             color: AppColors.charcoal,
           ),
         ),
-        const SizedBox(height: 12),
-        Row(
+
+        const SizedBox(height: 17),
+
+        Wrap(
+          spacing: 10,
+          runSpacing: 10,
           children: [
-            Expanded(
-              child: _DifficultyButton(
-                label: 'Too Easy',
-                icon: Icons.sentiment_very_satisfied,
-                isSelected: selectedDifficulty == 'too_easy',
-                isFilled: selectedDifficulty == 'too_easy',
-                onTap: () => onDifficultySelected('too_easy'),
-              ),
+            _DifficultyButton(
+              label: 'Too Easy',
+              icon: Icons.sentiment_very_satisfied,
+              isSelected: selectedDifficulty == 'too_easy',
+              onTap: () => onDifficultySelected('too_easy'),
             ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: _DifficultyButton(
-                label: 'Just Right',
-                icon: Icons.sentiment_neutral,
-                isSelected: selectedDifficulty == 'just_right',
-                isFilled: false,
-                onTap: () => onDifficultySelected('just_right'),
-              ),
+
+            _DifficultyButton(
+              label: 'Just Right',
+              icon: Icons.sentiment_neutral,
+              isSelected: selectedDifficulty == 'just_right',
+              onTap: () => onDifficultySelected('just_right'),
             ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: _DifficultyButton(
-                label: 'Too Hard',
-                icon: Icons.sentiment_very_dissatisfied,
-                isSelected: selectedDifficulty == 'too_hard',
-                isFilled: false,
-                onTap: () => onDifficultySelected('too_hard'),
-              ),
+
+            _DifficultyButton(
+              label: 'Too Hard',
+              icon: Icons.sentiment_very_dissatisfied,
+              isSelected: selectedDifficulty == 'too_hard',
+              onTap: () => onDifficultySelected('too_hard'),
             ),
           ],
         ),
@@ -67,56 +62,57 @@ class _DifficultyButton extends StatelessWidget {
   final String label;
   final IconData icon;
   final bool isSelected;
-  final bool isFilled;
   final VoidCallback onTap;
 
   const _DifficultyButton({
     required this.label,
     required this.icon,
     required this.isSelected,
-    required this.isFilled,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
       borderRadius: BorderRadius.circular(12),
+      onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+        width: 116,
+        height: 42,
+        padding: const EdgeInsets.symmetric(
+          vertical: 9,
+          horizontal: 6,
+        ),
         decoration: BoxDecoration(
-          color: isFilled
-              ? AppColors.goldenOchre
-              : isSelected
-                  ? AppColors.dustyRose
-                  : Colors.transparent,
-          border: Border.all(
-            color: isFilled
-                ? AppColors.goldenOchre
-                : isSelected
-                    ? AppColors.goldenOchre
-                    : AppColors.dustyRose,
-            width: 1.5,
-          ),
+          color: isSelected
+              ? const Color(0xFFCF9F0C)
+              : const Color(0xFFE9E4DB),
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Column(
+        child: Row(
           children: [
             Icon(
               icon,
-              color: isFilled ? Colors.white : AppColors.charcoal,
               size: 24,
+              color: isSelected
+                  ? Colors.white
+                  : AppColors.charcoal,
             ),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: isFilled ? Colors.white : AppColors.charcoal,
+
+            const SizedBox(width: 6),
+
+            Expanded(
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: isSelected
+                      ? Colors.white
+                      : AppColors.charcoal,
+                ),
+                overflow: TextOverflow.ellipsis,
               ),
-              textAlign: TextAlign.center,
             ),
           ],
         ),

@@ -11,28 +11,51 @@ class TracksService {
 
  Future<List<TrackModel>> getAllTracks() async {
   try {
+  
+
    final response = await ApiClient.instance.get(ApiEndpoints.tracks);
+
+ 
+
     final body = response.data;
+
     if (body is Map<String, dynamic>) {
-    final data = body["data"];
-    if (data is Map<String, dynamic>) {
+
+
+      final data = body["data"];
+  
+
+      if (data is Map<String, dynamic>) {
         final tracksList = data["tracks"];
-       if (tracksList is List) {
-         final tracks = tracksList
+   
+
+        if (tracksList is List) {
+       
+
+          final tracks = tracksList
               .map((e) {
-              
+                print("Parsing Track: $e");
                 return TrackModel.fromJson(e as Map<String, dynamic>);
               })
               .toList();
+
+        
+
           return tracks;
         } else {
-    }
+        
+        }
       } else {
+      
       }
     } else {
+     
     }
+
     return [];
   } on DioException catch (e) {
+ 
+
     throw ApiException.fromDioException(e);
   } catch (e) {
 

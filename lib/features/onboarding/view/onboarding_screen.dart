@@ -16,16 +16,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   // Add as many slides as you need - each with different content
   final List<OnboardingData> _slides = [
     OnboardingData(
-      title: 'YOUR CYCLING JOURNEY\nSTARTS HERE',
+      title: 'YOUR CYCLING\n JOURNEY STARTS HERE',
       description:
-          'Track your rides, explore scenic routes, join events, and connect with the UAE cycling community.',
+          'Track your rides,explore scenic routes,join events and connect with the UAE cycling community',
       buttonText: 'Next',
       imagePath: 'assets/images/onboarding_bg_one.png',
     ),
     OnboardingData(
-      title: 'JOIN THE RIDE.\nLIVE THE PASSION.',
+      title: 'JOIN THE RIDE.LIVE\n THE PASSION.',
       description:
-          'Unlock a world of cycling experiences from scenic loops to community challenges all in one place.',
+          'Unlock a world of cycling experiences from scenic loops to community challenges all in one place',
       buttonText: 'Get Started',
       imagePath: 'assets/images/onboarding_bg_two.png',
     ),
@@ -94,8 +94,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     'Skip',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
@@ -105,7 +105,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
           // Static Pagination Dots
           Positioned(
-            bottom: 160,
+            bottom: 125,
             left: 0,
             right: 0,
             child: _buildPaginationDots(),
@@ -184,7 +184,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             shape: BoxShape.circle,
             color: _currentPage == index
                 ? AppColors.deepRed
-                : Colors.white.withValues(alpha: 0.5),
+                : Colors.white,
           ),
         ),
       ),
@@ -239,24 +239,6 @@ class OnboardingSlide extends StatelessWidget {
           ),
         ),
 
-        // // Golden Arc Decoration
-        // Positioned(
-        //   top: -40,
-        //   left: -40,
-        //   child: Container(
-        //     width: 200,
-        //     height: 200,
-        //     decoration: BoxDecoration(
-        //       shape: BoxShape.circle,
-        //       border: Border.all(
-        //         width: 20,
-        //         color: AppColors.goldenOchre,
-        //       ),
-        //     ),
-        //   ),
-        // ),
-
-        // Dark overlay gradient
         Positioned.fill(
           child: Container(
             decoration: BoxDecoration(
@@ -282,30 +264,34 @@ class OnboardingSlide extends StatelessWidget {
 
               // Title and Description
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: Column(
                   children: [
-                    Text(
-                      data.title,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.2,
-                        height: 1.2,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
+Text(
+      data.title.toUpperCase(),
+      textAlign: TextAlign.center,
+      style: const TextStyle(
+        fontFamily: "Outfit",
+        color: Colors.white,
+        fontSize: 25,
+        fontWeight: FontWeight.w700,
+        height: 1.2,
+        letterSpacing: 0,
+      ),
+    ),
+
+                    const SizedBox(height: 12),
                     Text(
                       data.description,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.9),
-                        fontSize: 16,
-                        height: 1.5,
+                        color: Colors.white,
+                        fontSize: 13,
+                        height: 1.2,
+                        fontWeight: FontWeight.w400
                       ),
                     ),
+                    
                   ],
                 ),
               ),

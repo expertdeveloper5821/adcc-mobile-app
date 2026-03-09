@@ -19,7 +19,7 @@ class CommunityUpdatesSection extends StatelessWidget {
   title: "Community updates",
 )
 ,
-          const SizedBox(height: 12),
+          const SizedBox(height: 21),
 
           // Feed
           SizedBox(
@@ -35,7 +35,7 @@ class CommunityUpdatesSection extends StatelessWidget {
                   likes: 24,
                   caption: '🚴‍♀️ Amazing ride today!...',
                 ),
-                SizedBox(width: 16),
+                SizedBox(width: 6),
                  CommunityUpdateCard(
                   profileImage: 'assets/images/profile_sara.png',
                   name: 'Sara Al Ketbi',

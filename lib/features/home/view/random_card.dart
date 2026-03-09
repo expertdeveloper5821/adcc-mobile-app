@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class RandomCard extends StatelessWidget {
+class FeaturedEventCard extends StatelessWidget {
   final String image;
   final String title;
   final String date;
   final String distance;
 
-  const RandomCard({
+  const FeaturedEventCard({
     super.key,
     required this.image,
     required this.title,
@@ -23,8 +23,6 @@ class RandomCard extends StatelessWidget {
         width: double.infinity,
         child: Stack(
           children: [
-
-            /// BACKGROUND IMAGE
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: Image.asset(
@@ -35,10 +33,9 @@ class RandomCard extends StatelessWidget {
               ),
             ),
 
-            /// SHARE BUTTON
             Positioned(
-              top: 14,
-              right: 14,
+              top: 16,
+              right: 16,
               child: Container(
                 height: 36,
                 width: 36,
@@ -54,13 +51,12 @@ class RandomCard extends StatelessWidget {
               ),
             ),
 
-            /// INFO CARD
             Positioned(
-              left: 14,
-              right: 14,
-              bottom: 14,
+              left: 16,
+              right: 6,
+              bottom: 16,
               child: Container(
-                padding: const EdgeInsets.all(14),
+                padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: const Color(0xffF3EFE6),
                   borderRadius: BorderRadius.circular(12),
@@ -69,11 +65,9 @@ class RandomCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-
-                    /// FEATURED BADGE
                     Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
+                        horizontal: 8,
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
@@ -90,52 +84,45 @@ class RandomCard extends StatelessWidget {
                       ),
                     ),
 
+                    const SizedBox(height: 10),
+
+                  Text(
+  title,
+  style: const TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: Colors.white,
+    height: 1.2,
+  ),
+),
+
                     const SizedBox(height: 8),
 
-                    /// TITLE
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-
-                    const SizedBox(height: 6),
-
-                    /// DATE + DISTANCE
                     Row(
                       children: [
-
                         Image.asset(
                           "assets/icons/calender.png",
                           width: 16,
                           height: 16,
                         ),
-
                         const SizedBox(width: 6),
-
                         Text(
                           date,
-                          style: const TextStyle(fontSize: 14),
+                          style: const TextStyle(fontSize: 12),
                         ),
-
                         const SizedBox(width: 16),
-
                         Image.asset(
-                          "assets/icons/distance.png",
+                          "assets/icons/km_empty.png",
                           width: 16,
                           height: 16,
                         ),
-
                         const SizedBox(width: 6),
-
                         Text(
                           distance,
-                          style: const TextStyle(fontSize: 14),
+                          style: const TextStyle(fontSize: 12),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),

@@ -18,15 +18,133 @@ class ChallengeTopPerformersSection extends StatelessWidget {
   });
 
   String _extractValue(String valueString) {
-    // Extract numeric value from strings like "497 km" or "487 km"
     final parts = valueString.split(' ');
     return parts.isNotEmpty ? parts[0] : valueString;
   }
 
   String _extractUnit(String valueString) {
-    // Extract unit from strings like "497 km" or "487 km"
     final parts = valueString.split(' ');
     return parts.length > 1 ? parts[1] : '';
+  }
+
+  Widget _buildPerformerRow(
+      Map<String, dynamic> performer, bool isLast) {
+    return Column(
+      children: [
+        SizedBox(
+          height: 85,
+          child: Row(
+            children: [
+              /// AVATAR + BADGE
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Container(
+                    width: 50,
+                    height: 50,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: Image.asset(
+                        "assets/icons/cycle.png",
+                        width: 26,
+                        height: 26,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+
+                  /// TROPHY BADGE
+                  Positioned(
+                    top: -3.98,
+                    left: 27.98,
+                    child: Container(
+                      width: 23.99,
+                      height: 23.99,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(
+                          colors: [
+                            Color(0xFFD4AF37),
+                            Color(0xFFB8941E),
+                          ],
+                        ),
+                      ),
+                      child: Center(
+                        child: Image.asset(
+                          "assets/icons/trophy.png",
+                          width: 13,
+                          height: 13,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(width: 12),
+
+              /// NAME + RANK
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      performer['name'],
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      "Rank #${performer['rank']}",
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              /// VALUE
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    _extractValue(performer['value']),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    _extractUnit(performer['value']),
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+
+        if (!isLast)
+          const Divider(
+            color: Colors.white,
+            height: 1,
+          ),
+      ],
+    );
   }
 
   @override
@@ -36,144 +154,54 @@ class ChallengeTopPerformersSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+
+          /// HEADER
           SectionHeader(
             title: 'Top Performers',
             onViewAll: onViewAll,
             showViewAll: true,
           ),
-          const SizedBox(height: 16),
+
+          const SizedBox(height: 23),
+
+          /// PERFORMERS CARD
           Container(
-            padding: const EdgeInsets.all(16),
+            width: 358,
+            height: 260,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
                 colors: [
                   Color(0xFFD4AF37),
-                  Color(0xFFCF9F0C),
                   Color(0xFFB8941E),
                 ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16.4),
+              border: Border.all(
+                color: Colors.white,
+                width: 1.1659,
+              ),
             ),
             child: Column(
-              children: [
-                ...performers.asMap().entries.map((entry) {
-                  final index = entry.key;
-                  final performer = entry.value;
-                  final isLast = index == performers.length - 1;
-                  
-                  return Column(
-                    children: [
-                      Row(
-                        children: [
-                          Stack(
-                            clipBehavior: Clip.none,
-                            children: [
-                              Container(
-                                width: 50,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(
-                                  Icons.directions_bike,
-                                  color: AppColors.goldenOchre,
-                                  size: 24,
-                                ),
-                              ),
-                              Positioned(
-                                top: -4,
-                                right: -4,
-                                child: Container(
-                                  width: 24,
-                                  height: 24,
-                                  decoration: BoxDecoration(
-                                    gradient: const LinearGradient(
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                      colors: [
-                                        Color(0xFFD4AF37),
-                                        Color(0xFFCF9F0C),
-                                        Color(0xFFB8941E),
-                                      ],
-                                    ),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: const Icon(
-                                    Icons.emoji_events_outlined,
-                                    color: Colors.white,
-                                    size: 12,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  performer['name'] as String,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  'Rank #${performer['rank']}',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                _extractValue(performer['value'] as String),
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              const SizedBox(height: 2),
-                              Text(
-                                _extractUnit(performer['value'] as String),
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      if (!isLast)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          child: Divider(
-                            color: Colors.white,
-                            height: 1,
-                          ),
-                        ),
-                    ],
-                  );
-                }),
-              ],
+              children: performers.asMap().entries.map((entry) {
+                final index = entry.key;
+                final performer = entry.value;
+                final isLast = index == performers.length - 1;
+
+                return _buildPerformerRow(performer, isLast);
+              }).toList(),
             ),
           ),
+
           if (onJoin != null || onMarkComplete != null) ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: 40),
+
+            /// JOIN BUTTON
             if (onJoin != null)
               AppButton(
-                label: 'Join Challenge',
+                label: "Join Challenge",
                 onPressed: onJoin!,
                 type: AppButtonType.primary,
                 backgroundColor: AppColors.deepRed,
@@ -186,28 +214,30 @@ class ChallengeTopPerformersSection extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-            
-              const SizedBox(height: 12),
-           
-              AppButton(
-                label: 'Mark as complete',
-                onPressed: onMarkComplete ?? () {},
-                type: AppButtonType.secondary,
-                // backgroundColor: AppColors.,
-                borderColor: AppColors.deepRed,
-                textColor: AppColors.deepRed,
-                width: double.infinity,
-                height: 50,
-                borderRadius: 12,
-                textStyle: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
+
+            const SizedBox(height: 25),
+
+            /// MARK COMPLETE
+            AppButton(
+              label: "Mark as complete",
+              onPressed: onMarkComplete ?? () {},
+              type: AppButtonType.secondary,
+              borderColor: AppColors.deepRed,
+              textColor: AppColors.deepRed,
+              backgroundColor: Colors.transparent,
+              width: double.infinity,
+              height: 50,
+              borderRadius: 12,
+              textStyle: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
               ),
+            ),
+
+            const SizedBox(height: 25),
           ],
         ],
       ),
     );
   }
 }
-

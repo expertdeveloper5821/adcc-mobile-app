@@ -3,7 +3,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/back_button_widget.dart';
 import 'sections/challenge_header_section.dart';
 import 'sections/challenge_info_section.dart';
-import 'sections/challenge_metrics_section.dart';
+import 'sections/Challnege Details/challenge_metrics_section.dart';
 import 'sections/challenge_progress_section.dart';
 import 'sections/challenge_rules_section.dart';
 import 'sections/challenge_top_performers_section.dart';
@@ -108,30 +108,13 @@ class _ChallengeDetailsScreenState extends State<ChallengeDetailsScreen> {
         child: ListView(
           physics: const BouncingScrollPhysics(),
           children: [
-            // Back button above banner
-            Padding(
-              padding: const EdgeInsets.only(left: 16, top: 16, bottom: 8),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: AppBackButton(
-                  backgroundColor: AppColors.paleGreen.withValues(alpha: 0.36),
-                  iconColor: AppColors.brand_green,
-                  onBack: () {
-                    if (Navigator.of(context).canPop()) {
-                      Navigator.of(context).pop();
-                    }
-                  },
-                ),
-              ),
-            ),
-
-            // Header with image only
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: ChallengeHeaderSection(
-                imagePath: _challengeData!['image'] as String,
-              ),
-            ),
+          
+          ChallengeHeaderSection(
+  imagePath: "assets/images/cycling_1.png",
+  onBack: () {
+    Navigator.pop(context);
+  },
+),
 
             const SizedBox(height: 16),
 
@@ -145,7 +128,7 @@ class _ChallengeDetailsScreenState extends State<ChallengeDetailsScreen> {
               },
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 32),
 
             // Metrics Cards (Joined, Days Left, Points)
             ChallengeMetricsSection(
@@ -154,7 +137,7 @@ class _ChallengeDetailsScreenState extends State<ChallengeDetailsScreen> {
               points: _challengeData!['points'] as int,
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 25),
 
             // Progress Section
             ChallengeProgressSection(
@@ -165,14 +148,14 @@ class _ChallengeDetailsScreenState extends State<ChallengeDetailsScreen> {
               remaining: _challengeData!['remaining'] as int,
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: 40),
 
             // Challenge Rules
             ChallengeRulesSection(
               rules: _challengeData!['rules'] as List<String>,
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: 41),
 
             // Top Performers
             ChallengeTopPerformersSection(

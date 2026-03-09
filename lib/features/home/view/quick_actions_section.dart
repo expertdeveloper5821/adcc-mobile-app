@@ -46,7 +46,7 @@ class QuickActionsSection extends StatelessWidget {
             ),
             QuickActionItem(
               title: 'Tracks',
-              imagePath: 'assets/images/routes.png',
+              imagePath: 'assets/icons/tracks.gif',
               onTap: () {
                 // Switch to Routes tab (index 2) instead of pushing new screen
                 if (onTabChange != null) {
@@ -63,7 +63,7 @@ class QuickActionsSection extends StatelessWidget {
             ),
             QuickActionItem(
               title: 'Challenges',
-              imagePath: 'assets/images/challenges.png',
+              imagePath: 'assets/icons/challenges.gif',
               onTap: () {
                 Navigator.push(
                   context,
@@ -75,7 +75,7 @@ class QuickActionsSection extends StatelessWidget {
             ),
             QuickActionItem(
               title: 'Events',
-              imagePath: 'assets/images/events.png',
+              imagePath: 'assets/icons/events_calender.gif',
               onTap: () {
                 // Switch to Events tab (index 1) instead of pushing new screen
                 if (onTabChange != null) {
@@ -104,7 +104,7 @@ class QuickActionsSection extends StatelessWidget {
             ),
             QuickActionItem(
               title: 'Bike Experience',
-              imagePath: 'assets/images/bike_experience.png',
+              imagePath: 'assets/icons/bike_experience.gif',
             ),
           ],
         ),

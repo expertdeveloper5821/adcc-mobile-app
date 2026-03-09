@@ -6,31 +6,50 @@ class HorizontalRideList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 392,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        physics: const BouncingScrollPhysics(),
-        children: [
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
 
-          RideCard(
-            image: 'assets/images/family_ride.png',
-            title: 'Abu Dhabi Road Racers',
-            members: '2800 Members',
-            buttonText: 'Explore Community',
-            onTap: () {},
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            "Popular Community",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
           ),
+        ),
 
-          RideCard(
-            image: 'assets/images/family_ride.png',
-            title: 'Hudayriyat Riders',
-            members: '3800 Members',
-            buttonText: 'View Details',
-            onTap: () {},
+        const SizedBox(height: 22),
+
+        SizedBox(
+          height: 392,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            physics: const BouncingScrollPhysics(),
+            children: [
+
+              RideCard(
+                image: 'assets/images/family_ride.png',
+                title: 'Abu Dhabi\nRoad Racers',
+                members: '2800 Members',
+                buttonText: 'Explore Community',
+                onTap: () {},
+              ),
+
+              RideCard(
+                image: 'assets/images/family_ride.png',
+                title: 'Hudayriyat\nRiders',
+                members: '3800 Members',
+                buttonText: 'View Details',
+                onTap: () {},
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

@@ -24,15 +24,15 @@ class ChallengeRulesSection extends StatelessWidget {
               color: AppColors.charcoal,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 24),
           ...rules.map((rule) => Padding(
                 padding: const EdgeInsets.only(bottom: 12),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      width: 20,
-                      height: 20,
+                      width: 19,
+                      height: 19,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
@@ -52,8 +52,9 @@ class ChallengeRulesSection extends StatelessWidget {
                         rule,
                         style: const TextStyle(
                           fontSize: 14,
-                          color: AppColors.charcoal,
-                          height: 1.4,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0XFF525252),
+                          height: 1.3,
                         ),
                       ),
                     ),
