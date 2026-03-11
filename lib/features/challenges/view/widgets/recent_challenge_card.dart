@@ -23,50 +23,74 @@ class RecentChallengeCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(16),
+        width: 357,
+        height: 88,
+        padding: const EdgeInsets.only(
+          left: 12,
+          right: 16,
+          top: 12,
+          bottom: 12,
+        ),
         decoration: BoxDecoration(
-          color: AppColors.dustyRose,
-          borderRadius: BorderRadius.circular(12),
+          color: const Color(0xFFFFEFD7),
+          borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Icon
+
+            /// LEFT ICON CONTAINER
             Container(
-              width: 64,
-              height: 64,
+              width: 63.5945,
+              height: 63.5945,
               decoration: BoxDecoration(
-                color: AppColors.goldenOchre,
-                shape: BoxShape.circle,
+                color: const Color(0xFFCF9F0C),
+                borderRadius: BorderRadius.circular(18.5508),
               ),
               child: Center(
                 child: SvgPicture.asset(
                   'assets/svg/colored_cycle.svg',
-                  width: 28,
-                  height: 28,
+                  width: 34.4321,
+                  height: 39.5838,
                   fit: BoxFit.contain,
                 ),
               ),
             ),
-            const SizedBox(width: 12),
-            // Content
+
+            const SizedBox(width: 16),
+
+            /// TEXT CONTENT
             Expanded(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
+                  /// TITLE
                   Text(
                     title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
+                      fontFamily: 'Segoe UI',
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
-                      color: AppColors.textDark,
+                      color: Color(0XFF101828),
                     ),
                   ),
-                  const SizedBox(height: 4),
+
+                  const SizedBox(height: 5),
+
+                  /// DETAILS
                   Text(
-                    '$distance • $duration • $timeAgo',
-                    style: TextStyle(
+                    "$distance·$duration·$timeAgo",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontFamily: 'Segoe UI',
                       fontSize: 14,
-                      color: AppColors.charcoal.withValues(alpha: 0.6),
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFF4A5565),
                     ),
                   ),
                 ],
@@ -78,4 +102,3 @@ class RecentChallengeCard extends StatelessWidget {
     );
   }
 }
-

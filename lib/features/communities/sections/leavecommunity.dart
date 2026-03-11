@@ -1,5 +1,6 @@
 // features/communities/sections/leave_community_screen.dart
 
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/communities/models/community_model.dart';
 import 'package:adcc/features/communities/services/communities_service.dart';
 import 'package:adcc/shared/widgets/app_button.dart';
@@ -19,11 +20,11 @@ class LeaveCommunity extends StatefulWidget {
 
 class _LeaveCommunityState extends State<LeaveCommunity> {
   final CommunitiesService _communitiesService = CommunitiesService();
-  
+
   bool isLoading = false;
-  int selectedReasonIndex = -1; // Start with no reason selected
+  int selectedReasonIndex = -1;
   final TextEditingController feedbackController = TextEditingController();
-  
+
   late CommunityModel _community;
 
   final List<String> reasons = const [
@@ -39,10 +40,6 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
   void initState() {
     super.initState();
     _community = widget.community;
-    
-    debugPrint('🔴 LeaveCommunity initState:');
-    debugPrint('   Community: ${_community.title}');
-    debugPrint('   Is Joined: ${_community.isJoined}');
   }
 
   @override
@@ -52,7 +49,6 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
   }
 
   Future<void> _leaveCommunity() async {
-    // Validate that a reason is selected
     if (selectedReasonIndex == -1) {
       _showSnackBar(
         message: "Please select a reason for leaving",
@@ -60,7 +56,7 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
       );
       return;
     }
-    
+
     setState(() => isLoading = true);
 
     final reason = reasons[selectedReasonIndex];
@@ -77,13 +73,11 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
     setState(() => isLoading = false);
 
     if (result.success) {
-      // Show success message
       _showSnackBar(
         message: "You have left the community",
         isError: false,
       );
-      
-      // Return true to indicate successful leave
+
       Navigator.pop(context, true);
     } else {
       _showSnackBar(
@@ -107,72 +101,65 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F5EF),
+      backgroundColor: AppColors.softCream,
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.fromLTRB(16, 14, 16, 18),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Header with back button
+
+              /// BACK BUTTON
               Align(
                 alignment: Alignment.centerLeft,
                 child: GestureDetector(
-                  onTap: () => Navigator.pop(context),
+                  onTap: () => Navigator.pop(context, true),
                   child: Container(
-                    height: 36,
-                    width: 36,
+                    height: 35,
+                    width: 35,
+                    padding: const EdgeInsets.fromLTRB(10, 10, 7.54, 9.46),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFEDE6DA),
-                      borderRadius: BorderRadius.circular(14),
+                      color: const Color(0x5CC12D32),
+                      borderRadius: BorderRadius.circular(53.8462),
                     ),
                     child: const Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      size: 18,
-                      color: Colors.black,
+                      Icons.arrow_back,
+                      size: 15,
+                      color: Color(0xFFC12D32),
                     ),
                   ),
                 ),
               ),
-              
+
               const SizedBox(height: 18),
-              
-              // Icon
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    height: 130,
-                    width: 130,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  const Icon(
-                    Icons.exit_to_app,
-                    size: 70,
-                    color: Color(0xFFB11212),
-                  ),
-                ],
+
+              /// GIF
+              Center(
+                child: Image.asset(
+                  "assets/icons/checkmark.gif",
+                  height: 130,
+                  width: 130,
+                  fit: BoxFit.contain,
+                ),
               ),
-              
+
               const SizedBox(height: 16),
-              
-              // Title
-              Text(
-                "Leave ${_community.title}",
+
+              /// TITLE
+              const Text(
+                "Leave Community",
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w900,
                   color: Color(0xFF1E1E1E),
-                  height: 1.15,
                 ),
               ),
-              
+
               const SizedBox(height: 10),
-              
-              // Subtitle
+
+              /// SUBTITLE
               const Text(
                 "We're sorry to see you go.\nYour feedback helps us improve.",
                 textAlign: TextAlign.center,
@@ -180,97 +167,85 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                   color: Color(0xFF6B6B6B),
-                  height: 1.35,
                 ),
               ),
-              
+
               const SizedBox(height: 18),
-              
-              // Reasons list
-              Expanded(
-                child: ListView(
-                  physics: const BouncingScrollPhysics(),
-                  children: [
-                    const Text(
-                      "Reason for leaving:",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.black,
-                      ),
-                    ),
-                    
-                    const SizedBox(height: 12),
-                    
-                    // Reason tiles
-                    ...List.generate(reasons.length, (index) {
-                      final isSelected = selectedReasonIndex == index;
-                      
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: _ReasonTile(
-                          title: reasons[index],
-                          isSelected: isSelected,
-                          onTap: () {
-                            setState(() {
-                              selectedReasonIndex = index;
-                            });
-                          },
-                        ),
-                      );
-                    }),
-                    
-                    const SizedBox(height: 18),
-                    
-                    // Feedback section
-                    const Text(
-                      "Additional Feedback (Optional)",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.black,
-                      ),
-                    ),
-                    
-                    const SizedBox(height: 10),
-                    
-                    Container(
-                      height: 110,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 12,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF5EDE0),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: TextField(
-                        controller: feedbackController,
-                        maxLines: null,
-                        expands: true,
-                        style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                        ),
-                        decoration: const InputDecoration(
-                          hintText: "Tell us more...",
-                          hintStyle: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFF9A9A9A),
-                          ),
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                  ],
+
+              /// REASON TITLE
+              const Text(
+                "Reason:",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.black,
                 ),
               ),
-              
-              const SizedBox(height: 16),
-              
-              // Leave button
+
+              const SizedBox(height: 12),
+
+              /// REASONS LIST
+              ...List.generate(reasons.length, (index) {
+                final isSelected = selectedReasonIndex == index;
+
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: _ReasonTile(
+                    title: reasons[index],
+                    isSelected: isSelected,
+                    onTap: () {
+                      setState(() {
+                        selectedReasonIndex = index;
+                      });
+                    },
+                  ),
+                );
+              }),
+
+              const SizedBox(height: 30),
+
+              /// FEEDBACK TITLE
+              const Text(
+                "Additional Feedback (Optional)",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.black,
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              /// FEEDBACK BOX
+              Container(
+                height: 103,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF5EDE0),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: TextField(
+                  controller: feedbackController,
+                  maxLines: null,
+                  expands: true,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
+                  decoration: const InputDecoration(
+                    hintText: "Tell us more...",
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 40),
+
+              /// LEAVE BUTTON
               AppButton(
                 label: isLoading ? "Leaving..." : "Leave Community",
                 onPressed: isLoading ? null : _leaveCommunity,
@@ -280,6 +255,8 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
                 borderRadius: 16,
                 height: 52,
               ),
+
+              const SizedBox(height: 10),
             ],
           ),
         ),
@@ -288,7 +265,6 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
   }
 }
 
-// Reason Tile Widget
 class _ReasonTile extends StatelessWidget {
   final String title;
   final bool isSelected;
@@ -305,14 +281,14 @@ class _ReasonTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 44,
+        height: 40,
         padding: const EdgeInsets.symmetric(horizontal: 14),
         decoration: BoxDecoration(
-          color: const Color(0xFFF5EDE0),
-          borderRadius: BorderRadius.circular(14),
+          color: const Color(0xFFFFF3E2),
+          borderRadius: BorderRadius.circular(9.9),
           border: Border.all(
-            color: isSelected ? const Color(0xFFB11212) : const Color(0xFFE7DECF),
-            width: isSelected ? 1.6 : 1.0,
+            color: isSelected ? const Color(0xFFB11212) : const Color(0xFFFFF3E2),
+            width: isSelected ? 1.6 : 1,
           ),
         ),
         child: Row(
@@ -322,20 +298,20 @@ class _ReasonTile extends StatelessWidget {
                 title,
                 style: const TextStyle(
                   fontSize: 13,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.charcoal,
                 ),
               ),
             ),
-            
-            // Radio indicator
             Container(
               height: 18,
               width: 18,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: isSelected ? const Color(0xFFB11212) : const Color(0xFFBDBDBD),
+                  color: isSelected
+                      ? const Color(0xFFB11212)
+                      : const Color(0xFFBDBDBD),
                   width: 2,
                 ),
               ),

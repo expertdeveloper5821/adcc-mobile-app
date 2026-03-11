@@ -19,7 +19,7 @@ class WarningMessage extends StatelessWidget {
   Color get _backgroundColor {
     switch (type) {
       case MessageType.warning:
-        return AppColors.buttonGuest; // Green for warnings in your design
+        return AppColors.buttonGuest; 
       case MessageType.info:
         return Colors.blue;
       case MessageType.success:
@@ -55,7 +55,7 @@ return Container(
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        //  Icon perfect center vertically
+    
         Center(
           child: Icon(
             _icon,

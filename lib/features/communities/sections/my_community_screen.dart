@@ -1,6 +1,7 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/communities/models/community_model.dart';
 import 'package:adcc/features/communities/sections/community_list_card.dart';
-import 'package:adcc/features/communities/sections/community_type_details.dart';
+import 'package:adcc/features/communities/view/community_type_details.dart';
 import 'package:flutter/material.dart';
 
 class Mycommunity extends StatelessWidget {
@@ -14,7 +15,7 @@ class Mycommunity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F5EF),
+      backgroundColor: AppColors.softCream,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 18),
@@ -23,22 +24,28 @@ class Mycommunity extends StatelessWidget {
               /// TOP BAR
               Row(
                 children: [
-                  GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    child: Container(
-                      height: 38,
-                      width: 38,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFEDE6DA),
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: const Icon(
-                        Icons.arrow_back_ios_new_rounded,
-                        size: 18,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
+                     /// TOP BACK BUTTON
+Align(
+  alignment: Alignment.centerLeft,
+  child: GestureDetector(
+    onTap: () => Navigator.pop(context, true),
+    child: Container(
+      height: 35,
+      width: 35,
+      padding: const EdgeInsets.fromLTRB(10, 10, 7.54, 9.46),
+      decoration: BoxDecoration(
+        color: const Color(0x5CC12D32), // #C12D325C
+        borderRadius: BorderRadius.circular(53.8462),
+      ),
+      child: const Icon(
+        Icons.arrow_back,
+        size: 15,
+        color: Color(0xFFC12D32),
+      ),
+    ),
+  ),
+),
+
                   const Spacer(),
                   const Text(
                     "My Communities",

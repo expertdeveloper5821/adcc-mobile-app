@@ -3,7 +3,7 @@ import 'package:adcc/features/communities/models/community_model.dart';
 import 'package:adcc/features/communities/sections/communities_awareness.dart';
 import 'package:adcc/features/communities/sections/community_categories_grid.dart';
 import 'package:adcc/features/communities/sections/community_horizontal_card.dart';
-import 'package:adcc/features/communities/sections/community_type_details.dart';
+import 'package:adcc/features/communities/view/community_type_details.dart';
 import 'package:adcc/features/communities/view/view_all_communities_screen.dart';
 import 'package:adcc/features/communities/view/view_all_communities_type.dart';
 import 'package:adcc/features/communities/view/view_all_purpose_based.dart';
@@ -180,7 +180,7 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.softCream,
       body: SafeArea(
         child: _isLoading
             ? const _CommunitiesLoadingUI()
@@ -197,9 +197,9 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
   Widget _buildMainUI(BuildContext context) {
     return ListView(
       physics: const BouncingScrollPhysics(),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       children: [
-        const SizedBox(height: 16),
+   
 
       CommunityHeader(
   imagePath: 'assets/images/cycling_1.png',
@@ -214,7 +214,7 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
 ),
 
 
-        const SizedBox(height: 24),
+        const SizedBox(height: 37),
 
         // CITY
         SectionHeader(
@@ -232,12 +232,12 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
           },
         ),
 
-        const SizedBox(height: 24),
+        const SizedBox(height: 27),
         CommunitiesAwareness(
           communities: _filteredCityCommunities,
         ),
 
-        const SizedBox(height: 24),
+        const SizedBox(height: 50),
 
         // TYPES
         SectionHeader(
@@ -255,7 +255,7 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
           },
         ),
 
-        const SizedBox(height: 24),
+        const SizedBox(height: 34),
 
         CommunityCategoriesGrid(
           types: _backendTypes,
@@ -290,7 +290,7 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
           },
         ),
 
-        const SizedBox(height: 24),
+        const SizedBox(height: 74),
 
         // PURPOSE BASED
         SectionHeader(
@@ -308,9 +308,9 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
           },
         ),
 
-        const SizedBox(height: 24),
+        const SizedBox(height: 25),
         _buildGroupCommunitiesSection(),
-        const SizedBox(height: 24),
+        const SizedBox(height: 105),
       ],
     );
   }

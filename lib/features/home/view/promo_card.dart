@@ -23,102 +23,122 @@ class PromoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Stack(
-          children: [
-            // Background image
-            Positioned.fill(child: Image.asset(data.image, fit: BoxFit.cover)),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: Stack(
+        children: [
 
-            // Dark overlay
-            Positioned.fill(
-              child: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    colors: [Colors.black54, Colors.transparent],
-                    stops: [0.0, 1],
-                  ),
+          Positioned.fill(
+            child: Image.asset(
+              data.image,
+              fit: BoxFit.cover,
+            ),
+          ),
+
+          Positioned.fill(
+            child: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    Colors.black87,
+                    Colors.transparent,
+                  ],
                 ),
               ),
             ),
+          ),
 
-            // Yellow arc decoration
-            Positioned(
-              top: -40,
-              right: -40,
-              child: Container(
-                width: 120,
-                height: 120,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    width: 10,
-                    color: theme.colorScheme.secondary,
-                  ),
+          Positioned(
+            top: -25,
+            right: -25,
+            child: Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  width: 10,
+                  color: Color(0xFFF2B705),
                 ),
               ),
             ),
+          ),
 
-            // Content
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Text
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        data.title,
-                        style: theme.textTheme.titleLarge?.copyWith(
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        data.subtitle,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: Colors.white70,
-                        ),
-                      ),
-                      Text(
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 14,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+                Text(
+                  data.title,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                    height: 1.2,
+                  ),
+                ),
+
+                const Spacer(),
+
+                Text(
+                  data.subtitle,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Colors.white70,
+                  ),
+                ),
+
+                const SizedBox(height: 2),
+
+                Row(
+                  children: [
+
+                    Expanded(
+                      child: Text(
                         data.highlight,
-                        style: theme.textTheme.bodyLarge?.copyWith(
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
                           color: Colors.white,
-                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ],
-                  ),
-
-                  // Button
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: theme.scaffoldBackgroundColor,
-                        foregroundColor: theme.colorScheme.primary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                      child: Text(data.buttonText),
                     ),
-                  ),
-                ],
-              ),
+
+                    Container(
+                      width: 99,
+                      height: 29,
+                      padding: const EdgeInsets.fromLTRB(2, 6, 2, 7),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFF9EF),
+                        borderRadius: BorderRadius.circular(17),
+                      ),
+                      child: const Center(
+                        child: Text(
+                          "Find a ride",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFFC12D32),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                  ],
+                ),
+
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

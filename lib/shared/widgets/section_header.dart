@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class SectionHeader extends StatelessWidget {
@@ -19,10 +20,17 @@ class SectionHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          child: Text(
-            title,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-          ),
+          child:Text(
+  title,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 1,
+    letterSpacing: 0,
+    color: AppColors.charcoal
+  ),
+)
         ),
         if (showViewAll)
           InkWell(
@@ -31,10 +39,18 @@ class SectionHeader extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Text(
-                  'View All',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                ),
-                const SizedBox(width: 6), // spacing between text & icon
+  'View All',
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Geist',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.43,
+    letterSpacing: 0,
+    color: AppColors.charcoal
+  ),
+),
+                const SizedBox(width: 6), 
                 Image.asset(
                   "assets/icons/right_arrow.png",
                   height: 12,

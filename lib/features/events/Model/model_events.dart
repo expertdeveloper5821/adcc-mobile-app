@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 /// Event model (Fully Synced With Backend)
 class Event {
   final String id;
@@ -159,19 +161,15 @@ class Event {
   }
 
   
-  String? get formattedDate {
-    if (eventDate == null) return null;
-    try {
-      final dateTime = DateTime.parse(eventDate!);
-      const months = [
-        'Jan','Feb','Mar','Apr','May','Jun',
-        'Jul','Aug','Sep','Oct','Nov','Dec'
-      ];
-      return '${months[dateTime.month - 1]} ${dateTime.day}';
-    } catch (_) {
-      return eventDate;
-    }
+ String? get formattedDate {
+  if (eventDate == null) return null;
+  try {
+    final dateTime = DateTime.parse(eventDate!);
+    return DateFormat('d MMM yyyy').format(dateTime);
+  } catch (_) {
+    return eventDate;
   }
+}
 
 
   String get participantsString {

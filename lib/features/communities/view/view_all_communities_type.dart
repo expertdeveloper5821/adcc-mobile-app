@@ -1,6 +1,7 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/communities/models/community_model.dart';
 import 'package:adcc/features/communities/sections/community_list_card.dart';
-import 'package:adcc/features/communities/sections/community_type_details.dart';
+import 'package:adcc/features/communities/view/community_type_details.dart';
 import 'package:adcc/shared/widgets/banner_header.dart';
 import 'package:adcc/shared/widgets/category_selector.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class _CommunityTypeScreenState extends State<CommunityTypeScreen> {
 
   final List<String> filters = const [
     "Racing & Performance",
+    "Elite Community",
     "Family Rides",
     "Women",
   ];
@@ -91,7 +93,7 @@ class _CommunityTypeScreenState extends State<CommunityTypeScreen> {
     final list = filteredCommunities;
 
     return Scaffold(
-      backgroundColor: const Color(0xffFFF8ED),
+      backgroundColor: AppColors.softCream,
       body: SafeArea(
         child: ListView(
           physics: const BouncingScrollPhysics(),

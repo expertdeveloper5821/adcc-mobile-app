@@ -1,10 +1,10 @@
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/communities/models/community_model.dart';
-import 'package:adcc/features/communities/sections/explore_community_screen.dart';
+import 'package:adcc/features/communities/view/explore_community_screen.dart';
 import 'package:adcc/shared/widgets/adaptive_image.dart';
 import 'package:adcc/shared/widgets/app_button.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:ui';
 class CommunitiesAwareness extends StatefulWidget {
   final List<CommunityModel> communities;
 
@@ -33,27 +33,15 @@ class _CommunitiesAwarenessState extends State<CommunitiesAwareness> {
     }
 
     return SizedBox(
-      height: 380,
+      height: 335,
       child: ListView.separated(
         controller: _scrollController,
         scrollDirection: Axis.horizontal,
-        itemCount: (widget.communities.length / 2).ceil(),
-        separatorBuilder: (_, __) => const SizedBox(width: 16),
+        itemCount: widget.communities.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 12),
         itemBuilder: (context, index) {
-          final firstIndex = index * 2;
-          final secondIndex = firstIndex + 1;
-          return Row(
-            children: [
-              _buildCommunityCard(
-                community: widget.communities[firstIndex],
-              ),
-              if (secondIndex < widget.communities.length) ...[
-                const SizedBox(width: 16),
-                _buildCommunityCard(
-                  community: widget.communities[secondIndex],
-                ),
-              ],
-            ],
+          return _buildCommunityCard(
+            community: widget.communities[index],
           );
         },
       ),
@@ -63,194 +51,186 @@ class _CommunitiesAwarenessState extends State<CommunitiesAwareness> {
   Widget _buildCommunityCard({
     required CommunityModel community,
   }) {
-
     final categoryName =
         community.category.isNotEmpty ? community.category.first : 'Community';
 
-
     final membersCount = community.membersCount ?? 0;
     final eventsCount = community.eventsCount ?? 0;
+const double cardRadius = 12;
     final formattedMembers = _formatNumber(membersCount);
     final formattedEvents = _formatNumber(eventsCount);
 
-    return GestureDetector(
-      onTap: () {
-      
-        debugPrint('Tapped on ${community.title}');
-      },
-      child: Container(
-        width: 180,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          color: AppColors.cardLightBackground,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-
-            ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(16),
-                topRight: Radius.circular(16),
-              ),
-              child: Stack(
-                children: [
-                  AdaptiveImage(
+    return Container(
+      width: 212,
+      height: 335,
+      decoration: BoxDecoration(
+        color: const Color(0xffFFEFD7),
+         borderRadius: BorderRadius.circular(cardRadius),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          /// IMAGE
+          ClipRRect(
+            borderRadius: BorderRadius.all(
+  Radius.circular(16),
+),
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 6, right: 6,top: 4),
+                  child: AdaptiveImage(
                     imagePath:
                         community.imageUrl ?? 'assets/images/cycling_1.png',
+                    height: 158,
                     width: double.infinity,
-                    height: 180,
                     fit: BoxFit.cover,
-                    placeholderColor: AppColors.softCream,
                   ),
+                ),
+            
+            
 
-                  Positioned(
-                    top: 12,
-                    left: 12,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 5,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.5),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        categoryName,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+Positioned(
+  top: 10,
+  left: 10,
+  child: ClipRRect(
+    borderRadius: BorderRadius.circular(6),
+    child: BackdropFilter(
+      filter: ImageFilter.blur(
+        sigmaX: 15,
+        sigmaY: 15,
+      ),
+      child: Container(
+        padding: const EdgeInsets.only(
+          top: 4,
+          bottom: 4,
+          left: 11,
+          right: 10,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.black.withOpacity(0.33),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: Text(
+          categoryName,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w400,
+            height: 1.3,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    ),
+  ),
+)
+              ],
             ),
+          ),
 
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+          /// BODY
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  /// TITLE
+                  Text(
+                    community.title,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+
+                  const SizedBox(height: 7),
+
+                  /// MEMBERS + EVENTS
+                  Row(
+                    children: [
+                      /// MEMBERS
+                      Row(
                         children: [
-                          // Title
-                          Text(
-                            community.title,
-                            style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.textDark,
-                            ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
+                          Image.asset(
+                            "assets/icons/person_sharp.png",
+                            width: 16,
+                            height: 16,
                           ),
-                          const SizedBox(height: 10),
-                
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                    
-                              Flexible(
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(
-                                      Icons.people_outline,
-                                      size: 16,
-                                      color: AppColors.textDark
-                                          .withValues(alpha: 0.7),
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Flexible(
-                                      child: Text(
-                                        '$formattedMembers members',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: AppColors.textDark
-                                              .withValues(alpha: 0.7),
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                
-                              Flexible(
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(
-                                      Icons.event_outlined,
-                                      size: 16,
-                                      color: AppColors.textDark
-                                          .withValues(alpha: 0.7),
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Flexible(
-                                      child: Text(
-                                        '$formattedEvents events',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: AppColors.textDark
-                                              .withValues(alpha: 0.7),
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                     
+                          const SizedBox(width: 4),
                           Text(
-                            community.description,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: AppColors.textDark.withValues(alpha: 0.8),
-                              height: 1.4,
-                            ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
+                            '$formattedMembers members',
+                            style: const TextStyle(fontSize: 12,color: Color(0XFF484A4D)),
                           ),
                         ],
                       ),
-                    ),
-                  
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: AppButton(
-                        label: "Explore",
-                        onPressed: () {
-                          Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (_) => ExploreCommunityScreen(community: community),
-    ),
-  );
-                        },
-                        backgroundColor: AppColors.deepRed,
-                        height: 34,
-                        width: 100,
+
+                      const SizedBox(width: 10),
+
+                      /// EVENTS
+                      Row(
+                        children: [
+                          Image.asset(
+                            "assets/icons/calender.png",
+                            width: 16,
+                            height: 16,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            '$formattedEvents events',
+                            style: const TextStyle(fontSize: 12,color: Color(0XFF484A4D)),
+                          ),
+                        ],
                       ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  /// DESCRIPTION
+                  Text(
+                    community.description,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      height: 1.2,
+                      color: Color(0XFF484A4D)
                     ),
-                  ],
-                ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+
+                 const SizedBox(height: 12),
+
+                  /// BUTTON
+                  AppButton(
+                    label: "Explore",
+                      textStyle: const TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w600,
+    color: AppColors.softCream,
+  ),
+
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) =>
+                              ExploreCommunityScreen(community: community),
+                        ),
+                      );
+                    },
+                    height: 30,
+                    width: 93,
+                  ),
+                     const SizedBox(height: 16),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

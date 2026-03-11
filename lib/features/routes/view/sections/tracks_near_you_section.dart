@@ -32,23 +32,27 @@ class _TracksNearYouSectionState
     _futureTracks = _tracksService.getAllTracks();
   }
 
-  List<TrackModel> _applyFilters(
-    List<TrackModel> tracks) {
+  List<TrackModel> _applyFilters(List<TrackModel> tracks) {
   return tracks.where((t) {
 
-  
-    final bool statusMatch =
+ 
+    final bool cityMatch =
         widget.selectedStatus == "All" ||
-        t.status.toLowerCase() ==
-            widget.selectedStatus.toLowerCase();
+        (t.city ?? "").toLowerCase().trim() ==
+            widget.selectedStatus.toLowerCase().trim();
 
-     final bool searchMatch =
-        widget.searchQuery.trim().isEmpty ||
-        t.title
-            .toLowerCase()
-            .contains(widget.searchQuery.toLowerCase());
+ 
+    final query = widget.searchQuery.toLowerCase().trim();
 
-    return statusMatch && searchMatch;
+    final bool searchMatch =
+        query.isEmpty ||
+        (t.title ?? "").toLowerCase().contains(query) ||
+        (t.city ?? "").toLowerCase().contains(query) ||
+        (t.surfaceType ?? "").toLowerCase().contains(query) ||
+        (t.trackType ?? "").toLowerCase().contains(query) ||
+        (t.distance?.toString().contains(query) ?? false);
+
+    return cityMatch && searchMatch;
 
   }).toList();
 }

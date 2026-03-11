@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
-
+import 'dart:ui';
 class ChallengeCard extends StatelessWidget {
   final String imagePath;
   final String difficulty;
@@ -34,39 +34,38 @@ class ChallengeCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.dustyRose,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: 10,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
+    child: Container(
+  width: 358,
+  constraints: const BoxConstraints(
+    minHeight: 308,
+  ),
+  decoration: BoxDecoration(
+    color: AppColors.dustyRose,
+    borderRadius: BorderRadius.circular(18.1252),
+    border: Border.all(
+      color: const Color(0xffFFEFD7),
+      width: 1.28,
+    ),
+  ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image with difficulty tag and title overlay
+
+            /// IMAGE SECTION
             ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(18.1252),
+              ),
               child: Stack(
                 children: [
                   Image.asset(
                     imagePath,
-                    height: 200,
+                    height: 141.45,
                     width: double.infinity,
                     fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        height: 200,
-                        color: AppColors.softCream,
-                      );
-                    },
                   ),
-                  // Gradient overlay
+
+                  /// gradient
                   Positioned.fill(
                     child: Container(
                       decoration: BoxDecoration(
@@ -81,45 +80,50 @@ class ChallengeCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // Difficulty tag
+
+                  /// difficulty tag
+               Positioned(
+  top: 17,
+  left: 14,
+  child: ClipRRect(
+    borderRadius: BorderRadius.circular(999),
+    child: BackdropFilter(
+      filter: ImageFilter.blur(
+        sigmaX: 10,
+        sigmaY: 10,
+      ),
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 10,
+          vertical: 4,
+        ),
+        decoration: BoxDecoration(
+          color: const Color(0xFF1A1C20).withOpacity(0.15),
+          borderRadius: BorderRadius.circular(999),
+        ),
+        child: Text(
+          difficulty,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+    ),
+  ),
+),
+
+                  /// title
                   Positioned(
-                    top: 12,
-                    left: 12,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(43234732),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 6,
-                          ),
-                          decoration: BoxDecoration(
-                            color: const Color.fromRGBO(26, 28, 32, 0.15),
-                            borderRadius: BorderRadius.circular(43234732),
-                          ),
-                          child: Text(
-                            difficulty,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  // Title overlay
-                  Positioned(
-                    bottom: 16,
+                    bottom: 12,
                     left: 16,
                     right: 16,
                     child: Text(
                       title,
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 20,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -128,105 +132,107 @@ class ChallengeCard extends StatelessWidget {
               ),
             ),
 
-            // Content section
+            /// CONTENT
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 20,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Description
+
+                  
                   Text(
                     description,
-                    style: const TextStyle(
+                    style:  TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
-                      color: AppColors.charcoal,
-                      height: 1.4,
+                      color: Color(0XFF343434),
+                     height: 21.6618 / 15,
                     ),
                   ),
-                  const SizedBox(height: 12),
 
-                  // Progress section
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Progress label and numbers
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                           Text(
-                            'Progress',
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: AppColors.textDark.withValues(alpha: 0.6),
-                            ),
-                          ),
-                          Text(
-                            '$progress / $target $unit',
-                            style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.charcoal,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      // Progress bar
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
-                        child: LinearProgressIndicator(
-                          value: progressPercentage,
-                          minHeight: 8,
-                          backgroundColor: AppColors.softCream,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            AppColors.goldenOchre,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  const SizedBox(height: 19),
 
-                  const SizedBox(height: 12),
-
-                  // Days left and participants
+                  /// progress
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // Container with days left and participants grouped together
+                      Text(
+                        "Progress",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: AppColors.textDark.withValues(alpha: 0.6),
+                        ),
+                      ),
+                      Text(
+                        "$progress / $target $unit",
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )
+                    ],
+                  ),
+
+                  const SizedBox(height: 9),
+
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    child: LinearProgressIndicator(
+                      value: progressPercentage,
+                      minHeight: 8,
+                      backgroundColor: AppColors.softCream,
+                      valueColor: AlwaysStoppedAnimation(
+                        AppColors.goldenOchre,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 21),
+
+                  /// bottom row
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+
                       Row(
                         children: [
+
+                          /// CLOCK IMAGE
                           Row(
                             children: [
-                              Icon(
-                                Icons.access_time,
-                                size: 16,
-                                color: AppColors.textDark.withValues(alpha: 0.6),
-
+                              Image.asset(
+                                "assets/icons/clock.png",
+                                width: 16,
+                                height: 16,
                               ),
                               const SizedBox(width: 6),
                               Text(
-                                '$daysLeft days left',
+                                "$daysLeft days left",
                                 style: TextStyle(
-                                color: AppColors.textDark.withValues(alpha: 0.6),
-                                fontSize: 15,
+                                  fontSize: 14,
+                                  color: AppColors.textDark.withValues(alpha: 0.6),
                                 ),
                               ),
                             ],
                           ),
+
                           const SizedBox(width: 16),
+
+                          /// PERSON IMAGE
                           Row(
                             children: [
-                              Icon(
-                                Icons.people_outline,
-                                size: 16,
-                                color: AppColors.textDark.withValues(alpha: 0.6),
+                              Image.asset(
+                                "assets/icons/red_people.png",
+                                width: 16,
+                                height: 16,
                               ),
                               const SizedBox(width: 6),
                               Text(
-                                '$participants',
+                                "$participants",
                                 style: TextStyle(
-                                  fontSize: 15,
+                                  fontSize: 14,
                                   color: AppColors.textDark.withValues(alpha: 0.6),
                                 ),
                               ),
@@ -234,7 +240,7 @@ class ChallengeCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                      // Arrow icon with space from the grouped container
+
                       Icon(
                         Icons.arrow_forward_ios,
                         size: 16,
@@ -251,4 +257,3 @@ class ChallengeCard extends StatelessWidget {
     );
   }
 }
-

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 
 class TrackCard extends StatelessWidget {
-  final String imagePath; // asset OR url OR base64(data:image...)
+  final String imagePath; 
   final String title;
   final String city;
   final String distance;
@@ -33,7 +33,7 @@ class TrackCard extends StatelessWidget {
 
  
   Widget _buildTrackImage() {
-    // 1) BASE64 image: data:image/jpeg;base64,xxxx
+  
     if (imagePath.startsWith("data:image")) {
       try {
         final base64Str = imagePath.split(",").last;
@@ -51,7 +51,7 @@ class TrackCard extends StatelessWidget {
       }
     }
 
-    // 2) NETWORK image: https://....
+ 
     if (imagePath.startsWith("http")) {
       return Image.network(
         imagePath,
@@ -62,7 +62,7 @@ class TrackCard extends StatelessWidget {
       );
     }
 
-    // 3) ASSET image fallback
+
     return Image.asset(
       imagePath,
       fit: BoxFit.cover,
@@ -104,10 +104,7 @@ class TrackCard extends StatelessWidget {
               children: [
                
                 ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                  ),
+              borderRadius: BorderRadius.circular(10),
                   child: SizedBox(
                     height: 150,
                     width: double.infinity,
@@ -130,7 +127,7 @@ class TrackCard extends StatelessWidget {
                           top: 12,
                           child: _SmallChip(
                             text: difficulty,
-                            bg: Colors.black.withValues(alpha: 0.28),
+                          bg: const Color(0x26000000),
                             fg: Colors.white,
                           ),
                         ),
@@ -141,7 +138,7 @@ class TrackCard extends StatelessWidget {
                           top: 12,
                           child: _SmallChip(
                             text: status,
-                            bg: Colors.black.withValues(alpha: 0.28),
+                    bg: const Color(0x26000000),
                             fg: Colors.white,
                           ),
                         ),
@@ -157,7 +154,7 @@ class TrackCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Location + distance row
+                    
                         Row(
                           children: [
                             const _AssetIcon(
@@ -196,7 +193,7 @@ class TrackCard extends StatelessWidget {
 
                         const SizedBox(height: 10),
 
-                        // Title
+                    
                         Text(
                           title,
                           maxLines: 2,
@@ -210,7 +207,7 @@ class TrackCard extends StatelessWidget {
 
                         const SizedBox(height: 10),
 
-                        // Subtitle
+                 
                         Text(
                           subtitle,
                           maxLines: 2,
@@ -225,7 +222,7 @@ class TrackCard extends StatelessWidget {
 
                         const Spacer(),
 
-                        // Amenities row (static)
+                      
                         const Row(
                           children: [
                             _AmenityItem(

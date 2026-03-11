@@ -15,7 +15,7 @@ class CommunityCategory {
 class CommunityCategoriesGrid extends StatelessWidget {
   final Function(String category)? onCategoryTap;
 
-  /// Backend se types list aayegi
+
   final List<String> types;
 
   const CommunityCategoriesGrid({

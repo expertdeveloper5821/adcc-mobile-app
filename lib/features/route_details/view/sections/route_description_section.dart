@@ -17,20 +17,20 @@ class RouteDescriptionSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Routes Description',
+            'Tracks Description',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: AppColors.charcoal,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 10),
           Text(
             description,
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w400,
-              color: AppColors.charcoal,
+              color: AppColors.textDark,
               height: 1.5,
             ),
           ),

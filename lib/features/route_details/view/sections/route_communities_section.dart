@@ -79,7 +79,7 @@ class _RouteCommunitiesSectionState extends State<RouteCommunitiesSection> {
                   scrollDirection: Axis.horizontal,
                   physics: const BouncingScrollPhysics(),
                   itemCount: communities.length,
-                  separatorBuilder: (_, __) => const SizedBox(width: 14),
+                  separatorBuilder: (_, __) => const SizedBox(width: 6),
                   itemBuilder: (context, index) {
                     final community = communities[index];
 
@@ -129,7 +129,7 @@ class CommunityCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 358, 
+      width: 328, 
       height: 273, 
       child: Material(
         color: Colors.transparent,
@@ -144,7 +144,7 @@ class CommunityCard extends StatelessWidget {
                 children: [
                   
                   SizedBox(
-                    width: 358,
+                    width: 328,
                     height: 178.66,
                     child: Stack(
                       children: [
@@ -169,7 +169,7 @@ class CommunityCard extends StatelessWidget {
                         // Joined chip
                         if (joined)
                           const Positioned(
-                            top: 12,
+                            top: 13,
                             left: 12,
                             child: _JoinChip(),
                           ),
@@ -194,17 +194,17 @@ class CommunityCard extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 6),
-                          Text(
-                            subtitle,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.textSecondary,
-                              height: 1.25,
-                            ),
-                          ),
+                         Text(
+  subtitle,
+  maxLines: 2,
+  overflow: TextOverflow.ellipsis,
+  style: const TextStyle(
+    fontSize: 10,
+    fontWeight: FontWeight.w400,
+    color: Color(0xB21A1C20),
+    height: 1.25,
+  ),
+),
                           const Spacer(),
 
                           // Members row

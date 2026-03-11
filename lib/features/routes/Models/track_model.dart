@@ -2,7 +2,9 @@ class TrackModel {
   final String id;
   final String title;
   final String description;
-  final String image; 
+  final String image;
+  final List<String> galleryImages;
+
   final String city;
   final String address;
   final String zipcode;
@@ -18,18 +20,25 @@ class TrackModel {
   final String difficulty;
   final int? displayPriority;
   final String estimatedTime;
+
   final bool helmetRequired;
   final bool nightRidingAllowed;
+
   final String slug;
   final String trackType;
   final String visibility;
   final String surfaceType;
+
+  final String area;
+  final String safetyNotes;
+  final List<double> loopOptions;
 
   TrackModel({
     required this.id,
     required this.title,
     required this.description,
     required this.image,
+    required this.galleryImages,
     required this.city,
     required this.address,
     required this.zipcode,
@@ -50,6 +59,9 @@ class TrackModel {
     required this.trackType,
     required this.visibility,
     required this.surfaceType,
+    required this.area,
+    required this.safetyNotes,
+    required this.loopOptions,
   });
 
   factory TrackModel.fromJson(Map<String, dynamic> json) {
@@ -58,11 +70,15 @@ class TrackModel {
       title: json["title"] ?? "",
       description: json["description"] ?? "",
       image: json["image"] ?? "",
+      galleryImages: (json["galleryImages"] as List?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          [],
       city: json["city"] ?? "",
       address: json["address"] ?? "",
       zipcode: json["zipcode"] ?? "",
       distance: json["distance"],
-      elevation: json["elevation"] ?? "",
+      elevation: json["elevation"]?.toString() ?? "",
       type: json["type"] ?? "",
       avgtime: json["avgtime"] ?? "",
       pace: json["pace"] ?? "",
@@ -81,6 +97,11 @@ class TrackModel {
       trackType: json["trackType"] ?? "",
       visibility: json["visibility"] ?? "",
       surfaceType: json["surfaceType"] ?? "",
+      area: json["area"] ?? "",
+      safetyNotes: json["safetyNotes"] ?? "",
+     loopOptions: (json["loopOptions"] as List?)
+        ?.map((e) => (e as num).toDouble())
+        .toList() ?? [],
     );
   }
 }

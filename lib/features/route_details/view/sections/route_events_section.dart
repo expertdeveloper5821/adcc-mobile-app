@@ -57,7 +57,7 @@ class RouteEventsSection extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
               itemCount: events.length,
-              separatorBuilder: (_, __) => const SizedBox(width: 14),
+              separatorBuilder: (_, __) => const SizedBox(width: 6),
               itemBuilder: (context, index) {
                 final event = events[index];
                 final isFeatured = event.category.toLowerCase().contains('featured') || event.rank <= 3;

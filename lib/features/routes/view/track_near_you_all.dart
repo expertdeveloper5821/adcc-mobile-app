@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:adcc/shared/widgets/banner_header.dart';
 import 'package:adcc/shared/widgets/category_selector.dart';
@@ -43,7 +44,7 @@ class _TrackNearAllPageState extends State<TrackNearAllPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F1E6),
+      backgroundColor: AppColors.softCream,
       body: SafeArea(
         child: FutureBuilder<List<TrackModel>>(
           future: _futureTracks,
@@ -79,7 +80,7 @@ class _TrackNearAllPageState extends State<TrackNearAllPage> {
                       Navigator.pop(context),
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 21),
 
                 CategorySelector(
                   categories: filters,
@@ -92,18 +93,18 @@ class _TrackNearAllPageState extends State<TrackNearAllPage> {
                   },
                 ),
 
-                const SizedBox(height: 14),
+                const SizedBox(height: 35),
 
                 Text(
-                  '${tracks.length} tracks found',
+                  '${tracks.length} communities found',
                   style: const TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black54,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.charcoal,
                   ),
                 ),
 
-                const SizedBox(height: 12),
+                const SizedBox(height: 24),
 
                 if (tracks.isEmpty)
                   const Center(

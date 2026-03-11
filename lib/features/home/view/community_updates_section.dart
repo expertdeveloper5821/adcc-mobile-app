@@ -1,4 +1,5 @@
 import 'package:adcc/shared/widgets/community_update_card.dart';
+import 'package:adcc/shared/widgets/section_header.dart';
 import 'package:flutter/material.dart';
 
 class CommunityUpdatesSection extends StatelessWidget {
@@ -14,23 +15,11 @@ class CommunityUpdatesSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Header
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Community updates',
-                style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: const Text('View All ›'),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 12),
+       SectionHeader(
+  title: "Community updates",
+)
+,
+          const SizedBox(height: 21),
 
           // Feed
           SizedBox(
@@ -46,7 +35,7 @@ class CommunityUpdatesSection extends StatelessWidget {
                   likes: 24,
                   caption: '🚴‍♀️ Amazing ride today!...',
                 ),
-                SizedBox(width: 16),
+                SizedBox(width: 6),
                  CommunityUpdateCard(
                   profileImage: 'assets/images/profile_sara.png',
                   name: 'Sara Al Ketbi',

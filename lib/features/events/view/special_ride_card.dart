@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/event_details/view/event_details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class SpecialRideCard extends StatelessWidget {
   static const double _cardHeight = 400;
@@ -44,7 +45,7 @@ class SpecialRideCard extends StatelessWidget {
     this.onShare,
     this.onTap,
     this.onOpen,
-    this.width = 350,
+    this.width =328,
   });
 
   bool get _isNetworkImage =>
@@ -165,7 +166,7 @@ final id = eventId ?? "";
         width: width,
         height: _cardHeight,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(8),
           child: Stack(
             children: [
              
@@ -217,11 +218,11 @@ final id = eventId ?? "";
                   ),
                 ),
               ),
-
+                  
               /// Bottom Info Card (Exact)
               Positioned(
-                left: 15,
-                right: 15,
+                left: 5,
+                right: 5,
                 bottom: 14,
                 child: SizedBox(
                   height: 128,
@@ -249,13 +250,36 @@ final id = eventId ?? "";
 
                             const SizedBox(width: 6),
 
-                            /// City chip
+                         
                             _chip(
                               text: cityText.isEmpty ? "Abu Dhabi" : cityText,
                               bg: const Color(0xFF3EE606).withValues(alpha: 0.33),
                               fg: const Color(0xFF328700),
                             ),
-
+                           const SizedBox(width: 6),
+Positioned(
+  left: 12,
+  top: 40, 
+  child: Container(
+    height: 20,
+    padding: const EdgeInsets.fromLTRB(11, 4, 11, 3),
+    decoration: BoxDecoration(
+      color: const Color(0x54C12D32), 
+      borderRadius: BorderRadius.circular(6),
+    ),
+    child: const Center(
+      child: Text(
+        "AED 200",
+        style: TextStyle(
+          fontSize: 9.9,
+          fontWeight: FontWeight.w600,
+          height: 1,
+          color: Color(0xFFC12D32),
+        ),
+      ),
+    ),
+  ),
+),
                             if (groupName != null &&
                                 groupName!.trim().isNotEmpty)
                               const SizedBox(width: 6),
@@ -295,70 +319,93 @@ final id = eventId ?? "";
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                            fontSize: 14.8,
-                            fontWeight: FontWeight.w800,
-                            color: AppColors.deepRed,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.charcoal,
                           ),
                         ),
 
                         const SizedBox(height: 8),
+/// Row: Date + Time + KM
+Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
 
-                        /// Row: Date + Time + KM
-                        Row(
-                          children: [
-                            const Icon(Icons.calendar_month_outlined,
-                                size: 14, color: Colors.black87),
-                            const SizedBox(width: 6),
-                            Expanded(
-                              child: Text(
-                                date,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 11.5,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black87,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            const Icon(Icons.access_time_filled_outlined,
-                                size: 14, color: Colors.black87),
-                            const SizedBox(width: 6),
-                            Text(
-                              (time ?? "5:30 AM"),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                fontSize: 11.5,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.black87,
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            const Icon(Icons.merge_type_rounded,
-                                size: 14, color: Colors.black87),
-                            const SizedBox(width: 6),
-                            Text(
-                              (distance ?? "42 km"),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                fontSize: 11.5,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.black87,
-                              ),
-                            ),
-                          ],
-                        ),
+    /// DATE
+    Row(
+      children: [
+        Image.asset(
+          "assets/icons/lighting.png",
+          height: 14,
+          width: 14,
+          color: Color(0XFF595959),
+        ),
+        const SizedBox(width: 6),
+        Text(
+          date,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+            fontSize: 11.5,
+            fontWeight: FontWeight.w400,
+          color: Color(0XFF484A4D),
+          ),
+        ),
+      ],
+    ),
 
+    /// TIME
+    Row(
+      children: [
+        const Icon(
+          Icons.access_time_filled_outlined,
+          size: 14,
+          color: Color(0XFF484A4D),
+        ),
+        const SizedBox(width: 6),
+        Text(
+          (time ?? "5:30 AM"),
+          style: const TextStyle(
+            fontSize: 11.5,
+            fontWeight: FontWeight.w400,
+             color: Color(0XFF484A4D),
+          ),
+        ),
+      ],
+    ),
+
+   
+Padding(
+  padding: const EdgeInsets.only(right: 16), 
+  child: Row(
+    children: [
+      Image.asset(
+        "assets/icons/km_fill.png",
+        height: 14,
+        width: 14,
+         color: Color(0XFF595959),
+      ),
+      const SizedBox(width: 6),
+     Text(
+  "${distance ?? "42"} km",
+  style: const TextStyle(
+    fontSize: 11.5,
+    fontWeight: FontWeight.w700,
+     color: Color(0XFF484A4D),
+  ),
+),
+    ],
+  ),
+),
+  ],
+),
                         const SizedBox(height: 8),
 
                         /// Row: Location + Venue
                         Row(
                           children: [
                             const Icon(Icons.location_on,
-                                size: 14, color: Colors.black87),
+                                size: 14,  color: Color(0XFF595959),),
                             const SizedBox(width: 6),
                             Expanded(
                               child: Text(
@@ -368,13 +415,17 @@ final id = eventId ?? "";
                                 style: const TextStyle(
                                   fontSize: 11.5,
                                   fontWeight: FontWeight.w700,
-                                  color: Colors.black87,
+                                   color: Color(0XFF484A4D),
                                 ),
                               ),
                             ),
                             const SizedBox(width: 10),
-                            const Icon(Icons.route,
-                                size: 14, color: Colors.black87),
+                          Image.asset(
+  "assets/icons/routes_icons.png",
+  height: 14,
+  width: 14,
+    color: Color(0XFF484A4D),
+),
                             const SizedBox(width: 6),
                             Expanded(
                               child: Text(
@@ -384,7 +435,7 @@ final id = eventId ?? "";
                                 style: const TextStyle(
                                   fontSize: 11.5,
                                   fontWeight: FontWeight.w700,
-                                  color: Colors.black87,
+                                   color: Color(0XFF484A4D),
                                 ),
                               ),
                             ),

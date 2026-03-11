@@ -139,34 +139,40 @@ class PurposeBasedEventCard extends StatelessWidget {
               _buildImage(),
 
              
-              Positioned(
-                top: 16,
-                left: 16,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(39602500), 
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color.fromRGBO(26, 28, 32, 0.33), 
-                        borderRadius: BorderRadius.circular(39602500), 
-                      ),
-                      child: Text(
-                        groupName,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+             Positioned(
+  top: 13,
+left: 12,
+  child: ClipRRect(
+    borderRadius: BorderRadius.circular(999),
+    child: BackdropFilter(
+      filter: ImageFilter.blur(
+        sigmaX: 10,
+        sigmaY: 10,
+      ),
+      child: Container(
+        width: 150,
+        height: 24,
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.fromLTRB(6, 4, 4, 4),
+        decoration: BoxDecoration(
+          color: const Color(0xFF1A1C20).withOpacity(0.33),
+          borderRadius: BorderRadius.circular(999),
+        ),
+        child: Center(
+          child: Text(
+            groupName,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              color: Color(0xFFFFEFD7),
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ),
+      ),
+    ),
+  ),
+),
 
               Positioned(
                 left: 0,

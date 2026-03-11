@@ -24,26 +24,31 @@ class ChallengeProgressSection extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        width: 358,
+        height: 158,
+        padding: const EdgeInsets.fromLTRB(19, 22, 19, 20),
         decoration: BoxDecoration(
-          color: AppColors.buttonGuest,
-          borderRadius: BorderRadius.circular(12),
+          color: const Color(0xFFF0DDAF),
+          borderRadius: BorderRadius.circular(8),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Title at the top (centered)
+
+            /// TITLE ROW
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Icon(
-                  Icons.public,
-                  size: 20,
+                Image.asset(
+                  "assets/icons/achive.png",
+                  width: 19.99,
+                  height: 19.99,
                   color: AppColors.charcoal,
                 ),
+
                 const SizedBox(width: 8),
+
                 const Text(
-                  'Your Progress',
+                  "Your Progress",
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
@@ -52,20 +57,22 @@ class ChallengeProgressSection extends StatelessWidget {
                 ),
               ],
             ),
+
             const SizedBox(height: 16),
-            // Label and numbers row
+
+            /// PROGRESS LABEL + VALUE
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
-                  'Your Progress',
+                  "Your Progress",
                   style: TextStyle(
                     fontSize: 14,
                     color: AppColors.charcoal,
                   ),
                 ),
                 Text(
-                  '$progress / $target $unit',
+                  "$progress / $target $unit",
                   style: const TextStyle(
                     fontSize: 14,
                     color: AppColors.charcoal,
@@ -73,24 +80,28 @@ class ChallengeProgressSection extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-            // Progress bar
+
+            const SizedBox(height: 12),
+
+            /// PROGRESS BAR
             ClipRRect(
               borderRadius: BorderRadius.circular(4),
               child: LinearProgressIndicator(
                 value: progressPercentage,
                 minHeight: 8,
-                backgroundColor: AppColors.softCream,
-                valueColor: AlwaysStoppedAnimation<Color>(
+                backgroundColor: Colors.white.withValues(alpha: 0.7),
+                valueColor: const AlwaysStoppedAnimation(
                   AppColors.goldenOchre,
                 ),
               ),
             ),
+
             const SizedBox(height: 12),
-            // Remaining text
+
+            /// REMAINING TEXT
             Text(
-              '$percentage% to go • $remaining $unit remaining',
-              style: TextStyle(
+              "$percentage% to go • $remaining $unit remaining",
+              style: const TextStyle(
                 fontSize: 14,
                 color: AppColors.charcoal,
               ),
@@ -101,4 +112,3 @@ class ChallengeProgressSection extends StatelessWidget {
     );
   }
 }
-

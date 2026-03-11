@@ -20,7 +20,7 @@ class AcceptedNewBadgeSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Color(0XFFFFFFFFFC),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -63,6 +63,8 @@ class AcceptedNewBadgeSection extends StatelessWidget {
                       ),
                       child: SvgPicture.asset(
                         'assets/svg/win_badge.svg',
+                        height: 30,
+                        width: 30,
                          fit: BoxFit.contain,
                       ),
                     ),
@@ -83,7 +85,7 @@ class AcceptedNewBadgeSection extends StatelessWidget {
                 Text(
                   badgeName,
                   style: const TextStyle(
-                    fontSize: 12,
+                    fontSize: 11,
                     color: AppColors.charcoal,
                   ),
                 ),
@@ -92,7 +94,7 @@ class AcceptedNewBadgeSection extends StatelessWidget {
                 Text(
                   badgeDescription,
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 11,
                     color: AppColors.charcoal.withValues(alpha: 0.7),
                   ),
                 ),

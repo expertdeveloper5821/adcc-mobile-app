@@ -28,7 +28,7 @@ class _ExploreByCitySectionState
         _tracksService.getAllTracks();
   }
 
-  /// 🔥 GROUP TRACKS BY CITY
+
   Map<String, int> _groupTracksByCity(
       List<TrackModel> tracks) {
     final Map<String, int> cityCount =
@@ -48,7 +48,7 @@ class _ExploreByCitySectionState
     return cityCount;
   }
 
-  /// 🔥 CITY IMAGE MAPPING (KEEP SAME SVGs)
+
   String _getCityImage(String city) {
     switch (city.toLowerCase()) {
       case 'abu dhabi':

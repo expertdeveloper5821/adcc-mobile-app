@@ -1,7 +1,7 @@
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/communities/models/community_model.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:ui';
 class CommunityListCard extends StatelessWidget {
   final CommunityModel community;
   final VoidCallback? onTap;
@@ -55,30 +55,45 @@ class CommunityListCard extends StatelessWidget {
                       ),
 
                     
-                      Positioned(
-                        left: 12,
-                        top: 12,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 5,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withValues(alpha: 0.35),
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                          child: Text(
-                            community.category.isNotEmpty
-                                ? community.category.first
-                                : "Racing",
-                            style: const TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
+
+Positioned(
+  left: 12,
+  top: 13,
+  child: ClipRRect(
+    borderRadius: BorderRadius.circular(100),
+    child: BackdropFilter(
+      filter: ImageFilter.blur(
+        sigmaX: 10,
+        sigmaY: 10,
+      ),
+      child: Container(
+        height: 24,
+        constraints: const BoxConstraints(minWidth: 60),
+        padding: const EdgeInsets.only(
+          top: 4,
+          right: 11,
+          bottom: 4,
+          left: 12,
+        ),
+        decoration: BoxDecoration(
+          color: const Color(0xFF1A1C20).withOpacity(0.33),
+          borderRadius: BorderRadius.circular(100),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          community.category.isNotEmpty
+              ? community.category.first
+              : "Racing",
+          style: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w400,
+            color: Color(0xFFFFEFD7),
+          ),
+        ),
+      ),
+    ),
+  ),
+)
                     ],
                   ),
                 ),
@@ -86,7 +101,7 @@ class CommunityListCard extends StatelessWidget {
 
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(14, 10, 14, 10),
+                    padding: const EdgeInsets.fromLTRB(14, 13, 14, 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -96,14 +111,14 @@ class CommunityListCard extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                            fontSize: 15.5,
-                            fontWeight: FontWeight.w900,
-                            color: AppColors.charcoal,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.textDark,
                             height: 1.1,
                           ),
                         ),
 
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 5),
 
                
                         Text(
@@ -111,62 +126,57 @@ class CommunityListCard extends StatelessWidget {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontSize: 11.5,
-                            fontWeight: FontWeight.w700,
-                            height: 1.25,
-                            color: AppColors.charcoal.withValues(alpha: 0.55),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            height: 1.2,
+                            color: AppColors.charcoal.withValues(alpha: 0.70),
                           ),
                         ),
 
                         const Spacer(),
 
 
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.people_alt_outlined,
-                              size: 15,
-                              color:
-                                  AppColors.charcoal.withValues(alpha: 0.70),
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              '${community.membersCount ?? 0} members',
-                              style: TextStyle(
-                                fontSize: 11.5,
-                                fontWeight: FontWeight.w800,
-                                color: AppColors.charcoal.withValues(
-                                  alpha: 0.70,
-                                ),
-                              ),
-                            ),
+                      Row(
+  children: [
+    Image.asset(
+      "assets/icons/person_sharp.png",
+      width: 15,
+      height: 15,
+      color: AppColors.charcoal.withValues(alpha: 0.70),
+    ),
+    const SizedBox(width: 6),
+    Text(
+      '${community.membersCount ?? 0} members',
+      style: TextStyle(
+        fontSize: 11.5,
+        fontWeight: FontWeight.w800,
+        color: AppColors.charcoal.withValues(alpha: 0.70),
+      ),
+    ),
 
-                            const SizedBox(width: 14),
+    const SizedBox(width: 14),
 
-                            Icon(
-                              Icons.calendar_month_outlined,
-                              size: 15,
-                              color:
-                                  AppColors.charcoal.withValues(alpha: 0.70),
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              '${community.eventsCount ?? 0} events',
-                              style: TextStyle(
-                                fontSize: 11.5,
-                                fontWeight: FontWeight.w800,
-                                color: AppColors.charcoal.withValues(
-                                  alpha: 0.70,
-                                ),
-                              ),
-                            ),
+    Image.asset(
+      "assets/icons/calender.png",
+      width: 15,
+      height: 15,
+      color: AppColors.charcoal.withValues(alpha: 0.70),
+    ),
+    const SizedBox(width: 6),
+    Text(
+      '${community.eventsCount ?? 0} events',
+      style: TextStyle(
+        fontSize: 11.5,
+        fontWeight: FontWeight.w800,
+        color: AppColors.charcoal.withValues(alpha: 0.70),
+      ),
+    ),
 
-                            const Spacer(),
+    const Spacer(),
 
-
-                            const _AvatarStack(countText: "+456"),
-                          ],
-                        ),
+    const _AvatarStack(countText: "+456"),
+  ],
+)
                       ],
                     ),
                   ),
@@ -192,8 +202,8 @@ class _AvatarStack extends StatelessWidget {
     return Row(
       children: [
         SizedBox(
-          width: 46,
-          height: 22,
+          width: 55,
+          height: 25,
           child: Stack(
             children: const [
               _AvatarCircle(left: 0, imagePath: "assets/images/cycling_1.png"),
@@ -206,9 +216,9 @@ class _AvatarStack extends StatelessWidget {
         Text(
           countText,
           style: TextStyle(
-            fontSize: 11.5,
-            fontWeight: FontWeight.w900,
-            color: AppColors.charcoal.withValues(alpha: 0.75),
+            fontSize: 12,
+            fontWeight: FontWeight.w400,
+            color: Color(0XFF484A4D),
           ),
         ),
       ],
@@ -230,12 +240,9 @@ class _AvatarCircle extends StatelessWidget {
     return Positioned(
       left: left,
       child: Container(
-        height: 22,
-        width: 22,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(color: AppColors.dustyRose, width: 2),
-        ),
+        height: 25,
+        width: 25,
+       
         child: ClipOval(
           child: Image.asset(
             imagePath,

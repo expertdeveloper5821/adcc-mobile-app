@@ -11,10 +11,10 @@ class AcceptedAchievementsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Achievements Unlocked',
           style: TextStyle(
             fontSize: 20,
@@ -22,17 +22,21 @@ class AcceptedAchievementsSection extends StatelessWidget {
             color: AppColors.charcoal,
           ),
         ),
-        const SizedBox(height: 12),
+
+        SizedBox(height: 20),
+
         _AchievementCard(
-          icon: Icons.emoji_events_outlined,
-            title: 'Distance Champion Badge',
+          title: 'Distance Champion Badge',
           subtitle: 'Earned today',
+          imagePath: 'assets/icons/trophy.png',
         ),
-        const SizedBox(height: 12),
+
+        SizedBox(height: 12),
+
         _AchievementCard(
-          icon: Icons.trending_up_outlined,
           title: '+100 Reward Points',
           subtitle: 'Added to your account',
+          imagePath: 'assets/icons/gain.png',
         ),
       ],
     );
@@ -40,12 +44,12 @@ class AcceptedAchievementsSection extends StatelessWidget {
 }
 
 class _AchievementCard extends StatelessWidget {
-  final IconData icon;
+  final String imagePath;
   final String title;
   final String subtitle;
 
   const _AchievementCard({
-    required this.icon,
+    required this.imagePath,
     required this.title,
     required this.subtitle,
   });
@@ -53,14 +57,15 @@ class _AchievementCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      width: 357,
+      height: 88,
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
         color: AppColors.dustyRose,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
         children: [
-          // Golden yellow square icon container
           Container(
             width: 64,
             height: 64,
@@ -68,31 +73,40 @@ class _AchievementCard extends StatelessWidget {
               color: AppColors.goldenOchre,
               borderRadius: BorderRadius.circular(18),
             ),
-            child: Icon(
-              icon,
-              color: Colors.white,
-              size: 32,
+            child: Center(
+              child: Image.asset(
+                imagePath,
+                width: 32,
+                height: 32,
+                fit: BoxFit.contain,
+              ),
             ),
           ),
+
           const SizedBox(width: 12),
+
           Expanded(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
                   style: const TextStyle(
                     fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.charcoal,
+                    fontWeight: FontWeight.w500,
+                    color:Color(0XFF101828),
                   ),
                 ),
+
                 const SizedBox(height: 4),
+
                 Text(
                   subtitle,
                   style: TextStyle(
                     fontSize: 14,
-                    color: AppColors.charcoal.withValues(alpha: 0.7),
+                     fontWeight: FontWeight.w500,
+                    color: AppColors.charcoal.withOpacity(0.7),
                   ),
                 ),
               ],

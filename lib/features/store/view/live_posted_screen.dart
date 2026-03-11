@@ -9,27 +9,36 @@ class LivePostedScreen extends StatelessWidget {
   final String? price;
   final String? imagePath;
 
-  const LivePostedScreen({Key? key, this.title, this.price, this.imagePath}) : super(key: key);
+  const LivePostedScreen({
+    super.key,
+    this.title,
+    this.price,
+    this.imagePath,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.softCream,
+
+      /// APPBAR
       appBar: AppBar(
         backgroundColor: AppColors.softCream,
         elevation: 0,
-        leading: Align(
-          alignment: Alignment.center,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 16),
           child: InkWell(
-            onTap: Navigator.of(context).canPop()
-                ? () => Navigator.of(context).pop()
-                : null,
-            borderRadius: BorderRadius.circular(999),
+            borderRadius: BorderRadius.circular(50),
+            onTap: () {
+              if (Navigator.of(context).canPop()) {
+                Navigator.pop(context);
+              }
+            },
             child: Container(
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: AppColors.deepRed.withValues(alpha: 0.1),
+                color: AppColors.deepRed.withValues(alpha: 0.3),
                 shape: BoxShape.circle,
               ),
               child: const Icon(
@@ -41,143 +50,132 @@ class LivePostedScreen extends StatelessWidget {
           ),
         ),
       ),
+
       body: SafeArea(
         child: Stack(
           children: [
-            // Decorative red ring positioned behind the card
+
+            /// FRAME IMAGE (NO PADDING)
             Positioned(
-              left: -120,
-              top: 160,
-              child: Container(
-                width: 220,
-                height: 220,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: AppColors.deepRed,
-                    width: 18,
-                  ),
-                ),
+               left: -32,
+              top: 172,
+              child: Image.asset(
+                "assets/images/frame_1.png",
+                width: 135,
+                fit: BoxFit.contain,
               ),
             ),
-            // Overlay to hide the bottom half of the ring so only the top border shows
-            Positioned(
-              left: -120,
-              top: 270,
-              child: Container(
-                width: 220,
-                height: 110, 
-                color: AppColors.softCream,
-              ),
-            ),
+
+            /// MAIN CONTENT
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 12),
-                  // decorative circle
-                  Center(
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Container(
-                          width: 110,
-                          height: 110,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.charcoal.withValues(alpha: 0.04),
-                                blurRadius: 12,
-                              ),
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                          left: 18,
-                          top: 18,
-                          child: Container(
-                            width: 18,
-                            height: 18,
-                            decoration: const BoxDecoration(
-                              color: AppColors.deepRed,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 12),
+
+                  /// TOP DECORATIVE CIRCLE
+                 Center(
+  child: ClipRRect(
+    borderRadius: BorderRadius.circular(55),
+    child: Image.asset(
+      "assets/icons/checkmark.gif",
+      width: 110,
+      height: 110,
+      fit: BoxFit.cover,
+    ),
+  ),
+),
+
+                  const SizedBox(height: 16),
+
+                  /// TITLE
                   const Text(
-                    'Your item is live',
+                    "Your item is live",
                     style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.textDark,
+                      fontSize: 30,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.charcoal,
                     ),
                     textAlign: TextAlign.center,
                   ),
+
                   const SizedBox(height: 8),
+
                   Text(
-                    'You have successfully posted listing',
+                    "You have successfully\nposted listing",
                     style: TextStyle(
                       fontSize: 14,
+                      height: 1.4,
+                      fontWeight: FontWeight.w400,
                       color: AppColors.textDark.withValues(alpha: 0.6),
                     ),
                     textAlign: TextAlign.center,
                   ),
 
-                  const SizedBox(height: 34),
+                  const SizedBox(height: 24),
 
-                  // Listing card
+                  /// LISTING CARD
                   Container(
-                    width: double.infinity,
+                    width: 357,
+                    height: 135,
+                    padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
-                      color: AppColors.lightPeach,
-                      borderRadius: BorderRadius.circular(14),
+                      color: const Color(0xFFFFDDA8),
+                      borderRadius: BorderRadius.circular(20.7),
+                      border: Border.all(
+                        color: const Color(0xFFFFDDA8),
+                        width: 1.5,
+                      ),
                     ),
-                    padding: const EdgeInsets.all(12),
                     child: Row(
                       children: [
+
+                        /// IMAGE
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(12),
                           child: AdaptiveImage(
-                            imagePath: imagePath ?? 'assets/images/cycling_1.png',
-                            width: 72,
-                            height: 64,
+                            imagePath: imagePath ?? "assets/images/cycling_1.png",
+                            width: 100.5,
+                            height: 110,
                             fit: BoxFit.cover,
-                            placeholderColor: AppColors.charcoal.withValues(alpha: 0.06),
                           ),
                         ),
-                        const SizedBox(width: 12),
+
+                        const SizedBox(width: 16),
+
+               
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+
                               Text(
-                                title ?? 'Untitled',
+                                title ?? "Untitled",
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
                                   color: AppColors.textDark,
                                 ),
                               ),
+
                               const SizedBox(height: 6),
+
                               Text(
-                                price ?? '',
+                                price ?? "",
                                 style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.deepRed,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.charcoal,
                                 ),
                               ),
+
                               const SizedBox(height: 6),
+
                               Text(
-                                'Posted by 2mins ago',
+                                "Posted by 2mins ago",
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: AppColors.textDark.withValues(alpha: 0.6),
@@ -192,14 +190,21 @@ class LivePostedScreen extends StatelessWidget {
 
                   const Spacer(),
 
+                
                   SizedBox(
                     width: double.infinity,
                     child: AppButton(
-                      label: 'View Listing',
-                      onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => ListingsScreen(imagePath: imagePath)),
-                      ),
+                      label: "View Listing",
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => ListingsScreen(
+                              imagePath: imagePath,
+                            ),
+                          ),
+                        );
+                      },
                       type: AppButtonType.primary,
                       backgroundColor: AppColors.deepRed,
                       textColor: Colors.white,
@@ -210,9 +215,12 @@ class LivePostedScreen extends StatelessWidget {
 
                   const SizedBox(height: 12),
 
+             
                   AppButton(
-                    label: 'Post Another Item',
-                    onPressed: () => Navigator.pop(context),
+                    label: "Post Another Item",
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     backgroundColor: Colors.white,
                     borderColor: AppColors.deepRed,
                     textColor: AppColors.deepRed,

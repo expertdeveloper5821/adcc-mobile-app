@@ -101,7 +101,7 @@ class _ChallengeAcceptedScreenState extends State<ChallengeAcceptedScreen> {
                         AcceptedHeaderSection(
                           challengeTitle: widget.challengeTitle,
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 22),
                         AcceptedRatingSection(
                           selectedRating: _selectedRating,
                           onRatingChanged: (rating) {
@@ -111,7 +111,7 @@ class _ChallengeAcceptedScreenState extends State<ChallengeAcceptedScreen> {
                           },
                         ),
 
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 38),
 
                         // Difficulty Feedback
                         AcceptedDifficultySection(
@@ -127,9 +127,9 @@ class _ChallengeAcceptedScreenState extends State<ChallengeAcceptedScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 40),
 
-                  // Enjoyment Feedback
+   
                   AcceptedEnjoymentSection(
                     selectedEnjoyments: _selectedEnjoyments,
                     onEnjoymentToggled: (enjoyment) {
@@ -143,21 +143,21 @@ class _ChallengeAcceptedScreenState extends State<ChallengeAcceptedScreen> {
                     },
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 40),
 
                   // Additional Thoughts
                   AcceptedThoughtsSection(
                     controller: _thoughtsController,
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 40),
 
                   // Achievements Unlocked
                   AcceptedAchievementsSection(
                     challengeTitle: widget.challengeTitle,
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 40),
 
                   // New Badge Earned
                   AcceptedNewBadgeSection(
@@ -166,7 +166,7 @@ class _ChallengeAcceptedScreenState extends State<ChallengeAcceptedScreen> {
                     imagePath: 'assets/images/cycling_1.png',
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 25),
 
                   // Action Buttons
                   AcceptedActionsSection(
@@ -182,7 +182,7 @@ class _ChallengeAcceptedScreenState extends State<ChallengeAcceptedScreen> {
                     },
                   ),
 
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 80),
                 ],
               ),
             ),

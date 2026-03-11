@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/routes/Models/track_model.dart';
 import 'package:adcc/features/routes/services/tracks_services.dart';
 import 'package:adcc/features/route_details/view/route_details_screen.dart';
@@ -43,11 +44,11 @@ class _CityTracksPageState
         _tracksService.getAllTracks();
   }
 
-  /// 🔥 FILTER FUNCTION
+
   List<TrackModel> _applyFilters(
       List<TrackModel> tracks) {
     return tracks.where((t) {
-      /// 1️⃣ CITY MATCH
+
       final cityMatch = t.city
           .toLowerCase()
           .trim() ==
@@ -55,7 +56,7 @@ class _CityTracksPageState
               .toLowerCase()
               .trim();
 
-      /// 2️⃣ STATUS MATCH
+   
       final statusMatch =
           selectedFilterIndex == 0 ||
               t.status.toLowerCase() ==
@@ -69,8 +70,7 @@ class _CityTracksPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:
-          const Color(0xFFF7F1E6),
+ backgroundColor: AppColors.softCream,
       body: SafeArea(
         child:
             FutureBuilder<List<TrackModel>>(
@@ -104,7 +104,6 @@ class _CityTracksPageState
               children: [
                 const SizedBox(height: 6),
 
-                /// 🔹 Banner
                 BannerHeadder(
                   imagePath:
                       'assets/images/cycling_1.png',
@@ -116,9 +115,9 @@ class _CityTracksPageState
                       Navigator.pop(context),
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 21),
 
-                /// 🔹 Filter Pills
+              
                 CategorySelector(
                   categories: filters,
                   selectedIndex:
@@ -131,23 +130,23 @@ class _CityTracksPageState
                   },
                 ),
 
-                const SizedBox(height: 14),
+                const SizedBox(height: 35),
 
-                /// 🔹 Dynamic Count
+             
                 Text(
-                  '${tracks.length} tracks found',
+                  '${tracks.length} communities found',
                   style: const TextStyle(
-                    fontSize: 13,
+                    fontSize: 15,
                     fontWeight:
-                        FontWeight.w700,
+                        FontWeight.w500,
                     color:
-                        Colors.black54,
+                        AppColors.charcoal,
                   ),
                 ),
 
-                const SizedBox(height: 12),
+                const SizedBox(height: 24),
 
-                /// 🔹 Empty State
+            
                 if (tracks.isEmpty)
                   const Padding(
                     padding:
@@ -162,7 +161,7 @@ class _CityTracksPageState
                     ),
                   ),
 
-                /// 🔹 Track List
+        
                 ...tracks.map(
                   (t) => Padding(
                     padding:

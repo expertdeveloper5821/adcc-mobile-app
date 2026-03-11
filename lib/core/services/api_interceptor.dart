@@ -23,16 +23,22 @@ class ApiInterceptor extends Interceptor {
     RequestInterceptorHandler handler,
   ) async {
     try {
-      final accessToken = await TokenStorageService.getAccessToken();
+    final accessToken = await TokenStorageService.getAccessToken();
 
-      final isRefreshApi = options.path.contains("/v1/auth/refresh");
 
-      if (!isRefreshApi) {
-        if (accessToken != null && accessToken.isNotEmpty) {
-          options.headers['Authorization'] = "Bearer $accessToken";
-        }
-      }
 
+final isRefreshApi = options.path.contains("/v1/auth/refresh");
+
+if (!isRefreshApi) {
+  if (accessToken != null && accessToken.isNotEmpty) {
+    options.headers['Authorization'] = "Bearer $accessToken";
+
+  } else {
+
+  }
+}
+
+print(" Headers: ${options.headers}");
       options.headers['Content-Type'] =
           options.headers['Content-Type'] ?? 'application/json';
       options.headers['Accept'] =
@@ -49,7 +55,9 @@ class ApiInterceptor extends Interceptor {
     Response response,
     ResponseInterceptorHandler handler,
   ) {
-    handler.next(response);
+
+
+handler.next(response);
   }
 
   @override
@@ -132,8 +140,8 @@ class ApiInterceptor extends Interceptor {
       final dio = Dio(
         BaseOptions(
           baseUrl: "https://adcc-b4f3.onrender.com",
-          connectTimeout: const Duration(seconds: 30),
-          receiveTimeout: const Duration(seconds: 30),
+          connectTimeout: const Duration(seconds: 60),
+          receiveTimeout: const Duration(seconds: 60),
           headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
@@ -188,8 +196,8 @@ class ApiInterceptor extends Interceptor {
       final dio = Dio(
         BaseOptions(
           baseUrl: requestOptions.baseUrl,
-          connectTimeout: const Duration(seconds: 30),
-          receiveTimeout: const Duration(seconds: 30),
+          connectTimeout: const Duration(seconds: 60),
+          receiveTimeout: const Duration(seconds: 60),
           headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
@@ -229,9 +237,9 @@ class ApiInterceptor extends Interceptor {
           BaseOptions(
             baseUrl: requestOptions.baseUrl,
             connectTimeout:
-                const Duration(seconds: 30),
+                const Duration(seconds: 60),
             receiveTimeout:
-                const Duration(seconds: 30),
+                const Duration(seconds: 60),
             headers: {
               "Content-Type": "application/json",
               "Accept": "application/json",

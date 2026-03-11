@@ -154,7 +154,7 @@ class _OfficialCyclingTracksSectionState
                   Image.asset(
                     imagePath,
                     width:157,
-                    height: 161,
+                    height: 155,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return Container(
@@ -190,133 +190,136 @@ class _OfficialCyclingTracksSectionState
               ),
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: 6),
 
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        title,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textDark,
+           Expanded(
+  child: Padding(
+    padding: const EdgeInsets.only(right: 6),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          title,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textDark,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 8),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Flexible(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  date,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: AppColors.charcoal,
+                        const SizedBox(height: 8),
+              
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    date,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: AppColors.charcoal,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  time,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: AppColors.charcoal,
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    time,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: AppColors.charcoal,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(width: 4),
-                          Flexible(
-                            child: Text(
-                              riders,
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.charcoal,
+                                ],
                               ),
-                              textAlign: TextAlign.right,
                             ),
-                          ),
-                        ],
+                            const SizedBox(width: 4),
+                            Flexible(
+                              child: Text(
+                                riders,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.charcoal,
+                                ),
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                const SizedBox(height: 12),
+                    Align(
+                alignment: Alignment.centerLeft,
+                child: SizedBox(
+                  width: 93,
+                  height: 30,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+              builder: (context) => RouteDetailsScreen(
+                routeData: {
+                  'image': imagePath,
+                  'title': title,
+                  'date': date,
+                  'time': time,
+                  'riders': riders,
+                  'tag': tag,
+                },
+              ),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.deepRed,
+                      foregroundColor: Colors.white,
+              
+                     
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 7,
                       ),
-                    ],
+              
+                
+                      
+              
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(9.12),
+                      ),
+              
+              
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      elevation: 0, 
+                    ),
+                    child: const FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  'View Tracks',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    height: 1,
+                    color: Color(0XFFFFF4E3)
                   ),
-
-                  Align(
-  alignment: Alignment.centerLeft,
-  child: SizedBox(
-    width: 93,
-    height: 30,
-    child: ElevatedButton(
-      onPressed: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => RouteDetailsScreen(
-              routeData: {
-                'image': imagePath,
-                'title': title,
-                'date': date,
-                'time': time,
-                'riders': riders,
-                'tag': tag,
-              },
-            ),
-          ),
-        );
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.deepRed,
-        foregroundColor: Colors.white,
-
-       
-        padding: const EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: 7,
-        ),
-
-  
-        side: const BorderSide(
-          color: Colors.white,
-          width: 1.24,
-        ),
-
-
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(9.12),
-        ),
-
-
-        minimumSize: Size.zero,
-        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        elevation: 0, 
-      ),
-      child: const Text(
-        'View Track',
-        style: TextStyle(
-          fontSize: 13,
-          fontWeight: FontWeight.w600,
-          height: 1, 
-        ),
-      ),
-    ),
-  ),
-)
-                ],
+                ),
+              ),
+                  ),
+                ),
+              )
+                  ],
+                ),
               ),
             ),
           ],
