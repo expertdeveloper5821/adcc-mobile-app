@@ -84,80 +84,81 @@ class UpcomingEventCard extends StatelessWidget {
             ),
           ),
 
-          /// INFO CARD
-          Positioned(
-            left: 15,
-            right: 15,
-            bottom: 15,
-            child: Container(
-              width: 328,
-              height: 100,
-              padding: const EdgeInsets.fromLTRB(15, 9, 15, 12),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+         Positioned(
+  left: 15,
+  right: 15,
+  top: 160,
+  child: Container(
+    width: 328,
+    height: 100,
+    padding: const EdgeInsets.fromLTRB(
+      15, 
+      9, 
+      15, 
+      12, 
+    ),
+    decoration: BoxDecoration(
+      color: const Color(0xFFFFF9EF), // #FFF9EF
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
 
-                  /// SOCIAL BADGE
-                  Container(
-                    width: 62,
-                    height: 24,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: const Color(0xffC12D32),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Text(
-                      event.type,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 8),
-
-                  /// TITLE
-                  Text(
-                    event.title,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-
-                  const SizedBox(height: 1),
-
-                  /// DAY ROW
-                  Row(
-                    children: [
-
-                      Image.asset(
-                        "assets/icons/calender.png",
-                        height: 16,
-                        width: 16,
-                      ),
-
-                      const SizedBox(width: 2),
-
-                      Text(
-                        event.day,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.black87,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+        /// SOCIAL BADGE
+        Container(
+          width: 62,
+          height: 24,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: const Color(0xffC12D32),
+            borderRadius: BorderRadius.circular(6),
+          ),
+          child: Text(
+            event.type,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
             ),
           ),
+        ),
+
+        const SizedBox(height: 8),
+
+        /// TITLE
+        Text(
+          event.title,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+
+        const SizedBox(height: 2),
+
+        /// DAY ROW
+        Row(
+          children: [
+            Image.asset(
+              "assets/icons/calender.png",
+              height: 16,
+              width: 16,
+            ),
+            const SizedBox(width: 4),
+            Text(
+              event.day,
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.black87,
+              ),
+            ),
+          ],
+        ),
+      ],
+    ),
+  ),
+)
         ],
       ),
     );

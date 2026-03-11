@@ -11,13 +11,7 @@ class AchievementsSection extends StatelessWidget {
         decoration: BoxDecoration(
           color: const Color(0xFFD4AA27),
           borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
+          
         ),
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 20),
         child: Column(
@@ -112,12 +106,13 @@ class AchievementsSection extends StatelessWidget {
               ),
             ),
             const SizedBox(width: spacing),
-            Expanded(
-              child: _AchievementItem(
-                imagePath: 'assets/icons/beginner.png',
-                label: "Awareness\nCampaign Rider",
-              ),
-            ),
+           Expanded(
+  child: _AchievementItem(
+    imagePath: 'assets/icons/awareness.png',
+    label: "Awareness\nCampaign Rider",
+    useIconContainer: true,
+  ),
+),
             const SizedBox(width: spacing),
             Expanded(
               child: _AchievementItem(
@@ -157,14 +152,15 @@ class AchievementsSection extends StatelessWidget {
     );
   }
 }
-
 class _AchievementItem extends StatelessWidget {
   final String imagePath;
   final String label;
+  final bool useIconContainer;
 
   const _AchievementItem({
     required this.imagePath,
     required this.label,
+    this.useIconContainer = false,
   });
 
   @override
@@ -172,39 +168,48 @@ class _AchievementItem extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(14),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.15),
-                blurRadius: 6,
-                offset: const Offset(0, 3),
-              ),
-            ],
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(14),
-            child: AspectRatio(
-              aspectRatio: 1,
+
+        /// Special container for 3rd item
+        if (useIconContainer)
+          Container(
+            width: 67,
+            height: 65,
+            padding: const EdgeInsets.fromLTRB(15, 14, 16, 15),
+            decoration: BoxDecoration(
+              color: const Color(0xFFFFEFD7),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Center(
               child: Image.asset(
                 imagePath,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    color: Colors.white.withOpacity(0.2),
-                    child: const Icon(
-                      Icons.star,
-                      color: Colors.white,
-                      size: 32,
-                    ),
-                  );
-                },
+                width: 36,
+                height: 36,
+               
+                fit: BoxFit.contain,
+              ),
+            ),
+          )
+
+        /// Normal image badges
+        else
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(14),
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: Image.asset(
+                  imagePath,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
-        ),
+
         const SizedBox(height: 8),
+
         Text(
           label,
           textAlign: TextAlign.center,

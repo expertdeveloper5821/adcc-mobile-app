@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/profile/view/sections/badges/rider_level_section.dart';
 import 'package:adcc/features/profile/view/sections/event_history/completed_event_card.dart';
 import 'package:adcc/features/profile/view/sections/event_history/perfromance_insights_card.dart';
@@ -12,7 +13,7 @@ class EventHistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffFFF9EF),
+      backgroundColor: AppColors.softCream,
       body: Padding(
         padding:   const EdgeInsets.fromLTRB(16, 16, 16, 20),
         child: SafeArea(
@@ -25,6 +26,7 @@ class EventHistoryScreen extends StatelessWidget {
                       title: 'Event History',
                       subtitle:
                           '',
+                          centerTitle: true,
                       onBackTap: () =>
                           Navigator.pop(context),
                     ),
@@ -44,10 +46,10 @@ class EventHistoryScreen extends StatelessWidget {
   progressValue: "03",
 ),
         
-                const SizedBox(height: 18),
+                const SizedBox(height: 30),
          const PerformanceInsightsCard(),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 40),
         
         
 Padding(
@@ -83,7 +85,7 @@ Padding(
 ),
 ),
 
-const SizedBox(height: 12),
+const SizedBox(height: 6),
 
 CompletedEventCard(
   title: "ADCC New Year Ride 2026",
@@ -121,7 +123,7 @@ CompletedEventCard(
      'assets/images/cycling_1.png',
 ),
         
-                const SizedBox(height: 12),
+                const SizedBox(height: 40),
         
         Column(
   crossAxisAlignment: CrossAxisAlignment.start,

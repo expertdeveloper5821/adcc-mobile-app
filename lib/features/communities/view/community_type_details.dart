@@ -1,5 +1,10 @@
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/communities/models/community_model.dart';
+import 'package:adcc/features/communities/sections/Community%20Details/community_details_header.dart';
+import 'package:adcc/features/communities/sections/Community%20Details/community_events_tab.dart';
+import 'package:adcc/features/communities/sections/Community%20Details/community_gallery_tab.dart';
+import 'package:adcc/features/communities/sections/Community%20Details/community_tracks_tab.dart';
+import 'package:adcc/features/communities/sections/Community%20Details/community_updates_tab.dart';
 import 'package:adcc/features/communities/sections/community_highlight_track_card.dart';
 import 'package:adcc/features/communities/sections/join_community_screen.dart';
 import 'package:adcc/features/communities/sections/leavecommunity.dart';
@@ -7,7 +12,7 @@ import 'package:adcc/features/communities/services/communities_service.dart';
 import 'package:adcc/shared/widgets/app_button.dart';
 import 'package:adcc/shared/widgets/banner_header.dart';
 import 'package:flutter/material.dart';
-import 'dart:convert';
+
 class CommunityCityDetails extends StatefulWidget {
   final CommunityModel community;
 
@@ -136,21 +141,20 @@ final events = c.eventsCount != null
     : "0";
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F5EF),
+      backgroundColor: AppColors.softCream,
       body: SafeArea(
         child: ListView(
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(16, 14, 16, 18),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 18),
           children: [
             // TOP BANNER IMAGE
-          BannerHeadder(
-  base64Image: c.imageUrl,   
-  title: title,           
-  subtitle: '',             
+       CommunityDetailsHeader(
+  base64Image: c.imageUrl,
+  title: "",
   onBackTap: () => Navigator.pop(context),
 ),
 
-            const SizedBox(height: 14),
+            const SizedBox(height: 24),
 
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,7 +165,7 @@ final events = c.eventsCount != null
                     style: const TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w900,
-                      color: Color(0xFFB11212),
+                      color: Color(0xFFC12D32),
                       height: 1.1,
                     ),
                   ),
@@ -171,7 +175,7 @@ final events = c.eventsCount != null
               ],
             ),
 
-            const SizedBox(height: 8),
+            const SizedBox(height: 12),
 
             // Description
             Text(
@@ -180,11 +184,11 @@ final events = c.eventsCount != null
                 fontSize: 13,
                 height: 1.35,
                 fontWeight: FontWeight.w500,
-                color: Color(0xFF6B6B6B),
+                color: AppColors.textDark,
               ),
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 25),
 
          _InfoGrid(
   city: city,
@@ -195,7 +199,7 @@ final events = c.eventsCount != null
   members: members,
 ),
 
-            const SizedBox(height: 18),
+            const SizedBox(height: 31),
 
             const Text(
               "Community Highlights",
@@ -206,12 +210,12 @@ final events = c.eventsCount != null
               ),
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: 14),
 
          
             const _HighlightsCard(),
 
-            const SizedBox(height: 14),
+            const SizedBox(height: 49),
 
        
             _TabsRow(
@@ -220,12 +224,12 @@ final events = c.eventsCount != null
               onTap: (i) => setState(() => selectedTabIndex = i),
             ),
 
-            const SizedBox(height: 14),
+            const SizedBox(height: 28),
 
          
             _TabContent(selectedTabIndex: selectedTabIndex),
 
-            const SizedBox(height: 18),
+            const SizedBox(height: 51),
 
          
          AppButton(
@@ -330,7 +334,6 @@ final events = c.eventsCount != null
   }
 }
 
-// Rest of the widgets remain the same...
 class _ShareBadge extends StatelessWidget {
   final VoidCallback onTap;
 
@@ -340,16 +343,19 @@ class _ShareBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Image.asset(
-            "assets/icons/share.png",
-            height: 25,
-            width: 25,
-          ),
-          const SizedBox(width: 6),
-        ],
+      child: Container(
+        width: 35,
+        height: 35,
+        decoration: BoxDecoration(
+         color: const Color(0x5C99D3B5),// #99D3B55C
+          shape: BoxShape.circle,
+        ),
+        alignment: Alignment.center,
+        child: Image.asset(
+          "assets/icons/share_2.png",
+          height: 17.5,
+          width: 17.5,
+        ),
       ),
     );
   }
@@ -382,7 +388,7 @@ class _InfoGrid extends StatelessWidget {
       return Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: const Color(0xFFF5EDE0),
+          color: const Color(0xFFFFEFD7),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Row(
@@ -390,9 +396,9 @@ class _InfoGrid extends StatelessWidget {
           children: [
             Image.asset(
               iconPath,
-              height: 18,
-              width: 18,
-              color: AppColors.goldenOchre,
+              height: 15,
+              width: 15,
+              color: AppColors.deepRed,
             ),
             const SizedBox(width: 10),
             Expanded(
@@ -403,8 +409,8 @@ class _InfoGrid extends StatelessWidget {
                     label,
                     style: const TextStyle(
                       fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF6B6B6B),
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.charcoal,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -413,9 +419,9 @@ class _InfoGrid extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.charcoal,
                     ),
                   ),
                 ],
@@ -474,44 +480,70 @@ class _HighlightsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget row({
-      required IconData icon,
-      required String label,
-      required String value,
-    }) {
-      return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-        decoration: BoxDecoration(
-          color: const Color(0xFFF5EDE0),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Row(
-          children: [
-            Icon(icon, size: 18, color: AppColors.goldenOchre),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Text(
-                label,
-                style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            Text(
-              value,
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w900,
-                color: Colors.black,
-              ),
-            ),
-          ],
-        ),
-      );
-    }
+Widget row({
+  required IconData icon,
+  required String label,
+  required String value,
+}) {
+  return Container(
+    width: 358,
+    height: 49,
+    padding: const EdgeInsets.symmetric(horizontal: 12),
+    decoration: BoxDecoration(
+      color: const Color(0xFFFFF3E2), // #FFF3E2
+      borderRadius: BorderRadius.circular(9.95),
+    ),
+    child: Row(
+      children: [
 
+        /// ICON CONTAINER
+        Container(
+          width: 30,
+          height: 30,
+          decoration: BoxDecoration(
+            color: const Color(0xFFF0DDAF), // #F0DDAF
+            borderRadius: BorderRadius.circular(54),
+          ),
+          alignment: Alignment.center,
+          child: Icon(
+            icon,
+            size: 16,
+            color: const Color(0xFF333333),
+          ),
+        ),
+
+        const SizedBox(width: 9),
+
+        /// LABEL
+        SizedBox(
+          width: 150,
+          child: Text(
+            label,
+            style: const TextStyle(
+             
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+              color: AppColors.charcoal,
+            ),
+          ),
+        ),
+
+        const Spacer(),
+
+        /// VALUE
+        Text(
+          value,
+          style: const TextStyle(
+            fontFamily: "Outfit",
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF333333),
+          ),
+        ),
+      ],
+    ),
+  );
+}
     return Column(
       children: [
         row(
@@ -563,13 +595,13 @@ class _TabsRow extends StatelessWidget {
             onTap: () => onTap(index),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 180),
-              width: 72,
+              width: 82,
               height: 38,
               padding: const EdgeInsets.fromLTRB(15, 9, 15, 9),
               decoration: BoxDecoration(
                 color: isSelected
                     ? AppColors.goldenOchre
-                    : const Color(0xFFF1F2F4),
+                    : const Color(0xFF1A1C201A),
                 borderRadius: BorderRadius.circular(12),
               ),
               alignment: Alignment.center,
@@ -578,9 +610,9 @@ class _TabsRow extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w800,
-                  color: isSelected ? Colors.white : const Color(0xFF1E1E1E),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: isSelected ? Colors.white : AppColors.textDark,
                 ),
               ),
             ),
@@ -591,6 +623,7 @@ class _TabsRow extends StatelessWidget {
   }
 }
 
+
 class _TabContent extends StatelessWidget {
   final int selectedTabIndex;
 
@@ -598,61 +631,21 @@ class _TabContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (selectedTabIndex == 0) {
-      return const _HorizontalCards(
-        title: "Hudayriyat Island Track",
-        subtitle: "19 Jan 2026",
-      );
+    switch (selectedTabIndex) {
+      case 0:
+        return const CommunityEventsTab();
+
+      case 1:
+        return const CommunityTracksTab();
+
+      case 2:
+        return const CommunityGalleryTab();
+
+      case 3:
+        return const CommunityUpdatesTab();
+
+      default:
+        return const SizedBox();
     }
-
-    if (selectedTabIndex == 1) {
-      return const _HorizontalCards(
-        title: "Corniche Track",
-        subtitle: "Abu Dhabi",
-      );
-    }
-
-    if (selectedTabIndex == 2) {
-      return const _HorizontalCards(
-        title: "Community Gallery",
-        subtitle: "Photos",
-      );
-    }
-
-    return const _HorizontalCards(
-      title: "Latest Updates",
-      subtitle: "News",
-    );
-  }
-}
-
-class _HorizontalCards extends StatelessWidget {
-  final String title;
-  final String subtitle;
-
-  const _HorizontalCards({
-    required this.title,
-    required this.subtitle,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 250,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
-        itemCount: 4,
-        separatorBuilder: (_, __) => const SizedBox(width: 14),
-        itemBuilder: (context, index) {
-          return CommunityHighlightTrackCard(
-            imagePath: "assets/images/cycling_1.png",
-            title: title,
-            subtitle: subtitle,
-            onTap: () {},
-          );
-        },
-      ),
-    );
   }
 }

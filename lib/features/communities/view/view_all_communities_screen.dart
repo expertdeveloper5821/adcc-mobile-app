@@ -1,6 +1,7 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/communities/models/community_model.dart';
 import 'package:adcc/features/communities/sections/community_list_card.dart';
-import 'package:adcc/features/communities/sections/community_type_details.dart';
+import 'package:adcc/features/communities/view/community_type_details.dart';
 import 'package:adcc/shared/widgets/banner_header.dart';
 import 'package:adcc/shared/widgets/category_selector.dart';
 import 'package:flutter/material.dart';
@@ -101,13 +102,14 @@ class _ViewAllCommunitiesScreenState extends State<ViewAllCommunitiesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffFFF8ED),
+      backgroundColor: AppColors.softCream,
       body: SafeArea(
+        
         child: CustomScrollView(
           slivers: [
             /// Banner
             SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               sliver: SliverToBoxAdapter(
                 child: BannerHeadder(
                   imagePath: 'assets/images/cycling_1.png',
@@ -123,7 +125,7 @@ class _ViewAllCommunitiesScreenState extends State<ViewAllCommunitiesScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 21),
 
               
                   CategorySelector(
@@ -136,12 +138,12 @@ class _ViewAllCommunitiesScreenState extends State<ViewAllCommunitiesScreen> {
                     },
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 36),
 
 
                   _buildHeader(),
 
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 24),
                 ]),
               ),
             ),
@@ -199,14 +201,14 @@ class _ViewAllCommunitiesScreenState extends State<ViewAllCommunitiesScreen> {
             children: [
               const Icon(
                 Icons.swap_vert,
-                size: 18,
-                color: Colors.orange,
+                size: 15,
+               color: Color(0XFFCF9F0C),
               ),
               const SizedBox(width: 4),
               Text(
                 sortTitle,
                 style: const TextStyle(
-                  color: Colors.orange,
+                  color: Color(0XFFCF9F0C),
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -229,9 +231,9 @@ class _ViewAllCommunitiesScreenState extends State<ViewAllCommunitiesScreen> {
         children: [
           if (isSelected)
             const Icon(
-              Icons.check,
+             Icons.swap_vert,
               size: 18,
-              color: Colors.orange,
+            color: Color(0XFFCF9F0C),
             )
           else
             const SizedBox(width: 18),
@@ -240,7 +242,7 @@ class _ViewAllCommunitiesScreenState extends State<ViewAllCommunitiesScreen> {
             title,
             style: const TextStyle(
               fontWeight: FontWeight.w600,
-              color: Colors.orange,
+             color: Color(0XFFCF9F0C),
             ),
           ),
         ],
@@ -270,9 +272,9 @@ class _ViewAllCommunitiesScreenState extends State<ViewAllCommunitiesScreen> {
           (context, index) {
             final community = filteredList[index];
             return Padding(
-              padding: EdgeInsets.only(
-                bottom: index < filteredList.length - 1 ? 20 : 0,
-              ),
+padding: EdgeInsets.only(
+  bottom: index < filteredList.length - 1 ? 20 : 172,
+),
          child: CommunityListCard(
   community: community,
   onTap: () {

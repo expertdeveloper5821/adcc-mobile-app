@@ -53,7 +53,6 @@ class StoreItemCard extends StatelessWidget {
                   ),
                 ),
 
-                // Location pill
                 if (location != null)
                   Positioned(
                     top: 10,
@@ -106,7 +105,7 @@ class StoreItemCard extends StatelessWidget {
 
             const SizedBox(height: 6),
 
-            // Price and time on same line
+          
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

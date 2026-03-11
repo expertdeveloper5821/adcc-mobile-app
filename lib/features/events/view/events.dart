@@ -239,11 +239,11 @@ class _EventsTabState extends State<EventsTab> {
                     : ListView(
                         physics: const BouncingScrollPhysics(),
                         padding: const EdgeInsets.symmetric(
-                          vertical: 24,
+                          vertical: 16,
                           horizontal: 8,
                         ),
                         children: [
-                          const SizedBox(height: 16),
+                         
 
                         EventHeader(
   imagePath: 'assets/images/cycling_1.png',
@@ -303,8 +303,8 @@ class _EventsTabState extends State<EventsTab> {
 
                               rides.isEmpty
                                   ? Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16,
+                                      padding: const EdgeInsets.only(
+                                          left: 16,
                                         ),
                                       child: Center(
                                         child: Text(
@@ -319,7 +319,7 @@ class _EventsTabState extends State<EventsTab> {
                                   : SizedBox(
                                       height:
                                           319, 
-                                          width: 369,
+                                          width: 365,
                                       child: ListView.separated(
                                         scrollDirection: Axis.horizontal,
                                         padding: const EdgeInsets.symmetric(
@@ -404,14 +404,20 @@ class _EventsTabState extends State<EventsTab> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 16),
                                 child: EventCategoriesGrid(
-                                  onCategoryTap: (category) {
-                                  
-                                    debugPrint(
-                                        'Event category tapped: $category');
+  onCategoryTap: (category) {
 
-                                    _applyCategoryFilterFromGrid(category);
-                                  },
-                                ),
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => EventsByCategoryViewAll(
+          events: _events,
+          initialCategory: category,
+        ),
+      ),
+    );
+
+  },
+)
                               ),
                             ],
                           ),
@@ -438,8 +444,8 @@ class _EventsTabState extends State<EventsTab> {
                                 height: 320, // Match card height
                                 child: ListView.separated(
                                   scrollDirection: Axis.horizontal,
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 11,
+                                  padding: const EdgeInsets.only(
+                                    left: 11,
                                   ),
                                   itemCount: _purposeBasedEvents.length,
                                   separatorBuilder: (_, __) =>

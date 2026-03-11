@@ -13,7 +13,7 @@ class HorizontalRideList extends StatelessWidget {
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: Text(
-            "Popular Community",
+            "Popular Communities",
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w600,

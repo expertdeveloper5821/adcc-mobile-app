@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/profile/view/sections/badges/achievements_section.dart';
 import 'package:adcc/features/profile/view/sections/badges/latest_achivement_card.dart';
 import 'package:adcc/features/profile/view/sections/badges/leaderboard_section.dart';
@@ -13,7 +14,7 @@ class BadgesAchievementsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFFF),
+      backgroundColor: AppColors.softCream,
       body: Padding(
         padding:
                   const EdgeInsets.fromLTRB(16, 16, 16, 20),
@@ -29,11 +30,12 @@ class BadgesAchievementsScreen extends StatelessWidget {
                     title: 'Badges & Achivements',
                     subtitle:
                         '',
+                        centerTitle: true,
                     onBackTap: () =>
                         Navigator.pop(context),
                   ),
         
-                const SizedBox(height: 20),
+                const SizedBox(height: 28),
         
                const RiderStatsSection(
   riderLevel: "Rider Level: Intermediate",
@@ -47,22 +49,22 @@ class BadgesAchievementsScreen extends StatelessWidget {
   progressTitle: "In Progress",
   progressValue: "03",
 ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 32),
             LatestAchievementCard(),
         
-                const SizedBox(height: 20),
+                const SizedBox(height:40),
         const AchievementsSection(),
         
-                const SizedBox(height: 20),
+                const SizedBox(height: 40),
         const UnlockedBadgesSection(),
-                const SizedBox(height: 24),
+                const SizedBox(height: 40),
         
               const LeaderboardSection(),
         
-                const SizedBox(height: 30),
+                const SizedBox(height: 40),
         
              const ShareAchievementsButton(),
-                const SizedBox(height: 30),
+                const SizedBox(height: 111),
               ],
             ),
           ),

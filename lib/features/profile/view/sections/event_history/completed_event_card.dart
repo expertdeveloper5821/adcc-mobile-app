@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'dart:ui';
 class CompletedEventCard extends StatelessWidget {
   final String title;
   final String subtitle;
@@ -49,28 +49,38 @@ class CompletedEventCard extends StatelessWidget {
                 ),
               ),
 
-              /// STATUS BADGE
-              Positioned(
-                top: 12,
-                left: 12,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.4),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    status,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-              ),
+            /// STATUS BADGE
+Positioned(
+  top: 13,
+  left: 14,
+  child: ClipRRect(
+    borderRadius: BorderRadius.circular(999),
+    child: BackdropFilter(
+      filter: ImageFilter.blur(
+        sigmaX: 10,
+        sigmaY: 10,
+      ),
+      child: Container(
+        width: 74,
+        height: 24,
+        padding: const EdgeInsets.fromLTRB(8, 4, 7, 4),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: const Color(0xFF1A1C20).withOpacity(0.33),
+          borderRadius: BorderRadius.circular(999),
+        ),
+        child: Text(
+          status,
+          style: const TextStyle(
+            color: Color(0xFFFFEFD7),
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    ),
+  ),
+)
             ],
           ),
 

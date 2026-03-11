@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/profile/view/sections/badges/rider_level_section.dart';
 import 'package:adcc/features/profile/view/sections/reward_point/available_points_section.dart';
 import 'package:adcc/features/profile/view/sections/reward_point/available_rewards_section.dart';
@@ -10,7 +11,7 @@ class RewardsPointsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFFF),
+      backgroundColor: AppColors.softCream,
       body: Padding(
               padding:
                   const EdgeInsets.fromLTRB(16, 16, 16, 20),
@@ -25,11 +26,12 @@ class RewardsPointsScreen extends StatelessWidget {
                       title: 'Rewards & Points',
                       subtitle:
                           ' Earn points by completing challenges',
+                          centerTitle: true,
                       onBackTap: () =>
                           Navigator.pop(context),
                     ),
           
-              const SizedBox(height: 20),
+              const SizedBox(height: 28),
         
              const RiderStatsSection(
   riderLevel: "Rider Level: Intermediate",
@@ -43,14 +45,14 @@ class RewardsPointsScreen extends StatelessWidget {
   progressTitle: "Current Tier",
   progressValue: "Silver",
 ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 30),
         
               
         const AvailablePointsSection(),
         
               
         
-                const SizedBox(height: 16),
+                const SizedBox(height: 40),
         
               const AvailableRewardsSection(),
               ]

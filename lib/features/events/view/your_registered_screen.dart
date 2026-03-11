@@ -31,22 +31,28 @@ class RegistrationSuccessScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.softCream,
       body: SafeArea(
-        child: Stack(
-          children: [
-            Positioned(
-              left: -52,
-              top: 168,
-              child: Image.asset(
-                redArcImagePath,
-                width: 160,
-                fit: BoxFit.contain,
-              ),
-            ),
+  child: ListView(
+    physics: const BouncingScrollPhysics(),
+    padding: const EdgeInsets.fromLTRB(16, 12, 16, 22),
+    children: [
 
-            ListView(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 22),
-              children: [
+      Stack(
+  clipBehavior: Clip.none,
+  children: [
+
+          Positioned(
+            left: -52,
+            top: 240,
+            child: Image.asset(
+              redArcImagePath,
+              width: 160,
+              fit: BoxFit.contain,
+            ),
+          ),
+
+          Column(
+            children: [
+            
                 Row(
                   children: [
                     _BackCircleButton(
@@ -61,33 +67,16 @@ class RegistrationSuccessScreen extends StatelessWidget {
 
                 const SizedBox(height: 28),
 
-                Center(
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Container(
-                        height: 92,
-                        width: 92,
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      Positioned(
-                        left: 22,
-                        top: 18,
-                        child: Container(
-                          height: 10,
-                          width: 10,
-                          decoration: const BoxDecoration(
-                            color: AppColors.deepRed,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+              Center(
+  child: ClipOval(
+    child: Image.asset(
+      "assets/icons/checkmark.gif",
+      height: 102,
+      width: 102,
+      fit: BoxFit.cover,
+    ),
+  ),
+),
 
                 const SizedBox(height: 18),
 
@@ -95,29 +84,29 @@ class RegistrationSuccessScreen extends StatelessWidget {
                   child: Text(
                     "You're registered!",
                     style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w900,
+                      fontSize: 28,
+                      fontWeight: FontWeight.w600,
                       color: AppColors.charcoal,
                     ),
                   ),
                 ),
 
-                const SizedBox(height: 6),
+                const SizedBox(height: 10),
 
                 Center(
                   child: Text(
                     "Get ready for an amazing ride with\nthe community!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 14,
                       height: 1.35,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.charcoal.withValues(alpha: 0.55),
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.charcoal,
                     ),
                   ),
                 ),
 
-                const SizedBox(height: 18),
+                const SizedBox(height: 59),
 
                 _EventSummaryCard(
                   eventImagePath: eventImagePath,
@@ -129,27 +118,27 @@ class RegistrationSuccessScreen extends StatelessWidget {
                   community: community,
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 35),
 
-                _ActionTile(
-                  icon: Icons.calendar_month_rounded,
-                  title: "Add to Calendar",
-                  onTap: () {},
-                ),
+              _ActionTile(
+  imagePath: "assets/icons/add_calendar.png",
+  title: "Add to Calendar",
+  onTap: () {},
+),
                 const SizedBox(height: 12),
-                _ActionTile(
-                  icon: Icons.share_rounded,
-                  title: "Share with Friends",
-                  onTap: () {},
-                ),
+               _ActionTile(
+  imagePath: "assets/icons/share_2.png",
+  title: "Share with Friends",
+  onTap: () {},
+),
                 const SizedBox(height: 12),
-                _ActionTile(
-                  icon: Icons.event_note_rounded,
-                  title: "View My Events",
-                  onTap: () {},
-                ),
+             _ActionTile(
+  imagePath: "assets/icons/add_calendar.png",
+  title: "View My Events",
+  onTap: () {},
+),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 40),
 
                 SizedBox(
                   height: 52,
@@ -176,12 +165,15 @@ class RegistrationSuccessScreen extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 10),
-              ],
-            ),
-          ],
-        ),
+                const SizedBox(height: 61),
+                        ],
+          )
+        ],
       ),
+
+    ],
+  ),
+),
     );
   }
 }
@@ -200,11 +192,11 @@ class _BackCircleButton extends StatelessWidget {
         customBorder: const CircleBorder(),
         onTap: onTap,
         child: const SizedBox(
-          height: 34,
-          width: 34,
+          height: 35,
+          width: 35,
           child: Icon(
             Icons.arrow_back,
-            size: 18,
+            size: 15,
             color: AppColors.deepRed,
           ),
         ),
@@ -238,7 +230,7 @@ class _EventSummaryCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: AppColors.dustyRose,
+        color: AppColors.lightPeach,
         borderRadius: BorderRadius.circular(18),
       ),
       child: Column(
@@ -250,8 +242,8 @@ class _EventSummaryCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(14),
                 child: Image.asset(
                   eventImagePath,
-                  height: 52,
-                  width: 52,
+                  height: 87,
+                  width: 95,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -265,8 +257,8 @@ class _EventSummaryCard extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        fontSize: 12.5,
-                        fontWeight: FontWeight.w900,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
                         height: 1.15,
                         color: AppColors.charcoal,
                       ),
@@ -278,7 +270,7 @@ class _EventSummaryCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 11.2,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w400,
                         color: AppColors.charcoal.withValues(alpha: 0.55),
                       ),
                     ),
@@ -292,7 +284,7 @@ class _EventSummaryCard extends StatelessWidget {
             children: [
               Expanded(
                 child: _MiniInfoCard(
-                  icon: Icons.calendar_month_rounded,
+                  imagePath: "assets/icons/clock.png",
                   title: "When",
                  value: _formatDate(date),
                 ),
@@ -300,9 +292,10 @@ class _EventSummaryCard extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: _MiniInfoCard(
-                  icon: Icons.location_on_rounded,
+                    imagePath: "assets/icons/distance.png",
                   title: "Location",
                   value: location,
+                  
                 ),
               ),
             ],
@@ -312,7 +305,7 @@ class _EventSummaryCard extends StatelessWidget {
             children: [
               Expanded(
                 child: _MiniInfoCard(
-                  icon: Icons.directions_bike_rounded,
+                   imagePath: "assets/icons/red_star.png",
                   title: "Type",
                   value: type,
                 ),
@@ -320,7 +313,7 @@ class _EventSummaryCard extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: _MiniInfoCard(
-                  icon: Icons.groups_2_rounded,
+                imagePath: "assets/icons/red_people.png",
                   title: "Community",
                   value: community,
                 ),
@@ -332,14 +325,13 @@ class _EventSummaryCard extends StatelessWidget {
     );
   }
 }
-
 class _MiniInfoCard extends StatelessWidget {
-  final IconData icon;
+  final String imagePath;
   final String title;
   final String value;
 
   const _MiniInfoCard({
-    required this.icon,
+    required this.imagePath,
     required this.title,
     required this.value,
   });
@@ -348,9 +340,9 @@ class _MiniInfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 62,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-        color: AppColors.cardLightBackground,
+        color: AppColors.dustyRose,
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
           color: AppColors.lightBeige,
@@ -358,31 +350,42 @@ class _MiniInfoCard extends StatelessWidget {
         ),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 18, color: AppColors.deepRed),
-          const SizedBox(width: 10),
+          Image.asset(
+            imagePath,
+            height: 18,
+            width: 18,
+            color: AppColors.deepRed,
+          ),
+
+          const SizedBox(width: 8),
+
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                /// title row
                 Text(
                   title,
                   style: TextStyle(
                     fontSize: 10.5,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.charcoal.withValues(alpha: 0.55),
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.charcoal,
                   ),
                 ),
+
                 const SizedBox(height: 3),
+
+                /// value
                 Text(
                   value,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 11.5,
+                    fontSize: 11,
                     height: 1.1,
-                    fontWeight: FontWeight.w900,
+                    fontWeight: FontWeight.w500,
                     color: AppColors.charcoal,
                   ),
                 ),
@@ -396,53 +399,67 @@ class _MiniInfoCard extends StatelessWidget {
 }
 
 class _ActionTile extends StatelessWidget {
-  final IconData icon;
+  final String imagePath;
   final String title;
   final VoidCallback onTap;
+  final Color iconColor;
 
   const _ActionTile({
-    required this.icon,
+    required this.imagePath,
     required this.title,
     required this.onTap,
+    this.iconColor = Colors.white,
   });
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppColors.cardLightBackground,
-      borderRadius: BorderRadius.circular(14),
+      color: const Color(0xFFFFEFD7),
+      borderRadius: BorderRadius.circular(10),
       child: InkWell(
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(10),
         onTap: onTap,
         child: Container(
-          height: 56,
-          padding: const EdgeInsets.symmetric(horizontal: 14),
+          height: 80,
+          width: double.infinity,
+          padding: const EdgeInsets.fromLTRB(12, 13, 16, 13),
           child: Row(
             children: [
+
+              /// icon container
               Container(
-                height: 34,
-                width: 34,
+                width: 54,
+                height: 54,
                 decoration: BoxDecoration(
-                  color: AppColors.warmSand.withValues(alpha: 0.35),
-                  borderRadius: BorderRadius.circular(12),
+                  color: const Color(0xFFCF9F0C),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                child: Icon(
-                  icon,
-                  size: 18,
-                  color: AppColors.goldenOchre,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 12.5,
-                    fontWeight: FontWeight.w900,
-                    color: AppColors.charcoal,
+                child: Center(
+                  child: Image.asset(
+                    imagePath,
+                    width: 27,
+                    height: 27,
+                    color: iconColor,
+                    colorBlendMode: BlendMode.srcIn,
                   ),
                 ),
               ),
+
+              const SizedBox(width: 14),
+
+              /// title
+              Expanded(
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0XFF101828),
+                  ),
+                ),
+              ),
+
+            
             ],
           ),
         ),

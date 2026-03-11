@@ -1,5 +1,6 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:ui';
 class ChallengeCard extends StatelessWidget {
   const ChallengeCard({super.key});
 
@@ -57,36 +58,49 @@ class ChallengeCard extends StatelessWidget {
                     bottom: 14,
                     left: 16,
                     child: Text(
-                      "December Distance Champion",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
+  "December Distance Champion",
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 1.4,
+    color: Colors.white,
+  ),
+)
                   ),
 
                 
-                  Positioned(
-                    top: 12,
-                    left: 12,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: const Text(
-                        "Joined",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
+                 Positioned(
+  top: 17,
+  left: 14,
+  child: ClipRRect(
+    borderRadius: BorderRadius.circular(999),
+    child: BackdropFilter(
+      filter: ImageFilter.blur(
+        sigmaX: 10,
+        sigmaY: 10,
+      ),
+      child: Container(
+        width: 64,
+        height: 26,
+        padding: const EdgeInsets.fromLTRB(12, 3, 13, 5),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: const Color(0xFF1A1C20).withOpacity(0.15),
+          borderRadius: BorderRadius.circular(999),
+        ),
+        child: const Text(
+          "Joined",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    ),
+  ),
+)
                 ],
               ),
             ),
@@ -95,20 +109,23 @@ class ChallengeCard extends StatelessWidget {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
+                  horizontal: 10,
                   vertical: 14,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      "Ride 500km this month to earn the champion badge",
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black87,
-                      ),
-                    ),
+  "Ride 500km this month to earn the champion badge",
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    height: 1.4,
+    letterSpacing: 0,
+    color: Color(0xFF343434),
+  ),
+),
 
                     const SizedBox(height: 16),
 
@@ -117,19 +134,27 @@ class ChallengeCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: const [
                         Text(
-                          "Progress",
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Text(
-                          "324 / 500 km",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+  "Progress",
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 15.4727,
+    fontWeight: FontWeight.w400,
+    height: 1.4,
+    letterSpacing: 0,
+    color: Color(0xFF5B5B5B),
+  ),
+),
+                      Text(
+  "324 / 500 km",
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 15.4727,
+    fontWeight: FontWeight.w500,
+    height: 1.4,
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+)
                       ],
                     ),
 
@@ -142,39 +167,42 @@ class ChallengeCard extends StatelessWidget {
                         minHeight: 8,
                         backgroundColor: Color(0xFFE0E0E0),
                         valueColor:
-                            AlwaysStoppedAnimation(Color(0xffE85C2A)),
+                            AlwaysStoppedAnimation(Color(0xffCF9F0C)),
                       ),
                     ),
 
-                    const Spacer(),
+                   const SizedBox(height: 21),
 
                     /// Bottom Info Row
                    Row(
   children: [
     
     Row(
-      children: const [
+      children:  [
         Icon(
           Icons.access_time,
           size: 18,
           color: Color(0xffD32F2F),
         ),
         SizedBox(width: 6),
-        Text(
-          "12 days left",
-          style: TextStyle(
-            fontSize: 14,
-            color: Color(0xff5C5C5C),
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+       Text(
+  "12 days left",
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 15.4727,
+    fontWeight: FontWeight.w400,
+    height: 1.4,
+    letterSpacing: 0,
+    color: AppColors.textDark.withValues(alpha: 0.6),
+  ),
+)
       ],
     ),
 
     const SizedBox(width: 20),
 
     Row(
-      children: const [
+      children:  [
         Icon(
           Icons.group_outlined,
           size: 18,
@@ -182,13 +210,16 @@ class ChallengeCard extends StatelessWidget {
         ),
         SizedBox(width: 6),
         Text(
-          "234",
-          style: TextStyle(
-            fontSize: 14,
-            color: Color(0xff5C5C5C),
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+  "234",
+  style:  TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 15.4727,
+    fontWeight: FontWeight.w400,
+    height: 1.4,
+    letterSpacing: 0,
+    color: AppColors.textDark.withValues(alpha: 0.6),
+  ),
+)
       ],
     ),
 

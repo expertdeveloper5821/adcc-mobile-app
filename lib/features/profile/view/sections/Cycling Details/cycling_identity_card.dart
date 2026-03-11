@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CyclingIdentityCard extends StatelessWidget {
@@ -30,25 +31,35 @@ class CyclingIdentityCard extends StatelessWidget {
   color: Colors.black87,
 ),
                 SizedBox(width: 8),
-                Text(
-                  "Your Cycling Identity",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+               Text(
+  "Your Cycling Identity",
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    height: 1.56, // 28 / 18
+    letterSpacing: 0,
+  ),
+)
               ],
             ),
 
             const SizedBox(height: 8),
 
             /// DESCRIPTION
-            const Text(
-              "Your Cycling Stats Come From Events And Rides.",
-              style: TextStyle(
-                fontSize: 12,
-                color: Color(0xff4A4A4A),
-              ),
+            Padding(
+              padding: const EdgeInsets.only(left: 32),
+              child: const Text(
+  "Your Cycling Stats Come From Events And Rides.",
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 1, // line-height 100%
+    letterSpacing: 0,
+    color:AppColors.charcoal,
+  ),
+)
             ),
 
             const SizedBox(height: 18),
@@ -57,24 +68,31 @@ class CyclingIdentityCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: const [
-                Text(
-                  "Level Progress",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                Text(
-                  "73% to next level",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+               Text(
+  "Level Progress",
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 13.0946,
+    fontWeight: FontWeight.w400,
+    height: 1.43, 
+    letterSpacing: 0,
+    color: AppColors.charcoal
+  ),
+),
+              Text(
+  "73% to next level",
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 13.0946,
+    fontWeight: FontWeight.w400,
+    height: 1.43, // 18.7066 / 13.0946
+    letterSpacing: 0,
+  ),
+)
               ],
             ),
 
-            const SizedBox(height: 10),
+            const SizedBox(height: 7),
 
             /// PROGRESS BAR
        Container(
@@ -116,15 +134,20 @@ class CyclingIdentityCard extends StatelessWidget {
             const Spacer(),
 
             /// FOOTER TEXT
-            const Center(
-              child: Text(
-                "Keep riding to level up.",
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
+           const Center(
+  child: Text(
+    "Keep riding to level up.",
+    textAlign: TextAlign.center,
+    style: TextStyle(
+      fontFamily: 'Outfit',
+      fontSize: 13.0946,
+      fontWeight: FontWeight.w400,
+      height: 1.43,
+      letterSpacing: 0,
+      color:AppColors.charcoal
+    ),
+  ),
+)
           ],
         ),
       ),
@@ -153,23 +176,33 @@ class _LevelItem extends StatelessWidget {
             shape: BoxShape.circle,
           ),
           alignment: Alignment.center,
-          child: Text(
-            number,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+         child: Text(
+  number,
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 15.1777,
+    fontWeight: FontWeight.w400,
+    height: 1.56,
+    letterSpacing: 0,
+    color: AppColors.charcoal
+  ),
+),
         ),
 
         const SizedBox(height: 2),
 
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 12,
-          ),
-        )
+       Text(
+  label,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 8.4321,
+    fontWeight: FontWeight.w400,
+    height: 1.87,
+    letterSpacing: 0,
+    color: AppColors.charcoal
+  ),
+)
       ],
     );
   }

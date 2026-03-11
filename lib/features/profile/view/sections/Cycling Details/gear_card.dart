@@ -1,5 +1,6 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:ui';
 class GearCard extends StatelessWidget {
   final String imagePath;
   final String title;
@@ -23,12 +24,9 @@ class GearCard extends StatelessWidget {
       height: 272,
       margin: const EdgeInsets.only(right: 14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          width: 1,
-          color: const Color(0xFFE5E5E5),
-        ),
+       
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,38 +50,56 @@ class GearCard extends StatelessWidget {
                 ),
 
                 /// LOCATION BADGE
-                Positioned(
-                  top: 10,
-                  left: 10,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withAlpha(220),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          "assets/icons/location.png",
-                          width: 12,
-                          height: 12,
-                          fit: BoxFit.contain,
-                        ),
-                        const SizedBox(width: 4),
-                        const Text(
-                          "Sharjah",
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+               Positioned(
+  top: 12,
+  left: 7,
+  child: ClipRRect(
+    borderRadius: BorderRadius.circular(22.5),
+    child: BackdropFilter(
+      filter: ImageFilter.blur(
+        sigmaX: 7.5,
+        sigmaY: 7.5,
+      ),
+      child: Container(
+        width: 67,
+        height: 21,
+        padding: const EdgeInsets.symmetric(
+          horizontal: 8,
+          vertical: 2,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.2),
+          borderRadius: BorderRadius.circular(22.5),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(
+              "assets/icons/location.png",
+              width: 10,
+              height: 10,
+              fit: BoxFit.contain,
+               color: Colors.white,
+            ),
+            const SizedBox(width: 3),
+            const Text(
+  "Sharjah",
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 9.75,
+    fontWeight: FontWeight.w500,
+    height: 1,
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+)
+          ],
+        ),
+      ),
+    ),
+  ),
+)
               ],
             ),
           ),
@@ -97,28 +113,36 @@ class GearCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
-                /// TITLE
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+               /// TITLE
+Text(
+  title,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    height: 1,
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
 
                 const SizedBox(height: 2),
 
                 /// PRICE + TIME
                 Row(
                   children: [
-                    Text(
-                      price,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-
+                  Text(
+  price,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 12,
+    fontWeight: FontWeight.w700,
+    height: 1.5,
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+)
+,
                     const SizedBox(width: 16),
 
                     const Text(
@@ -127,27 +151,34 @@ class GearCard extends StatelessWidget {
                     ),
 
                     const SizedBox(width: 4),
-
-                    Text(
-                      time,
-                      style: const TextStyle(
-                        fontSize: 10,
-                        color: Colors.grey,
-                      ),
-                    ),
+Text(
+  time,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 10,
+    fontWeight: FontWeight.w400,
+    height: 1.1,
+    letterSpacing: 0,
+    color: Color(0xFF6B7280),
+  ),
+)
                   ],
                 ),
 
                 const SizedBox(height: 4),
 
-                /// POSTED BY
-                Text(
-                  "Posted by $postedBy",
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey,
-                  ),
-                ),
+               /// POSTED BY
+Text(
+  "Posted by $postedBy",
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 11,
+    fontWeight: FontWeight.w500,
+    height: 1,
+    letterSpacing: 0,
+    color: AppColors.charcoal.withValues(alpha: 0.5),
+  ),
+)
               ],
             ),
           ),

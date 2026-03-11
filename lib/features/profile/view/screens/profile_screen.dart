@@ -246,7 +246,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
  
     return Container(
-      color: Colors.white,
+    color: AppColors.softCream,
       child: SafeArea(
         child: ListView(
           physics: const BouncingScrollPhysics(),
@@ -266,22 +266,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 'events': '14',
               },
             ),
+        
 const MyBadgesSection(),
-const SizedBox(height: 12),
+const SizedBox(height: 41),
 
 const MyCommunitiesSection(),
-const SizedBox(height: 12),
+const SizedBox(height: 49),
 
 const MyJoinedEventsSection(),
 
-const SizedBox(height: 16),
+const SizedBox(height: 50),
 
  ProfileMenuSection(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 children: [
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 50),
                   // Route Details Integration
                   RouteDetailsIntegrationSection(
                     services: [
@@ -302,7 +303,7 @@ const SizedBox(height: 16),
                     ],
                   ),
                   
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 50),
              
                   AppButton(
                     label: _isLoggingOut ? 'Logging out...' : 'Logout',
@@ -310,7 +311,7 @@ const SizedBox(height: 16),
                     type: AppButtonType.danger,
                     backgroundColor: AppColors.deepRed,
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 95),
                 ],
               ),
             ),

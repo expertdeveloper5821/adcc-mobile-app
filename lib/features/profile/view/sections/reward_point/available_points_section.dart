@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class AvailablePointsSection extends StatelessWidget {
@@ -30,43 +31,66 @@ class AvailablePointsSection extends StatelessWidget {
                    color: Colors.black87,
                 ),
                 const SizedBox(width: 6),
-                const Text(
-                  "Available Points",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                  ),
-                ),
+               const Text(
+  "Available Points",
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontWeight: FontWeight.w600,
+    fontSize: 18,
+    height: 1.56,
+    letterSpacing: 0,
+    color: AppColors.charcoal
+  ),
+)
               ],
             ),
 
             const SizedBox(height: 6),
 
             /// POINT VALUE
-            const Text(
-              "1,250",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+            Padding(
+              padding: const EdgeInsets.only(left: 22),
+              child: const Text(
+  "1,250",
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 13.0946,
+    fontWeight: FontWeight.w600,
+    height: 1.43,
+    letterSpacing: 0,
+    color: AppColors.charcoal
+  ),
+)
             ),
 
             const SizedBox(height: 14),
 
-            /// PROGRESS TEXT
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text(
-                  "Progress to Gold Tier",
-                  style: TextStyle(fontSize: 12),
-                ),
-                Text(
-                  "750 pts to go",
-                  style: TextStyle(fontSize: 12),
-                ),
-              ],
-            ),
+           Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: const [
+    Text(
+      "Progress to Gold Tier",
+      style: TextStyle(
+        fontFamily: 'Outfit',
+        fontSize: 13,
+        fontWeight: FontWeight.w400,
+        height: 1.43,
+        color: AppColors.charcoal
+      ),
+    ),
+    Text(
+      "750 pts to go",
+      textAlign: TextAlign.right,
+      style: TextStyle(
+        fontFamily: 'Outfit',
+        fontSize: 13,
+        fontWeight: FontWeight.w400,
+        height: 1.43,
+          color: AppColors.charcoal
+      ),
+    ),
+  ],
+),
 
             const SizedBox(height: 8),
 

@@ -29,7 +29,16 @@ class _CancelRegistrationScreenState extends State<CancelRegistrationScreen> {
   ];
 
   Future<void> _confirmCancellation() async {
-    if (selectedIndex == -1) return;
+    /// validation
+    if (selectedIndex == -1) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please select a reason"),
+        ),
+      );
+      return;
+    }
+
     if (isLoading) return;
 
     final reason = reasons[selectedIndex];
@@ -46,7 +55,6 @@ class _CancelRegistrationScreenState extends State<CancelRegistrationScreen> {
     if (!mounted) return;
 
     if (result.success) {
-     
       Navigator.pop(context, true);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -64,72 +72,63 @@ class _CancelRegistrationScreenState extends State<CancelRegistrationScreen> {
       body: SafeArea(
         child: Stack(
           children: [
+
+            /// background image
             Positioned(
               left: -52,
-              top: 188,
+              top: 259,
               child: Image.asset(
                 "assets/images/frame_1.png",
                 width: 160,
                 fit: BoxFit.contain,
               ),
             ),
-            ListView(
-              physics: const BouncingScrollPhysics(),
+
+            /// main content
+            Padding(
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 22),
-              children: [
-                Row(
-                  children: [
-                    _BackCircleButton(
-                      onTap: () {
-                        if (Navigator.of(context).canPop()) {
-                          Navigator.of(context).pop(false);
-                        }
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 30),
-                Center(
-                  child: Stack(
-                    alignment: Alignment.center,
+              child: Column(
+                children: [
+
+                  /// back button
+                  Row(
                     children: [
-                      Container(
-                        height: 92,
-                        width: 92,
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      Positioned(
-                        left: 22,
-                        top: 18,
-                        child: Container(
-                          height: 10,
-                          width: 10,
-                          decoration: const BoxDecoration(
-                            color: AppColors.deepRed,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
+                      _BackCircleButton(
+                        onTap: () {
+                          if (Navigator.of(context).canPop()) {
+                            Navigator.of(context).pop(false);
+                          }
+                        },
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(height: 18),
-                const Center(
-                  child: Text(
+
+                  const SizedBox(height: 40),
+
+                  /// icon
+                  Center(
+                    child: Image.asset(
+                      "assets/icons/checkmark.gif",
+                      height: 102,
+                      width: 102,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+
+                  const SizedBox(height: 30),
+
+                  const Text(
                     "Cancel Registration",
                     style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w900,
+                      fontSize: 28,
+                      fontWeight: FontWeight.w600,
                       color: AppColors.charcoal,
                     ),
                   ),
-                ),
-                const SizedBox(height: 6),
-                Center(
-                  child: Text(
+
+                  const SizedBox(height: 26),
+
+                  Text(
                     "Please let us know why you're\ncancelling",
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -139,45 +138,44 @@ class _CancelRegistrationScreenState extends State<CancelRegistrationScreen> {
                       color: AppColors.charcoal.withValues(alpha: 0.55),
                     ),
                   ),
-                ),
-                const SizedBox(height: 18),
-                _ReasonBox(
-                  selectedIndex: selectedIndex,
-                  reasons: reasons,
-                  onSelect: (i) => setState(() => selectedIndex = i),
-                ),
-                const SizedBox(height: 150),
 
-                /// Confirm Button
-                SizedBox(
-                  width: double.infinity,
-                  height: 52,
-                  child: ElevatedButton(
-                    onPressed: (selectedIndex == -1 || isLoading)
-                        ? null
-                        : _confirmCancellation,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.deepRed,
-                      disabledBackgroundColor:
-                          AppColors.deepRed.withValues(alpha: 0.35),
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
+                  const SizedBox(height: 37),
+
+                  _ReasonBox(
+                    selectedIndex: selectedIndex,
+                    reasons: reasons,
+                    onSelect: (i) => setState(() => selectedIndex = i),
+                  ),
+
+                  const Spacer(),
+
+                  /// confirm button
+                  SizedBox(
+                    width: double.infinity,
+                    height: 52,
+                    child: ElevatedButton(
+                      onPressed: _confirmCancellation,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.deepRed,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
                       ),
-                    ),
-                    child: Text(
-                      isLoading ? "Please wait..." : "Confirm Cancellation",
-                      style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.white,
+                      child: Text(
+                        isLoading ? "Please wait..." : "Confirm Cancellation",
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
-                ),
 
-                const SizedBox(height: 10),
-              ],
+                  const SizedBox(height: 10),
+                ],
+              ),
             ),
           ],
         ),

@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/profile/view/sections/settings/account_section.dart';
 import 'package:adcc/features/profile/view/sections/settings/app_preferences_section.dart';
 import 'package:adcc/features/profile/view/sections/settings/notifications_section.dart';
@@ -29,19 +30,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFFF),
+      backgroundColor: AppColors.softCream,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: const Color(0xFFF4EFE6),
+      backgroundColor: AppColors.softCream,
         centerTitle: true,
         title: const Text(
-          "Settings & Preferences",
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w600,
-            fontSize: 16,
-          ),
-        ),
+  "Settings & Preferences",
+  textAlign: TextAlign.center,
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    color: AppColors.charcoal,
+    fontWeight: FontWeight.w600,
+    fontSize: 22,
+    height: 1,
+    letterSpacing: 0,
+  ),
+),
         leading: Padding(
     padding: const EdgeInsets.only(left: 12),
     child: GestureDetector(
@@ -63,12 +68,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
   ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 54),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 const AccountSection(),
-            const SizedBox(height: 20),
+            const SizedBox(height: 40),
 NotificationsSection(
   eventReminders: eventReminders,
   communityUpdates: communityUpdates,
@@ -82,7 +87,7 @@ NotificationsSection(
   onAchievementsChanged: (v) => setState(() => achievements = v),
   onWeeklyReportChanged: (v) => setState(() => weeklyReport = v),
 ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 40),
 
 PrivacySection(
   publicProfile: publicProfile,
@@ -96,7 +101,7 @@ PrivacySection(
   onActivitySharingChanged: (v) => setState(() => activitySharing = v),
 ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 39),
 AppPreferencesSection(
   darkMode: darkMode,
   onDarkModeChanged: (v) => setState(() => darkMode = v),

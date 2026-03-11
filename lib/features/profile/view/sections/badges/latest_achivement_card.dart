@@ -76,14 +76,15 @@ class LatestAchievementCard extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 4,
-            right: 4,
+            top: 12,
+            right: 8,
+            bottom: 12,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(12),
               child: Image.asset(
                 'assets/images/cycling_1.png',
-                width: 141,
-                height: 211,
+                width: 131,
+                height: 180,
                 fit: BoxFit.cover,
               ),
             ),

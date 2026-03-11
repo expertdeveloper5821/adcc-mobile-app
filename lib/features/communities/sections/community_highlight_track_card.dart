@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CommunityHighlightTrackCard extends StatelessWidget {
@@ -5,13 +6,14 @@ class CommunityHighlightTrackCard extends StatelessWidget {
   final String title;
   final String subtitle;
   final VoidCallback? onTap;
-
+final String iconPath;
   const CommunityHighlightTrackCard({
     super.key,
     required this.imagePath,
     required this.title,
     required this.subtitle,
     this.onTap,
+      required this.iconPath,
   });
 
   static const Color _cardColor = Color(0xFFFFEFD7);
@@ -19,7 +21,7 @@ class CommunityHighlightTrackCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 250,
+      width: 280,
       
       child: Material(
         color: Colors.transparent,
@@ -56,25 +58,38 @@ class CommunityHighlightTrackCard extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontSize: 14.5,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.black,
+                          fontSize: 15.5,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.charcoal,
                         ),
                       ),
 
                       const SizedBox(height: 7.7248),
 
-              
-                      Text(
-                        subtitle,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 12.5,
-                          fontWeight: FontWeight.w700,
-                          color: Color(0xFF6B6B6B),
-                        ),
-                      ),
+Row(
+  children: [
+   Image.asset(
+  iconPath,
+  width: 14,
+  height: 14,
+),
+
+    const SizedBox(width: 6),
+
+    Expanded(
+      child: Text(
+        subtitle,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: const TextStyle(
+          fontSize: 12.5,
+          fontWeight: FontWeight.w700,
+          color: Color(0xFF6B6B6B),
+        ),
+      ),
+    ),
+  ],
+)
                     ],
                   ),
                 ),

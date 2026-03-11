@@ -256,15 +256,15 @@ class OnboardingSlide extends StatelessWidget {
           ),
         ),
 
-        // Content
+
         SafeArea(
           child: Column(
             children: [
               const Spacer(),
 
-              // Title and Description
+         
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Column(
                   children: [
 Text(
@@ -286,6 +286,7 @@ Text(
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
+                         fontFamily: "Outfit",
                         fontSize: 13,
                         height: 1.2,
                         fontWeight: FontWeight.w400

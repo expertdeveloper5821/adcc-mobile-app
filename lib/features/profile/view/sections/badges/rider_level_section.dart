@@ -29,7 +29,7 @@ class RiderStatsSection extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 2),
+          padding: const EdgeInsets.symmetric(horizontal: 0),
           child: Container(
             width: 359,
             height: 40,
@@ -40,19 +40,24 @@ class RiderStatsSection extends StatelessWidget {
               right: 13,
             ),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Colors.white.withOpacity(0.55),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: Colors.black.withOpacity(0.06),
-                width: 1,
-              ),
+             
             ),
             alignment: Alignment.centerLeft,
             child: Text(
-              riderLevel,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
+  riderLevel,
+  maxLines: 1,
+  overflow: TextOverflow.ellipsis,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 12.7012,
+    fontWeight: FontWeight.w500,
+    height: 1.43,
+    letterSpacing: 0,
+    color: AppColors.charcoal
+  ),
+)
           ),
         ),
         const SizedBox(height: 16),
@@ -61,7 +66,7 @@ class RiderStatsSection extends StatelessWidget {
           height: 75,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 2),
+            padding: const EdgeInsets.symmetric(horizontal: 0),
             child: Row(
               children: [
                 _StatCard(
@@ -101,16 +106,16 @@ class _StatCard extends StatelessWidget {
       width: 111,
       height: 75,
       padding: const EdgeInsets.only(
-        top: 19,
-        right: 27,
+        top: 10,
+        right: 19,
         bottom: 10,
-        left: 15,
+        left: 16,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: Colors.black.withOpacity(0.06),
+          color: Color(0XFF3333333B),
           width: 1,
         ),
       ),
@@ -119,7 +124,7 @@ class _StatCard extends StatelessWidget {
         children: [
           Text(
             title,
-            maxLines: 1,
+            maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               fontFamily: 'Outfit',
@@ -132,10 +137,10 @@ class _StatCard extends StatelessWidget {
           const SizedBox(height: 8.8383),
           Text(
             value,
-            style: const TextStyle(
+            style:  TextStyle(
               fontFamily: 'Outfit',
-              fontWeight: FontWeight.w600,
-              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              fontSize: 15,
               height: 1,
               color: AppColors.charcoal,
             ),

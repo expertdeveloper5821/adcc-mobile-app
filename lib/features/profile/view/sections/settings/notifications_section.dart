@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class NotificationsSection extends StatelessWidget {
@@ -37,13 +38,16 @@ class NotificationsSection extends StatelessWidget {
         const Padding(
           padding: EdgeInsets.only(bottom: 8),
           child: Text(
-            "Notifications",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: Color(0XFF3333333),
-            ),
-          ),
+  "Notifications",
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 1,
+    letterSpacing: 0,
+    color:AppColors.charcoal,
+  ),
+)
         ),
 
         /// CARD CONTAINER
@@ -135,25 +139,31 @@ class _SwitchTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0XFF333333),
-                    ),
-                  ),
+                 Text(
+  title,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 15,
+    fontWeight: FontWeight.w500,
+    height: 1,
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
 
                   const SizedBox(height: 3),
 
-                  Text(
-                    subtitle,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      color: Color(0XFF525252),
-                       fontWeight: FontWeight.w400,
-                    ),
-                  ),
+                Text(
+  subtitle,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    height: 1,
+    letterSpacing: 0,
+    color: Color(0xFF525252),
+  ),
+)
                 ],
               ),
             ),

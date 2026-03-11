@@ -101,7 +101,7 @@ class _OfficialCyclingTracksPageState
     final filteredTracks = _applyFilter();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F1E6),
+      backgroundColor: AppColors.softCream,
       body: SafeArea(
         child: ListView(
           physics: const BouncingScrollPhysics(),

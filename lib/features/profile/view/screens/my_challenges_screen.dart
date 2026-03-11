@@ -56,30 +56,54 @@ class _MyChallengesScreenState extends State<MyChallengesScreen>
   ),
 
   title: const Text(
-    "My challenges",
-    style: TextStyle(
-      color: Colors.black,
-      fontWeight: FontWeight.w700,
-      fontSize: 20,
-    ),
+  "My challenges",
+  textAlign: TextAlign.center,
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    color: Colors.black,
+    fontWeight: FontWeight.w600,
+    fontSize: 22,
+    height: 1,
+    letterSpacing: 0,
   ),
+),
 
-  bottom: TabBar(
-    controller: _tabController,
-    indicatorColor: Color(0xffC62828),
-    indicatorWeight: 3,
-    labelColor: Color(0xffC62828),
-    unselectedLabelColor: Color(0xff8E8E8E),
-    labelStyle: const TextStyle(
-      fontWeight: FontWeight.w600,
-      fontSize: 16,
+  bottom: PreferredSize(
+  preferredSize: const Size.fromHeight(48),
+  child: Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 9.5),
+    child: Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+
+        /// Grey base line
+        Container(
+          height: 2,
+          color: Colors.black.withOpacity(0.5),
+        ),
+
+        /// TabBar
+        TabBar(
+          controller: _tabController,
+          indicatorColor: const Color(0xFFC12D32),
+          indicatorWeight: 3,
+          indicatorSize: TabBarIndicatorSize.label,
+          labelColor: const Color(0xFFC12D32),
+          unselectedLabelColor: const Color(0xFF8E8E8E),
+          labelStyle: const TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
+          tabs: const [
+            Tab(text: "Completed"),
+            Tab(text: "Upcoming"),
+            Tab(text: "Cancelled"),
+          ],
+        ),
+      ],
     ),
-    tabs: const [
-      Tab(text: "Completed"),
-      Tab(text: "Upcoming"),
-      Tab(text: "Cancelled"),
-    ],
   ),
+),
 ),
 
 

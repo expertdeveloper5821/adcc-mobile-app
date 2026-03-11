@@ -7,10 +7,11 @@ import 'package:flutter/material.dart';
 
 class EventsByCategoryViewAll extends StatefulWidget {
   final List<Event> events;
-
+  final String? initialCategory; 
   const EventsByCategoryViewAll({
     super.key,
     required this.events,
+     this.initialCategory,
   });
 
   @override
@@ -26,28 +27,61 @@ class _EventsByCategoryViewAllState extends State<EventsByCategoryViewAll> {
     "Races",
     "Community Rides",
     "Training & Clinics",
+    "Awareness Rides",
+    "Family & Kids",
+    "Corporate",
   ];
+@override
+void initState() {
+  super.initState();
 
+  if (widget.initialCategory != null) {
+    final index = categories.indexWhere(
+      (c) => c.toLowerCase() == widget.initialCategory!.toLowerCase(),
+    );
 
-  String _derivedCategory(Event e) {
-    final title = e.title.toLowerCase();
-    final desc = (e.description ?? '').toLowerCase();
-
-    if (title.contains("race") ||
-        title.contains("series") ||
-        desc.contains("race")) {
-      return "Races";
+    if (index != -1) {
+      selectedCategoryIndex = index;
     }
-
-    if (title.contains("training") ||
-        title.contains("clinic") ||
-        desc.contains("training") ||
-        desc.contains("clinic")) {
-      return "Training & Clinics";
-    }
-
-    return "Community Rides";
   }
+}
+
+ String _derivedCategory(Event e) {
+  final title = e.title.toLowerCase();
+  final desc = (e.description ?? '').toLowerCase();
+
+  if (title.contains("race") ||
+      title.contains("series") ||
+      desc.contains("race")) {
+    return "Races";
+  }
+
+  if (title.contains("training") ||
+      title.contains("clinic") ||
+      desc.contains("training") ||
+      desc.contains("clinic")) {
+    return "Training & Clinics";
+  }
+
+  if (title.contains("awareness") ||
+      desc.contains("awareness")) {
+    return "Awareness Rides";
+  }
+
+  if (title.contains("family") ||
+      title.contains("kids") ||
+      desc.contains("family") ||
+      desc.contains("kids")) {
+    return "Family & Kids";
+  }
+
+  if (title.contains("corporate") ||
+      desc.contains("corporate")) {
+    return "Corporate";
+  }
+
+return e.category ?? "Community Rides";
+}
 
   /// Badge text ko screenshot ke hisab se short banaya
   String _badgeText(String category) {
@@ -71,31 +105,29 @@ class _EventsByCategoryViewAllState extends State<EventsByCategoryViewAll> {
     return '${event.currentParticipants ?? 0}${event.maxParticipants != null ? '/${event.maxParticipants}' : ''} riders';
   }
 
-  List<Event> get _filteredEvents {
-    List<Event> list = widget.events;
+List<Event> get _filteredEvents {
+  final selectedCategory = categories[selectedCategoryIndex];
+List<Event> list = widget.events.where((e) {
+  final cat = (e.category ?? '').toLowerCase().trim();
+  final selected = selectedCategory.toLowerCase().trim();
+  return cat == selected;
+}).toList();
+  if (_searchQuery.trim().isNotEmpty) {
+    final q = _searchQuery.toLowerCase();
 
-    /// 1) Category filter
-    final selected = categories[selectedCategoryIndex].toLowerCase().trim();
     list = list.where((e) {
-      final cat = _derivedCategory(e).toLowerCase().trim();
-      return cat == selected;
+      final title = e.title.toLowerCase();
+      final desc = (e.description ?? '').toLowerCase();
+      final address = (e.address ?? '').toLowerCase();
+
+      return title.contains(q) ||
+          desc.contains(q) ||
+          address.contains(q);
     }).toList();
-
-    /// 2) Search filter
-    if (_searchQuery.trim().isNotEmpty) {
-      final q = _searchQuery.trim().toLowerCase();
-
-      list = list.where((e) {
-        final title = e.title.toLowerCase();
-        final desc = (e.description ?? '').toLowerCase();
-        final address = (e.address ?? '').toLowerCase();
-
-        return title.contains(q) || desc.contains(q) || address.contains(q);
-      }).toList();
-    }
-
-    return list;
   }
+
+  return list;
+}
 
   @override
   Widget build(BuildContext context) {

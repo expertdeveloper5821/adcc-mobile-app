@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class AvailableRewardsSection extends StatelessWidget {
@@ -116,25 +117,33 @@ class RewardItemCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
 
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                   Text(
+  title,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 15,
+    fontWeight: FontWeight.w500,
+    height: 1,
+    letterSpacing: 0,
+    color: AppColors.charcoal
+  ),
+),
 
-                    const SizedBox(height: 2),
+                    const SizedBox(height: 6),
 
-                    Text(
-                      subtitle,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.black54,
-                      ),
-                    ),
+                   Text(
+  subtitle,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 10,
+    fontWeight: FontWeight.w400,
+    height: 1,
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
 
-                    const SizedBox(height: 2),
+                    const SizedBox(height: 7),
 
                     /// POINT BADGE
                     Container(
@@ -173,9 +182,9 @@ class RewardItemCard extends StatelessWidget {
                 height: 30,
                 padding: const EdgeInsets.only(
                   top: 6,
-                  right: 14,
+                  right: 10,
                   bottom: 6,
-                  left: 15,
+                  left: 10,
                 ),
                 decoration: BoxDecoration(
                   color: const Color(0xFFC12D32),
@@ -187,13 +196,17 @@ class RewardItemCard extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: const Text(
-                  "Claim now",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+  "Claim now",
+  textAlign: TextAlign.center,
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    color: Colors.white,
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1,
+    letterSpacing: 0,
+  ),
+)
               ),
             ),
           ],

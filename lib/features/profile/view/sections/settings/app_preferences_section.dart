@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class AppPreferencesSection extends StatelessWidget {
@@ -16,15 +17,17 @@ class AppPreferencesSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 
-        /// FIRST TITLE
-        const Text(
-          "App Preferences",
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            color: Color(0XFF333333),
-          ),
-        ),
+      const Text(
+  "App Preferences",
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    height: 1.43,
+    letterSpacing: -0.22,
+    color: AppColors.charcoal,
+  ),
+),
 
         const SizedBox(height: 8),
 
@@ -73,17 +76,20 @@ class AppPreferencesSection extends StatelessWidget {
           ),
         ),
 
-        const SizedBox(height: 24),
+        const SizedBox(height: 39),
 
         /// SECOND TITLE
-        const Text(
-          "App Preferences",
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            color: Color(0XFF333333),
-          ),
-        ),
+       const Text(
+  "App Preferences",
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    height: 1.43,
+    letterSpacing: -0.22,
+    color: AppColors.charcoal,
+  ),
+),
 
         const SizedBox(height: 8),
 
@@ -110,15 +116,30 @@ class AppPreferencesSection extends StatelessWidget {
               Divider(height: 1),
 
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 14),
-                child: Text(
-                  "App Version\nv1.0.0 (Build 100)",
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+                padding: EdgeInsets.symmetric(vertical: 16),
+                child:Column(
+  children: const [
+    Text(
+      "App Version",
+      style: TextStyle(
+        fontFamily: 'Outfit',
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        color: AppColors.charcoal,
+      ),
+    ),
+    SizedBox(height: 1),
+    Text(
+      "v1.0.0 (Build 100)",
+      style: TextStyle(
+        fontFamily: 'Outfit',
+        fontSize: 12,
+        fontWeight: FontWeight.w500,
+        color: Color(0xFFA3A3A3),
+      ),
+    ),
+  ],
+)
               ),
             ],
           ),
@@ -162,23 +183,31 @@ class _ArrowTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+                 Text(
+  title,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 15,
+    fontWeight: FontWeight.w500,
+    height: 1,
+    letterSpacing: 0,
+    color: AppColors.charcoal
+  ),
+),
 
                   const SizedBox(height: 2),
 
-                  Text(
-                    subtitle,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.black54,
-                    ),
-                  ),
+Text(
+  subtitle,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    height: 1,
+    letterSpacing: 0,
+    color: Color(0XFF525252),
+  ),
+)
                 ],
               ),
             ),
@@ -291,14 +320,17 @@ class _SimpleTile extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
+Text(
+  title,
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 15,
+    fontWeight: FontWeight.w500,
+    height: 1,
+    letterSpacing: 0,
+  ),
+),
 
           const Icon(
             Icons.arrow_forward_ios,

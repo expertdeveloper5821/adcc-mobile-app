@@ -44,7 +44,7 @@ class _TrackNearAllPageState extends State<TrackNearAllPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F1E6),
+      backgroundColor: AppColors.softCream,
       body: SafeArea(
         child: FutureBuilder<List<TrackModel>>(
           future: _futureTracks,

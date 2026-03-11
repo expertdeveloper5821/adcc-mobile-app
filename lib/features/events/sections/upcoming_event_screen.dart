@@ -113,7 +113,7 @@ class _UpcomingeventState extends State<Upcomingevent> {
               onBackTap: () => Navigator.pop(context),
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 21),
 
             // CATEGORY SELECTOR
             CategorySelector(
@@ -124,7 +124,7 @@ class _UpcomingeventState extends State<Upcomingevent> {
               },
             ),
 
-            const SizedBox(height: 14),
+            const SizedBox(height: 36),
 
          
             Text(
@@ -180,7 +180,7 @@ class _UpcomingeventState extends State<Upcomingevent> {
 
                     eventId: e.id,
 
-                    width: 369,
+                    width: 364,
 
                     onShare: () {
                       debugPrint("Share tapped: ${e.id}");

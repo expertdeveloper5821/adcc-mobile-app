@@ -25,9 +25,7 @@ class _JoinCommunityState extends State<JoinCommunity> {
     super.initState();
     _community = widget.community;
     
-    debugPrint(' JoinCommunity Screen - Community: ${_community.title}');
-    debugPrint(' JoinCommunity Screen - Is Joined: ${_community.isJoined}');
-    debugPrint(' JoinCommunity Screen - Members: ${_community.membersCount}');
+
   }
 
   @override
@@ -40,7 +38,7 @@ class _JoinCommunityState extends State<JoinCommunity> {
     final location = (_community.location ?? "Abu Dhabi").trim();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F5EF),
+      backgroundColor: AppColors.softCream,
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -54,20 +52,7 @@ class _JoinCommunityState extends State<JoinCommunity> {
 
             return Stack(
               children: [
-                /// LEFT ARC FRAME (RESPONSIVE)
-                Positioned(
-                  left: frameLeft,
-                  top: frameTop,
-                  child: IgnorePointer(
-                    child: Image.asset(
-                      "assets/images/frame_1.png",
-                      width: frameWidth,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ),
-
-                /// MAIN CONTENT
+               
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 14, 16, 18),
                   child: Column(
@@ -76,67 +61,59 @@ class _JoinCommunityState extends State<JoinCommunity> {
                       Expanded(
                         child: SingleChildScrollView(
                           physics: const BouncingScrollPhysics(),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              /// TOP BACK BUTTON
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: GestureDetector(
-                                  onTap: () => Navigator.pop(context, true), // Return true to indicate success
-                                  child: Container(
-                                    height: 36,
-                                    width: 36,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFEDE6DA),
-                                      borderRadius: BorderRadius.circular(14),
-                                    ),
-                                    child: const Icon(
-                                      Icons.arrow_back_ios_new_rounded,
-                                      size: 18,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                         child: Stack(
+    children: [
+
+      /// FRAME (now scrolls with content)
+      Positioned(
+        left: frameLeft,
+        top: frameTop,
+        child: IgnorePointer(
+          child: Image.asset(
+            "assets/images/frame_1.png",
+            width: frameWidth,
+            fit: BoxFit.contain,
+          ),
+        ),
+      ),
+
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+                            /// TOP BACK BUTTON
+Align(
+  alignment: Alignment.centerLeft,
+  child: GestureDetector(
+    onTap: () => Navigator.pop(context, true),
+    child: Container(
+      height: 35,
+      width: 35,
+      padding: const EdgeInsets.fromLTRB(10, 10, 7.54, 9.46),
+      decoration: BoxDecoration(
+        color: const Color(0x5CC12D32), // #C12D325C
+        borderRadius: BorderRadius.circular(53.8462),
+      ),
+      child: const Icon(
+        Icons.arrow_back,
+        size: 15,
+        color: Color(0xFFC12D32),
+      ),
+    ),
+  ),
+),
 
                               const SizedBox(height: 18),
 
-                              /// TOP CIRCLE + DOT
-                              Center(
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Container(
-                                      height: 128,
-                                      width: 128,
-                                      decoration: const BoxDecoration(
-                                        color: Colors.white,
-                                        shape: BoxShape.circle,
-                                      ),
-                                    ),
-                                    Positioned(
-                                      left: 26,
-                                      top: 42,
-                                      child: Container(
-                                        height: 10,
-                                        width: 10,
-                                        decoration: const BoxDecoration(
-                                          color: Color(0xFFB11212),
-                                          shape: BoxShape.circle,
-                                        ),
-                                      ),
-                                    ),
-                                    const Icon(
-                                      Icons.check_circle,
-                                      size: 60,
-                                      color: Colors.green,
-                                    ),
-                                  ],
-                                ),
-                              ),
-
-                              const SizedBox(height: 18),
+                           /// CENTER GIF
+Center(
+  child: Image.asset(
+    "assets/icons/checkmark.gif",
+    height: 128,
+    width: 128,
+    fit: BoxFit.contain,
+  ),
+),
+                              const SizedBox(height: 12),
 
                               /// TITLE
                               const Text(
@@ -150,7 +127,7 @@ class _JoinCommunityState extends State<JoinCommunity> {
                                 ),
                               ),
 
-                              const SizedBox(height: 10),
+                              const SizedBox(height: 7),
 
                               /// SUBTITLE
                               Text(
@@ -231,26 +208,26 @@ class _JoinCommunityState extends State<JoinCommunity> {
                                 },
                               ),
 
-                              const SizedBox(height: 18),
-                            ],
-                          ),
-                        ),
+                              const SizedBox(height: 46),
+                                  ],
+      ),
+    ],
+  ),
+),
                       ),
 
                   
                       AppButton(
                         label: "Start Exploring",
                         onPressed: () {
-                         
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => Mycommunity(
-                                myCommunities: [_community],
-                              ),
-                            ),
-                            (route) => false, 
-                          );
+                        Navigator.push(
+  context,
+  MaterialPageRoute(
+    builder: (_) => Mycommunity(
+      myCommunities: [_community],
+    ),
+  ),
+);
                         },
                         type: AppButtonType.primary,
                         backgroundColor: const Color(0xFFB11212),
@@ -316,9 +293,9 @@ class _JoinedCommunityCard extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontSize: 14,
+                          fontSize: 18,
                           fontWeight: FontWeight.w900,
-                          color: Colors.black,
+                          color: AppColors.charcoal,
                         ),
                       ),
                       const SizedBox(height: 6),
@@ -329,8 +306,8 @@ class _JoinedCommunityCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 12,
                           height: 1.3,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFF6B6B6B),
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF33333335),
                         ),
                       ),
                     ],
@@ -339,25 +316,25 @@ class _JoinedCommunityCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-            Row(
-              children: [
-                Expanded(
-                  child: _MiniInfoBox(
-                    icon: Icons.groups_rounded,
-                    title: "Members",
-                    value: members.toString(),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: _MiniInfoBox(
-                    icon: Icons.location_on_rounded,
-                    title: "Location",
-                    value: location,
-                  ),
-                ),
-              ],
-            ),
+          Row(
+  children: [
+    Expanded(
+      child: _MiniInfoBox(
+        iconPath: "assets/icons/red_people.png",
+        title: "Members",
+        value: members.toString(),
+      ),
+    ),
+    const SizedBox(width: 12),
+    Expanded(
+      child: _MiniInfoBox(
+        iconPath: "assets/icons/location.png",
+        title: "Location",
+        value: location,
+      ),
+    ),
+  ],
+)
           ],
         ),
       ),
@@ -365,13 +342,14 @@ class _JoinedCommunityCard extends StatelessWidget {
   }
 }
 
+
 class _MiniInfoBox extends StatelessWidget {
-  final IconData icon;
+  final String iconPath;
   final String title;
   final String value;
 
   const _MiniInfoBox({
-    required this.icon,
+    required this.iconPath,
     required this.title,
     required this.value,
   });
@@ -385,9 +363,17 @@ class _MiniInfoBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(14),
       ),
       child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 18, color: AppColors.goldenOchre),
-          const SizedBox(width: 10),
+          Image.asset(
+            iconPath,
+            height: 16,
+            width: 13,
+            color: AppColors.deepRed,
+          ),
+
+          const SizedBox(width: 12),
+
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -436,11 +422,11 @@ class _NextOptionTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 58,
-        padding: const EdgeInsets.symmetric(horizontal: 14),
+        height: 80,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
           color: const Color(0xFFFFEFD7),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
           children: [
@@ -458,16 +444,16 @@ class _NextOptionTile extends StatelessWidget {
               child: Text(
                 title,
                 style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0XFF101828),
                 ),
               ),
             ),
             const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 16,
-              color: Color(0xFF6B6B6B),
+              color: Color(0xFFA3A3A3),
             ),
           ],
         ),

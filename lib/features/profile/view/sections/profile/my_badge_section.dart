@@ -10,7 +10,7 @@ class MyBadgesSection extends StatelessWidget {
     return Container(
       color: AppColors.softCream,
       padding: const EdgeInsets.only(
-        top: 24,
+        top: 41,
         bottom: 24,
       ),
       child: Column(
@@ -52,7 +52,7 @@ class MyBadgesSection extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 20),
+          const SizedBox(height: 25),
 
          
           SizedBox(

@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class AccountSection extends StatelessWidget {
@@ -12,14 +13,17 @@ class AccountSection extends StatelessWidget {
         /// TITLE
         const Padding(
           padding: EdgeInsets.only(bottom: 10),
-          child: Text(
-            "Account",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: Color(0XFF333333),
-            ),
-          ),
+          child:Text(
+  "Account",
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 1,
+    letterSpacing: 0,
+    color: Color(0xFF333333),
+  ),
+)
         ),
 
         /// CARD
@@ -99,23 +103,30 @@ class _AccountTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                 Text(
+  title,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    height: 1,
+    letterSpacing: 0,
+    color: AppColors.charcoal
+  ),
+),
 
                   const SizedBox(height: 2),
-
-                  Text(
-                    subtitle,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.black54,
-                    ),
-                  ),
+Text(
+  subtitle,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1,
+    letterSpacing: 0,
+    color: Color(0XFF525252),
+  )
+)
                 ],
               ),
             ),

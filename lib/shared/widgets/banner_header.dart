@@ -11,20 +11,21 @@ class BannerHeadder extends StatelessWidget {
   final String subtitle;
   final bool showNotificationIcon;
   final VoidCallback? onBackTap;
-
+final bool centerTitle;
   const BannerHeadder({
     super.key,
     this.imagePath,
     this.base64Image,
     required this.title,
-    this.height = 210,
+    this.height = 190,
     this.showNotificationIcon = false,
     required this.subtitle,
     this.onBackTap,
+    this.centerTitle = false,
   });
 
   ImageProvider _buildImage() {
-    // ✅ If base64 image available
+
     if (base64Image != null &&
         base64Image!.isNotEmpty &&
         base64Image!.contains(',')) {
@@ -37,12 +38,12 @@ class BannerHeadder extends StatelessWidget {
       }
     }
 
-    // ✅ If asset path available
+  
     if (imagePath != null && imagePath!.isNotEmpty) {
       return AssetImage(imagePath!);
     }
 
-    // ✅ Fallback
+ 
     return const AssetImage('assets/images/cycling_1.png');
   }
 
@@ -165,7 +166,46 @@ class BannerHeadder extends StatelessWidget {
                 ),
               ),
 
-            // Text content (bottom-left)
+if (centerTitle)
+  Positioned(
+    bottom: 21,
+    left: 0,
+    right: 0,
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          title,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontFamily: 'Outfit',
+            fontWeight: FontWeight.w600,
+            fontSize: 22,
+            height: 1,
+            letterSpacing: 0,
+            color: Colors.white,
+          ),
+        ),
+
+        if (subtitle.isNotEmpty) ...[
+          const SizedBox(height: 4),
+          Text(
+            subtitle,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: 'Outfit',
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+              height: 1,
+              color: Colors.white,
+            ),
+          ),
+        ]
+      ],
+    ),
+  )
+       
+else
             Positioned(
               left: 16,
               right: 16,
@@ -187,8 +227,8 @@ class BannerHeadder extends StatelessWidget {
                     subtitle,
                     style: TextStyle(
                       color: Colors.white.withValues(alpha: 0.9),
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
                       height: 1.2,
                     ),
                   ),

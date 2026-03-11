@@ -14,7 +14,7 @@ class CyclingDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffFFF9EF),
+      backgroundColor: AppColors.softCream,
       body: Padding(
         padding:            const EdgeInsets.fromLTRB(16, 16, 16, 20),
         child: SafeArea(
@@ -28,24 +28,25 @@ class CyclingDetailsScreen extends StatelessWidget {
                       title: 'My cycling details',
                       subtitle:
                           '',
+                          centerTitle: true,
                       onBackTap: () =>
                           Navigator.pop(context),
                     ),
           
-                const SizedBox(height: 15),
+                const SizedBox(height: 28),
       const RiderStatsSection(
   riderLevel: "Rider Level: Intermediate",
 
-  badgesTitle: "Total Badges",
-  badgesValue: "06",
+  badgesTitle: "Total Distance",
+  badgesValue: "1247 km",
 
-  pointsTitle: "Total Points",
-  pointsValue: "515",
+  pointsTitle: "Ride Streak",
+  pointsValue: "6 Days",
 
-  progressTitle: "In Progress",
-  progressValue: "03",
+  progressTitle: "Badges Earned",
+  progressValue: "12",
 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 18),
         
                 Padding(
   padding: const EdgeInsets.symmetric(horizontal: 2),
@@ -65,22 +66,26 @@ class CyclingDetailsScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(7.4843),
         ),
       ),
-      child: const Text(
-        "View Full Stats",
-        style: TextStyle(
-          fontSize: 17,
-          fontWeight: FontWeight.w400,
-          color: Colors.white,
-        ),
-      ),
+     child:  Text(
+  "View Full Stats",
+  textAlign: TextAlign.center,
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 17.4634,
+    fontWeight: FontWeight.w400,
+    height: 1.5,
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+),
     ),
   ),
 ),
         
-                const SizedBox(height: 20),
+                const SizedBox(height: 40),
         
            const CyclingIdentityCard(),
-                const SizedBox(height: 20),
+                const SizedBox(height: 40),
         
       SectionHeader(
         title: "Your Rides & Events",
@@ -88,6 +93,7 @@ class CyclingDetailsScreen extends StatelessWidget {
           print("View All Clicked");
         },
       ),
+      const SizedBox(height: 31),
         const RideTile(
   title: "UAE National Day Ride",
   distance: "25 km",
@@ -112,11 +118,11 @@ const RideTile(
   imagePath:  'assets/images/cycling_1.png',
 ),
         
-                const SizedBox(height: 10),
+                const SizedBox(height: 40),
         const CompletedRidesCard(
   rides: 18,
 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 46),
         
                 communitiesHeader(),
         
@@ -130,28 +136,32 @@ const RideTile(
     ],
   ),
 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 56),
         
             /// LISTED GEAR
 Padding(
-  padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 10),
+  padding: const EdgeInsets.symmetric( vertical: 10),
   child: Align(
-    alignment: Alignment.centerLeft,
-    child: Text(
-      "Your Listed Gear",
-      style: const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w600,
-        color: AppColors.charcoal,
-      ),
-    ),
+   alignment: Alignment.centerLeft,
+child: Text(
+  "Your Listed Gear",
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 22,
+    fontWeight: FontWeight.w600,
+    height: 1,
+    letterSpacing: 0,
+    color: AppColors.charcoal,
   ),
 ),
+  ),
+),
+  const SizedBox(height: 18),
         SizedBox(
   height: 272,
   child: ListView(
     scrollDirection: Axis.horizontal,
-    padding: const EdgeInsets.symmetric(horizontal: 16),
+
     children: const [
 
       GearCard(
@@ -260,13 +270,17 @@ Widget communityChip(String text) {
         color: AppColors.warmSand,
       ),
     ),
-    child: Text(
-      text,
-      textAlign: TextAlign.center,
-      style: const TextStyle(
-        fontSize: 14,
-        fontWeight: FontWeight.w400,
-      ),
-    ),
+   child: Text(
+  text,
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.43,
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
   );
 }

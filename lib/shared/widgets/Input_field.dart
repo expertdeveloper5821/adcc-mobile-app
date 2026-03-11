@@ -18,7 +18,7 @@ class InputField extends StatelessWidget {
     this.validator,
   });
 
-  /// 👇 Handles Icon OR Image
+
   Widget? _buildPrefixIcon() {
     if (icon != null) {
       return Icon(icon);

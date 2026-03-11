@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'dart:ui';
 class StoreProductGrid extends StatelessWidget {
   final List<Map<String, dynamic>> products;
   final Function(Map<String, dynamic>) onTap;
@@ -72,37 +72,49 @@ class _StoreProductCard extends StatelessWidget {
                 ),
 
                 /// LOCATION BADGE
-                Positioned(
-                  top: 12,
-                  left: 7,
-                  child: Container(
-                    height: 21,
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    decoration: BoxDecoration(
-                      color: const Color(0x33FFFFFF),
-                      borderRadius: BorderRadius.circular(22.5),
-                    ),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          "assets/icons/location.png",
-                          height: 11.98,
-                          width: 11.98,
-                          color: Colors.white,
-                        ),
-                        const SizedBox(width: 3),
-                        Text(
-                          product['location'],
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+              Positioned(
+  top: 12,
+  left: 7,
+  child: ClipRRect(
+    borderRadius: BorderRadius.circular(22.5),
+    child: BackdropFilter(
+      filter: ImageFilter.blur(
+        sigmaX: 7.5,
+        sigmaY: 7.5,
+      ),
+      child: Container(
+        height: 21,
+        padding: const EdgeInsets.symmetric(
+          horizontal: 8,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.2),
+          borderRadius: BorderRadius.circular(22.5),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(
+              "assets/icons/location.png",
+              height: 12,
+              width: 12,
+              color: Colors.white,
+            ),
+            const SizedBox(width: 3),
+            Text(
+              product['location'],
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 10,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  ),
+)
               ],
             ),
 

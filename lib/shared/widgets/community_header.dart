@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
-
+import 'dart:ui';
 class CommunityHeader extends StatefulWidget {
   final String imagePath;
   final String title;
@@ -143,50 +143,69 @@ class _CommunityHeaderState extends State<CommunityHeader> {
 
                   if (widget.wantSearchBar) ...[
                     const SizedBox(height: 14),
-                    Container(
-                      height: 44,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.22),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: TextField(
-                        controller: _searchController,
-                        onChanged: widget.onChangeHandler,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12.5,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: widget.placeholder ??
-                              "Search by track name, city, distance or terrain...",
-                          hintStyle: TextStyle(
-                            color: Colors.white.withValues(alpha: 0.70),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w700,
-                          ),
-                          prefixIcon: Container(
-                            margin: const EdgeInsets.all(10),
-                            height: 26,
-                            width: 26,
-                            decoration: BoxDecoration(
-                              color: Colors.black.withValues(alpha: 0.35),
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.search,
-                              size: 16,
-                              color: Colors.white,
-                            ),
-                          ),
-                          border: InputBorder.none,
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 14,
-                            vertical: 12,
-                          ),
-                        ),
-                      ),
-                    ),
+ClipRRect(
+  borderRadius: BorderRadius.circular(12),
+  child: BackdropFilter(
+    filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+    child: Container(
+      height: 38,
+      padding: const EdgeInsets.fromLTRB(14, 7, 15, 7),
+      decoration: BoxDecoration(
+        color: const Color(0x36FFFFFF), // #FFFFFF 21%
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+
+          /// Search Icon Container
+          Container(
+            width: 23.5,
+            height: 23.5,
+            decoration: BoxDecoration(
+              color: const Color(0x408C8C8C), // #8C8C8C40
+              shape: BoxShape.circle,
+            ),
+            child: const Center(
+              child: Icon(
+                Icons.search,
+                size: 14,
+                color: Colors.white,
+              ),
+            ),
+          ),
+
+          const SizedBox(width: 11),
+
+          /// Text Field
+          Expanded(
+            child: TextField(
+              controller: _searchController,
+              onChanged: widget.onChangeHandler,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+              ),
+              decoration: InputDecoration(
+                hintText: widget.placeholder ??
+                    "Search by track name, city, distance or terrain...",
+                hintStyle: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                ),
+                border: InputBorder.none,
+                isDense: true,
+                contentPadding: EdgeInsets.zero,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  ),
+)
                   ],
                 ],
               ),

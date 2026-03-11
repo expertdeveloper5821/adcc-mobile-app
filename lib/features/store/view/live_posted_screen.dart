@@ -57,8 +57,8 @@ class LivePostedScreen extends StatelessWidget {
 
             /// FRAME IMAGE (NO PADDING)
             Positioned(
-               left: -52,
-              top: 188,
+               left: -32,
+              top: 172,
               child: Image.asset(
                 "assets/images/frame_1.png",
                 width: 135,
@@ -76,41 +76,19 @@ class LivePostedScreen extends StatelessWidget {
                   const SizedBox(height: 12),
 
                   /// TOP DECORATIVE CIRCLE
-                  Center(
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Container(
-                          width: 110,
-                          height: 110,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.charcoal.withValues(alpha: 0.05),
-                                blurRadius: 12,
-                              )
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                          left: 18,
-                          top: 18,
-                          child: Container(
-                            width: 18,
-                            height: 18,
-                            decoration: const BoxDecoration(
-                              color: AppColors.deepRed,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                 Center(
+  child: ClipRRect(
+    borderRadius: BorderRadius.circular(55),
+    child: Image.asset(
+      "assets/icons/checkmark.gif",
+      width: 110,
+      height: 110,
+      fit: BoxFit.cover,
+    ),
+  ),
+),
 
-                  const SizedBox(height: 26),
+                  const SizedBox(height: 16),
 
                   /// TITLE
                   const Text(
@@ -125,7 +103,6 @@ class LivePostedScreen extends StatelessWidget {
 
                   const SizedBox(height: 8),
 
-                  /// SUBTITLE (2 LINES)
                   Text(
                     "You have successfully\nposted listing",
                     style: TextStyle(
@@ -137,7 +114,7 @@ class LivePostedScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
 
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 24),
 
                   /// LISTING CARD
                   Container(

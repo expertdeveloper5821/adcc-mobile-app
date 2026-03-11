@@ -32,7 +32,7 @@ class _RoutesTabState extends State<RoutesTab> {
     return SafeArea(
       child: ListView(
         physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.symmetric(vertical: 24),
+        // padding: const EdgeInsets.symmetric(vertical: 16),
         children: [
 
           const SizedBox(height: 16),
@@ -48,7 +48,7 @@ class _RoutesTabState extends State<RoutesTab> {
                 setState(() => searchQuery = value);
               },
               placeholder:
-                  'Search by track name, city, distance or terrain...',
+                  'Search tracks, city, distance or terrain...',
             ),
           ),
 

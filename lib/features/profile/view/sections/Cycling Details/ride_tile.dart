@@ -54,17 +54,18 @@ class RideTile extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
-                    /// TITLE
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.charcoal
-                      ),
-                    ),
-
+/// TITLE
+Text(
+  title,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    height: 1,
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
                     const SizedBox(height: 6),
 
                     /// DISTANCE + RIDERS
@@ -79,11 +80,17 @@ class RideTile extends StatelessWidget {
       fit: BoxFit.contain,
     ),
     const SizedBox(width: 4),
-
-    Text(
-      distance,
-      style: const TextStyle(fontSize: 12),
-    ),
+Text(
+  distance,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 1.33,
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
 
     const SizedBox(width: 16),
 
@@ -96,10 +103,17 @@ class RideTile extends StatelessWidget {
     ),
     const SizedBox(width: 4),
 
-    Text(
-      riders,
-      style: const TextStyle(fontSize: 12),
-    ),
+   Text(
+  riders,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 1.16,
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+)
   ],
 ),
                     const Spacer(),
@@ -135,24 +149,32 @@ SizedBox(
         ),
       ),
     ),
-    child: const Text(
-      "Navigate",
-      style: TextStyle(
-        fontSize: 12,
-        fontWeight: FontWeight.w600,
-      ),
-    ),
+    child:const Text(
+  "Navigate",
+  textAlign: TextAlign.center,
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.5,
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+)
   ),
 ),
-
-                        /// DATE
-                        Text(
-                          date,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Colors.black54,
-                          ),
-                        )
+/// DATE
+Text(
+  date,
+  style: const TextStyle(
+    fontFamily: 'Geist',
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 1,
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+)
                       ],
                     )
                   ],

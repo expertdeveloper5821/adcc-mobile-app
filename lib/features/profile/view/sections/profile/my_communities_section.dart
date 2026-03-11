@@ -1,6 +1,6 @@
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:ui';
 class MyCommunitiesSection extends StatelessWidget {
   const MyCommunitiesSection({super.key});
 
@@ -8,7 +8,7 @@ class MyCommunitiesSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.softCream,
-      padding: const EdgeInsets.only(top: 8, bottom: 24),
+
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -47,17 +47,18 @@ class MyCommunitiesSection extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
 
  
           SizedBox(
-            height: 273,
+        
+           height: 273,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               physics: const BouncingScrollPhysics(),
               itemCount: 3,
-              separatorBuilder: (_, __) => const SizedBox(width: 14),
+              separatorBuilder: (_, __) => const SizedBox(width: 10),
               itemBuilder: (context, index) {
                 return const _CommunityCard();
               },
@@ -75,7 +76,7 @@ class _CommunityCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 358,
+      width: 328,
       height: 273,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(11.5872),
@@ -108,26 +109,36 @@ class _CommunityCard extends StatelessWidget {
                         color: Colors.black.withOpacity(0.10),
                       ),
 
-                      Positioned(
-                        top: 12,
-                        left: 12,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 6),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.45),
-                            borderRadius: BorderRadius.circular(999),
-                          ),
-                          child: const Text(
-                            "Joined",
-                            style: TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
+                  Positioned(
+  top: 13,
+  left: 12,
+  child: ClipRRect(
+    borderRadius: BorderRadius.circular(999),
+    child: BackdropFilter(
+      filter: ImageFilter.blur(
+        sigmaX: 5,
+        sigmaY: 5,
+      ),
+      child: Container(
+        height: 24,
+        alignment: Alignment.center,
+        padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
+        decoration: BoxDecoration(
+          color: const Color(0xFF1A1C20).withOpacity(0.33),
+          borderRadius: BorderRadius.circular(999),
+        ),
+        child: const Text(
+          "Joined",
+          style: TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFFFFEFD7),
+          ),
+        ),
+      ),
+    ),
+  ),
+)
                     ],
                   ),
                 ),
@@ -139,15 +150,15 @@ class _CommunityCard extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children:  [
                       Text(
                         "Abu Dhabi Road Racers",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.charcoal,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textDark,
                         ),
                       ),
                       SizedBox(height: 6),
@@ -156,7 +167,7 @@ class _CommunityCard extends StatelessWidget {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 10,
                           fontWeight: FontWeight.w500,
                           color: AppColors.textSecondary,
                           height: 1.25,
@@ -165,18 +176,20 @@ class _CommunityCard extends StatelessWidget {
                       Spacer(),
                       Row(
                         children: [
-                          Icon(
-                            Icons.groups_2_outlined,
-                            size: 16,
-                            color: AppColors.textSecondary,
-                          ),
+                         Image.asset(
+  "assets/icons/person_sharp.png",
+  width: 15,
+  height: 13,
+  color: AppColors.textDark,
+  fit: BoxFit.contain,
+),
                           SizedBox(width: 8),
                           Text(
                             "2,800 members",
                             style: TextStyle(
                               fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.textSecondary,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.textDark,
                             ),
                           ),
                         ],

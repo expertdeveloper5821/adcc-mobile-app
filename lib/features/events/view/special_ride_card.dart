@@ -166,7 +166,7 @@ final id = eventId ?? "";
         width: width,
         height: _cardHeight,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(8),
           child: Stack(
             children: [
              
@@ -338,6 +338,7 @@ Row(
           "assets/icons/lighting.png",
           height: 14,
           width: 14,
+          color: Color(0XFF595959),
         ),
         const SizedBox(width: 6),
         Text(
@@ -346,8 +347,8 @@ Row(
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(
             fontSize: 11.5,
-            fontWeight: FontWeight.w700,
-            color: Colors.black87,
+            fontWeight: FontWeight.w400,
+          color: Color(0XFF484A4D),
           ),
         ),
       ],
@@ -359,15 +360,15 @@ Row(
         const Icon(
           Icons.access_time_filled_outlined,
           size: 14,
-          color: Colors.black87,
+          color: Color(0XFF484A4D),
         ),
         const SizedBox(width: 6),
         Text(
           (time ?? "5:30 AM"),
           style: const TextStyle(
             fontSize: 11.5,
-            fontWeight: FontWeight.w700,
-            color: Colors.black87,
+            fontWeight: FontWeight.w400,
+             color: Color(0XFF484A4D),
           ),
         ),
       ],
@@ -382,6 +383,7 @@ Padding(
         "assets/icons/km_fill.png",
         height: 14,
         width: 14,
+         color: Color(0XFF595959),
       ),
       const SizedBox(width: 6),
      Text(
@@ -389,7 +391,7 @@ Padding(
   style: const TextStyle(
     fontSize: 11.5,
     fontWeight: FontWeight.w700,
-    color: Colors.black87,
+     color: Color(0XFF484A4D),
   ),
 ),
     ],
@@ -403,7 +405,7 @@ Padding(
                         Row(
                           children: [
                             const Icon(Icons.location_on,
-                                size: 14, color: Colors.black87),
+                                size: 14,  color: Color(0XFF595959),),
                             const SizedBox(width: 6),
                             Expanded(
                               child: Text(
@@ -413,7 +415,7 @@ Padding(
                                 style: const TextStyle(
                                   fontSize: 11.5,
                                   fontWeight: FontWeight.w700,
-                                  color: Colors.black87,
+                                   color: Color(0XFF484A4D),
                                 ),
                               ),
                             ),
@@ -422,6 +424,7 @@ Padding(
   "assets/icons/routes_icons.png",
   height: 14,
   width: 14,
+    color: Color(0XFF484A4D),
 ),
                             const SizedBox(width: 6),
                             Expanded(
@@ -432,7 +435,7 @@ Padding(
                                 style: const TextStyle(
                                   fontSize: 11.5,
                                   fontWeight: FontWeight.w700,
-                                  color: Colors.black87,
+                                   color: Color(0XFF484A4D),
                                 ),
                               ),
                             ),

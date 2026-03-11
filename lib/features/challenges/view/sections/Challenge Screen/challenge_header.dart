@@ -1,6 +1,6 @@
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:ui';
 
 class ChallengeHeader extends StatefulWidget {
   final String imagePath;
@@ -133,58 +133,73 @@ class _ChallengeHeaderState extends State<ChallengeHeader> {
 
                   /// SEARCH BAR
                   if (widget.wantSearchBar)
-                    Container(
-                      width: 311,
-                      height: 38,
-                      padding: const EdgeInsets.fromLTRB(14, 7, 60, 7.5),
-                      decoration: BoxDecoration(
-                        color: const Color(0x36FFFFFF),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Row(
-                        children: [
+                  ClipRRect(
+  borderRadius: BorderRadius.circular(12),
+  child: BackdropFilter(
+    filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+    child: Container(
+      width: 311,
+      height: 38,
+      padding: const EdgeInsets.fromLTRB(
+        14,
+        7,
+        16,
+        7.5,
+      ),
+      decoration: BoxDecoration(
+        color: const Color(0x36FFFFFF), // #FFFFFF21
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
 
-                          /// ICON
-                          Container(
-                            width: 23.5,
-                            height: 23.5,
-                            decoration: BoxDecoration(
-                              color: const Color(0x408C8C8C),
-                              borderRadius: BorderRadius.circular(36),
-                            ),
-                            child: const Icon(
-                              Icons.search,
-                              size: 12,
-                              color: Colors.white,
-                            ),
-                          ),
+          /// SEARCH ICON CONTAINER
+          Container(
+            width: 23.5,
+            height: 23.5,
+            decoration: BoxDecoration(
+              color: const Color(0x408C8C8C), // #8C8C8C40
+              borderRadius: BorderRadius.circular(36),
+            ),
+            child: const Icon(
+              Icons.search,
+              size: 12,
+              color: Colors.white,
+            ),
+          ),
 
-                          const SizedBox(width: 11),
+          const SizedBox(width: 11),
 
-                          /// TEXTFIELD
-                          Expanded(
-                            child: TextField(
-                              controller: _controller,
-                              onChanged: widget.onChangeHandler,
-                              cursorColor: Colors.white,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                              ),
-                              decoration: InputDecoration(
-                                hintText: widget.placeholder ?? "Search",
-                                hintStyle: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                ),
-                                border: InputBorder.none,
-                                isCollapsed: true,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+          /// TEXT FIELD
+          Expanded(
+            child: TextField(
+              controller: _controller,
+              onChanged: widget.onChangeHandler,
+              cursorColor: Colors.white,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
+              decoration: InputDecoration(
+                hintText: widget.placeholder ??
+                    "Search events...",
+                hintStyle: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                ),
+                border: InputBorder.none,
+                isCollapsed: true,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  ),
+)
                 ],
               ),
             ),

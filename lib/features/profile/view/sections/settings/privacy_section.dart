@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class PrivacySection extends StatelessWidget {
@@ -32,14 +33,17 @@ class PrivacySection extends StatelessWidget {
         /// TITLE
         const Padding(
           padding: EdgeInsets.only(bottom: 8),
-          child: Text(
-            "Privacy",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: Color(0XFF333333),
-            ),
-          ),
+          child:Text(
+  "Privacy",
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    height: 1.43,
+    letterSpacing: -0.22,
+    color:AppColors.charcoal,
+  ),
+)
         ),
 
         /// CARD CONTAINER
@@ -121,26 +125,30 @@ class _SwitchTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0XFF525252),
-                    ),
-                  ),
-
+Text(
+  title,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 15,
+    fontWeight: FontWeight.w500,
+    height: 1,
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
                   const SizedBox(height: 3),
 
-                  Text(
-                    subtitle,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0XFF525252),
-                    ),
-                  ),
+                Text(
+  subtitle,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    height: 1,
+    letterSpacing: 0,
+    color: Color(0xFF525252),
+  ),
+)
                 ],
               ),
             ),

@@ -10,6 +10,7 @@ import 'package:adcc/features/home/view/recently_posted_section.dart.dart';
 import 'package:adcc/features/home/view/ride_info_section.dart';
 import 'package:adcc/features/home/view/upcoming_tracks_list.dart';
 import 'package:adcc/features/home/view/weather_card.dart';
+import 'package:adcc/features/home/view/weather_screen.dart';
 import 'package:adcc/l10n/app_localizations.dart';
 import 'package:adcc/shared/widgets/section_header.dart';
 import 'package:flutter/material.dart';
@@ -45,14 +46,7 @@ class HomeTab extends StatelessWidget {
 
                 SizedBox(height: 30),
 
-                WeatherCard(
-                  city: l10n.cityAbuDhabi,
-                  time: '12:22 PM',
-                  temperature: 20,
-                  highTemp: 28,
-                  lowTemp: 21,
-                  weatherIcon: 'assets/images/weather_cloud.png',
-                ),
+                WeatherScreen(),
                      SizedBox(height: 30),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),

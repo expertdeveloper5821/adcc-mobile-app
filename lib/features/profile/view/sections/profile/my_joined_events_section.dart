@@ -120,24 +120,26 @@ class _EventCard extends StatelessWidget {
               ),
             ),
 
-            /// Share button
-            Positioned(
-              top: 12,
-              right: 12,
-              child: Container(
-                width: 36,
-                height: 36,
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.25),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.share,
-                  size: 18,
-                  color: Colors.red,
-                ),
-              ),
-            ),
+           /// Share button
+Positioned(
+  top: 17,
+  right: 17,
+  child: Container(
+    width: 25,
+    height: 25,
+    decoration: const BoxDecoration(
+      color: Color(0xFFC12D32),
+      shape: BoxShape.circle,
+    ),
+    child: const Center(
+      child: Icon(
+        Icons.share,
+        size: 16,
+        color: Colors.white,
+      ),
+    ),
+  ),
+),
 
             /// Bottom Info Card
             Positioned(
@@ -187,15 +189,36 @@ class _EventCard extends StatelessWidget {
 
                     const SizedBox(height: 8),
 
-                    Row(
-                      children: const [
-                        _MetaItem(icon: Icons.calendar_today, text: "Every Sunday"),
-                        SizedBox(width: 12),
-                        _MetaItem(icon: Icons.location_on_outlined, text: "Abu Dhabi"),
-                        SizedBox(width: 12),
-                        _MetaItem(icon: Icons.speed, text: "150 km"),
-                      ],
-                    ),
+                  Row(
+  children: const [
+    _MetaItem(
+      icon: ImageIcon(
+        AssetImage("assets/icons/calender.png"),
+        size: 14,
+        color: Color(0XFF595959),
+      ),
+      text: "Every Sunday",
+    ),
+    SizedBox(width: 12),
+    _MetaItem(
+      icon: ImageIcon(
+        AssetImage("assets/icons/water_statoins.png"),
+        size: 14,
+       color: Color(0XFF595959),
+      ),
+      text: "Abu Dhabi",
+    ),
+    SizedBox(width: 12),
+    _MetaItem(
+      icon: ImageIcon(
+        AssetImage("assets/icons/km_fill.png"),
+        size: 14,
+        color: Color(0XFF595959),
+      ),
+      text: "150 km",
+    ),
+  ],
+)
                   ],
                 ),
               ),
@@ -206,19 +229,21 @@ class _EventCard extends StatelessWidget {
     );
   }
 }
-
 class _MetaItem extends StatelessWidget {
-  final IconData icon;
+  final Widget icon;
   final String text;
 
-  const _MetaItem({required this.icon, required this.text});
+  const _MetaItem({
+    required this.icon,
+    required this.text,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Row(
         children: [
-          Icon(icon, size: 14, color: AppColors.textSecondary),
+          icon,
           const SizedBox(width: 6),
           Expanded(
             child: Text(

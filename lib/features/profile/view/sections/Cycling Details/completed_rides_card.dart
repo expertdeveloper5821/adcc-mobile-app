@@ -37,15 +37,18 @@ class CompletedRidesCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
 
-              /// TEXT
-              Text(
-                "Completed Rides: $rides",
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-              ),
+            /// TEXT
+Text(
+  "Completed Rides: $rides",
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 17.4634,
+    fontWeight: FontWeight.w400,
+    height: 1.5,
+    letterSpacing: 0,
+    color: Color(0xFFE6E5DD),
+  ),
+),
 
               /// ICON
               const Icon(

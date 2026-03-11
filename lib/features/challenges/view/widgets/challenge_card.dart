@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
-
+import 'dart:ui';
 class ChallengeCard extends StatelessWidget {
   final String imagePath;
   final String difficulty;
@@ -82,36 +82,31 @@ class ChallengeCard extends StatelessWidget {
                   ),
 
                   /// difficulty tag
-                 Positioned(
-  top: 16.7,
-  left: 13.7,
+               Positioned(
+  top: 17,
+  left: 14,
   child: ClipRRect(
-    borderRadius: BorderRadius.circular(100),
+    borderRadius: BorderRadius.circular(999),
     child: BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+      filter: ImageFilter.blur(
+        sigmaX: 10,
+        sigmaY: 10,
+      ),
       child: Container(
-        width: 65,
-        height: 26,
-        padding: const EdgeInsets.only(
-          top: 3.12,
-          bottom: 4.88,
-          left: 2,
-          right: 2,
+        padding: const EdgeInsets.symmetric(
+          horizontal: 10,
+          vertical: 4,
         ),
-        alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: const Color(0x261A1C20),
-          borderRadius: BorderRadius.circular(100),
+          color: const Color(0xFF1A1C20).withOpacity(0.15),
+          borderRadius: BorderRadius.circular(999),
         ),
         child: Text(
           difficulty,
-          textAlign: TextAlign.center,
           style: const TextStyle(
-         
-            fontSize: 13.26,
-            fontWeight: FontWeight.w400,
-            height: 17.241 / 13.2623,
             color: Colors.white,
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),

@@ -1,6 +1,6 @@
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:ui';
 class EventHeader extends StatefulWidget {
   final String imagePath;
   final String title;
@@ -68,7 +68,7 @@ class _EventHeaderState extends State<EventHeader> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: SizedBox(
         height: 306,
         width: double.infinity,
@@ -171,64 +171,72 @@ class _EventHeaderState extends State<EventHeader> {
                     if (widget.wantSearchBar) ...[
                       const SizedBox(height: 14),
 
-                      Container(
-                        width: 311,
-                        height: 38,
-                        padding: const EdgeInsets.fromLTRB(14, 7, 28, 7.5),
-                        decoration: BoxDecoration(
-                          color: const Color(0x36FFFFFF),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Row(
-                          children: [
+                    ClipRRect(
+  borderRadius: BorderRadius.circular(12),
+  child: BackdropFilter(
+    filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+    child: Container(
+      width: 311,
+      height: 38,
+      padding: const EdgeInsets.fromLTRB(14, 7, 60, 7.5),
+      decoration: BoxDecoration(
+        color: const Color(0x36FFFFFF), // #FFFFFF21
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
 
-                            /// Search Icon Container
-                            Container(
-                              height: 23.5,
-                              width: 23.5,
-                              decoration: BoxDecoration(
-                                color: const Color(0x408C8C8C),
-                                borderRadius: BorderRadius.circular(36.15),
-                              ),
-                              child: const Icon(
-                                Icons.search,
-                                size: 12,
-                                color: Colors.white,
-                              ),
-                            ),
+          /// Search Icon Container
+          Container(
+            height: 23.5,
+            width: 23.5,
+            decoration: BoxDecoration(
+              color: const Color(0x408C8C8C), // #8C8C8C40
+              borderRadius: BorderRadius.circular(36.15),
+            ),
+            child: const Icon(
+              Icons.search,
+              size: 12,
+              color: Colors.white,
+            ),
+          ),
 
-                            const SizedBox(width: 11),
+          const SizedBox(width: 11),
 
-                            /// TextField
-                            Expanded(
-                              child: TextField(
-                                controller: _searchController,
-                                onChanged: widget.onChangeHandler,
-                                style: const TextStyle(
-                                  fontFamily: 'Outfit',
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  letterSpacing: -0.1,
-                                  color: Colors.white,
-                                ),
-                                decoration: InputDecoration(
-                                  hintText: widget.placeholder ??
-                                      "Search events, communities, cities, or tracks...",
-                                  hintStyle: const TextStyle(
-                                    fontFamily: 'Outfit',
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    letterSpacing: -0.1,
-                                    color: Colors.white,
-                                  ),
-                                  border: InputBorder.none,
-                                  isCollapsed: true,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+          /// TextField
+          Expanded(
+            child: TextField(
+              controller: _searchController,
+              onChanged: widget.onChangeHandler,
+              cursorColor: Colors.white,
+              style: const TextStyle(
+                fontFamily: 'Outfit',
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+                letterSpacing: -0.1,
+                color: Colors.white,
+              ),
+              decoration: InputDecoration(
+                hintText: widget.placeholder ??
+                    "Search events, communities, cities, or tracks...",
+                hintStyle: const TextStyle(
+                  fontFamily: 'Outfit',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  letterSpacing: -0.1,
+                  color: Colors.white,
+                ),
+                border: InputBorder.none,
+                isCollapsed: true,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  ),
+)
                     ],
                   ],
                 ),
