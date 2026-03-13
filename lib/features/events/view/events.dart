@@ -7,6 +7,7 @@ import 'package:adcc/features/events/sections/purpose_based_event_card.dart';
 import 'package:adcc/features/events/sections/upcoming_event_screen.dart';
 import 'package:adcc/features/events/view/special_ride_card.dart';
 import 'package:adcc/features/events/services/events_service.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:adcc/shared/widgets/category_selector.dart';
 import 'package:adcc/shared/widgets/section_header.dart';
 import 'package:flutter/material.dart';
@@ -33,34 +34,34 @@ class _EventsTabState extends State<EventsTab> {
     'Races',
     'Community Rides',
     'Training & Clinics',
-   
   ];
 
- String _derivedCategory(Event e) {
-  final title = e.title.toLowerCase();
-  final desc = (e.description ?? '').toLowerCase();
+  String _derivedCategory(Event e) {
+    final title = e.title.toLowerCase();
+    final desc = (e.description ?? '').toLowerCase();
 
-  if (title.contains("race") ||
-      title.contains("series") ||
-      desc.contains("race")) {
-    return "Races";
-  }
+    if (title.contains("race") ||
+        title.contains("series") ||
+        desc.contains("race")) {
+      return "Races";
+    }
 
-  if (title.contains("training") ||
-      title.contains("clinic") ||
-      desc.contains("training") ||
-      desc.contains("clinic")) {
-    return "Training & Clinics";
-  }
+    if (title.contains("training") ||
+        title.contains("clinic") ||
+        desc.contains("training") ||
+        desc.contains("clinic")) {
+      return "Training & Clinics";
+    }
 
-  if (title.contains("community") ||
-      title.contains("ride") ||
-      desc.contains("community")) {
+    if (title.contains("community") ||
+        title.contains("ride") ||
+        desc.contains("community")) {
+      return "Community Rides";
+    }
+
     return "Community Rides";
   }
 
-  return "Community Rides";
-}
   static final List<Map<String, String>> _purposeBasedEvents = [
     {
       'imagePath': 'assets/images/ride_events.png',
@@ -103,16 +104,19 @@ class _EventsTabState extends State<EventsTab> {
     final response = await _eventsService.getEvents();
 
     if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!;
 
     setState(() {
       _isLoading = false;
 
-      if (response.success && response.data != null && response.data!.isNotEmpty) {
+      if (response.success &&
+          response.data != null &&
+          response.data!.isNotEmpty) {
         _events = response.data!;
         _errorMessage = null;
         debugPrint('Loaded ${_events.length} events successfully');
       } else {
-        _errorMessage = response.message ?? 'Failed to load events';
+        _errorMessage = response.message ?? l10n.failedToLoadEvents;
         _events = [];
         debugPrint('Error loading events: $_errorMessage');
         debugPrint('Response success: ${response.success}');
@@ -130,7 +134,7 @@ class _EventsTabState extends State<EventsTab> {
       final selected = categories[selectedCategoryIndex];
 
       list = list.where((event) {
-      final eventCategory = _derivedCategory(event);
+        final eventCategory = _derivedCategory(event);
         return eventCategory.toLowerCase() == selected.toLowerCase();
       }).toList();
     }
@@ -152,7 +156,6 @@ class _EventsTabState extends State<EventsTab> {
   }
 
   String _getImagePath(Event event) {
-   
     if (event.mainImage != null && event.mainImage!.isNotEmpty) {
       return event.mainImage!;
     }
@@ -160,7 +163,8 @@ class _EventsTabState extends State<EventsTab> {
   }
 
   String _formatParticipants(Event event) {
-    return '${event.currentParticipants ?? 0}${event.maxParticipants != null ? '/${event.maxParticipants}' : ''} riders';
+    final l10n = AppLocalizations.of(context)!;
+    return '${event.currentParticipants ?? 0}${event.maxParticipants != null ? '/${event.maxParticipants}' : ''} ${l10n.riders}';
   }
 
   void _applyCategoryFilterFromGrid(String categoryTitle) {
@@ -187,6 +191,13 @@ class _EventsTabState extends State<EventsTab> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final displayCategories = [
+      l10n.eventCategoryAll,
+      l10n.eventCategoryRaces,
+      l10n.eventCategoryCommunityRides,
+      l10n.eventCategoryTrainingClinics,
+    ];
     final eventsToShow = _filteredEvents;
 
     // Convert filtered events to the format expected by the UI
@@ -194,7 +205,7 @@ class _EventsTabState extends State<EventsTab> {
       return {
         "image": _getImagePath(event),
         "title": event.title,
-        "date": event.formattedDate ?? "TBD",
+        "date": event.formattedDate ?? l10n.tbd,
         "distance": event.address ?? "N/A",
         "riders": _formatParticipants(event),
         "eventId": event.id,
@@ -231,7 +242,7 @@ class _EventsTabState extends State<EventsTab> {
                             const SizedBox(height: 16),
                             ElevatedButton(
                               onPressed: _loadEvents,
-                              child: const Text('Retry'),
+                              child: Text(l10n.retry),
                             ),
                           ],
                         ),
@@ -243,30 +254,25 @@ class _EventsTabState extends State<EventsTab> {
                           horizontal: 8,
                         ),
                         children: [
-                         
-
-                        EventHeader(
-  imagePath: 'assets/images/cycling_1.png',
-  title: 'Events & Community Rides',
-  subtitle:
-      'Official cycling events organized by ADCC communities across the UAE',
-  wantSearchBar: true,
-  searchValue: _searchQuery,
-  onChangeHandler: (value) {
-    setState(() {
-      _searchQuery = value;
-    });
-  },
-  placeholder: 'Search events, communities, cities, or tracks...',
-),
-
-
+                          EventHeader(
+                            imagePath: 'assets/images/cycling_1.png',
+                            title: l10n.eventsAndCommunityRides,
+                            subtitle: l10n.eventsSubtitle,
+                            wantSearchBar: true,
+                            searchValue: _searchQuery,
+                            showBackButton: false,
+                            onChangeHandler: (value) {
+                              setState(() {
+                                _searchQuery = value;
+                              });
+                            },
+                            placeholder: l10n.searchEventsPlaceholder,
+                          ),
                           const SizedBox(height: 35),
-
                           Padding(
                             padding: const EdgeInsets.only(left: 16),
                             child: CategorySelector(
-                              categories: categories,
+                              categories: displayCategories,
                               selectedIndex: selectedCategoryIndex,
                               onSelected: (index) {
                                 setState(() {
@@ -275,9 +281,7 @@ class _EventsTabState extends State<EventsTab> {
                               },
                             ),
                           ),
-
                           const SizedBox(height: 50),
-
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -285,30 +289,28 @@ class _EventsTabState extends State<EventsTab> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 16),
                                 child: SectionHeader(
-  title: 'Upcoming Events',
-  onViewAll: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => Upcomingevent(
-          events: _filteredEvents, 
-        ),
-      ),
-    );
-  },
-),
-
+                                  title: l10n.upcomingEvents,
+                                  onViewAll: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => Upcomingevent(
+                                          events: _filteredEvents,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
                               const SizedBox(height: 24),
-
                               rides.isEmpty
                                   ? Padding(
                                       padding: const EdgeInsets.only(
-                                          left: 16,
-                                        ),
+                                        left: 16,
+                                      ),
                                       child: Center(
                                         child: Text(
-                                          'No events available',
+                                          l10n.noEventsAvailable,
                                           style: TextStyle(
                                             color: Colors.grey[600],
                                             fontSize: 16,
@@ -317,9 +319,8 @@ class _EventsTabState extends State<EventsTab> {
                                       ),
                                     )
                                   : SizedBox(
-                                      height:
-                                          319, 
-                                          width: 365,
+                                      height: 319,
+                                      width: 365,
                                       child: ListView.separated(
                                         scrollDirection: Axis.horizontal,
                                         padding: const EdgeInsets.symmetric(
@@ -336,17 +337,20 @@ class _EventsTabState extends State<EventsTab> {
                                             title: event.title,
                                             date: event.formattedDate ?? "TBD",
                                             time: event.eventTime,
-                                            distance: event.additionalData?['distance']
+                                            distance: event
+                                                    .additionalData?['distance']
                                                     ?.toString() ??
-                                                event.additionalData?['routeDistance']
+                                                event.additionalData?[
+                                                        'routeDistance']
                                                     ?.toString(),
                                             location: event.address,
-                                            venue: event.additionalData?['venue']
+                                            venue: event
+                                                    .additionalData?['venue']
                                                     ?.toString() ??
                                                 event.additionalData?['circuit']
                                                     ?.toString(),
                                             riders: _formatParticipants(event),
-                                          eventType: _derivedCategory(event),
+                                            eventType: _derivedCategory(event),
                                             groupName: event.createdBy?['name']
                                                     ?.toString() ??
                                                 event.createdBy?['groupName']
@@ -374,10 +378,7 @@ class _EventsTabState extends State<EventsTab> {
                                     ),
                             ],
                           ),
-
                           const SizedBox(height: 50),
-
-                      
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -385,46 +386,40 @@ class _EventsTabState extends State<EventsTab> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 16),
                                 child: SectionHeader(
-  title: 'Events by Category',
-  onViewAll: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => EventsByCategoryViewAll(
-          events: _events, 
-        ),
-      ),
-    );
-  },
-),
-
+                                  title: l10n.eventsByCategory,
+                                  onViewAll: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => EventsByCategoryViewAll(
+                                          events: _events,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
                               const SizedBox(height: 19),
                               Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
-                                child: EventCategoriesGrid(
-  onCategoryTap: (category) {
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => EventsByCategoryViewAll(
-          events: _events,
-          initialCategory: category,
-        ),
-      ),
-    );
-
-  },
-)
-                              ),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: EventCategoriesGrid(
+                                    onCategoryTap: (category) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) =>
+                                              EventsByCategoryViewAll(
+                                            events: _events,
+                                            initialCategory: category,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  )),
                             ],
                           ),
-
                           const SizedBox(height: 50),
-
-                         
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -432,10 +427,9 @@ class _EventsTabState extends State<EventsTab> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 16),
                                 child: SectionHeader(
-                                  title: 'Purpose Based Events',
+                                  title: l10n.purposeBasedEvents,
                                   onViewAll: () {
-                                    debugPrint(
-                                        'View all purpose based events');
+                                    debugPrint('View all purpose based events');
                                   },
                                 ),
                               ),
@@ -467,9 +461,7 @@ class _EventsTabState extends State<EventsTab> {
                               ),
                             ],
                           ),
-
                           const SizedBox(height: 24),
-
                         ],
                       ),
           ),

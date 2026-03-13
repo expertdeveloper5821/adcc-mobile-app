@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../shared/widgets/app_button.dart';
 import 'live_posted_screen.dart';
 
@@ -18,9 +19,9 @@ class _SellProductScreenState extends State<SellProductScreen> {
   final _priceController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _phoneController = TextEditingController();
-final _categoryController = TextEditingController();
-final _conditionController = TextEditingController();
-final _currencyController = TextEditingController();
+  final _categoryController = TextEditingController();
+  final _conditionController = TextEditingController();
+  final _currencyController = TextEditingController();
   String _selectedCategory = 'Select category';
   String _selectedCondition = 'Select condition';
   String _selectedCurrency = 'AED';
@@ -90,17 +91,17 @@ final _currencyController = TextEditingController();
     _phoneController.addListener(_validatePhone);
   }
 
- @override
-void dispose() {
-  _productNameController.dispose();
-  _priceController.dispose();
-  _descriptionController.dispose();
-  _phoneController.dispose();
-  _categoryController.dispose();
-  _conditionController.dispose();
-  _currencyController.dispose();
-  super.dispose();
-}
+  @override
+  void dispose() {
+    _productNameController.dispose();
+    _priceController.dispose();
+    _descriptionController.dispose();
+    _phoneController.dispose();
+    _categoryController.dispose();
+    _conditionController.dispose();
+    _currencyController.dispose();
+    super.dispose();
+  }
 
   // Photo picker method
   Future<void> _pickPhotosFromGallery() async {
@@ -134,7 +135,7 @@ void dispose() {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Error picking images'),
+          content: Text(AppLocalizations.of(context)!.errorPickingImages),
           backgroundColor: AppColors.deepRed,
         ),
       );
@@ -253,6 +254,7 @@ void dispose() {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: AppColors.softCream,
       appBar: AppBar(
@@ -261,7 +263,9 @@ void dispose() {
         leading: Align(
           alignment: Alignment.center,
           child: InkWell(
-            onTap: Navigator.of(context).canPop() ? () => Navigator.of(context).pop() : null,
+            onTap: Navigator.of(context).canPop()
+                ? () => Navigator.of(context).pop()
+                : null,
             borderRadius: BorderRadius.circular(999),
             child: Container(
               width: 40,
@@ -279,17 +283,17 @@ void dispose() {
           ),
         ),
         title: const Text(
-  "Sell your product",
-  textAlign: TextAlign.center,
-  style: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 22,
-    fontWeight: FontWeight.w600,
-    height: 1.0, // 100% line height
-    letterSpacing: 0,
-    color: Colors.black,
-  ),
-),
+          "Sell your product",
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontFamily: "Outfit",
+            fontSize: 22,
+            fontWeight: FontWeight.w600,
+            height: 1.0, // 100% line height
+            letterSpacing: 0,
+            color: Colors.black,
+          ),
+        ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -323,19 +327,19 @@ void dispose() {
                 // Category
                 _buildSectionLabel('Category'),
                 const SizedBox(height: 8),
-              _buildTextField(
-  controller: _categoryController,
-  placeholder: 'Select category',
-),
+                _buildTextField(
+                  controller: _categoryController,
+                  placeholder: 'Select category',
+                ),
                 const SizedBox(height: 20),
 
                 // Condition
                 _buildSectionLabel('Condition'),
                 const SizedBox(height: 8),
-_buildTextField(
-  controller: _conditionController,
-  placeholder: 'Select condition',
-),
+                _buildTextField(
+                  controller: _conditionController,
+                  placeholder: 'Select condition',
+                ),
                 const SizedBox(height: 20),
 
                 // Currency and Price
@@ -348,10 +352,10 @@ _buildTextField(
                         children: [
                           _buildSectionLabel('Currency'),
                           const SizedBox(height: 8),
-                       _buildTextField(
-  controller: _currencyController,
-  placeholder: 'AED',
-),
+                          _buildTextField(
+                            controller: _currencyController,
+                            placeholder: 'AED',
+                          ),
                         ],
                       ),
                     ),
@@ -377,7 +381,8 @@ _buildTextField(
                               },
                             ),
                           ),
-                          if (_priceError != null && _priceError!.isNotEmpty) ...[
+                          if (_priceError != null &&
+                              _priceError!.isNotEmpty) ...[
                             const SizedBox(height: 6),
                             Text(
                               _priceError!,
@@ -462,21 +467,21 @@ _buildTextField(
                 SizedBox(
                   width: double.infinity,
                   child: AppButton(
-  label: 'List Item for Sale',
-  onPressed: _handleSubmit,
-  type: AppButtonType.primary,
-  backgroundColor: AppColors.deepRed,
-  textColor: Colors.white,
-  height: 50,
-  borderRadius: 10,
-  textStyle: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 16,
-    fontWeight: FontWeight.w500,
-    height: 1.5, // 24px line height
-    letterSpacing: 0,
-  ),
-),
+                    label: l10n.listItemForSale,
+                    onPressed: _handleSubmit,
+                    type: AppButtonType.primary,
+                    backgroundColor: AppColors.deepRed,
+                    textColor: Colors.white,
+                    height: 50,
+                    borderRadius: 10,
+                    textStyle: const TextStyle(
+                      fontFamily: "Outfit",
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      height: 1.5, // 24px line height
+                      letterSpacing: 0,
+                    ),
+                  ),
                 ),
 
                 const SizedBox(height: 12),
@@ -485,17 +490,17 @@ _buildTextField(
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Text(
-  'By listing your item, you agree to our terms of service and marketplace guidelines.',
-  textAlign: TextAlign.center,
-  style: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
-    height: 1.33, // 16px line height
-    letterSpacing: 0,
-    color: Color(0xFF6A7282),
-  ),
-),
+                    'By listing your item, you agree to our terms of service and marketplace guidelines.',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontFamily: "Outfit",
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                      height: 1.33, // 16px line height
+                      letterSpacing: 0,
+                      color: Color(0xFF6A7282),
+                    ),
+                  ),
                 ),
 
                 const SizedBox(height: 24),
@@ -526,7 +531,8 @@ _buildTextField(
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
                 child: Column(
                   children: [
                     Icon(
@@ -535,29 +541,29 @@ _buildTextField(
                       color: AppColors.charcoal.withValues(alpha: 0.3),
                     ),
                     const SizedBox(height: 12),
-                   Text(
-  'Tap to upload photos',
-  style: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    height: 1.43, // 20px line height
-    letterSpacing: 0,
-    color: Color(0xFF99A1AF),
-  ),
-),
+                    Text(
+                      'Tap to upload photos',
+                      style: const TextStyle(
+                        fontFamily: "Outfit",
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        height: 1.43, // 20px line height
+                        letterSpacing: 0,
+                        color: Color(0xFF99A1AF),
+                      ),
+                    ),
                     const SizedBox(height: 4),
-                  Text(
-  'Up to 5 photos',
-  style: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
-    height: 1.33, // 16px line height
-    letterSpacing: 0,
-    color: Color(0xFF6A7282),
-  ),
-),
+                    Text(
+                      'Up to 5 photos',
+                      style: const TextStyle(
+                        fontFamily: "Outfit",
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        height: 1.33, // 16px line height
+                        letterSpacing: 0,
+                        color: Color(0xFF6A7282),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -657,16 +663,16 @@ _buildTextField(
 
   Widget _buildSectionLabel(String label) {
     return Text(
-  label,
-  style: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 16,
-    fontWeight: FontWeight.w600,
-    height: 1.0, // 100% line height
-    letterSpacing: 0,
-    color: AppColors.textDark,
-  ),
-);
+      label,
+      style: const TextStyle(
+        fontFamily: "Outfit",
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        height: 1.0, // 100% line height
+        letterSpacing: 0,
+        color: AppColors.textDark,
+      ),
+    );
   }
 
   Widget _buildTextField({
@@ -687,15 +693,15 @@ _buildTextField(
           maxLines: maxLines,
           validator: validator,
           decoration: InputDecoration(
-           hintText: placeholder,
-hintStyle: const TextStyle(
-  fontFamily: "Outfit",
-  fontSize: 16,
-  fontWeight: FontWeight.w400,
-  height: 1.0, // 100% line height
-  letterSpacing: 0,
-  color: Color(0xFFA0A0A0),
-),
+            hintText: placeholder,
+            hintStyle: const TextStyle(
+              fontFamily: "Outfit",
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              height: 1.0, // 100% line height
+              letterSpacing: 0,
+              color: Color(0xFFA0A0A0),
+            ),
             filled: true,
             fillColor: hasError
                 ? AppColors.deepRed.withValues(alpha: 0.05)
@@ -728,18 +734,17 @@ hintStyle: const TextStyle(
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           ),
         ),
-        if (hasError) ...
-          [
-            const SizedBox(height: 6),
-            Text(
-              errorText,
-              style: const TextStyle(
-                color: AppColors.deepRed,
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-              ),
+        if (hasError) ...[
+          const SizedBox(height: 6),
+          Text(
+            errorText,
+            style: const TextStyle(
+              color: AppColors.deepRed,
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
             ),
-          ],
+          ),
+        ],
       ],
     );
   }
@@ -837,30 +842,29 @@ hintStyle: const TextStyle(
               fontSize: 14,
             ),
             hint: Text(
-  value,
-  style: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 16,
-    fontWeight: FontWeight.w400,
-    height: 1.0, // 100% line height
-    letterSpacing: 0,
-    color: Color(0xFFA0A0A0),
-  ),
-),
-          ),
-        ),
-        if (hasError) ...
-          [
-            const SizedBox(height: 6),
-            Text(
-              errorText,
+              value,
               style: const TextStyle(
-                color: AppColors.deepRed,
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
+                fontFamily: "Outfit",
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                height: 1.0, // 100% line height
+                letterSpacing: 0,
+                color: Color(0xFFA0A0A0),
               ),
             ),
-          ],
+          ),
+        ),
+        if (hasError) ...[
+          const SizedBox(height: 6),
+          Text(
+            errorText,
+            style: const TextStyle(
+              color: AppColors.deepRed,
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
       ],
     );
   }
@@ -888,16 +892,13 @@ hintStyle: const TextStyle(
         _conditionError == null &&
         _contactMethodError == null &&
         _cityError == null) {
-  
-
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Product listed successfully!'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.productListedSuccess),
           backgroundColor: AppColors.deepRed,
         ),
       );
 
-                                                          
       Future.delayed(const Duration(milliseconds: 400), () {
         Navigator.push(
           context,
@@ -905,7 +906,9 @@ hintStyle: const TextStyle(
             builder: (_) => LivePostedScreen(
               title: _productNameController.text,
               price: '${_priceController.text} $_selectedCurrency',
-              imagePath: _selectedPhotos.isNotEmpty ? _selectedPhotos.first.path : null,
+              imagePath: _selectedPhotos.isNotEmpty
+                  ? _selectedPhotos.first.path
+                  : null,
             ),
           ),
         );

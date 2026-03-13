@@ -1,5 +1,6 @@
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/communities/models/community_model.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:adcc/features/communities/sections/communities_awareness.dart';
 import 'package:adcc/features/communities/sections/community_categories_grid.dart';
 import 'package:adcc/features/communities/sections/community_horizontal_card.dart';
@@ -195,6 +196,7 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
   }
 
   Widget _buildMainUI(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return ListView(
       physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -203,7 +205,7 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
 
       CommunityHeader(
   imagePath: 'assets/images/cycling_1.png',
-  title: 'Communities',
+  title: l10n.communities,
   wantSearchBar: true,
   showBackButton: true,
   searchValue: searchQuery,
@@ -216,15 +218,14 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
 
         const SizedBox(height: 37),
 
-        // CITY
         SectionHeader(
-          title: 'Communities in Your City',
+          title: l10n.communitiesInYourCity,
           onViewAll: () {
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (_) => ViewAllCommunitiesScreen(
-                  title: 'Communities in Your City',
+                  title: l10n.communitiesInYourCity,
                   communities: _filteredCityCommunities,
                 ),
               ),
@@ -239,15 +240,14 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
 
         const SizedBox(height: 50),
 
-        // TYPES
         SectionHeader(
-          title: 'Browse by Community Type',
+          title: l10n.browseByCommunityType,
           onViewAll: () {
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (_) => CommunityTypeScreen(
-                  title: "Community Types",
+                  title: l10n.communityTypes,
                   communities: _applySearch(_allCommunities),
                 ),
               ),
@@ -292,15 +292,14 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
 
         const SizedBox(height: 74),
 
-        // PURPOSE BASED
         SectionHeader(
-          title: 'Purpose-Based Communities',
+          title: l10n.purposeBasedCommunities,
           onViewAll: () {
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (_) => ViewAllPurposeCommunitiesScreen(
-                  title: "Purpose-Based Communities",
+                  title: l10n.purposeBasedCommunities,
                   communities: _filteredGroupCommunities,
                 ),
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/widgets/app_button.dart';
 
 class RouteActionButtonsSection extends StatelessWidget {
@@ -14,14 +15,14 @@ class RouteActionButtonsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Open in Link My Ride Button
          AppButton(
-  label: 'Open in Link My Ride',
+  label: l10n.openInLinkMyRide,
   onPressed: onOpenLinkMyRide,
   type: AppButtonType.primary,
   backgroundColor: AppColors.deepRed,
@@ -29,9 +30,8 @@ class RouteActionButtonsSection extends StatelessWidget {
   suffixImageColor: Colors.white,
 ),
           const SizedBox(height: 12),
-          // Open in Maps Button
          AppButton(
-  label: 'Open in Maps',
+  label: l10n.openInMaps,
   onPressed: onOpenMaps,
   type: AppButtonType.secondary,
   borderColor: AppColors.deepRed,

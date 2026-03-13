@@ -1,4 +1,5 @@
-import 'package:adcc/features/auth/view/login_screen.dart';
+import 'package:adcc/features/languageOption/view/languageSelectionScreen.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 
@@ -13,26 +14,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
-  // Add as many slides as you need - each with different content
-  final List<OnboardingData> _slides = [
-    OnboardingData(
-      title: 'YOUR CYCLING\n JOURNEY STARTS HERE',
-      description:
-          'Track your rides,explore scenic routes,join events and connect with the UAE cycling community',
-      buttonText: 'Next',
-      imagePath: 'assets/images/onboarding_bg_one.png',
-    ),
-    OnboardingData(
-      title: 'JOIN THE RIDE.LIVE\n THE PASSION.',
-      description:
-          'Unlock a world of cycling experiences from scenic loops to community challenges all in one place',
-      buttonText: 'Get Started',
-      imagePath: 'assets/images/onboarding_bg_two.png',
-    ),
-  ];
-
   void _onButtonPressed() {
-    if (_currentPage < _slides.length - 1) {
+    if (_currentPage < 2 - 1) {
       // Move to next slide
       _pageController.nextPage(
         duration: const Duration(milliseconds: 300),
@@ -51,7 +34,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   void _navigateToLogin() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => const LoginScreen()),
+      MaterialPageRoute(builder: (_) => const LanguageSelectionScreen()),
     );
   }
 
@@ -63,10 +46,24 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final slides = [
+      OnboardingData(
+        title: l10n.onboardingTitle1,
+        description: l10n.onboardingDesc1,
+        buttonText: l10n.next,
+        imagePath: 'assets/images/onboarding_bg_one.png',
+      ),
+      OnboardingData(
+        title: l10n.onboardingTitle2,
+        description: l10n.onboardingDesc2,
+        buttonText: l10n.getStarted,
+        imagePath: 'assets/images/onboarding_bg_two.png',
+      ),
+    ];
     return Scaffold(
       body: Stack(
         children: [
-          // PageView Slider (only background, title, description)
           PageView.builder(
             controller: _pageController,
             onPageChanged: (index) {
@@ -74,10 +71,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 _currentPage = index;
               });
             },
-            itemCount: _slides.length,
+            itemCount: slides.length,
             itemBuilder: (context, index) {
               return OnboardingSlide(
-                data: _slides[index],
+                data: slides[index],
               );
             },
           ),
@@ -103,12 +100,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
           ),
 
-          // Static Pagination Dots
           Positioned(
             bottom: 125,
             left: 0,
             right: 0,
-            child: _buildPaginationDots(),
+            child: _buildPaginationDots(2),
           ),
 
           // Static Button
@@ -137,12 +133,31 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Text(
-                            _slides[_currentPage].buttonText,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                            ),
+                          child: Builder(
+                            builder: (context) {
+                              final l10n = AppLocalizations.of(context)!;
+                              final slides = [
+                                OnboardingData(
+                                    title: l10n.onboardingTitle1,
+                                    description: l10n.onboardingDesc1,
+                                    buttonText: l10n.next,
+                                    imagePath:
+                                        'assets/images/onboarding_bg_one.png'),
+                                OnboardingData(
+                                    title: l10n.onboardingTitle2,
+                                    description: l10n.onboardingDesc2,
+                                    buttonText: l10n.getStarted,
+                                    imagePath:
+                                        'assets/images/onboarding_bg_two.png'),
+                              ];
+                              return Text(
+                                slides[_currentPage].buttonText,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              );
+                            },
                           ),
                         ),
                         Container(
@@ -171,20 +186,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  Widget _buildPaginationDots() {
+  Widget _buildPaginationDots(int count) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(
-        _slides.length,
+        count,
         (index) => Container(
           width: 8,
           height: 8,
           margin: const EdgeInsets.symmetric(horizontal: 4),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: _currentPage == index
-                ? AppColors.deepRed
-                : Colors.white,
+            color: _currentPage == index ? AppColors.deepRed : Colors.white,
           ),
         ),
       ),
@@ -256,47 +269,40 @@ class OnboardingSlide extends StatelessWidget {
           ),
         ),
 
-
         SafeArea(
           child: Column(
             children: [
               const Spacer(),
-
-         
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Column(
                   children: [
-Text(
-      data.title.toUpperCase(),
-      textAlign: TextAlign.center,
-      style: const TextStyle(
-        fontFamily: "Outfit",
-        color: Colors.white,
-        fontSize: 25,
-        fontWeight: FontWeight.w700,
-        height: 1.2,
-        letterSpacing: 0,
-      ),
-    ),
-
+                    Text(
+                      data.title.toUpperCase(),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontFamily: "Outfit",
+                        color: Colors.white,
+                        fontSize: 25,
+                        fontWeight: FontWeight.w700,
+                        height: 1.2,
+                        letterSpacing: 0,
+                      ),
+                    ),
                     const SizedBox(height: 12),
                     Text(
                       data.description,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Colors.white,
-                         fontFamily: "Outfit",
-                        fontSize: 13,
-                        height: 1.2,
-                        fontWeight: FontWeight.w400
-                      ),
+                          color: Colors.white,
+                          fontFamily: "Outfit",
+                          fontSize: 13,
+                          height: 1.2,
+                          fontWeight: FontWeight.w400),
                     ),
-                    
                   ],
                 ),
               ),
-
               const SizedBox(height: 160),
             ],
           ),

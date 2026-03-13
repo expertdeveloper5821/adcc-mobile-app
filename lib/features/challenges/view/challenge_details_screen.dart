@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../../shared/widgets/back_button_widget.dart';
+import '../../../l10n/app_localizations.dart';
 import 'sections/challenge_header_section.dart';
 import 'sections/challenge_info_section.dart';
 import 'sections/Challnege Details/challenge_metrics_section.dart';
@@ -31,11 +31,10 @@ class _ChallengeDetailsScreenState extends State<ChallengeDetailsScreen> {
     _loadChallengeData();
   }
 
-  // TODO: Replace with actual API call
   Future<void> _loadChallengeData() async {
     // Simulate API call
     await Future.delayed(const Duration(milliseconds: 500));
-    
+
     // Sample data - replace with actual API response
     setState(() {
       _challengeData = {
@@ -88,13 +87,13 @@ class _ChallengeDetailsScreenState extends State<ChallengeDetailsScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('Failed to load challenge details'),
+              Text(AppLocalizations.of(context)!.failedToLoadChallenge),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text('Go Back'),
+                child: Text(AppLocalizations.of(context)!.goBack),
               ),
             ],
           ),
@@ -108,13 +107,12 @@ class _ChallengeDetailsScreenState extends State<ChallengeDetailsScreen> {
         child: ListView(
           physics: const BouncingScrollPhysics(),
           children: [
-          
-          ChallengeHeaderSection(
-  imagePath: "assets/images/cycling_1.png",
-  onBack: () {
-    Navigator.pop(context);
-  },
-),
+            ChallengeHeaderSection(
+              imagePath: "assets/images/cycling_1.png",
+              onBack: () {
+                Navigator.pop(context);
+              },
+            ),
 
             const SizedBox(height: 16),
 
@@ -159,7 +157,8 @@ class _ChallengeDetailsScreenState extends State<ChallengeDetailsScreen> {
 
             // Top Performers
             ChallengeTopPerformersSection(
-              performers: _challengeData!['topPerformers'] as List<Map<String, dynamic>>,
+              performers: _challengeData!['topPerformers']
+                  as List<Map<String, dynamic>>,
               onViewAll: () {
                 // Navigate to full leaderboard
                 debugPrint('View all performers tapped');
@@ -167,14 +166,16 @@ class _ChallengeDetailsScreenState extends State<ChallengeDetailsScreen> {
               onJoin: _challengeData!['isJoined'] == false
                   ? () {
                       // Navigate to Challenge Accepted screen
-                      Navigator.of(context).push(
+                      Navigator.of(context)
+                          .push(
                         MaterialPageRoute(
                           builder: (context) => ChallengeAcceptedScreen(
                             challengeId: widget.challengeId,
                             challengeTitle: _challengeData!['title'] as String,
                           ),
                         ),
-                      ).then((_) {
+                      )
+                          .then((_) {
                         // Update joined status when returning from accepted screen
                         if (mounted) {
                           setState(() {
@@ -200,4 +201,3 @@ class _ChallengeDetailsScreenState extends State<ChallengeDetailsScreen> {
     );
   }
 }
-

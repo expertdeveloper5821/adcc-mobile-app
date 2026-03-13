@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class AcceptedDifficultySection extends StatelessWidget {
   final String? selectedDifficulty;
@@ -13,6 +14,7 @@ class AcceptedDifficultySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -36,21 +38,21 @@ class AcceptedDifficultySection extends StatelessWidget {
           runSpacing: 10,
           children: [
             _DifficultyButton(
-              label: 'Too Easy',
+              label: l10n.tooEasy,
               icon: Icons.sentiment_very_satisfied,
               isSelected: selectedDifficulty == 'too_easy',
               onTap: () => onDifficultySelected('too_easy'),
             ),
 
             _DifficultyButton(
-              label: 'Just Right',
+              label: l10n.justRight,
               icon: Icons.sentiment_neutral,
               isSelected: selectedDifficulty == 'just_right',
               onTap: () => onDifficultySelected('just_right'),
             ),
 
             _DifficultyButton(
-              label: 'Too Hard',
+              label: l10n.tooHard,
               icon: Icons.sentiment_very_dissatisfied,
               isSelected: selectedDifficulty == 'too_hard',
               onTap: () => onDifficultySelected('too_hard'),

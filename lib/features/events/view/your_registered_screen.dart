@@ -1,4 +1,5 @@
 import 'package:adcc/core/theme/app_colors.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -28,152 +29,140 @@ class RegistrationSuccessScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: AppColors.softCream,
       body: SafeArea(
-  child: ListView(
-    physics: const BouncingScrollPhysics(),
-    padding: const EdgeInsets.fromLTRB(16, 12, 16, 22),
-    children: [
-
-      Stack(
-  clipBehavior: Clip.none,
-  children: [
-
-          Positioned(
-            left: -52,
-            top: 240,
-            child: Image.asset(
-              redArcImagePath,
-              width: 160,
-              fit: BoxFit.contain,
-            ),
-          ),
-
-          Column(
-            children: [
-            
-                Row(
+        child: ListView(
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 22),
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Positioned(
+                  left: -52,
+                  top: 240,
+                  child: Image.asset(
+                    redArcImagePath,
+                    width: 160,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                Column(
                   children: [
-                    _BackCircleButton(
-                      onTap: () {
-                        if (Navigator.of(context).canPop()) {
-                          Navigator.of(context).pop();
-                        }
-                      },
+                    Row(
+                      children: [
+                        _BackCircleButton(
+                          onTap: () {
+                            if (Navigator.of(context).canPop()) {
+                              Navigator.of(context).pop();
+                            }
+                          },
+                        ),
+                      ],
                     ),
+                    const SizedBox(height: 28),
+                    Center(
+                      child: ClipOval(
+                        child: Image.asset(
+                          "assets/icons/checkmark.gif",
+                          height: 102,
+                          width: 102,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 18),
+                    Center(
+                      child: Text(
+                        l10n.youAreRegistered,
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.charcoal,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Center(
+                      child: Text(
+                        l10n.getReadyForRide,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 14,
+                          height: 1.35,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.charcoal,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 59),
+                    _EventSummaryCard(
+                      eventImagePath: eventImagePath,
+                      title: eventTitle,
+                      subtitle: eventLocationLine,
+                      date: date,
+                      location: location,
+                      type: type,
+                      community: community,
+                      whenLabel: l10n.when,
+                      locationLabel: l10n.location,
+                      typeLabel: l10n.type,
+                      communityLabel: l10n.community,
+                    ),
+                    const SizedBox(height: 35),
+                    _ActionTile(
+                      imagePath: "assets/icons/add_calendar.png",
+                      title: l10n.addToCalendar,
+                      onTap: () {},
+                    ),
+                    const SizedBox(height: 12),
+                    _ActionTile(
+                      imagePath: "assets/icons/share_2.png",
+                      title: l10n.shareWithFriends,
+                      onTap: () {},
+                    ),
+                    const SizedBox(height: 12),
+                    _ActionTile(
+                      imagePath: "assets/icons/add_calendar.png",
+                      title: l10n.viewMyEvents,
+                      onTap: () {},
+                    ),
+                    const SizedBox(height: 40),
+                    SizedBox(
+                      height: 52,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context)
+                              .popUntil((route) => route.isFirst);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.deepRed,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                        ),
+                        child: Text(
+                          l10n.returnToHome,
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 61),
                   ],
-                ),
-
-                const SizedBox(height: 28),
-
-              Center(
-  child: ClipOval(
-    child: Image.asset(
-      "assets/icons/checkmark.gif",
-      height: 102,
-      width: 102,
-      fit: BoxFit.cover,
-    ),
-  ),
-),
-
-                const SizedBox(height: 18),
-
-                Center(
-                  child: Text(
-                    "You're registered!",
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.charcoal,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 10),
-
-                Center(
-                  child: Text(
-                    "Get ready for an amazing ride with\nthe community!",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 14,
-                      height: 1.35,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.charcoal,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 59),
-
-                _EventSummaryCard(
-                  eventImagePath: eventImagePath,
-                  title: eventTitle,
-                  subtitle: eventLocationLine,
-                  date: date,
-                  location: location,
-                  type: type,
-                  community: community,
-                ),
-
-                const SizedBox(height: 35),
-
-              _ActionTile(
-  imagePath: "assets/icons/add_calendar.png",
-  title: "Add to Calendar",
-  onTap: () {},
-),
-                const SizedBox(height: 12),
-               _ActionTile(
-  imagePath: "assets/icons/share_2.png",
-  title: "Share with Friends",
-  onTap: () {},
-),
-                const SizedBox(height: 12),
-             _ActionTile(
-  imagePath: "assets/icons/add_calendar.png",
-  title: "View My Events",
-  onTap: () {},
-),
-
-                const SizedBox(height: 40),
-
-                SizedBox(
-                  height: 52,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                 onPressed: () {
-  Navigator.of(context).popUntil((route) => route.isFirst);
-},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.deepRed,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                    ),
-                    child: const Text(
-                      "Return to Home",
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 61),
-                        ],
-          )
-        ],
+                )
+              ],
+            ),
+          ],
+        ),
       ),
-
-    ],
-  ),
-),
     );
   }
 }
@@ -209,11 +198,14 @@ class _EventSummaryCard extends StatelessWidget {
   final String eventImagePath;
   final String title;
   final String subtitle;
-
   final String date;
   final String location;
   final String type;
   final String community;
+  final String whenLabel;
+  final String locationLabel;
+  final String typeLabel;
+  final String communityLabel;
 
   const _EventSummaryCard({
     required this.eventImagePath,
@@ -223,6 +215,10 @@ class _EventSummaryCard extends StatelessWidget {
     required this.location,
     required this.type,
     required this.community,
+    required this.whenLabel,
+    required this.locationLabel,
+    required this.typeLabel,
+    required this.communityLabel,
   });
 
   @override
@@ -285,17 +281,16 @@ class _EventSummaryCard extends StatelessWidget {
               Expanded(
                 child: _MiniInfoCard(
                   imagePath: "assets/icons/clock.png",
-                  title: "When",
-                 value: _formatDate(date),
+                  title: whenLabel,
+                  value: _formatDate(date),
                 ),
               ),
               const SizedBox(width: 10),
               Expanded(
                 child: _MiniInfoCard(
-                    imagePath: "assets/icons/distance.png",
-                  title: "Location",
+                  imagePath: "assets/icons/distance.png",
+                  title: locationLabel,
                   value: location,
-                  
                 ),
               ),
             ],
@@ -305,16 +300,16 @@ class _EventSummaryCard extends StatelessWidget {
             children: [
               Expanded(
                 child: _MiniInfoCard(
-                   imagePath: "assets/icons/red_star.png",
-                  title: "Type",
+                  imagePath: "assets/icons/red_star.png",
+                  title: typeLabel,
                   value: type,
                 ),
               ),
               const SizedBox(width: 10),
               Expanded(
                 child: _MiniInfoCard(
-                imagePath: "assets/icons/red_people.png",
-                  title: "Community",
+                  imagePath: "assets/icons/red_people.png",
+                  title: communityLabel,
                   value: community,
                 ),
               ),
@@ -325,6 +320,7 @@ class _EventSummaryCard extends StatelessWidget {
     );
   }
 }
+
 class _MiniInfoCard extends StatelessWidget {
   final String imagePath;
   final String title;
@@ -358,9 +354,7 @@ class _MiniInfoCard extends StatelessWidget {
             width: 18,
             color: AppColors.deepRed,
           ),
-
           const SizedBox(width: 8),
-
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -425,7 +419,6 @@ class _ActionTile extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(12, 13, 16, 13),
           child: Row(
             children: [
-
               /// icon container
               Container(
                 width: 54,
@@ -458,8 +451,6 @@ class _ActionTile extends StatelessWidget {
                   ),
                 ),
               ),
-
-            
             ],
           ),
         ),

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/events/Model/model_events.dart';
 import 'package:adcc/features/events/services/events_service.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class MYEVENET extends StatefulWidget {
@@ -36,6 +37,7 @@ class _MYEVENETState extends State<MYEVENET> {
     final res = await _eventsService.getEvents();
 
     if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!;
 
     if (res.success && res.data != null) {
       setState(() {
@@ -44,7 +46,7 @@ class _MYEVENETState extends State<MYEVENET> {
       });
     } else {
       setState(() {
-        _error = res.message ?? "Failed to load events";
+        _error = res.message ?? l10n.failedToLoadEvents;
         _loading = false;
       });
     }
@@ -70,11 +72,6 @@ List<Event> _filterByStatus(String status) {
     return _cancelledEvents;
   }
 
-  String get _emptyText {
-    if (selectedTab == 0) return "No completed events";
-    if (selectedTab == 1) return "No upcoming events";
-    return "No cancelled events";
-  }
 
   String _formatDate(String? isoDate) {
     if (isoDate == null || isoDate.isEmpty) return "-";
@@ -107,7 +104,13 @@ List<Event> _filterByStatus(String status) {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final tabWidth = (MediaQuery.of(context).size.width - 32) / 3;
+    final emptyText = selectedTab == 0
+        ? l10n.noCompletedEvents
+        : selectedTab == 1
+            ? l10n.noUpcomingEvents
+            : l10n.noCancelledEvents;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -128,9 +131,9 @@ List<Event> _filterByStatus(String status) {
                     },
                   ),
                   const Spacer(),
-                  const Text(
-                    "My Events",
-                    style: TextStyle(
+                  Text(
+                    l10n.myEvents,
+                    style: const TextStyle(
                       fontFamily: "Outfit",
                       fontSize: 22,
                       fontWeight: FontWeight.w600,
@@ -153,17 +156,17 @@ List<Event> _filterByStatus(String status) {
                   Row(
                     children: [
                       _TabText(
-                        title: "Completed",
+                        title: l10n.completed,
                         isSelected: selectedTab == 0,
                         onTap: () => setState(() => selectedTab = 0),
                       ),
                       _TabText(
-                        title: "Upcoming",
+                        title: l10n.upcoming,
                         isSelected: selectedTab == 1,
                         onTap: () => setState(() => selectedTab = 1),
                       ),
                       _TabText(
-                        title: "Cancelled",
+                        title: l10n.cancelled,
                         isSelected: selectedTab == 2,
                         onTap: () => setState(() => selectedTab = 2),
                       ),
@@ -226,9 +229,9 @@ List<Event> _filterByStatus(String status) {
                               Center(
                                 child: GestureDetector(
                                   onTap: _fetchEvents,
-                                  child: const Text(
-                                    "Retry",
-                                    style: TextStyle(
+                                  child: Text(
+                                    l10n.retry,
+                                    style: const TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w900,
                                       color: AppColors.deepRed,
@@ -242,7 +245,7 @@ List<Event> _filterByStatus(String status) {
                             ? ListView(
                                 physics: const AlwaysScrollableScrollPhysics(),
                                 children: [
-                                  _EmptyState(text: _emptyText),
+                                  _EmptyState(text: emptyText),
                                   const SizedBox(height: 14),
 
                                 
@@ -260,10 +263,10 @@ List<Event> _filterByStatus(String status) {
                                   final event = _activeList[index];
 
                                   final tag = selectedTab == 0
-                                      ? "Completed"
+                                      ? l10n.completed
                                       : selectedTab == 1
-                                          ? "Upcoming"
-                                          : "Cancelled";
+                                          ? l10n.upcoming
+                                          : l10n.cancelled;
 
                                   return _MyEventCard(
                                     imageBase64: event.mainImage,

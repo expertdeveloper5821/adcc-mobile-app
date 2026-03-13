@@ -1,6 +1,7 @@
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/communities/models/community_model.dart';
 import 'package:adcc/features/communities/sections/my_community_screen.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:adcc/shared/widgets/adaptive_image.dart';
 import 'package:adcc/shared/widgets/app_button.dart';
 import 'package:flutter/material.dart';
@@ -25,12 +26,11 @@ class _JoinCommunityState extends State<JoinCommunity> {
   void initState() {
     super.initState();
     _community = widget.community;
-    
-
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final title = _community.title.trim().isEmpty
         ? "Abu Dhabi Road Racers"
         : _community.title.trim();
@@ -53,7 +53,6 @@ class _JoinCommunityState extends State<JoinCommunity> {
 
             return Stack(
               children: [
-               
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 14, 16, 18),
                   child: Column(
@@ -62,195 +61,198 @@ class _JoinCommunityState extends State<JoinCommunity> {
                       Expanded(
                         child: SingleChildScrollView(
                           physics: const BouncingScrollPhysics(),
-                         child: Stack(
-    children: [
-
-      /// FRAME (now scrolls with content)
-      Positioned(
-        left: frameLeft,
-        top: frameTop,
-        child: IgnorePointer(
-          child: Image.asset(
-            "assets/images/frame_1.png",
-            width: frameWidth,
-            fit: BoxFit.contain,
-          ),
-        ),
-      ),
-
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-                            /// TOP BACK BUTTON
-Align(
-  alignment: Alignment.centerLeft,
-  child: GestureDetector(
-    onTap: () => Navigator.pop(context, true),
-    child: Container(
-      height: 35,
-      width: 35,
-      padding: const EdgeInsets.fromLTRB(10, 10, 7.54, 9.46),
-      decoration: BoxDecoration(
-        color: const Color(0x5CC12D32), // #C12D325C
-        borderRadius: BorderRadius.circular(53.8462),
-      ),
-      child: const Icon(
-        Icons.arrow_back,
-        size: 15,
-        color: Color(0xFFC12D32),
-      ),
-    ),
-  ),
-),
-
-                              const SizedBox(height: 18),
-
-                           /// CENTER GIF
-Center(
-  child: Image.asset(
-    "assets/icons/checkmark.gif",
-    height: 128,
-    width: 128,
-    fit: BoxFit.contain,
-  ),
-),
-                              const SizedBox(height: 12),
-
-/// TITLE
-const Text(
-  "Welcome to the\nCommunity!",
-  textAlign: TextAlign.center,
-  style: TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 30,
-    fontWeight: FontWeight.w600,
-    height: 1, // 100% line height
-    letterSpacing: 0,
-    color: AppColors.charcoal,
-  ),
-),
-
-                              const SizedBox(height: 7),
-
-                            /// SUBTITLE
-Text(
-  "You have successfully joined\n$title",
-  textAlign: TextAlign.center,
-  style: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    height: 1, // 100% line height
-    letterSpacing: 0,
-    color: AppColors.charcoal,
-  ),
-),
-
-                              const SizedBox(height: 24),
-
-                              /// COMMUNITY CARD
-                              _JoinedCommunityCard(
-                                title: title,
-                                members: members,
-                                location: location,
-                                imageUrl: _community.imageUrl,
+                          child: Stack(
+                            children: [
+                              /// FRAME (now scrolls with content)
+                              Positioned(
+                                left: frameLeft,
+                                top: frameTop,
+                                child: IgnorePointer(
+                                  child: Image.asset(
+                                    "assets/images/frame_1.png",
+                                    width: frameWidth,
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
                               ),
 
-                              const SizedBox(height: 18),
-
-                             /// WHAT'S NEXT
-const Text(
-  "What's Next?",
-  style: TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 20,
-    fontWeight: FontWeight.w600,
-    height: 1, // 100% line height
-    letterSpacing: 0,
-    color: AppColors.charcoal,
-  ),
-),
-
-                              const SizedBox(height: 12),
-
-                              /// OPTIONS
-                              _NextOptionTile(
-                                 iconPath: "assets/images/notification_enable.png",
-                                title: "Notifications Enabled",
-                                onTap: () {
-                                  // Navigate to notifications settings
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text("Notifications feature coming soon"),
-                                      behavior: SnackBarBehavior.floating,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  /// TOP BACK BUTTON
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: GestureDetector(
+                                      onTap: () => Navigator.pop(context, true),
+                                      child: Container(
+                                        height: 35,
+                                        width: 35,
+                                        padding: const EdgeInsets.fromLTRB(
+                                            10, 10, 7.54, 9.46),
+                                        decoration: BoxDecoration(
+                                          color: const Color(
+                                              0x5CC12D32), // #C12D325C
+                                          borderRadius:
+                                              BorderRadius.circular(53.8462),
+                                        ),
+                                        child: const Icon(
+                                          Icons.arrow_back,
+                                          size: 15,
+                                          color: Color(0xFFC12D32),
+                                        ),
+                                      ),
                                     ),
-                                  );
-                                },
-                              ),
-                              const SizedBox(height: 10),
-                              _NextOptionTile(
-                              iconPath: "assets/images/whatsup.png",
-                                title: "Join Community Chats",
-                                onTap: () {
-                                  // Navigate to community chats
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text("Chat feature coming soon"),
-                                      behavior: SnackBarBehavior.floating,
-                                    ),
-                                  );
-                                },
-                              ),
-                              const SizedBox(height: 10),
-                              _NextOptionTile(
-                           iconPath: "assets/icons/add_calendar.png",
-                                title: "Upcoming Events",
-                                onTap: () {
-                                  // Navigate to community events
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text("Events feature coming soon"),
-                                      behavior: SnackBarBehavior.floating,
-                                    ),
-                                  );
-                                },
-                              ),
+                                  ),
 
-                              const SizedBox(height: 46),
-                                  ],
-      ),
-    ],
-  ),
-),
+                                  const SizedBox(height: 18),
+
+                                  /// CENTER GIF
+                                  Center(
+                                    child: Image.asset(
+                                      "assets/icons/checkmark.gif",
+                                      height: 128,
+                                      width: 128,
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 12),
+
+                                  /// TITLE
+                                  const Text(
+                                    "Welcome to the\nCommunity!",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontFamily: "Outfit",
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.w600,
+                                      height: 1, // 100% line height
+                                      letterSpacing: 0,
+                                      color: AppColors.charcoal,
+                                    ),
+                                  ),
+
+                                  const SizedBox(height: 7),
+
+                                  /// SUBTITLE
+                                  Text(
+                                    "You have successfully joined\n$title",
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      fontFamily: "Outfit",
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      height: 1, // 100% line height
+                                      letterSpacing: 0,
+                                      color: AppColors.charcoal,
+                                    ),
+                                  ),
+
+                                  const SizedBox(height: 24),
+
+                                  /// COMMUNITY CARD
+                                  _JoinedCommunityCard(
+                                    title: title,
+                                    members: members,
+                                    location: location,
+                                    imageUrl: _community.imageUrl,
+                                  ),
+
+                                  const SizedBox(height: 18),
+
+                                  /// WHAT'S NEXT
+                                  const Text(
+                                    "What's Next?",
+                                    style: TextStyle(
+                                      fontFamily: "Outfit",
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                      height: 1, // 100% line height
+                                      letterSpacing: 0,
+                                      color: AppColors.charcoal,
+                                    ),
+                                  ),
+
+                                  const SizedBox(height: 12),
+
+                                  /// OPTIONS
+                                  _NextOptionTile(
+                                    iconPath:
+                                        "assets/images/notification_enable.png",
+                                    title: l10n.notificationsEnabled,
+                                    onTap: () {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                              l10n.notificationsComingSoon),
+                                          behavior: SnackBarBehavior.floating,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  const SizedBox(height: 10),
+                                  _NextOptionTile(
+                                    iconPath: "assets/images/whatsup.png",
+                                    title: l10n.joinCommunityChats,
+                                    onTap: () {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(l10n.chatComingSoon),
+                                          behavior: SnackBarBehavior.floating,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  const SizedBox(height: 10),
+                                  _NextOptionTile(
+                                    iconPath: "assets/icons/add_calendar.png",
+                                    title: l10n.upcomingEvents,
+                                    onTap: () {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                              l10n.eventsFeatureComingSoon),
+                                          behavior: SnackBarBehavior.floating,
+                                        ),
+                                      );
+                                    },
+                                  ),
+
+                                  const SizedBox(height: 46),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
 
-                  
                       AppButton(
-                        label: "Start Exploring",
+                        label: l10n.startExploring,
                         onPressed: () {
-                        Navigator.push(
-  context,
-  MaterialPageRoute(
-    builder: (_) => Mycommunity(
-      myCommunities: [_community],
-    ),
-  ),
-);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => Mycommunity(
+                                myCommunities: [_community],
+                              ),
+                            ),
+                          );
                         },
                         type: AppButtonType.primary,
                         backgroundColor: const Color(0xFFB11212),
                         textColor: Colors.white,
                         borderRadius: 16,
                         height: 52,
-                    textStyle: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 16,
-    fontWeight: FontWeight.w500,
-    height: 1.5,
-    letterSpacing: 0,
-  ),
- 
-),
+                        textStyle: const TextStyle(
+                          fontFamily: "Outfit",
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          height: 1.5,
+                          letterSpacing: 0,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -304,65 +306,64 @@ class _JoinedCommunityCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                     Text(
-  title,
-  maxLines: 1,
-  overflow: TextOverflow.ellipsis,
-  style: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 18,
-    fontWeight: FontWeight.w500,
-    height: 1, // 100% line height
-    letterSpacing: 0,
-    color: AppColors.charcoal,
-  ),
-),
+                      Text(
+                        title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontFamily: "Outfit",
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          height: 1, // 100% line height
+                          letterSpacing: 0,
+                          color: AppColors.charcoal,
+                        ),
+                      ),
                       const SizedBox(height: 6),
-                     Text(
-  "The main cycling community in\nAbu Dhabi, bringing together...",
-  maxLines: 2,
-  overflow: TextOverflow.ellipsis,
-  style: TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 15,
-    fontWeight: FontWeight.w400,
-    height: 1, // 100% line height
-    letterSpacing: 0,
-    color: AppColors.charcoal.withValues(alpha: 0.6),
-  ),
-),
+                      Text(
+                        "The main cycling community in\nAbu Dhabi, bringing together...",
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontFamily: "Outfit",
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                          height: 1, // 100% line height
+                          letterSpacing: 0,
+                          color: AppColors.charcoal.withValues(alpha: 0.6),
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 12),
-          Row(
-  children: [
-    Expanded(
-      child: _MiniInfoBox(
-        iconPath: "assets/icons/red_people.png",
-        title: "Members",
-        value: members.toString(),
-      ),
-    ),
-    const SizedBox(width: 12),
-    Expanded(
-      child: _MiniInfoBox(
-        iconPath: "assets/icons/location.png",
-        title: "Location",
-        value: location,
-      ),
-    ),
-  ],
-)
+            Row(
+              children: [
+                Expanded(
+                  child: _MiniInfoBox(
+                    iconPath: "assets/icons/red_people.png",
+                    title: AppLocalizations.of(context)!.members,
+                    value: members.toString(),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: _MiniInfoBox(
+                    iconPath: "assets/icons/location.png",
+                    title: AppLocalizations.of(context)!.location,
+                    value: location,
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ),
     );
   }
 }
-
 
 class _MiniInfoBox extends StatelessWidget {
   final String iconPath;
@@ -384,7 +385,7 @@ class _MiniInfoBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(14),
       ),
       child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Image.asset(
             iconPath,
@@ -392,38 +393,36 @@ class _MiniInfoBox extends StatelessWidget {
             width: 13,
             color: AppColors.deepRed,
           ),
-
           const SizedBox(width: 12),
-
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-              Text(
-  title,
-  style: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 10.89, 
-    fontWeight: FontWeight.w400,
-    height: 1.33,
-    letterSpacing: 0,
-    color: AppColors.charcoal,
-  ),
-),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontFamily: "Outfit",
+                    fontSize: 10.89,
+                    fontWeight: FontWeight.w400,
+                    height: 1.33,
+                    letterSpacing: 0,
+                    color: AppColors.charcoal,
+                  ),
+                ),
                 const SizedBox(height: 4),
-              Text(
-  value,
-  maxLines: 1,
-  overflow: TextOverflow.ellipsis,
-  style: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 12.7, // 12.7012 ≈ 12.7
-    fontWeight: FontWeight.w500,
-    height: 1.43, // 18.1446 / 12.7012 ≈ 1.43
-    letterSpacing: 0,
-    color: AppColors.charcoal,
-  ),
-),
+                Text(
+                  value,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontFamily: "Outfit",
+                    fontSize: 12.7, // 12.7012 ≈ 12.7
+                    fontWeight: FontWeight.w500,
+                    height: 1.43, // 18.1446 / 12.7012 ≈ 1.43
+                    letterSpacing: 0,
+                    color: AppColors.charcoal,
+                  ),
+                ),
               ],
             ),
           ),
@@ -459,13 +458,13 @@ class _NextOptionTile extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              height:54 ,
+              height: 54,
               width: 54,
               decoration: BoxDecoration(
                 color: AppColors.goldenOchre,
                 borderRadius: BorderRadius.circular(12),
               ),
-             child: Center(
+              child: Center(
                 child: isSvg
                     ? SvgPicture.asset(
                         iconPath,

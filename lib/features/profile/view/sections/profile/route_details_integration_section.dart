@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../l10n/app_localizations.dart';
 import '../../../../../shared/widgets/app_button.dart';
 
 class ServiceIntegration {
@@ -26,23 +27,23 @@ class RouteDetailsIntegrationSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-  'Route Details',
-  style: const TextStyle(
-    fontFamily: 'Outfit',
-    fontSize: 20,
-    fontWeight: FontWeight.w600,
-    height: 1, // 100% line height
-    letterSpacing: 0,
-    color: AppColors.textDark,
-  ),
-),
+          'Route Details',
+          style: const TextStyle(
+            fontFamily: 'Outfit',
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            height: 1, // 100% line height
+            letterSpacing: 0,
+            color: AppColors.textDark,
+          ),
+        ),
         const SizedBox(height: 12),
         Column(
           children: services.asMap().entries.map((entry) {
             final index = entry.key;
             final service = entry.value;
             final isLast = index == services.length - 1;
-            
+
             return Padding(
               padding: EdgeInsets.only(bottom: isLast ? 0 : 12),
               child: Container(
@@ -52,7 +53,7 @@ class RouteDetailsIntegrationSection extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFF2E3176).withValues(alpha: 0.1), 
+                      color: const Color(0xFF2E3176).withValues(alpha: 0.1),
                       offset: const Offset(0, 4.38),
                       blurRadius: 30.65,
                       spreadRadius: 0,
@@ -63,21 +64,19 @@ class RouteDetailsIntegrationSection extends StatelessWidget {
                   children: [
                     const SizedBox(width: 12),
                     Expanded(
-                      child: Text(
-  service.name,
-  style: const TextStyle(
-    fontFamily: 'Outfit',
-    fontSize: 13.1376,
-    fontWeight: FontWeight.w600,
-    height: 1, // 100% line height
-    letterSpacing: 0.13,
-    color: AppColors.charcoal,
-  ),
-)
-                    ),
+                        child: Text(
+                      service.name,
+                      style: const TextStyle(
+                        fontFamily: 'Outfit',
+                        fontSize: 13.1376,
+                        fontWeight: FontWeight.w600,
+                        height: 1, // 100% line height
+                        letterSpacing: 0.13,
+                        color: AppColors.charcoal,
+                      ),
+                    )),
                     AppButton(
-                      label: 'Connect',
-                    
+                      label: AppLocalizations.of(context)!.connect,
                       onPressed: service.onConnect,
                       type: AppButtonType.primary,
                       backgroundColor: AppColors.dustyRose,
@@ -85,14 +84,14 @@ class RouteDetailsIntegrationSection extends StatelessWidget {
                       width: 100,
                       height: 36,
                       borderRadius: 8,
-                     textStyle: const TextStyle(
-  fontFamily: 'Outfit',
-  fontSize: 13,
-  fontWeight: FontWeight.w500,
-  height: 1, // 100% line height
-  letterSpacing: 0,
-  color: AppColors.charcoal,
-),
+                      textStyle: const TextStyle(
+                        fontFamily: 'Outfit',
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        height: 1, // 100% line height
+                        letterSpacing: 0,
+                        color: AppColors.charcoal,
+                      ),
                     ),
                   ],
                 ),
@@ -104,4 +103,3 @@ class RouteDetailsIntegrationSection extends StatelessWidget {
     );
   }
 }
-

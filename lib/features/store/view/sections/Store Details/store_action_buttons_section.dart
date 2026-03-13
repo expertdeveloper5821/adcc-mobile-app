@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../l10n/app_localizations.dart';
 import '../../../../../shared/widgets/app_button.dart';
 
 class StoreActionButtonsSection extends StatelessWidget {
@@ -14,32 +15,31 @@ class StoreActionButtonsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
-          // WhatsApp Button
           AppButton(
-            label: 'WhatsApp Seller',
+            label: l10n.whatsAppSeller,
             onPressed: onWhatsApp,
             type: AppButtonType.primary,
             backgroundColor: AppColors.deepRed,
             textColor: Colors.white,
             height: 50,
             borderRadius: 12,
-           textStyle: const TextStyle(
-  fontFamily: 'Outfit',
-  fontSize: 16,
-  fontWeight: FontWeight.w500,
-  height: 1.5,
-  letterSpacing: 0,
-),
+            textStyle: const TextStyle(
+              fontFamily: 'Outfit',
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              height: 1.5,
+              letterSpacing: 0,
+            ),
             // prefixIcon: Icons.chat,
           ),
           const SizedBox(height: 15),
-          // Call Button
           AppButton(
-            label: 'Call',
+            label: l10n.call,
             onPressed: onCall,
             type: AppButtonType.secondary,
             backgroundColor: Colors.white,
@@ -47,13 +47,13 @@ class StoreActionButtonsSection extends StatelessWidget {
             borderColor: AppColors.deepRed,
             height: 50,
             borderRadius: 12,
-           textStyle: const TextStyle(
-  fontFamily: 'Outfit',
-  fontSize: 16,
-  fontWeight: FontWeight.w500,
-  height: 1.5,
-  letterSpacing: 0,
-),
+            textStyle: const TextStyle(
+              fontFamily: 'Outfit',
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              height: 1.5,
+              letterSpacing: 0,
+            ),
             // prefixIcon: Icons.phone,
           ),
         ],
@@ -61,4 +61,3 @@ class StoreActionButtonsSection extends StatelessWidget {
     );
   }
 }
-

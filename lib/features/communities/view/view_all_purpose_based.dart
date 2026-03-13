@@ -1,5 +1,6 @@
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/communities/models/community_model.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:adcc/features/communities/sections/community_list_card.dart';
 import 'package:adcc/features/communities/view/community_type_details.dart';
 import 'package:adcc/shared/widgets/banner_header.dart';
@@ -100,7 +101,7 @@ class _ViewAllPurposeCommunitiesScreenState
             BannerHeadder(
               imagePath: "assets/images/cycling_1.png",
               title: widget.title,
-              subtitle: "Communities based on purpose and goals",
+              subtitle: AppLocalizations.of(context)!.communitiesBasedOnPurpose,
               onBackTap: () => Navigator.pop(context),
             ),
 

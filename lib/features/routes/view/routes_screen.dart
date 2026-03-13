@@ -1,4 +1,5 @@
 import 'package:adcc/features/routes/view/sections/track_category_sections.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:adcc/shared/widgets/track_header.dart';
 import 'package:flutter/material.dart';
 import '../../../shared/widgets/warning_message.dart';
@@ -29,26 +30,23 @@ class _RoutesTabState extends State<RoutesTab> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return SafeArea(
       child: ListView(
         physics: const BouncingScrollPhysics(),
-        // padding: const EdgeInsets.symmetric(vertical: 16),
         children: [
-
           const SizedBox(height: 16),
-
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: TrackHeader(
               imagePath: 'assets/images/cycling_1.png',
-              title: 'Find a Track',
+              title: l10n.findATrack,
               wantSearchBar: true,
               searchValue: searchQuery,
               onChangeHandler: (value) {
                 setState(() => searchQuery = value);
               },
-              placeholder:
-                  'Search tracks, city, distance or terrain...',
+              placeholder: l10n.searchTracksPlaceholder,
             ),
           ),
 

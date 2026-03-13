@@ -1,5 +1,6 @@
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/routes/Models/event_model.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
@@ -49,7 +50,7 @@ class RouteEventsSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Events on this track", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: AppColors.textDark)),
+          Text(AppLocalizations.of(context)!.eventsOnThisTrack, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: AppColors.textDark)),
           const SizedBox(height: 12),
           SizedBox(
             height: 210,

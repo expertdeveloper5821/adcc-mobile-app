@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/event_details/view/event_details_screen.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class SpecialRideCard extends StatelessWidget {
   static const double _cardHeight = 400;
@@ -18,9 +18,9 @@ class SpecialRideCard extends StatelessWidget {
   final String? riders;
 
   /// UI values
-  final String? eventType; 
-  final String? groupName; 
-  final String? city; 
+  final String? eventType;
+  final String? groupName;
+  final String? city;
   final String? eventId;
 
   final VoidCallback? onShare;
@@ -45,7 +45,7 @@ class SpecialRideCard extends StatelessWidget {
     this.onShare,
     this.onTap,
     this.onOpen,
-    this.width =328,
+    this.width = 328,
   });
 
   bool get _isNetworkImage =>
@@ -138,30 +138,31 @@ class SpecialRideCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final typeText = (eventType ?? 'Race').trim();
+    final l10n = AppLocalizations.of(context)!;
+    final typeText = (eventType ?? l10n.race).trim();
     final cityText = (city ?? location ?? 'Abu Dhabi').trim();
-final id = eventId ?? "";
+    final id = eventId ?? "";
 
-  return GestureDetector(
-  onTap: () {
-    debugPrint(" Card tapped: $title");
-    debugPrint(" Event ID: $id");
+    return GestureDetector(
+      onTap: () {
+        debugPrint(" Card tapped: $title");
+        debugPrint(" Event ID: $id");
 
-    if (id.isEmpty) {
-      debugPrint(" Event ID empty — navigation blocked");
-      return;
-    }
+        if (id.isEmpty) {
+          debugPrint(" Event ID empty — navigation blocked");
+          return;
+        }
 
- Navigator.push(
-  context,
-  MaterialPageRoute(
-    builder: (_) {
-      debugPrint(" Navigating to EventDetailsScreen with ID: $eventId");
-      return EventDetailsScreen(eventId: eventId!);
-    },
-  ),
-);
-  },
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) {
+              debugPrint(" Navigating to EventDetailsScreen with ID: $eventId");
+              return EventDetailsScreen(eventId: eventId!);
+            },
+          ),
+        );
+      },
       child: SizedBox(
         width: width,
         height: _cardHeight,
@@ -169,10 +170,8 @@ final id = eventId ?? "";
           borderRadius: BorderRadius.circular(8),
           child: Stack(
             children: [
-             
               Positioned.fill(child: _buildImage()),
 
-            
               Positioned(
                 left: 12,
                 top: 12,
@@ -185,7 +184,7 @@ final id = eventId ?? "";
                   ),
                   child: Center(
                     child: Text(
-                      typeText.isEmpty ? "Race" : typeText,
+                      typeText.isEmpty ? l10n.race : typeText,
                       style: const TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w800,
@@ -218,7 +217,7 @@ final id = eventId ?? "";
                   ),
                 ),
               ),
-                  
+
               /// Bottom Info Card (Exact)
               Positioned(
                 left: 5,
@@ -242,44 +241,46 @@ final id = eventId ?? "";
                             InkWell(
                               onTap: onOpen,
                               child: _chip(
-                                text: "Open",
-                                bg: const Color(0xFF3EE606).withValues(alpha: 0.33),
+                                text: l10n.open,
+                                bg: const Color(0xFF3EE606)
+                                    .withValues(alpha: 0.33),
                                 fg: const Color(0xFF328700),
                               ),
                             ),
 
                             const SizedBox(width: 6),
 
-                         
                             _chip(
                               text: cityText.isEmpty ? "Abu Dhabi" : cityText,
-                              bg: const Color(0xFF3EE606).withValues(alpha: 0.33),
+                              bg: const Color(0xFF3EE606)
+                                  .withValues(alpha: 0.33),
                               fg: const Color(0xFF328700),
                             ),
-                           const SizedBox(width: 6),
-Positioned(
-  left: 12,
-  top: 40, 
-  child: Container(
-    height: 20,
-    padding: const EdgeInsets.fromLTRB(11, 4, 11, 3),
-    decoration: BoxDecoration(
-      color: const Color(0x54C12D32), 
-      borderRadius: BorderRadius.circular(6),
-    ),
-    child: const Center(
-      child: Text(
-        "AED 200",
-        style: TextStyle(
-          fontSize: 9.9,
-          fontWeight: FontWeight.w600,
-          height: 1,
-          color: Color(0xFFC12D32),
-        ),
-      ),
-    ),
-  ),
-),
+                            const SizedBox(width: 6),
+                            Positioned(
+                              left: 12,
+                              top: 40,
+                              child: Container(
+                                height: 20,
+                                padding:
+                                    const EdgeInsets.fromLTRB(11, 4, 11, 3),
+                                decoration: BoxDecoration(
+                                  color: const Color(0x54C12D32),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    "AED 200",
+                                    style: TextStyle(
+                                      fontSize: 9.9,
+                                      fontWeight: FontWeight.w600,
+                                      height: 1,
+                                      color: Color(0xFFC12D32),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                             if (groupName != null &&
                                 groupName!.trim().isNotEmpty)
                               const SizedBox(width: 6),
@@ -290,7 +291,8 @@ Positioned(
                               Expanded(
                                 child: Container(
                                   height: 20,
-                                  padding: const EdgeInsets.fromLTRB(9, 3, 9, 4),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(9, 3, 9, 4),
                                   decoration: BoxDecoration(
                                     color: const Color(0xFFBFF3A2),
                                     borderRadius: BorderRadius.circular(4.969),
@@ -326,86 +328,88 @@ Positioned(
                         ),
 
                         const SizedBox(height: 8),
-/// Row: Date + Time + KM
-Row(
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: [
 
-    /// DATE
-    Row(
-      children: [
-        Image.asset(
-          "assets/icons/lighting.png",
-          height: 14,
-          width: 14,
-          color: Color(0XFF595959),
-        ),
-        const SizedBox(width: 6),
-        Text(
-          date,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(
-            fontSize: 11.5,
-            fontWeight: FontWeight.w400,
-          color: Color(0XFF484A4D),
-          ),
-        ),
-      ],
-    ),
+                        /// Row: Date + Time + KM
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            /// DATE
+                            Row(
+                              children: [
+                                Image.asset(
+                                  "assets/icons/lighting.png",
+                                  height: 14,
+                                  width: 14,
+                                  color: Color(0XFF595959),
+                                ),
+                                const SizedBox(width: 6),
+                                Text(
+                                  date,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontSize: 11.5,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0XFF484A4D),
+                                  ),
+                                ),
+                              ],
+                            ),
 
-    /// TIME
-    Row(
-      children: [
-        const Icon(
-          Icons.access_time_filled_outlined,
-          size: 14,
-          color: Color(0XFF484A4D),
-        ),
-        const SizedBox(width: 6),
-        Text(
-          (time ?? "5:30 AM"),
-          style: const TextStyle(
-            fontSize: 11.5,
-            fontWeight: FontWeight.w400,
-             color: Color(0XFF484A4D),
-          ),
-        ),
-      ],
-    ),
+                            /// TIME
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.access_time_filled_outlined,
+                                  size: 14,
+                                  color: Color(0XFF484A4D),
+                                ),
+                                const SizedBox(width: 6),
+                                Text(
+                                  (time ?? "5:30 AM"),
+                                  style: const TextStyle(
+                                    fontSize: 11.5,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0XFF484A4D),
+                                  ),
+                                ),
+                              ],
+                            ),
 
-   
-Padding(
-  padding: const EdgeInsets.only(right: 16), 
-  child: Row(
-    children: [
-      Image.asset(
-        "assets/icons/km_fill.png",
-        height: 14,
-        width: 14,
-         color: Color(0XFF595959),
-      ),
-      const SizedBox(width: 6),
-     Text(
-  "${distance ?? "42"} km",
-  style: const TextStyle(
-    fontSize: 11.5,
-    fontWeight: FontWeight.w700,
-     color: Color(0XFF484A4D),
-  ),
-),
-    ],
-  ),
-),
-  ],
-),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 16),
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    "assets/icons/km_fill.png",
+                                    height: 14,
+                                    width: 14,
+                                    color: Color(0XFF595959),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Text(
+                                    "${distance ?? "42"} km",
+                                    style: const TextStyle(
+                                      fontSize: 11.5,
+                                      fontWeight: FontWeight.w700,
+                                      color: Color(0XFF484A4D),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                         const SizedBox(height: 8),
 
                         /// Row: Location + Venue
                         Row(
                           children: [
-                            const Icon(Icons.location_on,
-                                size: 14,  color: Color(0XFF595959),),
+                            const Icon(
+                              Icons.location_on,
+                              size: 14,
+                              color: Color(0XFF595959),
+                            ),
                             const SizedBox(width: 6),
                             Expanded(
                               child: Text(
@@ -415,17 +419,17 @@ Padding(
                                 style: const TextStyle(
                                   fontSize: 11.5,
                                   fontWeight: FontWeight.w700,
-                                   color: Color(0XFF484A4D),
+                                  color: Color(0XFF484A4D),
                                 ),
                               ),
                             ),
                             const SizedBox(width: 10),
-                          Image.asset(
-  "assets/icons/routes_icons.png",
-  height: 14,
-  width: 14,
-    color: Color(0XFF484A4D),
-),
+                            Image.asset(
+                              "assets/icons/routes_icons.png",
+                              height: 14,
+                              width: 14,
+                              color: Color(0XFF484A4D),
+                            ),
                             const SizedBox(width: 6),
                             Expanded(
                               child: Text(
@@ -435,7 +439,7 @@ Padding(
                                 style: const TextStyle(
                                   fontSize: 11.5,
                                   fontWeight: FontWeight.w700,
-                                   color: Color(0XFF484A4D),
+                                  color: Color(0XFF484A4D),
                                 ),
                               ),
                             ),

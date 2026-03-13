@@ -1,4 +1,5 @@
 import 'package:adcc/core/theme/app_colors.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class CyclingIdentityCard extends StatelessWidget {
@@ -6,6 +7,7 @@ class CyclingIdentityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.only(left: 1, right: 1),
       child: Container(
@@ -123,11 +125,11 @@ class CyclingIdentityCard extends StatelessWidget {
             /// LEVELS
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                _LevelItem(number: "1", label: "Beginner"),
-                _LevelItem(number: "2", label: "Intermediate"),
-                _LevelItem(number: "3", label: "Advanced"),
-                _LevelItem(number: "4", label: "Ambassador"),
+              children: [
+                _LevelItem(number: "1", label: l10n.beginner),
+                _LevelItem(number: "2", label: l10n.intermediate),
+                _LevelItem(number: "3", label: l10n.advanced),
+                _LevelItem(number: "4", label: l10n.ambassador),
               ],
             ),
 

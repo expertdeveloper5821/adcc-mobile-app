@@ -1,4 +1,6 @@
+import 'package:adcc/features/auth/view/login_screen.dart';
 import 'package:adcc/features/profile/view/sections/profile/my_badge_section.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:adcc/features/profile/view/sections/profile/my_communities_section.dart';
 import 'package:adcc/features/profile/view/sections/profile/my_joined_events_section.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +15,6 @@ import '../sections/profile/profile_menu_section.dart';
 import '../sections/profile/route_details_integration_section.dart';
 import '../sections/guest_screen/guest_profile_section.dart';
 import '../../../auth/view/register_screen.dart';
-import '../../../auth/view/email_password_login_screen.dart';
 import '../../../events/view/events_screen.dart';
 import '../../../communities/view/community_screen.dart';
 import '../../../routes/view/routes_screen_wrapper.dart';
@@ -46,19 +47,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-
   Future<void> _handleLogout() async {
-    if (_isLoggingOut) return; 
+    if (_isLoggingOut) return;
 
     setState(() {
       _isLoggingOut = true;
     });
 
     try {
-      
       final refreshToken = await TokenStorageService.getRefreshToken();
 
-  
       if (refreshToken != null && refreshToken.isNotEmpty) {
         try {
           final apiClient = ApiClient.instance;
@@ -83,17 +81,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               response.statusCode! < 300) {
             debugPrint(' [Logout API] Logout successful');
           } else {
-            debugPrint(
-                ' [Logout API] Logout API returned non-success status');
-    
+            debugPrint(' [Logout API] Logout API returned non-success status');
           }
         } on DioException catch (e) {
-        
-         
-        } catch (e) {
-       
-         
-        }
+        } catch (e) {}
       } else {
         debugPrint(' [Logout] No refresh token found, skipping API call');
       }
@@ -101,15 +92,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
       await TokenStorageService.clearTokens();
       debugPrint(' [Logout] Local tokens cleared');
 
-
       if (mounted) {
         setState(() {
           _isAuthenticated = false;
         });
       }
     } catch (e) {
-    
-
       await TokenStorageService.clearTokens();
       if (mounted) {
         Navigator.pushAndRemoveUntil(
@@ -133,10 +121,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => const EmailPasswordLoginScreen(),
+        builder: (_) => const LoginScreen(),
       ),
     );
-  
+
     _checkAuthentication();
   }
 
@@ -169,7 +157,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-   
     if (_isCheckingAuth) {
       return Container(
         color: AppColors.softCream,
@@ -189,49 +176,47 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Column(
             children: [
               // Header with Profile title
-             Container(
-  color: const Color(0xFFFFF9EF), // Background color
-  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-  child: Stack(
-    alignment: Alignment.center,
-    children: [
-
-      Align(
-        alignment: Alignment.centerLeft,
-        child: GestureDetector(
-          onTap: () => Navigator.pop(context),
-          child: Container(
-            width: 44,
-            height: 44,
-            decoration: const BoxDecoration(
-              color: Color(0xFFE8B4B4), // soft red circle
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(
-              Icons.arrow_back_rounded,
-              color: Color(0xFFC12D32),
-              size: 22,
-            ),
-          ),
-        ),
-      ),
-
-    
-      const Text(
-  'Profile',
-  textAlign: TextAlign.center,
-  style: TextStyle(
-    fontFamily: 'Outfit',
-    fontSize: 25,
-    fontWeight: FontWeight.w600,
-    height: 1, // 100% line height
-    letterSpacing: 0,
-    color: AppColors.charcoal,
-  ),
-),
-    ],
-  ),
-),
+              Container(
+                color: const Color(0xFFFFF9EF), // Background color
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Container(
+                          width: 44,
+                          height: 44,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFE8B4B4), // soft red circle
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.arrow_back_rounded,
+                            color: Color(0xFFC12D32),
+                            size: 22,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const Text(
+                      'Profile',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Outfit',
+                        fontSize: 25,
+                        fontWeight: FontWeight.w600,
+                        height: 1, // 100% line height
+                        letterSpacing: 0,
+                        color: AppColors.charcoal,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               // Guest Profile Content
               Expanded(
                 child: GuestProfileSection(
@@ -247,17 +232,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
     }
 
- 
     return Container(
-    color: AppColors.softCream,
+      color: AppColors.softCream,
       child: SafeArea(
         child: ListView(
           physics: const BouncingScrollPhysics(),
           padding: EdgeInsets.only(
-            bottom: 100, 
+            bottom: 100,
           ),
           children: [
-          
             ProfileHeaderSection(
               name: 'Andrew',
               location: 'Abu Dhabi City',
@@ -269,18 +252,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 'events': '14',
               },
             ),
-        
-const MyBadgesSection(),
-const SizedBox(height: 41),
-
-const MyCommunitiesSection(),
-const SizedBox(height: 49),
-
-const MyJoinedEventsSection(),
-
-const SizedBox(height: 50),
-
- ProfileMenuSection(),
+            const MyBadgesSection(),
+            const SizedBox(height: 41),
+            const MyCommunitiesSection(),
+            const SizedBox(height: 49),
+            const MyJoinedEventsSection(),
+            const SizedBox(height: 50),
+            ProfileMenuSection(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
@@ -292,32 +270,32 @@ const SizedBox(height: 50),
                       ServiceIntegration(
                         name: 'Garmin',
                         onConnect: () {
-                    
                           debugPrint('Connect Garmin tapped');
                         },
                       ),
                       ServiceIntegration(
                         name: 'Wahoo',
                         onConnect: () {
-                     
                           debugPrint('Connect Wahoo tapped');
                         },
                       ),
                     ],
                   ),
-                  
+
                   const SizedBox(height: 50),
-             
+
                   AppButton(
-                   label: _isLoggingOut ? 'Logging out...' : 'Logout',
-textStyle: const TextStyle(
-  fontFamily: 'Outfit',
-  fontSize: 16,
-  fontWeight: FontWeight.w600,
-  height: 1, // 100% line height
-  letterSpacing: 0,
-  color: Colors.white,
-),
+                    label: _isLoggingOut
+                        ? AppLocalizations.of(context)!.loggingOut
+                        : AppLocalizations.of(context)!.logout,
+                    textStyle: const TextStyle(
+                      fontFamily: 'Outfit',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      height: 1, // 100% line height
+                      letterSpacing: 0,
+                      color: Colors.white,
+                    ),
                     onPressed: _isLoggingOut ? null : _handleLogout,
                     type: AppButtonType.danger,
                     backgroundColor: AppColors.deepRed,

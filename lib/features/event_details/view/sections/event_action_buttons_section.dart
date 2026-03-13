@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/widgets/app_button.dart';
 
 class EventActionButtonsSection extends StatelessWidget {
@@ -14,23 +15,22 @@ class EventActionButtonsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-       
           AppButton(
-            label: 'Route Details (PDF)',
+            label: l10n.routeDetailsPdf,
             onPressed: firstButtonTab,
             type: AppButtonType.primary,
             backgroundColor: AppColors.deepRed,
             suffixIcon: Icons.file_download_outlined,
           ),
           const SizedBox(height: 12),
-    
           AppButton(
-            label: 'Safety Guidelines (PDF)',
+            label: l10n.safetyGuidelinesPdf,
             onPressed: secondButtonTab,
             type: AppButtonType.secondary,
             borderColor: AppColors.deepRed,

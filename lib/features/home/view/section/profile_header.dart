@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:adcc/core/services/location_storage_service.dart';
 import 'package:adcc/core/theme/app_colors.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class ProfileHeader extends StatefulWidget {
@@ -81,6 +82,7 @@ class _ProfileHeaderState extends State<ProfileHeader>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Row(
@@ -89,24 +91,22 @@ class _ProfileHeaderState extends State<ProfileHeader>
             radius: 26,
             backgroundImage: AssetImage(widget.profileImagePath),
           ),
-
           const SizedBox(width: 12),
-
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-              Text(
-  widget.name,
-  style:  TextStyle(
-    fontFamily: 'Outfit',
-    fontSize: 16,
-    fontWeight: FontWeight.w600,
-    height: 1, // 100% line height
-    letterSpacing: 0,
-    color: AppColors.textDark,
-  ),
-),
+                Text(
+                  widget.name,
+                  style: TextStyle(
+                    fontFamily: 'Outfit',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    height: 1, // 100% line height
+                    letterSpacing: 0,
+                    color: AppColors.textDark,
+                  ),
+                ),
                 const SizedBox(height: 4),
                 Row(
                   children: [
@@ -117,30 +117,28 @@ class _ProfileHeaderState extends State<ProfileHeader>
                       color: Colors.grey,
                     ),
                     const SizedBox(width: 4),
-                   Text(
-  _city.isEmpty ? 'Fetching location...' : _city,
-  style: const TextStyle(
-    fontFamily: 'Outfit',
-    fontSize: 12,
-    fontWeight: FontWeight.w500,
-    height: 1, // 100% line height
-    letterSpacing: 0,
-    color: Color(0xFF767779),
-  ),
-)
+                    Text(
+                      _city.isEmpty ? l10n.fetchingLocation : _city,
+                      style: const TextStyle(
+                        fontFamily: 'Outfit',
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        height: 1, // 100% line height
+                        letterSpacing: 0,
+                        color: Color(0xFF767779),
+                      ),
+                    )
                   ],
                 ),
               ],
             ),
           ),
-
           GestureDetector(
             onTap: widget.onNotificationTap,
             child: Image.asset(
               'assets/icons/notification.gif',
               height: 60,
               width: 60,
-        
             ),
           ),
         ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/events/Model/model_events.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 
 class EventQuickInfoSection extends StatelessWidget {
   final Event? event;
@@ -35,43 +36,42 @@ class EventQuickInfoSection extends StatelessWidget {
     if (event == null) {
       return const SizedBox();
     }
-
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Quick Info",
-            style: TextStyle(
-              fontSize:16 ,
+          Text(
+            l10n.quickInfo,
+            style: const TextStyle(
+              fontSize: 16,
               fontWeight: FontWeight.w600,
               color: AppColors.textDark,
             ),
           ),
           const SizedBox(height: 10),
-
           Column(
             children: [
               Row(
                 children: [
                   Expanded(
                     child: _PillInfo(
-                      title: "Date",
+                      title: l10n.date,
                       value: event!.formattedDate ?? "-",
                     ),
                   ),
                   const SizedBox(width: 10),
                   Expanded(
                     child: _PillInfo(
-                      title: "Time",
+                      title: l10n.time,
                       value: event!.eventTime ?? "-",
                     ),
                   ),
                   const SizedBox(width: 10),
                   Expanded(
                     child: _PillInfo(
-                      title: "Distance",
+                      title: l10n.distance,
                       value: _formatDistance(),
                     ),
                   ),
@@ -82,21 +82,21 @@ class EventQuickInfoSection extends StatelessWidget {
                 children: [
                   Expanded(
                     child: _PillInfo(
-                      title: "Min Age",
+                      title: l10n.minAge,
                       value: _formatMinAge(),
                     ),
                   ),
                   const SizedBox(width: 10),
                   Expanded(
                     child: _PillInfo(
-                      title: "Segment",
+                      title: l10n.segment,
                       value: event!.difficulty ?? "-",
                     ),
                   ),
                   const SizedBox(width: 10),
                   Expanded(
                     child: _PillInfo(
-                      title: "Registration",
+                      title: l10n.registration,
                       value: _formatRegistration(),
                     ),
                   ),

@@ -1,4 +1,5 @@
 import 'package:adcc/core/theme/app_colors.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class SectionHeader extends StatelessWidget {
@@ -15,22 +16,23 @@ class SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          child:Text(
-  title,
-  style: const TextStyle(
-    fontFamily: 'Outfit',
-    fontSize: 20,
-    fontWeight: FontWeight.w600,
-    height: 1,
-    letterSpacing: 0,
-    color: AppColors.charcoal
-  ),
-)
+          child: Text(
+            title,
+            style: const TextStyle(
+              fontFamily: 'Outfit',
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              height: 1,
+              letterSpacing: 0,
+              color: AppColors.charcoal,
+            ),
+          ),
         ),
         if (showViewAll)
           InkWell(
@@ -38,19 +40,19 @@ class SectionHeader extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
-  'View All',
-  textAlign: TextAlign.center,
-  style: const TextStyle(
-    fontFamily: 'Geist',
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    height: 1.43,
-    letterSpacing: 0,
-    color: AppColors.charcoal
-  ),
-),
-                const SizedBox(width: 6), 
+                Text(
+                  l10n.viewAll,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontFamily: 'Geist',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    height: 1.43,
+                    letterSpacing: 0,
+                    color: AppColors.charcoal,
+                  ),
+                ),
+                const SizedBox(width: 6),
                 Image.asset(
                   "assets/icons/right_arrow.png",
                   height: 12,

@@ -5,12 +5,14 @@ class LanguageCard extends StatelessWidget {
   final String image;
   final String label;
   final VoidCallback onTap;
+  final bool isSelected;
 
   const LanguageCard({
-    super.key, 
+    super.key,
     required this.image,
     required this.label,
     required this.onTap,
+    this.isSelected = false,
   });
 
   @override
@@ -19,13 +21,13 @@ class LanguageCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: 140,
-        height: 200,
+        height: 240,
         decoration: BoxDecoration(
-          color: AppColors.warmSand.withValues(alpha: 0.1),
+          color: isSelected ? AppColors.cardLightBackground : Colors.white,
           borderRadius: BorderRadius.circular(80),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha:0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 20,
               offset: const Offset(0, 10),
             ),
@@ -37,7 +39,7 @@ class LanguageCard extends StatelessWidget {
             Image.asset(
               image,
               width: 80,
-              height: 80,
+              height: 100,
             ),
             const SizedBox(height: 16),
             Text(

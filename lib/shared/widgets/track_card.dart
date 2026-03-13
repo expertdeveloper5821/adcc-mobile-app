@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import 'dart:ui';
+import '../../l10n/app_localizations.dart';
+
 class TrackCard extends StatelessWidget {
-  final String imagePath; 
+  final String imagePath;
   final String title;
   final String city;
   final String distance;
@@ -31,9 +33,7 @@ class TrackCard extends StatelessWidget {
     this.height = 281,
   });
 
- 
   Widget _buildTrackImage() {
-  
     if (imagePath.startsWith("data:image")) {
       try {
         final base64Str = imagePath.split(",").last;
@@ -51,7 +51,6 @@ class TrackCard extends StatelessWidget {
       }
     }
 
- 
     if (imagePath.startsWith("http")) {
       return Image.network(
         imagePath,
@@ -61,7 +60,6 @@ class TrackCard extends StatelessWidget {
         errorBuilder: (_, __, ___) => _errorImage(),
       );
     }
-
 
     return Image.asset(
       imagePath,
@@ -102,9 +100,8 @@ class TrackCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-               
                 ClipRRect(
-              borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10),
                   child: SizedBox(
                     height: 150,
                     width: double.infinity,
@@ -121,23 +118,23 @@ class TrackCard extends StatelessWidget {
                           ),
                         ),
 
-                      // Left chip
-Positioned(
-  left: 12,
-  top: 12,
-  child: _SmallChip(
-    text: difficulty,
-  ),
-),
+                        // Left chip
+                        Positioned(
+                          left: 12,
+                          top: 12,
+                          child: _SmallChip(
+                            text: difficulty,
+                          ),
+                        ),
 
 // Right chip
-Positioned(
-  right: 12,
-  top: 12,
-  child: _SmallChip(
-    text: status,
-  ),
-),
+                        Positioned(
+                          right: 12,
+                          top: 12,
+                          child: _SmallChip(
+                            text: status,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -150,7 +147,6 @@ Positioned(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                    
                         Row(
                           children: [
                             const _AssetIcon(
@@ -159,19 +155,20 @@ Positioned(
                             ),
                             const SizedBox(width: 6),
                             Expanded(
-                              child:Text(
-  city,
-  maxLines: 1,
-  overflow: TextOverflow.ellipsis,
-  style: TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    height: 1, // 100% line height
-    letterSpacing: 0,
-    color: AppColors.textDark.withValues(alpha: 0.8),
-  ),
-),
+                              child: Text(
+                                city,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontFamily: "Outfit",
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  height: 1, // 100% line height
+                                  letterSpacing: 0,
+                                  color:
+                                      AppColors.textDark.withValues(alpha: 0.8),
+                                ),
+                              ),
                             ),
                             const SizedBox(width: 10),
                             const _AssetIcon(
@@ -179,71 +176,63 @@ Positioned(
                               size: 18,
                             ),
                             const SizedBox(width: 6),
-                           Text(
-  distance,
-  style: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    height: 1.4, // 19.6 / 14
-    letterSpacing: 0,
-    color: AppColors.textDark,
-  ),
-),
+                            Text(
+                              distance,
+                              style: const TextStyle(
+                                fontFamily: "Outfit",
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                height: 1.4, // 19.6 / 14
+                                letterSpacing: 0,
+                                color: AppColors.textDark,
+                              ),
+                            ),
                           ],
                         ),
-
-                        const SizedBox(height:7 ),
-
-                    
-                    Text(
-  title,
-  maxLines: 2,
-  overflow: TextOverflow.ellipsis,
-  style: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 15,
-    fontWeight: FontWeight.w600,
-    height: 1, // 100% line height
-    letterSpacing: 0,
-    color: AppColors.textDark,
-  ),
-),
-
-                        const SizedBox(height: 14),
-
-                 
+                        const SizedBox(height: 7),
                         Text(
-  subtitle,
-  maxLines: 2,
-  overflow: TextOverflow.ellipsis,
-  style: TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
-    height: 1.16, // 13.9441 / 12 ≈ 1.16
-    letterSpacing: 0,
-    color: AppColors.textDark.withValues(alpha: 0.7),
-  ),
-),
+                          title,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontFamily: "Outfit",
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            height: 1, // 100% line height
+                            letterSpacing: 0,
+                            color: AppColors.textDark,
+                          ),
+                        ),
+                        const SizedBox(height: 14),
+                        Text(
+                          subtitle,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontFamily: "Outfit",
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            height: 1.16, // 13.9441 / 12 ≈ 1.16
+                            letterSpacing: 0,
+                            color: AppColors.textDark.withValues(alpha: 0.7),
+                          ),
+                        ),
                         const Spacer(),
-
-                      
-                        const Row(
+                        Row(
                           children: [
                             _AmenityItem(
                               iconPath: "assets/icons/lighting.png",
-                              label: 'Lighting',
+                              label: AppLocalizations.of(context)!.lighting,
                             ),
-                            SizedBox(width: 14),
+                            const SizedBox(width: 14),
                             _AmenityItem(
                               iconPath: "assets/icons/water_statoins.png",
-                              label: 'Water stataion',
+                              label: AppLocalizations.of(context)!.waterStation,
                             ),
-                            SizedBox(width: 14),
+                            const SizedBox(width: 14),
                             _AmenityItem(
                               iconPath: "assets/icons/restrooms.png",
-                              label: 'Restroom',
+                              label: AppLocalizations.of(context)!.restroom,
                             ),
                           ],
                         ),
@@ -281,18 +270,18 @@ class _SmallChip extends StatelessWidget {
             borderRadius: BorderRadius.circular(999),
           ),
           alignment: Alignment.center,
-          child:Text(
-  text,
-  textAlign: TextAlign.center,
-  style: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
-    height: 1, // 100% line height
-    letterSpacing: 0,
-    color: Colors.white,
-  ),
-),
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontFamily: "Outfit",
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+              height: 1, // 100% line height
+              letterSpacing: 0,
+              color: Colors.white,
+            ),
+          ),
         ),
       ),
     );
@@ -322,7 +311,6 @@ class _AssetIcon extends StatelessWidget {
   }
 }
 
-
 class _AmenityItem extends StatelessWidget {
   final String iconPath;
   final String label;
@@ -339,17 +327,17 @@ class _AmenityItem extends StatelessWidget {
       children: [
         _AssetIcon(assetPath: iconPath, size: 16),
         const SizedBox(width: 6),
-      Text(
-  label,
-  style: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 12.82, // 12.8226 ≈ 12.82
-    fontWeight: FontWeight.w400,
-    height: 1.33, // 17.0968 / 12.8226 ≈ 1.33
-    letterSpacing: 0,
-    color: Color(0xFF484A4D),
-  ),
-),
+        Text(
+          label,
+          style: const TextStyle(
+            fontFamily: "Outfit",
+            fontSize: 12.82, // 12.8226 ≈ 12.82
+            fontWeight: FontWeight.w400,
+            height: 1.33, // 17.0968 / 12.8226 ≈ 1.33
+            letterSpacing: 0,
+            color: Color(0xFF484A4D),
+          ),
+        ),
       ],
     );
   }

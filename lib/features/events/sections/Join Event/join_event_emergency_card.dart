@@ -1,3 +1,4 @@
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class JoinEventEmergencyCard extends StatelessWidget {
@@ -12,6 +13,7 @@ class JoinEventEmergencyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Container(
         width: 357,
@@ -33,11 +35,9 @@ class JoinEventEmergencyCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
-            /// TITLE
-            const Text(
-              "Emergency Contact",
-              style: TextStyle(
+            Text(
+              l10n.emergencyContact,
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
                 color: Colors.black,
@@ -46,10 +46,9 @@ class JoinEventEmergencyCard extends StatelessWidget {
 
             const SizedBox(height: 20.6922),
 
-            /// NAME LABEL
-            const Text(
-              "Emergency Contact Name *",
-              style: TextStyle(
+            Text(
+              l10n.emergencyContactName,
+              style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),
@@ -59,15 +58,14 @@ class JoinEventEmergencyCard extends StatelessWidget {
 
             _emergencyTextField(
               controller: nameController,
-              hint: "Contact person name",
+              hint: l10n.contactPersonName,
             ),
 
             const SizedBox(height: 20.6922),
 
-            /// PHONE LABEL
-            const Text(
-              "Emergency Contact Phone *",
-              style: TextStyle(
+            Text(
+              l10n.emergencyContactPhone,
+              style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),

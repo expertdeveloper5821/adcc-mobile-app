@@ -1,4 +1,5 @@
-import 'package:adcc/features/auth/view/communityScreen/community.dart';
+import 'package:adcc/core/theme/app_colors.dart';
+import 'package:adcc/features/auth/view/register_screen.dart';
 import 'package:adcc/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import '../../../main.dart';
@@ -7,38 +8,56 @@ import './languageCard.dart';
 class LanguageSelectionScreen extends StatelessWidget {
   const LanguageSelectionScreen({super.key});
 
-  void _goToLogin(BuildContext context) {
+  void _goToCreateProfile(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => const CommunityScreen()),
+      MaterialPageRoute(builder: (_) => const RegisterScreen()),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final currentLocale = Localizations.localeOf(context).languageCode;
 
     return Scaffold(
+      backgroundColor: AppColors.softCream,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 16, top: 12),
+          child: IconButton(
+            onPressed: () => Navigator.of(context).pop(),
+            icon: Image.asset(
+              'assets/icons/arrowLeft.png',
+              width: 20,
+              height: 20,
+              fit: BoxFit.contain,
+            ),
+            style: IconButton.styleFrom(
+              backgroundColor: Color.fromARGB(25, 140, 140, 140),
+              shape: const CircleBorder(),
+            ),
+          ),
+        ),
+      ),
       body: Container(
         width: double.infinity,
         height: double.infinity,
 
         // Background Gradient
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFFFFF6ED), Color.fromARGB(255, 213, 234, 250)],
-          ),
+          color: AppColors.softCream,
         ),
 
         child: SafeArea(
           child: Column(
             children: [
-              const SizedBox(height: 40),
+              const SizedBox(height: 36),
 
               // Language Icon
-              Image.asset('assets/images/lang_icon.png', width: 48, height: 48),
+              Image.asset('assets/images/lang_icon.png', width: 58, height: 58),
 
               const SizedBox(height: 24),
 
@@ -46,27 +65,11 @@ class LanguageSelectionScreen extends StatelessWidget {
               Stack(
                 alignment: Alignment.center,
                 children: [
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Container(
-                      width: 80,
-                      height: 25,
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Color.fromARGB(255, 255, 250, 243),
-                            Color.fromARGB(255, 246, 226, 192),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
                   Text(
-                    '${l10n.choose.toUpperCase()}\n${l10n.language.toUpperCase()}',
+                    '${l10n.choose}\n${l10n.language}',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 22,
+                      fontSize: 25,
                       fontWeight: FontWeight.w700,
                       letterSpacing: 1,
                       color: Colors.black,
@@ -85,20 +88,20 @@ class LanguageSelectionScreen extends StatelessWidget {
                   LanguageCard(
                     image: 'assets/images/english_a.png',
                     label: 'ENGLISH',
+                    isSelected: currentLocale == 'en',
                     onTap: () {
                       MyApp.setLocale(context, const Locale('en'));
-                      _goToLogin(context);
+                      _goToCreateProfile(context);
                     },
                   ),
-
                   const SizedBox(width: 24),
-
                   LanguageCard(
                     image: 'assets/images/arabic_a.png',
                     label: 'ARABIC',
+                    isSelected: currentLocale == 'ar',
                     onTap: () {
                       MyApp.setLocale(context, const Locale('ar'));
-                      _goToLogin(context);
+                      _goToCreateProfile(context);
                     },
                   ),
                 ],

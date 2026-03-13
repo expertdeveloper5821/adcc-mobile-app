@@ -23,22 +23,17 @@ class ApiInterceptor extends Interceptor {
     RequestInterceptorHandler handler,
   ) async {
     try {
-    final accessToken = await TokenStorageService.getAccessToken();
+      final accessToken = await TokenStorageService.getAccessToken();
 
+      final isRefreshApi = options.path.contains("/v1/auth/refresh");
 
+      if (!isRefreshApi) {
+        if (accessToken != null && accessToken.isNotEmpty) {
+          options.headers['Authorization'] = "Bearer $accessToken";
+        } else {}
+      }
 
-final isRefreshApi = options.path.contains("/v1/auth/refresh");
-
-if (!isRefreshApi) {
-  if (accessToken != null && accessToken.isNotEmpty) {
-    options.headers['Authorization'] = "Bearer $accessToken";
-
-  } else {
-
-  }
-}
-
-print(" Headers: ${options.headers}");
+      print(" Headers: ${options.headers}");
       options.headers['Content-Type'] =
           options.headers['Content-Type'] ?? 'application/json';
       options.headers['Accept'] =
@@ -55,9 +50,7 @@ print(" Headers: ${options.headers}");
     Response response,
     ResponseInterceptorHandler handler,
   ) {
-
-
-handler.next(response);
+    handler.next(response);
   }
 
   @override
@@ -139,7 +132,8 @@ handler.next(response);
     try {
       final dio = Dio(
         BaseOptions(
-          baseUrl: "https://adcc-b4f3.onrender.com",
+          // baseUrl: "https://adcc-b4f3.onrender.com",
+          baseUrl: "http://13.126.184.69:4000",
           connectTimeout: const Duration(seconds: 60),
           receiveTimeout: const Duration(seconds: 60),
           headers: {
@@ -190,8 +184,7 @@ handler.next(response);
     String newAccessToken,
   ) async {
     try {
-      requestOptions.headers["Authorization"] =
-          "Bearer $newAccessToken";
+      requestOptions.headers["Authorization"] = "Bearer $newAccessToken";
 
       final dio = Dio(
         BaseOptions(
@@ -230,24 +223,19 @@ handler.next(response);
 
     while (retryCount < maxRetries) {
       try {
-        await Future.delayed(
-            retryDelay * (retryCount + 1));
+        await Future.delayed(retryDelay * (retryCount + 1));
 
         final dio = Dio(
           BaseOptions(
             baseUrl: requestOptions.baseUrl,
-            connectTimeout:
-                const Duration(seconds: 60),
-            receiveTimeout:
-                const Duration(seconds: 60),
+            connectTimeout: const Duration(seconds: 60),
+            receiveTimeout: const Duration(seconds: 60),
             headers: {
               "Content-Type": "application/json",
               "Accept": "application/json",
             },
             validateStatus: (status) =>
-                status != null &&
-                status >= 200 &&
-                status < 300,
+                status != null && status >= 200 && status < 300,
           ),
         );
 
@@ -262,12 +250,9 @@ handler.next(response);
   }
 
   bool _shouldRetry(DioException err) {
-    return err.type ==
-            DioExceptionType.connectionTimeout ||
+    return err.type == DioExceptionType.connectionTimeout ||
         err.type == DioExceptionType.sendTimeout ||
-        err.type ==
-            DioExceptionType.receiveTimeout ||
-        err.type ==
-            DioExceptionType.connectionError;
+        err.type == DioExceptionType.receiveTimeout ||
+        err.type == DioExceptionType.connectionError;
   }
 }

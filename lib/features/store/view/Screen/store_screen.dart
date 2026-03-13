@@ -1,6 +1,7 @@
 import 'package:adcc/features/store/view/sections/Store%20Screen/marketplace_search_box.dart';
 import 'package:adcc/features/store/view/sections/Store%20Screen/store_header.dart';
 import 'package:adcc/features/store/view/sections/Store%20Screen/store_product_grid.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/app_button.dart';
@@ -26,7 +27,6 @@ class _StoreScreenState extends State<StoreScreen> {
     'Apparel',
     'Accessories',
   ];
-
 
   final List<Map<String, dynamic>> _products = [
     {
@@ -134,15 +134,14 @@ class _StoreScreenState extends State<StoreScreen> {
       body: SafeArea(
         child: ListView(
           physics: const BouncingScrollPhysics(),
-           padding: const EdgeInsets.symmetric(vertical: 24),
+          padding: const EdgeInsets.symmetric(vertical: 24),
           children: [
-       
-           StoreHeader(
-    imagePath: 'assets/images/store_header_banner.png',
-    showBackButton: true,
-    showNotificationIcon: true,
-    onBackTap: () => Navigator.pop(context),
-  ),
+            StoreHeader(
+              imagePath: 'assets/images/store_header_banner.png',
+              showBackButton: true,
+              showNotificationIcon: true,
+              onBackTap: () => Navigator.pop(context),
+            ),
 
             // Main Content
             Padding(
@@ -151,23 +150,17 @@ class _StoreScreenState extends State<StoreScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 28),
-
-        
                   _buildTitleSection(),
-
                   const SizedBox(height: 21),
-
-                MarketplaceSearchBox(
-  controller: _searchController,
-  onChanged: (value) {
-    setState(() {
-      _searchQuery = value;
-    });
-  },
-),
+                  MarketplaceSearchBox(
+                    controller: _searchController,
+                    onChanged: (value) {
+                      setState(() {
+                        _searchQuery = value;
+                      });
+                    },
+                  ),
                   const SizedBox(height: 29),
-
-                 
                   CategorySelector(
                     categories: _categories,
                     selectedIndex: _selectedCategoryIndex,
@@ -177,26 +170,22 @@ class _StoreScreenState extends State<StoreScreen> {
                       });
                     },
                   ),
-
                   const SizedBox(height: 40),
-
                   _buildResultsHeader(),
-
                   const SizedBox(height: 20),
-StoreProductGrid(
-  products: _getFilteredProducts(),
-  onTap: (product) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => StoreDetailsScreen(
-          productId: product['id'],
-        ),
-      ),
-    );
-  },
-),
-
+                  StoreProductGrid(
+                    products: _getFilteredProducts(),
+                    onTap: (product) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => StoreDetailsScreen(
+                            productId: product['id'],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                   const SizedBox(height: 24),
                 ],
               ),
@@ -214,45 +203,45 @@ StoreProductGrid(
         Expanded(
           // prevents overflow
           child: Text(
-  'Cycling Marketplace',
-  maxLines: 2,
-  overflow: TextOverflow.ellipsis,
-  style: const TextStyle(
-    fontFamily: 'Outfit',
-    fontSize: 30,
-    fontWeight: FontWeight.w600,
-    height: 1.0,
-    letterSpacing: 0,
-    color: AppColors.textDark,
-  ),
-),
+            'Cycling Marketplace',
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontFamily: 'Outfit',
+              fontSize: 30,
+              fontWeight: FontWeight.w600,
+              height: 1.0,
+              letterSpacing: 0,
+              color: AppColors.textDark,
+            ),
+          ),
         ),
         const SizedBox(width: 12),
-       AppButton(
-  label: '+ Sell',
-  onPressed: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => const SellProductScreen(),
-      ),
-    );
-  },
-  type: AppButtonType.primary,
-  backgroundColor: AppColors.deepRed,
-  textColor: Colors.white,
-  width: 80,
-  height: 36,
-  borderRadius: 10,
-  textStyle: const TextStyle(
-    fontFamily: 'Outfit',
-    fontSize: 16,
-    fontWeight: FontWeight.w500,
-    height: 1.23,
-    letterSpacing: 0,
-    color: Colors.white,
-  ),
-),
+        AppButton(
+          label: AppLocalizations.of(context)!.sell,
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const SellProductScreen(),
+              ),
+            );
+          },
+          type: AppButtonType.primary,
+          backgroundColor: AppColors.deepRed,
+          textColor: Colors.white,
+          width: 80,
+          height: 36,
+          borderRadius: 10,
+          textStyle: const TextStyle(
+            fontFamily: 'Outfit',
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            height: 1.23,
+            letterSpacing: 0,
+            color: Colors.white,
+          ),
+        ),
       ],
     );
   }
@@ -264,43 +253,41 @@ StoreProductGrid(
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-       Text(
-  'Showing $resultCount Result${resultCount != 1 ? 's' : ''}',
-  style: const TextStyle(
-    fontFamily: 'Outfit',
-    fontSize: 20,
-    fontWeight: FontWeight.w600,
-    height: 1.0,
-    letterSpacing: 0,
-    color: AppColors.textDark,
-  ),
-),
+        Text(
+          'Showing $resultCount Result${resultCount != 1 ? 's' : ''}',
+          style: const TextStyle(
+            fontFamily: 'Outfit',
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            height: 1.0,
+            letterSpacing: 0,
+            color: AppColors.textDark,
+          ),
+        ),
         GestureDetector(
-          onTap: () {
-           
-          },
+          onTap: () {},
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-             Image.asset(
-  "assets/icons/filter.png",
-  height: 16,
-  width: 16,
-  color: AppColors.textDark, 
-),
+              Image.asset(
+                "assets/icons/filter.png",
+                height: 16,
+                width: 16,
+                color: AppColors.textDark,
+              ),
               const SizedBox(width: 6),
               const Text(
-  'Filter',
-  textAlign: TextAlign.center,
-  style: const TextStyle(
-    fontFamily: 'Satoshi',
-    fontSize: 14,
-    fontWeight: FontWeight.w500,
-    height: 1.0,
-    letterSpacing: 0,
-    color: AppColors.textDark,
-  ),
-),
+                'Filter',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontFamily: 'Satoshi',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  height: 1.0,
+                  letterSpacing: 0,
+                  color: AppColors.textDark,
+                ),
+              ),
             ],
           ),
         ),
@@ -308,19 +295,17 @@ StoreProductGrid(
     );
   }
 
-
   List<Map<String, dynamic>> _getFilteredProducts() {
     List<Map<String, dynamic>> filtered = List.from(_products);
 
     // Filter by category
     if (_selectedCategoryIndex > 0) {
       final selectedCategory = _categories[_selectedCategoryIndex];
-      
+
       filtered = filtered.where((product) {
         final productCategory = product['category'] ?? '';
         return productCategory == selectedCategory;
       }).toList();
-      
     }
 
     // Filter by search query

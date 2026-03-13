@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 
 class MarketplaceSearchBox extends StatelessWidget {
   final TextEditingController controller;
@@ -31,7 +32,6 @@ class MarketplaceSearchBox extends StatelessWidget {
       ),
       child: Row(
         children: [
-
           /// Search Icon
           Image.asset(
             "assets/icons/search.png",
@@ -53,19 +53,19 @@ class MarketplaceSearchBox extends StatelessWidget {
                 fontWeight: FontWeight.w400,
                 height: 1,
               ),
-decoration: const InputDecoration(
-  hintText: "Search marketplace...",
-  hintStyle: TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 16,
-    fontWeight: FontWeight.w400,
-    height: 1.0,
-    letterSpacing: 0,
-    color: Color(0x80111827), // 50% opacity
-  ),
-  border: InputBorder.none,
-  isCollapsed: true,
-),
+              decoration: InputDecoration(
+                hintText: AppLocalizations.of(context)!.searchMarketplace,
+                hintStyle: TextStyle(
+                  fontFamily: "Outfit",
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  height: 1.0,
+                  letterSpacing: 0,
+                  color: Color(0x80111827), // 50% opacity
+                ),
+                border: InputBorder.none,
+                isCollapsed: true,
+              ),
             ),
           ),
         ],

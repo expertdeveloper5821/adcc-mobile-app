@@ -5,12 +5,10 @@ import 'package:adcc/features/communities/sections/Community%20Details/community
 import 'package:adcc/features/communities/sections/Community%20Details/community_gallery_tab.dart';
 import 'package:adcc/features/communities/sections/Community%20Details/community_tracks_tab.dart';
 import 'package:adcc/features/communities/sections/Community%20Details/community_updates_tab.dart';
-import 'package:adcc/features/communities/sections/community_highlight_track_card.dart';
 import 'package:adcc/features/communities/sections/join_community_screen.dart';
 import 'package:adcc/features/communities/sections/leavecommunity.dart';
 import 'package:adcc/features/communities/services/communities_service.dart';
 import 'package:adcc/shared/widgets/app_button.dart';
-import 'package:adcc/shared/widgets/banner_header.dart';
 import 'package:flutter/material.dart';
 
 class CommunityCityDetails extends StatefulWidget {
@@ -40,65 +38,58 @@ class _CommunityCityDetailsState extends State<CommunityCityDetails> {
     "Gallery",
     "Updates",
   ];
-@override
-void initState() {
-  super.initState();
- _isJoined = false;
+  @override
+  void initState() {
+    super.initState();
+    _isJoined = false;
 
-
-
-  _fetchCommunityById(); 
-  _checkMemberStatus();
-}
-Future<void> _fetchCommunityById() async {
-  setState(() => isLoading = true);
-
-  final communityId = widget.community.id;
-
-
-
-  final result = await _communitiesService.getCommunityById(
-    communityId: communityId,
-  );
-
-  if (!mounted) return;
-
-  setState(() => isLoading = false);
- 
-
-
-  if (result.data != null) {
-    setState(() {
-      _apiCommunity = result.data!;
-    });
-
-    final c = _apiCommunity!;
-
-   
+    _fetchCommunityById();
+    _checkMemberStatus();
   }
-}
-Future<void> _checkMemberStatus() async {
-  setState(() => isLoading = true);
 
-  final result =
-      await _communitiesService.getCommunityMemberStatus(
-    communityId: widget.community.id,
-  );
+  Future<void> _fetchCommunityById() async {
+    setState(() => isLoading = true);
 
-  if (!mounted) return;
+    final communityId = widget.community.id;
 
-  setState(() => isLoading = false);
+    final result = await _communitiesService.getCommunityById(
+      communityId: communityId,
+    );
 
-  if (result.success) {
-    setState(() {
-      _isJoined = result.data ?? false;
-      widget.community.isJoined = _isJoined;
-    });
+    if (!mounted) return;
+
+    setState(() => isLoading = false);
+
+    if (result.data != null) {
+      setState(() {
+        _apiCommunity = result.data!;
+      });
+
+      final c = _apiCommunity!;
+    }
   }
-}
+
+  Future<void> _checkMemberStatus() async {
+    setState(() => isLoading = true);
+
+    final result = await _communitiesService.getCommunityMemberStatus(
+      communityId: widget.community.id,
+    );
+
+    if (!mounted) return;
+
+    setState(() => isLoading = false);
+
+    if (result.success) {
+      setState(() {
+        _isJoined = result.data ?? false;
+        widget.community.isJoined = _isJoined;
+      });
+    }
+  }
+
   //  Method to refresh community data
   Future<void> _refreshCommunityData() async {
-   
     setState(() {
       _isJoined = widget.community.isJoined;
     });
@@ -106,39 +97,29 @@ Future<void> _checkMemberStatus() async {
 
   @override
   Widget build(BuildContext context) {
-  if (_apiCommunity == null) {
-  return const Scaffold(
-    body: Center(
-      child: CircularProgressIndicator(),
-    ),
-  );
-}
+    if (_apiCommunity == null) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
 
-final c = _apiCommunity!;
-final title = c.title;
-final description = c.description;
+    final c = _apiCommunity!;
+    final title = c.title;
+    final description = c.description;
 
-final city = c.city?.isNotEmpty == true
-    ? c.city!
-    : (c.location ?? "N/A");
+    final city = c.city?.isNotEmpty == true ? c.city! : (c.location ?? "N/A");
 
-final category = c.type.isNotEmpty ? c.type : "N/A";
+    final category = c.type.isNotEmpty ? c.type : "N/A";
 
-final track = c.trackName?.isNotEmpty == true
-    ? c.trackName!
-    : "N/A";
+    final track = c.trackName?.isNotEmpty == true ? c.trackName! : "N/A";
 
-final founded = (c.foundedYear ?? 0) > 0
-    ? c.foundedYear.toString()
-    : "N/A";
+    final founded = (c.foundedYear ?? 0) > 0 ? c.foundedYear.toString() : "N/A";
 
-final members = c.membersCount != null
-    ? c.membersCount.toString()
-    : "0";
+    final members = c.membersCount != null ? c.membersCount.toString() : "0";
 
-final events = c.eventsCount != null
-    ? c.eventsCount.toString()
-    : "0";
+    final events = c.eventsCount != null ? c.eventsCount.toString() : "0";
 
     return Scaffold(
       backgroundColor: AppColors.softCream,
@@ -148,11 +129,11 @@ final events = c.eventsCount != null
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 18),
           children: [
             // TOP BANNER IMAGE
-       CommunityDetailsHeader(
-  base64Image: c.imageUrl,
-  title: "",
-  onBackTap: () => Navigator.pop(context),
-),
+            CommunityDetailsHeader(
+              base64Image: c.imageUrl,
+              title: "",
+              onBackTap: () => Navigator.pop(context),
+            ),
 
             const SizedBox(height: 24),
 
@@ -161,16 +142,16 @@ final events = c.eventsCount != null
               children: [
                 Expanded(
                   child: Text(
-  title,
-  style: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 22,
-    fontWeight: FontWeight.w600,
-    height: 1, // 100% line height
-    letterSpacing: 0,
-    color: Color(0xFFC12D32),
-  ),
-),
+                    title,
+                    style: const TextStyle(
+                      fontFamily: "Outfit",
+                      fontSize: 22,
+                      fontWeight: FontWeight.w600,
+                      height: 1, // 100% line height
+                      letterSpacing: 0,
+                      color: Color(0xFFC12D32),
+                    ),
+                  ),
                 ),
                 const SizedBox(width: 12),
                 _ShareBadge(onTap: () {}),
@@ -179,52 +160,50 @@ final events = c.eventsCount != null
 
             const SizedBox(height: 12),
 
-           // Description
-Text(
-  description,
-  style: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 16,
-    fontWeight: FontWeight.w400,
-    height: 1, // 100% line height
-    letterSpacing: 0,
-    color: AppColors.textDark,
-  ),
-),
+            // Description
+            Text(
+              description,
+              style: const TextStyle(
+                fontFamily: "Outfit",
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                height: 1, // 100% line height
+                letterSpacing: 0,
+                color: AppColors.textDark,
+              ),
+            ),
 
             const SizedBox(height: 25),
 
-         _InfoGrid(
-  city: city,
-  category: category,
-  primaryTrack: track,
-  founded: founded,
-  upcomingEvents: events,
-  members: members,
-),
+            _InfoGrid(
+              city: city,
+              category: category,
+              primaryTrack: track,
+              founded: founded,
+              upcomingEvents: events,
+              members: members,
+            ),
 
             const SizedBox(height: 31),
 
-       Text(
-  "Community Highlights",
-  style: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 20,
-    fontWeight: FontWeight.w600,
-    height: 1, // 100% line height
-    letterSpacing: 0,
-    color:AppColors.charcoal,
-  ),
-),
+            Text(
+              "Community Highlights",
+              style: const TextStyle(
+                fontFamily: "Outfit",
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                height: 1, // 100% line height
+                letterSpacing: 0,
+                color: AppColors.charcoal,
+              ),
+            ),
 
             const SizedBox(height: 14),
 
-         
             const _HighlightsCard(),
 
             const SizedBox(height: 49),
 
-       
             _TabsRow(
               tabs: tabs,
               selectedIndex: selectedTabIndex,
@@ -233,35 +212,28 @@ Text(
 
             const SizedBox(height: 28),
 
-         
             _TabContent(selectedTabIndex: selectedTabIndex),
 
             const SizedBox(height: 51),
 
-         
-         AppButton(
-  label: isLoading
-      ? "Checking..."
-      : (_isJoined
-          ? "Leave Community"
-          : "Join Community"),
-  onPressed: isLoading ? null : _handleJoinLeave,
-  type: _isJoined
-      ? AppButtonType.danger
-      : AppButtonType.primary,
-  backgroundColor: const Color(0xFFB11212),
-  textColor: Colors.white,
-  borderRadius: 16,
-  height: 52,
-  textStyle: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 17.46, // 17.4634 ≈ 17.46
-    fontWeight: FontWeight.w400,
-    height: 1.50, // 26.1369 / 17.4634
-    letterSpacing: 0,
-  ),
- 
-         ),
+            AppButton(
+              label: isLoading
+                  ? "Checking..."
+                  : (_isJoined ? "Leave Community" : "Join Community"),
+              onPressed: isLoading ? null : _handleJoinLeave,
+              type: _isJoined ? AppButtonType.danger : AppButtonType.primary,
+              backgroundColor: const Color(0xFFB11212),
+              textColor: Colors.white,
+              borderRadius: 16,
+              height: 52,
+              textStyle: const TextStyle(
+                fontFamily: "Outfit",
+                fontSize: 17.46, // 17.4634 ≈ 17.46
+                fontWeight: FontWeight.w400,
+                height: 1.50, // 26.1369 / 17.4634
+                letterSpacing: 0,
+              ),
+            ),
           ],
         ),
       ),
@@ -298,7 +270,6 @@ Text(
           ),
         );
 
-      
         final shouldRefresh = await Navigator.push(
           context,
           MaterialPageRoute(
@@ -362,7 +333,7 @@ class _ShareBadge extends StatelessWidget {
         width: 35,
         height: 35,
         decoration: BoxDecoration(
-         color: const Color(0x5C99D3B5),// #99D3B55C
+          color: const Color(0x5C99D3B5), // #99D3B55C
           shape: BoxShape.circle,
         ),
         alignment: Alignment.center,
@@ -421,30 +392,30 @@ class _InfoGrid extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-  label,
-  style: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 12.44, // 12.437 ≈ 12.44
-    fontWeight: FontWeight.w400,
-    height: 1, // 100% line height
-    letterSpacing: 0,
-    color: AppColors.charcoal,
-  ),
-),
+                    label,
+                    style: const TextStyle(
+                      fontFamily: "Outfit",
+                      fontSize: 12.44, // 12.437 ≈ 12.44
+                      fontWeight: FontWeight.w400,
+                      height: 1, // 100% line height
+                      letterSpacing: 0,
+                      color: AppColors.charcoal,
+                    ),
+                  ),
                   const SizedBox(height: 4),
-                 Text(
-  value,
-  maxLines: 2,
-  overflow: TextOverflow.ellipsis,
-  style: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 14,
-    fontWeight: FontWeight.w500,
-    height: 1, // 100% line height
-    letterSpacing: 0,
-    color: AppColors.charcoal,
-  ),
-),
+                  Text(
+                    value,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontFamily: "Outfit",
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      height: 1, // 100% line height
+                      letterSpacing: 0,
+                      color: AppColors.charcoal,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -501,7 +472,6 @@ class _HighlightsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     Widget row({
       required String iconPath,
       required String label,
@@ -517,7 +487,6 @@ class _HighlightsCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-
             /// ICON CONTAINER
             Container(
               width: 30,
@@ -596,6 +565,7 @@ class _HighlightsCard extends StatelessWidget {
     );
   }
 }
+
 class _TabsRow extends StatelessWidget {
   final List<String> tabs;
   final int selectedIndex;
@@ -633,20 +603,20 @@ class _TabsRow extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               alignment: Alignment.center,
-              child:Text(
-  tabs[index],
-  maxLines: 1,
-  overflow: TextOverflow.ellipsis,
-  textAlign: TextAlign.center,
-  style: TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    height: 1.43, // 20 / 14 ≈ 1.43
-    letterSpacing: 0,
-    color: isSelected ? Colors.white : AppColors.textDark,
-  ),
-),
+              child: Text(
+                tabs[index],
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: "Outfit",
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  height: 1.43, // 20 / 14 ≈ 1.43
+                  letterSpacing: 0,
+                  color: isSelected ? Colors.white : AppColors.textDark,
+                ),
+              ),
             ),
           );
         },
@@ -654,7 +624,6 @@ class _TabsRow extends StatelessWidget {
     );
   }
 }
-
 
 class _TabContent extends StatelessWidget {
   final int selectedTabIndex;

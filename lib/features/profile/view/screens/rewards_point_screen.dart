@@ -2,6 +2,7 @@ import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/profile/view/sections/badges/rider_level_section.dart';
 import 'package:adcc/features/profile/view/sections/reward_point/available_points_section.dart';
 import 'package:adcc/features/profile/view/sections/reward_point/available_rewards_section.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:adcc/shared/widgets/banner_header.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,7 @@ class RewardsPointsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: AppColors.softCream,
       body: Padding(
@@ -23,7 +25,7 @@ class RewardsPointsScreen extends StatelessWidget {
          BannerHeadder(
                       imagePath:
                           'assets/images/cycling_1.png',
-                      title: 'Rewards & Points',
+                      title: l10n.rewardsAndPointsTitle,
                       subtitle:
                           ' Earn points by completing challenges',
                           centerTitle: true,

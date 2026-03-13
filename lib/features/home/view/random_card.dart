@@ -1,4 +1,5 @@
 import 'package:adcc/core/theme/app_colors.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class FeaturedEventCard extends StatelessWidget {
@@ -17,6 +18,7 @@ class FeaturedEventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: SizedBox(
@@ -33,7 +35,6 @@ class FeaturedEventCard extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-
             Positioned(
               top: 16,
               right: 16,
@@ -51,113 +52,105 @@ class FeaturedEventCard extends StatelessWidget {
                 ),
               ),
             ),
+            Positioned(
+              left: 15,
+              right: 15,
+              top: 160,
+              child: Container(
+                width: 328,
+                height: 100,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFF9EF), // #FFF9EF
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    /// Featured Tag
+                    Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 3,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xffC12D32),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          l10n.featured,
+                          style: const TextStyle(
+                            fontFamily: 'Geist',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            height: 16 / 12, // ≈1.33
+                            letterSpacing: 0,
+                            color: Color(0xFFFFF4E3),
+                          ),
+                        )),
 
-          Positioned(
-  left: 15,
-  right: 15,
-  top: 160,
-  child: Container(
-    width: 328,
-    height: 100,
-    padding: const EdgeInsets.all(12),
-    decoration: BoxDecoration(
-      color: const Color(0xFFFFF9EF), // #FFF9EF
-      borderRadius: BorderRadius.circular(8),
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+                    const SizedBox(height: 6),
 
-        /// Featured Tag
-        Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 8,
-            vertical: 3,
-          ),
-          decoration: BoxDecoration(
-            color: const Color(0xffC12D32),
-            borderRadius: BorderRadius.circular(6),
-          ),
-          child: Text(
-  "Featured",
-  style: const TextStyle(
-    fontFamily: 'Geist',
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
-    height: 16 / 12, // ≈1.33
-    letterSpacing: 0,
-    color: Color(0xFFFFF4E3),
-  ),
-)
-        ),
+                    /// Title
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontFamily: 'Outfit',
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        height: 1.15,
+                        letterSpacing: 0,
+                        color: AppColors.charcoal,
+                      ),
+                    ),
 
-        const SizedBox(height: 6),
+                    const SizedBox(height: 6),
 
-       /// Title
-Text(
-  title,
-  style: const TextStyle(
-    fontFamily: 'Outfit',
-    fontSize: 17,
-    fontWeight: FontWeight.w500,
-    height: 1.15,
-    letterSpacing: 0,
-    color: AppColors.charcoal,
-  ),
-),
-
-        const SizedBox(height: 6),
-
-        /// Date + Distance Row
-        Row(
-          children: [
-            Image.asset(
-              "assets/icons/calender.png",
-              width: 14,
-              height: 14,
-            ),
-            const SizedBox(width: 4),
-
-           Text(
-  date,
-  style: const TextStyle(
-    fontFamily: 'Outfit',
-    fontSize: 12.8226,
-    fontWeight: FontWeight.w400,
-    height: 17.0968 / 12.8226, // ≈1.33
-    letterSpacing: 0,
-    color: Color(0xFF484A4D),
-  ),
-),
-
-            const SizedBox(width: 12),
-
-            Image.asset(
-              "assets/icons/km_empty.png",
-              width: 14,
-              height: 14,
-            ),
-
-            const SizedBox(width: 4),
-
-          Text(
-  distance,
-  style: const TextStyle(
-    fontFamily: 'Outfit',
-    fontSize: 12.8226,
-    fontWeight: FontWeight.w400,
-    height: 17.0968 / 12.8226,
-    letterSpacing: 0,
-    color: Color(0xFF484A4D),
-  ),
-),
-          ],
-        ),
-      ],
-    ),
-  ),
-)
+                    /// Date + Distance Row
+                    Row(
+                      children: [
+                        Image.asset(
+                          "assets/icons/calender.png",
+                          width: 14,
+                          height: 14,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          date,
+                          style: const TextStyle(
+                            fontFamily: 'Outfit',
+                            fontSize: 12.8226,
+                            fontWeight: FontWeight.w400,
+                            height: 17.0968 / 12.8226, // ≈1.33
+                            letterSpacing: 0,
+                            color: Color(0xFF484A4D),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Image.asset(
+                          "assets/icons/km_empty.png",
+                          width: 14,
+                          height: 14,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          distance,
+                          style: const TextStyle(
+                            fontFamily: 'Outfit',
+                            fontSize: 12.8226,
+                            fontWeight: FontWeight.w400,
+                            height: 17.0968 / 12.8226,
+                            letterSpacing: 0,
+                            color: Color(0xFF484A4D),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),

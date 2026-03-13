@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../widgets/route_map_widget.dart';
 
@@ -40,6 +41,7 @@ class _RoutePreviewSectionState extends State<RoutePreviewSection> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -54,7 +56,6 @@ class _RoutePreviewSectionState extends State<RoutePreviewSection> {
             ),
           ),
           const SizedBox(height: 12),
-          // Google Map with route and location tracking
           RouteMapWidget(
             startLocation: _startLocation,
             endLocation: _endLocation,
@@ -62,9 +63,8 @@ class _RoutePreviewSectionState extends State<RoutePreviewSection> {
             onDistanceCalculated: _onDistanceCalculated,
           ),
           const SizedBox(height: 16),
-          // Start Ride Button
           AppButton(
-            label: 'Start Ride',
+            label: l10n.startRide,
             onPressed: widget.onStartRide,
             type: AppButtonType.primary,
             backgroundColor: AppColors.deepRed,

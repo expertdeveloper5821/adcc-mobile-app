@@ -1,5 +1,6 @@
 import 'package:adcc/features/event_details/view/event_details_screen.dart';
 import 'package:adcc/features/events/Model/model_events.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:adcc/shared/widgets/banner_header.dart';
 import 'package:adcc/shared/widgets/category_selector.dart';
 import 'package:flutter/material.dart';
@@ -34,10 +35,6 @@ class _UpcomingeventState extends State<Upcomingevent> {
       return event.mainImage!;
     }
     return "assets/images/cycling_1.png";
-  }
-
-  String _formatParticipants(Event event) {
-    return '${event.currentParticipants ?? 0}${event.maxParticipants != null ? '/${event.maxParticipants}' : ''} riders';
   }
 
   // local derived category mapping
@@ -96,6 +93,13 @@ class _UpcomingeventState extends State<Upcomingevent> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final displayCategories = [
+      l10n.eventCategoryAll,
+      l10n.eventCategoryRaces,
+      l10n.eventCategoryCommunityRides,
+      l10n.eventCategoryTrainingClinics,
+    ];
     final list = _filteredEvents;
 
     return Scaffold(
@@ -107,17 +111,15 @@ class _UpcomingeventState extends State<Upcomingevent> {
           children: [
             BannerHeadder(
               imagePath: 'assets/images/cycling_1.png',
-              title: 'Upcoming Events',
-              subtitle:
-                  'Competitive cycling events organized by ADCC communities',
+              title: l10n.upcomingEvents,
+              subtitle: l10n.upcomingEventsSubtitle,
               onBackTap: () => Navigator.pop(context),
             ),
 
             const SizedBox(height: 21),
 
-            // CATEGORY SELECTOR
             CategorySelector(
-              categories: categories,
+              categories: displayCategories,
               selectedIndex: selectedCategoryIndex,
               onSelected: (index) {
                 setState(() => selectedCategoryIndex = index);
@@ -126,9 +128,8 @@ class _UpcomingeventState extends State<Upcomingevent> {
 
             const SizedBox(height: 36),
 
-         
             Text(
-              "${list.length} communities found",
+              '${list.length} ${l10n.eventsFoundSuffix}',
               style: const TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
@@ -138,14 +139,13 @@ class _UpcomingeventState extends State<Upcomingevent> {
 
             const SizedBox(height: 18),
 
-            // LIST
             if (list.isEmpty)
-              const Padding(
-                padding: EdgeInsets.only(top: 80),
+              Padding(
+                padding: const EdgeInsets.only(top: 80),
                 child: Center(
                   child: Text(
-                    "No events found",
-                    style: TextStyle(
+                    l10n.noEventsFound,
+                    style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
                       color: Color(0xFF6B6B6B),
@@ -162,7 +162,7 @@ class _UpcomingeventState extends State<Upcomingevent> {
                   child: SpecialRideCard(
                     imagePath: _getImagePath(e),
                     title: e.title,
-                    date: e.formattedDate ?? "TBD",
+                    date: e.formattedDate ?? l10n.tbd,
 
                 
                     time: e.eventTime,

@@ -1,5 +1,6 @@
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/profile/view/sections/badges/rider_level_section.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:adcc/features/profile/view/sections/event_history/completed_event_card.dart';
 import 'package:adcc/features/profile/view/sections/event_history/perfromance_insights_card.dart';
 import 'package:adcc/features/profile/view/sections/event_history/upcoming_event_card_section.dart';
@@ -12,6 +13,7 @@ class EventHistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: AppColors.softCream,
       body: Padding(
@@ -23,7 +25,7 @@ class EventHistoryScreen extends StatelessWidget {
          BannerHeadder(
                       imagePath:
                           'assets/images/cycling_1.png',
-                      title: 'Event History',
+                      title: l10n.eventHistory,
                       subtitle:
                           '',
                           centerTitle: true,

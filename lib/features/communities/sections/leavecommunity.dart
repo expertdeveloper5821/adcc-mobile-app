@@ -2,6 +2,7 @@
 
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/communities/models/community_model.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:adcc/features/communities/services/communities_service.dart';
 import 'package:adcc/shared/widgets/app_button.dart';
 import 'package:flutter/material.dart';
@@ -109,7 +110,6 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-
               /// BACK BUTTON
               Align(
                 alignment: Alignment.centerLeft,
@@ -146,50 +146,50 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
 
               const SizedBox(height: 16),
 
-            /// TITLE
-const Text(
-  "Leave Community",
-  textAlign: TextAlign.center,
-  style: TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 30,
-    fontWeight: FontWeight.w600,
-    height: 1, // 100% line height
-    letterSpacing: 0,
-    color: AppColors.charcoal,
-  ),
-),
+              /// TITLE
+              const Text(
+                "Leave Community",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: "Outfit",
+                  fontSize: 30,
+                  fontWeight: FontWeight.w600,
+                  height: 1, // 100% line height
+                  letterSpacing: 0,
+                  color: AppColors.charcoal,
+                ),
+              ),
 
               const SizedBox(height: 10),
 
-             /// SUBTITLE
-const Text(
-  "We're sorry to see you go.\nYour feedback helps us improve.",
-  textAlign: TextAlign.center,
-  style: TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    height: 1, // 100% line height
-    letterSpacing: 0,
-    color: AppColors.charcoal,
-  ),
-),
+              /// SUBTITLE
+              const Text(
+                "We're sorry to see you go.\nYour feedback helps us improve.",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: "Outfit",
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  height: 1, // 100% line height
+                  letterSpacing: 0,
+                  color: AppColors.charcoal,
+                ),
+              ),
 
               const SizedBox(height: 18),
 
-            /// REASON TITLE
-const Text(
-  "Reason:",
-  style: TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 20,
-    fontWeight: FontWeight.w600,
-    height: 1, // 100% line height
-    letterSpacing: 0,
-    color: AppColors.charcoal,
-  ),
-),
+              /// REASON TITLE
+              const Text(
+                "Reason:",
+                style: TextStyle(
+                  fontFamily: "Outfit",
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  height: 1, // 100% line height
+                  letterSpacing: 0,
+                  color: AppColors.charcoal,
+                ),
+              ),
 
               const SizedBox(height: 12),
 
@@ -213,18 +213,18 @@ const Text(
 
               const SizedBox(height: 30),
 
-           /// FEEDBACK TITLE
-const Text(
-  "Additional Feedback",
-  style: TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 20,
-    fontWeight: FontWeight.w600,
-    height: 1, // 100% line height
-    letterSpacing: 0,
-    color: AppColors.charcoal,
-  ),
-),
+              /// FEEDBACK TITLE
+              const Text(
+                "Additional Feedback",
+                style: TextStyle(
+                  fontFamily: "Outfit",
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  height: 1, // 100% line height
+                  letterSpacing: 0,
+                  color: AppColors.charcoal,
+                ),
+              ),
               const SizedBox(height: 20),
 
               /// FEEDBACK BOX
@@ -247,41 +247,40 @@ const Text(
                     fontWeight: FontWeight.w600,
                     color: Colors.black,
                   ),
-                 decoration: const InputDecoration(
-  hintText: "Tell Us More...",
-  border: InputBorder.none,
-  hintStyle: TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 13,
-    fontWeight: FontWeight.w500,
-    height: 1, // 100% line height
-    letterSpacing: 0,
-    color: AppColors.charcoal,
-  ),
-),
+                  decoration: InputDecoration(
+                    hintText: AppLocalizations.of(context)!.tellUsMore,
+                    border: InputBorder.none,
+                    hintStyle: const TextStyle(
+                      fontFamily: "Outfit",
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      height: 1, // 100% line height
+                      letterSpacing: 0,
+                      color: AppColors.charcoal,
+                    ),
+                  ),
                 ),
               ),
 
               const SizedBox(height: 40),
 
               /// LEAVE BUTTON
-AppButton(
-  label: isLoading ? "Leaving..." : "Leave Community",
-  onPressed: isLoading ? null : _leaveCommunity,
-  type: AppButtonType.primary,
-  backgroundColor: const Color(0xFFB11212),
-  textColor: Colors.white,
-  borderRadius: 16,
-  height: 52,
-  textStyle: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 16,
-    fontWeight: FontWeight.w500,
-    height: 1.5, // 24 / 16
-    letterSpacing: 0,
-  ),
- 
-),
+              AppButton(
+                label: isLoading ? "Leaving..." : "Leave Community",
+                onPressed: isLoading ? null : _leaveCommunity,
+                type: AppButtonType.primary,
+                backgroundColor: const Color(0xFFB11212),
+                textColor: Colors.white,
+                borderRadius: 16,
+                height: 52,
+                textStyle: const TextStyle(
+                  fontFamily: "Outfit",
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  height: 1.5, // 24 / 16
+                  letterSpacing: 0,
+                ),
+              ),
 
               const SizedBox(height: 10),
             ],
@@ -314,24 +313,25 @@ class _ReasonTile extends StatelessWidget {
           color: const Color(0xFFFFF3E2),
           borderRadius: BorderRadius.circular(9.9),
           border: Border.all(
-            color: isSelected ? const Color(0xFFB11212) : const Color(0xFFFFF3E2),
+            color:
+                isSelected ? const Color(0xFFB11212) : const Color(0xFFFFF3E2),
             width: isSelected ? 1.6 : 1,
           ),
         ),
         child: Row(
           children: [
             Expanded(
-            child: Text(
-  title,
-  style: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 13,
-    fontWeight: FontWeight.w500,
-    height: 1, // 100% line height
-    letterSpacing: 0,
-    color: AppColors.charcoal,
-  ),
-),
+              child: Text(
+                title,
+                style: const TextStyle(
+                  fontFamily: "Outfit",
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  height: 1, // 100% line height
+                  letterSpacing: 0,
+                  color: AppColors.charcoal,
+                ),
+              ),
             ),
             Container(
               height: 18,

@@ -1,4 +1,5 @@
 import 'package:adcc/core/theme/app_colors.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 
@@ -12,6 +13,7 @@ class JoinEventHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return SizedBox(
       height: 90, 
       child: Stack(
@@ -40,10 +42,9 @@ class JoinEventHeader extends StatelessWidget {
             ),
           ),
 
-          /// CENTER TITLE
-          const Center(
+          Center(
             child: Text(
-              "Back to Event",
+              l10n.backToEvent,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: "Outfit",

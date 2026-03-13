@@ -1,6 +1,7 @@
 import 'package:adcc/features/event_details/view/event_details_screen.dart';
 import 'package:adcc/features/events/Model/model_events.dart';
 import 'package:adcc/features/events/view/special_ride_card.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:adcc/shared/widgets/banner_header.dart';
 import 'package:adcc/shared/widgets/category_selector.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class _EventsByCategoryViewAllState extends State<EventsByCategoryViewAll> {
   int selectedCategoryIndex = 0;
   String _searchQuery = '';
 
-  final List<String> categories = const [
+  static const List<String> _categoryKeys = [
     "Races",
     "Community Rides",
     "Training & Clinics",
@@ -36,7 +37,7 @@ void initState() {
   super.initState();
 
   if (widget.initialCategory != null) {
-    final index = categories.indexWhere(
+    final index = _categoryKeys.indexWhere(
       (c) => c.toLowerCase() == widget.initialCategory!.toLowerCase(),
     );
 
@@ -106,7 +107,7 @@ return e.category ?? "Community Rides";
   }
 
 List<Event> get _filteredEvents {
-  final selectedCategory = categories[selectedCategoryIndex];
+  final selectedCategory = _categoryKeys[selectedCategoryIndex];
 List<Event> list = widget.events.where((e) {
   final cat = (e.category ?? '').toLowerCase().trim();
   final selected = selectedCategory.toLowerCase().trim();
@@ -131,6 +132,15 @@ List<Event> list = widget.events.where((e) {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final displayCategories = [
+      l10n.eventCategoryRaces,
+      l10n.eventCategoryCommunityRides,
+      l10n.eventCategoryTrainingClinics,
+      l10n.eventCategoryAwarenessRides,
+      l10n.eventCategoryFamilyKids,
+      l10n.eventCategoryCorporate,
+    ];
     final list = _filteredEvents;
 
     return Scaffold(
@@ -140,20 +150,17 @@ List<Event> list = widget.events.where((e) {
           physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 18),
           children: [
-            /// Header Banner
             BannerHeadder(
               imagePath: 'assets/images/cycling_1.png',
-              title: 'Events by Category',
-              subtitle:
-                  'Competitive cycling events organized by ADCC communities',
+              title: l10n.eventsByCategory,
+              subtitle: l10n.eventsByCategorySubtitle,
               onBackTap: () => Navigator.pop(context),
             ),
 
             const SizedBox(height: 16),
 
-            /// Category Pills
             CategorySelector(
-              categories: categories,
+              categories: displayCategories,
               selectedIndex: selectedCategoryIndex,
               onSelected: (index) {
                 setState(() => selectedCategoryIndex = index);
@@ -162,14 +169,13 @@ List<Event> list = widget.events.where((e) {
 
             const SizedBox(height: 16),
 
-          
             if (list.isEmpty)
-              const Padding(
-                padding: EdgeInsets.only(top: 80),
+              Padding(
+                padding: const EdgeInsets.only(top: 80),
                 child: Center(
                   child: Text(
-                    "No events found",
-                    style: TextStyle(
+                    l10n.noEventsFound,
+                    style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
                       color: Color(0xFF6B6B6B),

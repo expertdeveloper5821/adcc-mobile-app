@@ -1,8 +1,8 @@
+import 'dart:async';
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/l10n/app_localizations.dart';
 import 'package:adcc/shared/widgets/app_button.dart';
 import 'package:adcc/shared/widgets/app_header_login.dart';
-import 'package:adcc/shared/widgets/app_phone_number_field.dart';
 import 'package:flutter/material.dart';
 
 class OtpScreen extends StatefulWidget {
@@ -13,30 +13,55 @@ class OtpScreen extends StatefulWidget {
 }
 
 class _OtpScreenState extends State<OtpScreen> {
-  final _formKey = GlobalKey<FormState>();
-
-  AutovalidateMode _autoValidateMode = AutovalidateMode.disabled;
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-
-  String countryCode = "+971";
+  final List<TextEditingController> _otpControllers =
+      List.generate(4, (_) => TextEditingController());
+  final List<FocusNode> _otpFocusNodes = List.generate(4, (_) => FocusNode());
+  int _secondsRemaining = 30;
+  Timer? _timer;
 
   @override
   void dispose() {
-    _phoneController.dispose();
-    _emailController.dispose();
+    for (final c in _otpControllers) {
+      c.dispose();
+    }
+    for (final f in _otpFocusNodes) {
+      f.dispose();
+    }
+    _timer?.cancel();
     super.dispose();
   }
 
-  void _submitForm() {
-    setState(() {
-      _autoValidateMode = AutovalidateMode.onUserInteraction;
-    });
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
 
-    if (_formKey.currentState!.validate()) {
-      debugPrint('Phone: ${_phoneController.text}');
-      debugPrint('Email: ${_emailController.text}');
-    }
+  void _startTimer() {
+    _secondsRemaining = 30;
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) return;
+      if (_secondsRemaining <= 1) {
+        setState(() => _secondsRemaining = 0);
+        timer.cancel();
+      } else {
+        setState(() => _secondsRemaining--);
+      }
+    });
+  }
+
+  String get _otpCode => _otpControllers.map((c) => c.text).join().trim();
+
+  void _onVerify() {
+    debugPrint('Entered OTP: $_otpCode');
+    // TODO: hook into backend verification
+  }
+
+  void _onResend() {
+    if (_secondsRemaining > 0) return;
+    debugPrint('Resend OTP requested');
+    _startTimer();
   }
 
   @override
@@ -52,11 +77,7 @@ class _OtpScreenState extends State<OtpScreen> {
         body: Container(
           width: double.infinity,
           decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Color(0xFFFFF6EC), Color(0xFFEAF4FF)],
-            ),
+            color: AppColors.softCream,
           ),
           child: SafeArea(
             child: Column(
@@ -71,133 +92,141 @@ class _OtpScreenState extends State<OtpScreen> {
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Form(
-                      key: _formKey,
-                      autovalidateMode: _autoValidateMode,
-                      child: Column(
-                        children: [
-                          /// Logo
-                          Image.asset('assets/icons/adcc_logo.png', height: 80),
-                          const SizedBox(height: 60),
-                          Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Positioned(
-                                bottom: 0,
-                                right: 0,
-                                child: Container(
-                                  width: 150,
-                                  height: 25,
-                                  decoration: const BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Color.fromARGB(255, 255, 250, 243),
-                                        Color.fromARGB(255, 246, 226, 192),
-                                      ],
+                    child: Column(
+                      children: [
+                        /// Logo
+                        Image.asset('assets/icons/adcc_logo.png', height: 80),
+                        const SizedBox(height: 60),
+
+                        /// Title
+                        Text(
+                          l10n.otpTitle,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+
+                        /// Subtitle
+                        Text(
+                          l10n.otpSubtitle,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: AppColors.textLightGrey,
+                            height: 1.4,
+                          ),
+                        ),
+
+                        const SizedBox(height: 40),
+
+                        /// OTP fields
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: List.generate(
+                            4,
+                            (index) => SizedBox(
+                              width: 56,
+                              height: 56,
+                              child: TextField(
+                                controller: _otpControllers[index],
+                                focusNode: _otpFocusNodes[index],
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                maxLength: 1,
+                                keyboardType: TextInputType.number,
+                                onChanged: (value) {
+                                  if (value.length == 1) {
+                                    if (index < _otpFocusNodes.length - 1) {
+                                      _otpFocusNodes[index + 1].requestFocus();
+                                    } else {
+                                      FocusScope.of(context).unfocus();
+                                      _onVerify();
+                                    }
+                                  } else if (value.isEmpty && index > 0) {
+                                    _otpFocusNodes[index - 1].requestFocus();
+                                  }
+                                },
+                                decoration: InputDecoration(
+                                  counterText: '',
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(40),
+                                    borderSide: const BorderSide(
+                                      color: AppColors.borderGray,
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(40),
+                                    borderSide: const BorderSide(
+                                      color: AppColors.borderGray,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(40),
+                                    borderSide: const BorderSide(
+                                      color: AppColors.deepRed,
+                                      width: 2,
                                     ),
                                   ),
                                 ),
                               ),
-                              RichText(
-                                textAlign: TextAlign.center,
-                                text: TextSpan(
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.black,
-                                    height: 1.4,
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 24),
+
+                        /// Resend text
+                        RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: AppColors.textLightGrey,
+                            ),
+                            children: [
+                              TextSpan(text: '${l10n.otpDidntReceive} '),
+                              WidgetSpan(
+                                alignment: PlaceholderAlignment.baseline,
+                                baseline: TextBaseline.alphabetic,
+                                child: GestureDetector(
+                                  onTap:
+                                      _secondsRemaining == 0 ? _onResend : null,
+                                  child: Text(
+                                    '${l10n.otpResendIn} ${_secondsRemaining}s',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: _secondsRemaining == 0
+                                          ? AppColors.deepRed
+                                          : AppColors.textLightGrey,
+                                    ),
                                   ),
-                                  children: [
-                                    TextSpan(text: "Verify Your Number".toUpperCase()),
-                                  ],
                                 ),
                               ),
-                             
                             ],
                           ),
-                          const SizedBox(height: 10),
+                        ),
 
-                          Text(l10n.create_account_title,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: AppColors.textLightGrey,
-                                height: 1.4,
-                              )),
+                        const SizedBox(height: 40),
 
-                          const SizedBox(height: 40),
-
-                          /// Phone Field
-                          AppPhoneNumberField(
-                            controller: _phoneController,
-                            hintText: l10n.phone_number_placeholder,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Phone number is required';
-                              }
-                              if (value.length < 8) {
-                                return 'Enter a valid phone number';
-                              }
-                              return null;
-                            },
-                            onCountryChanged: (country) {
-                              setState(() {
-                                countryCode = "+${country.phoneCode}";
-                              });
-                              debugPrint(
-                                'Selected country: ${country.name} (+${country.phoneCode})',
-                              );
-                            },
-                          ),
-
-                          // InputField(
-                          //   controller: _phoneController,
-                          //   hint: 'Continue with phone',
-                          //   image: Image.asset(
-                          //     'assets/icons/email_Icon.png',
-                          //     width: 22,
-                          //     height: 22,
-                          //   ),
-                          //   keyboardType: TextInputType.phone,
-                          //   validator: (value) {
-                          //     if (value == null || value.isEmpty) {
-                          //       return 'Phone number is required';
-                          //     }
-                          //     if (value.length < 8) {
-                          //       return 'Enter a valid phone number';
-                          //     }
-                          //     return null;
-                          //   },
-                          // ),
-                          const SizedBox(height: 24),
-
-                          /// Create Account Button
-                          AppButton(
-                            label: l10n.continue_button.toUpperCase(),
-                            backgroundColor: AppColors.orange,
-                            borderRadius: 16,
-                            onPressed: _submitForm,
-                          ),
-
-                          const SizedBox(height: 24),
-
-                          /// Or sign in with
-                          Text(
-                            l10n.login_link,
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ],
-                      ),
+                        /// Verify button
+                        AppButton(
+                          label: l10n.otpVerify,
+                          backgroundColor: AppColors.deepRed,
+                          borderRadius: 16,
+                          onPressed: _onVerify,
+                        ),
+                      ],
                     ),
-                  ),
-                ),
-
-                /// FIXED BOTTOM TEXT
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 8, 24, 16),
-                  child: Text(
-                    l10n.policy,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 12),
                   ),
                 ),
               ],

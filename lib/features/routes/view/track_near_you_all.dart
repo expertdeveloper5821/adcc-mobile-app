@@ -1,4 +1,5 @@
 import 'package:adcc/core/theme/app_colors.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:adcc/shared/widgets/banner_header.dart';
 import 'package:adcc/shared/widgets/category_selector.dart';
@@ -57,8 +58,8 @@ class _TrackNearAllPageState extends State<TrackNearAllPage> {
             }
 
             if (snapshot.hasError) {
-              return const Center(
-                child: Text("Failed to load tracks"),
+              return Center(
+                child: Text(AppLocalizations.of(context)!.failedToLoadTracks),
               );
             }
 
@@ -73,7 +74,7 @@ class _TrackNearAllPageState extends State<TrackNearAllPage> {
                 BannerHeadder(
                   imagePath:
                       'assets/images/cycling_1.png',
-                  title: 'Track Near You',
+                  title: AppLocalizations.of(context)!.trackNearYou,
                   subtitle:
                       'Cycling tracks closest to your current location',
                   onBackTap: () =>

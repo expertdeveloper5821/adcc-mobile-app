@@ -37,8 +37,7 @@ class ListingsScreen extends StatelessWidget {
                   width: double.infinity,
                   height: 180,
                   fit: BoxFit.cover,
-                  placeholderColor:
-                      AppColors.charcoal.withValues(alpha: 0.06),
+                  placeholderColor: AppColors.charcoal.withValues(alpha: 0.06),
                 ),
               ),
 
@@ -63,18 +62,18 @@ class ListingsScreen extends StatelessWidget {
                         color: Colors.white,
                       ),
                       SizedBox(width: 3),
-                     Text(
-  "Sharjah",
-  textAlign: TextAlign.center,
-  style: const TextStyle(
-    fontFamily: "Satoshi",
-    fontSize: 9.75,
-    fontWeight: FontWeight.w500,
-    height: 1.0, // 100% line height
-    letterSpacing: 0,
-    color: Colors.white,
-  ),
-)
+                      Text(
+                        "Sharjah",
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontFamily: "Satoshi",
+                          fontSize: 9.75,
+                          fontWeight: FontWeight.w500,
+                          height: 1.0, // 100% line height
+                          letterSpacing: 0,
+                          color: Colors.white,
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -91,45 +90,45 @@ class ListingsScreen extends StatelessWidget {
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children:  [
-                     Text(
-  "Trek Domane",
-  style: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 14,
-    fontWeight: FontWeight.w500,
-    height: 1.5, // 150% line height
-    letterSpacing: 0,
-    color: AppColors.textDark,
-  ),
-),
+                    children: [
+                      Text(
+                        "Trek Domane",
+                        style: const TextStyle(
+                          fontFamily: "Outfit",
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          height: 1.5, // 150% line height
+                          letterSpacing: 0,
+                          color: AppColors.textDark,
+                        ),
+                      ),
                       SizedBox(height: 3),
-                     Text(
-  "Posted by Mahmoud shaalan • 2 days ago",
-  style: TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 11,
-    fontWeight: FontWeight.w400,
-    height: 1.0, // 100% line height
-    letterSpacing: 0,
-    color: AppColors.textDark.withValues(alpha: 0.5),
-  ),
-),
+                      Text(
+                        "Posted by Mahmoud shaalan • 2 days ago",
+                        style: TextStyle(
+                          fontFamily: "Outfit",
+                          fontSize: 11,
+                          fontWeight: FontWeight.w400,
+                          height: 1.0, // 100% line height
+                          letterSpacing: 0,
+                          color: AppColors.textDark.withValues(alpha: 0.5),
+                        ),
+                      ),
                     ],
                   ),
                 ),
                 const SizedBox(width: 8),
-              Text(
-  "7500 AED",
-  style: const TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 16,
-    fontWeight: FontWeight.w700,
-    height: 1.5, 
-    letterSpacing: 0,
-    color: AppColors.deepRed,
-  ),
-),
+                Text(
+                  "7500 AED",
+                  style: const TextStyle(
+                    fontFamily: "Outfit",
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    height: 1.5,
+                    letterSpacing: 0,
+                    color: AppColors.deepRed,
+                  ),
+                ),
               ],
             ),
           ),
@@ -195,55 +194,37 @@ class ListingsScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-          
+
                 const SizedBox(height: 20),
-          
+
                 /// TABS
-                const TabBar(
-  indicatorColor: const Color(0xFFC12D32),
-  indicatorWeight: 2,
-  indicatorSize: TabBarIndicatorSize.tab, // full tab width
-  labelColor: const Color(0xFFC12D32),
-  unselectedLabelColor: Colors.black54,
-  labelStyle: const TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w500,
-    fontFamily: "Outfit",
-  ),
-  tabs: const [
-    Tab(
-      child: Align(
-        alignment: Alignment.center,
-        child: const Text(
-  "Active listings",
-  style: TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 16,
-    fontWeight: FontWeight.w500,
-    height: 1.0,
-    letterSpacing: 0,
-  ),
-),
-      ),
-    ),
-    Tab(
-      child: Align(
-        alignment: Alignment.center,
-      child: const Text(
-  "Sold items",
-  style: TextStyle(
-    fontFamily: "Outfit",
-    fontSize: 16,
-    fontWeight: FontWeight.w500,
-    height: 1.0, // 100% line height
-    letterSpacing: 0,
-  ),
-),
-      ),
-    ),
-  ],
-),
-          
+                TabBar(
+                  indicatorColor: const Color(0xFFC12D32),
+                  indicatorWeight: 2,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  labelColor: const Color(0xFFC12D32),
+                  unselectedLabelColor: Colors.black54,
+                  labelStyle: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: "Outfit",
+                  ),
+                  tabs: [
+                    Tab(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text("Active listings"),
+                      ),
+                    ),
+                    Tab(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text("Sold items"),
+                      ),
+                    ),
+                  ],
+                ),
+
                 /// TAB VIEW
                 Expanded(
                   child: TabBarView(
@@ -259,14 +240,13 @@ class ListingsScreen extends StatelessWidget {
                               _listingCard(context),
                         ),
                       ),
-          
+
                       /// SOLD ITEMS
                       Center(
                         child: Text(
                           "No sold items yet",
                           style: TextStyle(
-                            color:
-                                AppColors.textDark.withValues(alpha: 0.6),
+                            color: AppColors.textDark.withValues(alpha: 0.6),
                           ),
                         ),
                       ),

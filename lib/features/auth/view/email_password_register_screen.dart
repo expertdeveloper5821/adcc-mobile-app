@@ -10,27 +10,29 @@ import '../../../core/services/token_storage_service.dart';
 import '../../../core/constants/api_endpoints.dart';
 import '../../../shared/widgets/app_button.dart';
 import '../../home/view/home_screen.dart';
-import '../Services/google_sign_in_service.dart';
+import 'email_password_login_screen.dart';
 import 'setup_profile_screen.dart';
 
-class EmailPasswordLoginScreen extends StatefulWidget {
-  const EmailPasswordLoginScreen({super.key});
+class EmailPasswordRegisterScreen extends StatefulWidget {
+  const EmailPasswordRegisterScreen({super.key});
 
   @override
-  State<EmailPasswordLoginScreen> createState() =>
-      _EmailPasswordLoginScreenState();
+  State<EmailPasswordRegisterScreen> createState() =>
+      _EmailPasswordRegisterScreenState();
 }
 
-class _EmailPasswordLoginScreenState extends State<EmailPasswordLoginScreen> {
+class _EmailPasswordRegisterScreenState
+    extends State<EmailPasswordRegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
   bool _isLoading = false;
   bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
   AutovalidateMode _autoValidateMode = AutovalidateMode.disabled;
-  bool _errorDialogShown = false; // Prevent showing error dialog multiple times
+  bool _errorDialogShown = false;
 
-  // Lazy initialization - only get FirebaseAuth when needed
   FirebaseAuth get _auth {
     try {
       return FirebaseAuth.instance;
@@ -41,33 +43,14 @@ class _EmailPasswordLoginScreenState extends State<EmailPasswordLoginScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    _checkAuthAndRedirect();
-  }
-
-  /// Check if user is already authenticated and redirect to home
-  Future<void> _checkAuthAndRedirect() async {
-    final isAuthenticated = await TokenStorageService.isAuthenticated();
-    if (isAuthenticated && mounted) {
-      // User is already logged in, redirect to home and clear navigation stack
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (_) => const HomeScreen()),
-        (route) => false, // Remove all previous routes
-      );
-    }
-  }
-
-  @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
-  Future<void> _handleLogin() async {
-    // Enable auto-validation after first submit attempt
+  Future<void> _handleRegister() async {
     setState(() {
       _autoValidateMode = AutovalidateMode.onUserInteraction;
     });
@@ -78,7 +61,6 @@ class _EmailPasswordLoginScreenState extends State<EmailPasswordLoginScreen> {
 
     if (_isLoading) return;
 
-    // Check if Firebase is initialized
     try {
       if (Firebase.apps.isEmpty) {
         if (mounted) {
@@ -103,104 +85,66 @@ class _EmailPasswordLoginScreenState extends State<EmailPasswordLoginScreen> {
     final password = _passwordController.text;
 
     try {
-      UserCredential? userCredential;
-
-      userCredential = await _auth.signInWithEmailAndPassword(
+      final userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      debugPrint('[Firebase Auth] Sign in successful!');
+      debugPrint('[Firebase Auth] Account created successfully!');
 
       final user = userCredential.user;
       if (user == null) {
         throw Exception('User credential is null');
       }
 
-      // Log user details
-      debugPrint('[Firebase Auth] User ID: ${user.uid}');
-      debugPrint(' [Firebase Auth] User Email: ${user.email}');
-      debugPrint(' [Firebase Auth] Email Verified: ${user.emailVerified}');
-      debugPrint(
-          ' [Firebase Auth] Creation Time: ${user.metadata.creationTime}');
-      debugPrint(
-          ' [Firebase Auth] Last Sign In: ${user.metadata.lastSignInTime}');
-
-      // Reload user to get latest verification status
-      await user.reload();
-      final reloadedUser = _auth.currentUser;
-      final isEmailVerified = reloadedUser?.emailVerified ?? false;
-
-      debugPrint(
-          ' [Firebase Auth] Email Verification Status: $isEmailVerified');
-
-      // Get Firebase ID Token
-      debugPrint(' [Firebase Auth] Getting ID token...');
-      String? idToken;
-      try {
-        idToken = await user.getIdToken();
-        debugPrint(' [Firebase Auth] ID Token retrieved successfully!');
-        debugPrint(' [Firebase Auth] ID Token: $idToken');
-      } catch (tokenError) {
-        debugPrint(' [Firebase Auth] Failed to get ID token: $tokenError');
-        throw Exception('Failed to get ID token: $tokenError');
+      if (!user.emailVerified) {
+        try {
+          await user.sendEmailVerification();
+          debugPrint('[Firebase Auth] Verification email sent.');
+        } catch (_) {
+          // Non-fatal
+        }
       }
 
-      // Send token to backend API
-      debugPrint(' [Backend API] Sending token to backend...');
+      final idToken = await user.getIdToken();
+      if (idToken == null || idToken.isEmpty) {
+        throw Exception('Failed to get ID token');
+      }
+
       final (backendSuccess, isNewUser) =
-          await _sendTokenToBackend(idToken: idToken!);
+          await _sendTokenToBackend(idToken: idToken);
 
       if (backendSuccess && mounted) {
         if (isNewUser) {
-          debugPrint(
-              ' [Backend API] New user — navigating to SetupProfileScreen');
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (_) => const SetupProfileScreen()),
             (route) => false,
           );
         } else {
-          debugPrint(' [Firebase Auth] Navigating to HomeScreen...');
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (_) => const HomeScreen()),
             (route) => false,
           );
         }
-      } else if (!backendSuccess) {
-        debugPrint(
-            ' [Backend API] Backend verification failed, not navigating');
       }
     } on FirebaseAuthException catch (e) {
-      // Log Firebase Auth Exception
       String errorMessage = 'An error occurred';
-
-      if (e.code == 'wrong-password') {
-        errorMessage = 'Invalid password';
-        debugPrint(' [Firebase Auth] Wrong password error');
+      if (e.code == 'email-already-in-use') {
+        errorMessage = 'This email is already registered. Sign in instead.';
       } else if (e.code == 'invalid-email') {
         errorMessage = 'Invalid email address';
-        debugPrint(' [Firebase Auth] Invalid email error');
       } else if (e.code == 'weak-password') {
         errorMessage = 'Password is too weak';
-        debugPrint('[Firebase Auth] Weak password error');
-      } else if (e.code == 'email-already-in-use') {
-        errorMessage = 'Email is already in use';
-        debugPrint('[Firebase Auth] Email already in use error');
       } else {
-        errorMessage = e.message ?? 'Authentication failed';
-        debugPrint(' [Firebase Auth] Other authentication error');
+        errorMessage = e.message ?? 'Registration failed';
       }
-
-      if (mounted) {
-        _showErrorDialog(errorMessage);
-      }
+      if (mounted) _showErrorDialog(errorMessage);
     } catch (e) {
       if (mounted) {
         _showErrorDialog('An unexpected error occurred: ${e.toString()}');
       }
     } finally {
-      debugPrint('🏁 [Firebase Auth] Authentication process completed');
       if (mounted) {
         setState(() {
           _isLoading = false;
@@ -209,73 +153,58 @@ class _EmailPasswordLoginScreenState extends State<EmailPasswordLoginScreen> {
     }
   }
 
-  Future<(bool, bool)> _sendTokenToBackend({
-    required String idToken,
-  }) async {
+  /// Returns (success, isNewUser). When isNewUser is true, navigate to SetupProfileScreen.
+  Future<(bool, bool)> _sendTokenToBackend({required String idToken}) async {
     _errorDialogShown = false;
-
     try {
       await TokenStorageService.saveFirebaseToken(idToken);
 
       final apiClient = ApiClient.instance;
-
       final response = await apiClient.post<dynamic>(
         ApiEndpoints.authVerify,
         data: {'idToken': idToken},
       );
-
+      debugPrint('response.data: ${response.data}');
       if (response.statusCode != null &&
           response.statusCode! >= 200 &&
           response.statusCode! < 300) {
         final body = response.data;
-
-        debugPrint(" [Backend API] Verify Response: $body");
-
         if (body is Map<String, dynamic>) {
           final data = body["data"];
           final isNewUser = data is Map<String, dynamic>
               ? (data["isNewUser"] == true)
               : (body["isNewUser"] == true);
 
-          if (data != null && data is Map<String, dynamic>) {
+          if (data is Map<String, dynamic>) {
             final user = data["user"];
             if (user is Map<String, dynamic>) {
               final userId = user["id"]?.toString();
               if (userId != null && userId.isNotEmpty) {
                 await TokenStorageService.saveUserId(userId);
-                debugPrint(" [Storage] UserId saved: $userId");
               }
             }
-
             if (!isNewUser) {
               final accessToken = data["accessToken"] as String?;
               final refreshToken = data["refreshToken"] as String?;
               if (accessToken != null && accessToken.isNotEmpty) {
                 await TokenStorageService.saveAccessToken(accessToken);
-                debugPrint(" [Storage] Access token saved");
               }
               if (refreshToken != null && refreshToken.isNotEmpty) {
                 await TokenStorageService.saveRefreshToken(refreshToken);
-                debugPrint(" [Storage] Refresh token saved");
               }
             }
-
             return (true, isNewUser);
           }
         }
-
-        debugPrint(" [Backend API] Token parsing failed!");
         return (false, false);
       } else {
         String errorMessage = 'Backend verification failed';
-
         if (response.data is Map) {
           final errorData = response.data as Map;
           errorMessage = errorData['message'] as String? ??
               errorData['error'] as String? ??
-              'Backend verification failed';
+              errorMessage;
         }
-
         if (mounted && !_errorDialogShown) {
           _errorDialogShown = true;
           _showBackendErrorDialog(errorMessage);
@@ -284,30 +213,24 @@ class _EmailPasswordLoginScreenState extends State<EmailPasswordLoginScreen> {
       }
     } on DioException catch (e) {
       String errorMessage = 'Backend verification failed';
-
       if (e.response?.data is Map) {
         final errorData = e.response!.data as Map;
         errorMessage = errorData['message'] as String? ??
             errorData['error'] as String? ??
-            'Backend verification failed';
+            errorMessage;
       }
-
       if (mounted && !_errorDialogShown) {
         _errorDialogShown = true;
         _showBackendErrorDialog(errorMessage);
       }
-
       return (false, false);
     } catch (e) {
-      debugPrint(" [Backend API] Error: $e");
-
+      debugPrint('[Backend API] Error: $e');
       if (mounted && !_errorDialogShown) {
         _errorDialogShown = true;
         _showBackendErrorDialog(
-          'An unexpected error occurred. Please try again.',
-        );
+            'An unexpected error occurred. Please try again.');
       }
-
       return (false, false);
     }
   }
@@ -315,66 +238,40 @@ class _EmailPasswordLoginScreenState extends State<EmailPasswordLoginScreen> {
   void _showBackendErrorDialog(String message) {
     showDialog(
       context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.backendVerificationError),
-          content: Text(message),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(AppLocalizations.of(context)!.ok),
-            ),
-          ],
-        );
-      },
+      builder: (ctx) => AlertDialog(
+        title: Text(AppLocalizations.of(context)!.backendVerificationError),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: Text(AppLocalizations.of(context)!.ok),
+          ),
+        ],
+      ),
     );
   }
 
   void _showErrorDialog(String message) {
     showDialog(
       context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.authenticationError),
-          content: Text(message),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(AppLocalizations.of(context)!.ok),
-            ),
-          ],
-        );
-      },
+      builder: (ctx) => AlertDialog(
+        title: Text(AppLocalizations.of(context)!.authenticationError),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: Text(AppLocalizations.of(context)!.ok),
+          ),
+        ],
+      ),
     );
   }
 
-  Future<void> _signInWithGoogle() async {
-    if (_isLoading) return;
-    setState(() => _isLoading = true);
-    try {
-      final result = await GoogleSignInService.signIn();
-      if (!mounted) return;
-      if (result.isSuccess) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (_) => const HomeScreen()),
-          (route) => false,
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(result.error ?? 'Google sign-in failed'),
-            backgroundColor: AppColors.deepRed,
-          ),
-        );
-      }
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
-    }
+  void _navigateToLogin() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const EmailPasswordLoginScreen()),
+    );
   }
 
   @override
@@ -385,9 +282,13 @@ class _EmailPasswordLoginScreenState extends State<EmailPasswordLoginScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            // Header - not scrollable
-            const AppHeaderLogin(),
-            // Scrollable content
+            AppHeaderLogin(
+              onBack: () {
+                if (Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                }
+              },
+            ),
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -397,7 +298,6 @@ class _EmailPasswordLoginScreenState extends State<EmailPasswordLoginScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      // Logo
                       Center(
                         child: Image.asset(
                           'assets/icons/adcc_logo.png',
@@ -420,10 +320,7 @@ class _EmailPasswordLoginScreenState extends State<EmailPasswordLoginScreen> {
                           },
                         ),
                       ),
-
                       const SizedBox(height: 32),
-
-                      // Title
                       Text(
                         l10n.community_heading1,
                         textAlign: TextAlign.center,
@@ -443,10 +340,7 @@ class _EmailPasswordLoginScreenState extends State<EmailPasswordLoginScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-
                       const SizedBox(height: 40),
-
-                      // Email Input Field
                       TextFormField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
@@ -454,15 +348,12 @@ class _EmailPasswordLoginScreenState extends State<EmailPasswordLoginScreen> {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your email';
                           }
-                          final trimmedValue = value.trim();
-                          if (trimmedValue.isEmpty) {
-                            return 'Please enter your email';
-                          }
-                          // Email regex pattern for proper validation
+                          final trimmed = value.trim();
+                          if (trimmed.isEmpty) return 'Please enter your email';
                           final emailRegex = RegExp(
                             r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
                           );
-                          if (!emailRegex.hasMatch(trimmedValue)) {
+                          if (!emailRegex.hasMatch(trimmed)) {
                             return 'Please enter a valid email address';
                           }
                           return null;
@@ -482,10 +373,7 @@ class _EmailPasswordLoginScreenState extends State<EmailPasswordLoginScreen> {
                           ),
                         ),
                       ),
-
                       const SizedBox(height: 16),
-
-                      // Password Input Field
                       TextFormField(
                         controller: _passwordController,
                         obscureText: _obscurePassword,
@@ -526,141 +414,71 @@ class _EmailPasswordLoginScreenState extends State<EmailPasswordLoginScreen> {
                           ),
                         ),
                       ),
-
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _confirmPasswordController,
+                        obscureText: _obscureConfirmPassword,
+                        keyboardType: TextInputType.visiblePassword,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please confirm your password';
+                          }
+                          if (value != _passwordController.text) {
+                            return 'Passwords do not match';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.lock_outline),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscureConfirmPassword
+                                  ? Icons.visibility_outlined
+                                  : Icons.visibility_off_outlined,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _obscureConfirmPassword =
+                                    !_obscureConfirmPassword;
+                              });
+                            },
+                          ),
+                          hintText: l10n.confirmPassword,
+                          filled: true,
+                          fillColor: Colors.white.withValues(alpha: 0.8),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: BorderSide(color: Colors.grey.shade300),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: BorderSide(color: Colors.grey.shade300),
+                          ),
+                        ),
+                      ),
                       const SizedBox(height: 32),
-
-                      // Create Account Button
                       AppButton(
-                        label: l10n.signIn,
-                        onPressed: _isLoading ? null : _handleLogin,
+                        label: l10n.signUp,
+                        onPressed: _isLoading ? null : _handleRegister,
                         isLoading: _isLoading,
                         backgroundColor: AppColors.deepRed,
                         textColor: Colors.white,
                         borderRadius: 14,
                         height: 56,
                       ),
-
                       const SizedBox(height: 24),
-
-                      // GestureDetector(
-                      //   onTap: _isLoading
-                      //       ? null
-                      //       : () {
-                      //           Navigator.push(
-                      //             context,
-                      //             MaterialPageRoute(
-                      //               builder: (_) =>
-                      //                   const EmailPasswordRegisterScreen(),
-                      //             ),
-                      //           );
-                      //         },
-                      //   child: Text(
-                      //     l10n.dontHaveAccountSignUp,
-                      //     textAlign: TextAlign.center,
-                      //     style: const TextStyle(
-                      //       fontSize: 14,
-                      //       color: AppColors.deepRed,
-                      //       fontWeight: FontWeight.w500,
-                      //     ),
-                      //   ),
-                      // ),
-
-                      const SizedBox(height: 32),
-
-                      Text(
-                        l10n.sign_in_option,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: AppColors.textSecondary,
-                        ),
-                      ),
-
-                      const SizedBox(height: 24),
-
-                      // Social Sign-in Buttons
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // Apple
-                          _buildSocialButton(
-                            child: Image.asset(
-                              'assets/icons/apple_icon.png',
-                              width: 24,
-                              height: 24,
-                              errorBuilder: (context, error, stackTrace) {
-                                return const Text(
-                                  '🍎',
-                                  style: TextStyle(fontSize: 24),
-                                );
-                              },
-                            ),
-                            onTap: () {
-                              debugPrint('Apple sign-in clicked');
-                            },
-                          ),
-                          const SizedBox(width: 16),
-                          // Google
-                          _buildSocialButton(
-                            child: Image.asset(
-                              'assets/icons/google_icon.png',
-                              width: 24,
-                              height: 24,
-                              errorBuilder: (context, error, stackTrace) {
-                                return const Text(
-                                  'G',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                );
-                              },
-                            ),
-                            onTap: _isLoading ? () {} : _signInWithGoogle,
-                          ),
-                          const SizedBox(width: 16),
-                          // Facebook
-                          _buildSocialButton(
-                            child: Image.asset(
-                              'assets/icons/facebook_icon.png',
-                              width: 24,
-                              height: 24,
-                              errorBuilder: (context, error, stackTrace) {
-                                return const Text(
-                                  'f',
-                                  style: TextStyle(
-                                    color: Color(0xFF1877F2),
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Arial',
-                                  ),
-                                );
-                              },
-                            ),
-                            onTap: () {
-                              debugPrint('Facebook sign-in clicked');
-                            },
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 40),
-
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      GestureDetector(
+                        onTap: _isLoading ? null : _navigateToLogin,
                         child: Text(
-                          l10n.policy,
+                          l10n.login_link,
                           textAlign: TextAlign.center,
                           style: const TextStyle(
-                            color: AppColors.textSecondary,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            height: 1.4,
+                            fontSize: 14,
+                            color: AppColors.deepRed,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
-
                       const SizedBox(height: 40),
                     ],
                   ),
@@ -668,42 +486,6 @@ class _EmailPasswordLoginScreenState extends State<EmailPasswordLoginScreen> {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSocialButton({
-    IconData? icon,
-    Widget? child,
-    Color? color,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 56,
-        height: 56,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Center(
-          child: child ??
-              (icon != null
-                  ? Icon(
-                      icon,
-                      color: color ?? AppColors.textDark,
-                      size: 24,
-                    )
-                  : const SizedBox()),
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/widgets/app_button.dart';
 
 class ChallengeActionButtonsSection extends StatelessWidget {
@@ -18,13 +19,14 @@ class ChallengeActionButtonsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
           if (!isJoined)
             AppButton(
-              label: 'Join Challenge',
+              label: l10n.joinChallenge,
               onPressed: onJoin,
               type: AppButtonType.primary,
               backgroundColor: AppColors.deepRed,
@@ -40,7 +42,7 @@ class ChallengeActionButtonsSection extends StatelessWidget {
           if (isJoined && !isCompleted) ...[
             if (!isJoined) const SizedBox(height: 12),
             AppButton(
-              label: 'Mark as complete',
+              label: l10n.markAsComplete,
               onPressed: onMarkComplete,
               type: AppButtonType.secondary,
               borderColor: AppColors.deepRed,

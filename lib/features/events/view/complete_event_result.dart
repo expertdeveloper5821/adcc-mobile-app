@@ -1,4 +1,5 @@
 import 'package:adcc/core/theme/app_colors.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class CompleteEvenetResult extends StatelessWidget {
@@ -6,6 +7,7 @@ class CompleteEvenetResult extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: AppColors.softCream,
       body: SafeArea(
@@ -13,7 +15,6 @@ class CompleteEvenetResult extends StatelessWidget {
           physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.fromLTRB(16, 14, 16, 18),
           children: [
-            /// Header
             Row(
               children: [
                 _BackCircleButton(
@@ -24,10 +25,10 @@ class CompleteEvenetResult extends StatelessWidget {
                   },
                 ),
                 const SizedBox(width: 12),
-                const Expanded(
+                Expanded(
                   child: Text(
-                    "Completed Event Result",
-                    style: TextStyle(
+                    l10n.completedEventResult,
+                    style: const TextStyle(
                       fontSize: 15.6,
                       fontWeight: FontWeight.w900,
                       color: AppColors.textDark,
@@ -39,10 +40,9 @@ class CompleteEvenetResult extends StatelessWidget {
 
             const SizedBox(height: 22),
 
-            /// Your Result
-            const Text(
-              "Your Result",
-              style: TextStyle(
+            Text(
+              l10n.yourResult,
+              style: const TextStyle(
                 fontSize: 13.4,
                 fontWeight: FontWeight.w900,
                 color: AppColors.textDark,
@@ -50,19 +50,19 @@ class CompleteEvenetResult extends StatelessWidget {
             ),
             const SizedBox(height: 12),
 
-            const Row(
+            Row(
               children: [
                 Expanded(
                   child: _ResultCard(
-                    title: "Distance",
+                    title: l10n.distance,
                     value: "42 km",
                     icon: Icons.route_rounded,
                   ),
                 ),
-                SizedBox(width: 12),
+                const SizedBox(width: 12),
                 Expanded(
                   child: _ResultCard(
-                    title: "Time",
+                    title: l10n.time,
                     value: "1h 18m",
                     icon: Icons.access_time_rounded,
                   ),
@@ -72,19 +72,19 @@ class CompleteEvenetResult extends StatelessWidget {
 
             const SizedBox(height: 12),
 
-            const Row(
+            Row(
               children: [
                 Expanded(
                   child: _ResultCard(
-                    title: "Rank",
+                    title: l10n.rank,
                     value: "07",
                     icon: Icons.leaderboard_rounded,
                   ),
                 ),
-                SizedBox(width: 12),
+                const SizedBox(width: 12),
                 Expanded(
                   child: _ResultCard(
-                    title: "Points Earned",
+                    title: l10n.pointsEarned,
                     value: "120",
                     icon: Icons.stars_rounded,
                   ),
@@ -94,8 +94,8 @@ class CompleteEvenetResult extends StatelessWidget {
 
             const SizedBox(height: 12),
 
-            const _ResultCard(
-              title: "Badge",
+            _ResultCard(
+              title: l10n.badge,
               value: "Night Racer –\nSilver",
               icon: Icons.military_tech_rounded,
               fullWidth: true,
@@ -103,10 +103,9 @@ class CompleteEvenetResult extends StatelessWidget {
 
             const SizedBox(height: 22),
 
-            /// Leaderboard
-            const Text(
-              "Leaderboard (Top 10)",
-              style: TextStyle(
+            Text(
+              l10n.leaderboardTop10,
+              style: const TextStyle(
                 fontSize: 13.4,
                 fontWeight: FontWeight.w900,
                 color: AppColors.textDark,

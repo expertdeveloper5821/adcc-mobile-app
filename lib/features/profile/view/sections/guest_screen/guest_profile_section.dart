@@ -24,13 +24,10 @@ class GuestProfileSection extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         children: [
           const SizedBox(height: 20),
-
-       
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 14),
             child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(30),
@@ -38,23 +35,23 @@ class GuestProfileSection extends StatelessWidget {
               child: Column(
                 children: [
                   /// Profile Icon
-                 Container(
-  width: 68,
-  height: 68,
-  decoration:  BoxDecoration(
-    color: Color(0xFFD4AF37),
-    shape: BoxShape.circle,
-  ),
-  child: ClipOval(
-    child: Padding(
-      padding:  EdgeInsets.all(18),
-      child: Image.asset(
-        'assets/icons/profile.png',
-        fit: BoxFit.contain,
-      ),
-    ),
-  ),
-),
+                  Container(
+                    width: 68,
+                    height: 68,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFD4AF37),
+                      shape: BoxShape.circle,
+                    ),
+                    child: ClipOval(
+                      child: Padding(
+                        padding: EdgeInsets.all(18),
+                        child: Image.asset(
+                          'assets/icons/profile.png',
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                  ),
 
                   const SizedBox(height: 26),
 
@@ -71,23 +68,23 @@ class GuestProfileSection extends StatelessWidget {
 
                   const SizedBox(height: 8),
 
-               Padding(
-  padding: const EdgeInsets.symmetric(horizontal: 10),
-  child: Text(
-    'Sign up to join events, connect with the community, and track your cycling journey.',
-    textAlign: TextAlign.center,
-    maxLines: 2,
-    overflow: TextOverflow.ellipsis,
-    style: TextStyle(
-      fontFamily: 'Outfit',
-      fontSize: 14,
-      fontWeight: FontWeight.w400,
-      height: 1.3, // Proper spacing
-      letterSpacing: 0.14,
-      color: AppColors.charcoal.withOpacity(0.95),
-    ),
-  ),
-),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                      'Sign up to join events, connect with the community, and track your cycling journey.',
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontFamily: 'Outfit',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        height: 1.3, // Proper spacing
+                        letterSpacing: 0.14,
+                        color: AppColors.charcoal.withValues(alpha: 0.95),
+                      ),
+                    ),
+                  ),
 
                   const SizedBox(height: 24),
 
@@ -119,10 +116,7 @@ class GuestProfileSection extends StatelessWidget {
               ),
             ),
           ),
-
           const SizedBox(height: 30),
-
-     
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
@@ -138,21 +132,17 @@ class GuestProfileSection extends StatelessWidget {
                     color: Color(0xFF1A1C20),
                   ),
                 ),
-
                 const SizedBox(height: 18),
-
                 _GuestOptionButton(
                   label: 'Browse Events',
                   onTap: onBrowseEvents,
                 ),
                 const SizedBox(height: 14),
-
                 _GuestOptionButton(
                   label: 'Explore Community',
                   onTap: onExploreCommunity,
                 ),
                 const SizedBox(height: 14),
-
                 _GuestOptionButton(
                   label: 'View Tracks',
                   onTap: onViewRoutes,
@@ -165,7 +155,6 @@ class GuestProfileSection extends StatelessWidget {
     );
   }
 }
-
 
 class _GuestOptionButton extends StatelessWidget {
   final String label;

@@ -1,9 +1,12 @@
 import 'package:adcc/features/auth/Services/auth_services.dart';
+import 'package:adcc/features/auth/Services/google_sign_in_service.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/services/token_storage_service.dart';
 import '../../home/view/home_screen.dart';
 import 'email_password_login_screen.dart';
+import 'registrationScreen/create_account.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -15,7 +18,6 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final PageController _bannerController = PageController();
   int _currentBannerIndex = 0;
-
 
   final List<String> _bannerImages = [
     'assets/images/registeration_header_banner.png',
@@ -29,15 +31,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _checkAuthAndRedirect();
   }
 
-
   Future<void> _checkAuthAndRedirect() async {
     final isAuthenticated = await TokenStorageService.isAuthenticated();
     if (isAuthenticated && mounted) {
-
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (_) => const HomeScreen()),
-        (route) => false, 
+        (route) => false,
       );
     }
   }
@@ -47,43 +47,42 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _bannerController.dispose();
     super.dispose();
   }
-bool _isLoading = false;
 
-Future<void> _continueAsGuest(BuildContext context) async {
-  try {
-    setState(() {
-      _isLoading = true;
-    });
+  bool _isLoading = false;
 
-    final response = await AuthService.guestLogin();
-
-    if (response.success) {
-      if (!mounted) return;
-
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (_) => const HomeScreen()),
-        (route) => false,
-      );
-    }
-  } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(e.toString()),
-      ),
-    );
-  } finally {
-    if (mounted) {
+  Future<void> _continueAsGuest(BuildContext context) async {
+    try {
       setState(() {
-        _isLoading = false;
+        _isLoading = true;
       });
+
+      final response = await AuthService.guestLogin();
+
+      if (response.success) {
+        if (!mounted) return;
+
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const HomeScreen()),
+          (route) => false,
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
-}
 
-  void _onDisabledButtonPressed() {
-
-  }
+  void _onDisabledButtonPressed() {}
 
   void _navigateToEmailPasswordLogin() {
     Navigator.push(
@@ -92,6 +91,41 @@ Future<void> _continueAsGuest(BuildContext context) async {
         builder: (_) => const EmailPasswordLoginScreen(),
       ),
     );
+  }
+
+  void _navigateToCreateAccount() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const CreateAccountScreen(),
+      ),
+    );
+  }
+
+  Future<void> _signInWithGoogle() async {
+    if (_isLoading) return;
+    setState(() => _isLoading = true);
+    try {
+      final result = await GoogleSignInService.signIn();
+      print("result: ${result.user}");
+      if (!mounted) return;
+      if (result.isSuccess) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const HomeScreen()),
+          (route) => false,
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(result.error ?? 'Google sign-in failed'),
+            backgroundColor: AppColors.deepRed,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   void _previousBanner() {
@@ -114,10 +148,10 @@ Future<void> _continueAsGuest(BuildContext context) async {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       body: Stack(
         children: [
-     
           Positioned(
             top: 0,
             left: 0,
@@ -125,7 +159,6 @@ Future<void> _continueAsGuest(BuildContext context) async {
             height: MediaQuery.of(context).size.height * 0.3,
             child: Stack(
               children: [
-          
                 PageView.builder(
                   controller: _bannerController,
                   onPageChanged: (index) {
@@ -141,7 +174,7 @@ Future<void> _continueAsGuest(BuildContext context) async {
                     );
                   },
                 ),
-              
+
                 Positioned.fill(
                   child: Container(
                     decoration: BoxDecoration(
@@ -161,7 +194,7 @@ Future<void> _continueAsGuest(BuildContext context) async {
                   top: 0,
                   left: 0,
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 16.0, left: 20.0),
+                    padding: const EdgeInsets.only(top: 26.0, left: 20.0),
                     child: GestureDetector(
                       onTap: () {
                         if (Navigator.of(context).canPop()) {
@@ -176,22 +209,22 @@ Future<void> _continueAsGuest(BuildContext context) async {
                     ),
                   ),
                 ),
-        
+
                 Positioned(
                   bottom: 40,
                   left: 0,
                   right: 0,
-                  child: const Text(
-                    'Create Profile',
+                  child: Text(
+                    l10n.createProfile,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 22,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
-          
+
                 Positioned(
                   bottom: 16,
                   left: 0,
@@ -267,8 +300,6 @@ Future<void> _continueAsGuest(BuildContext context) async {
               ],
             ),
           ),
-
-         
           Positioned(
             top: MediaQuery.of(context).size.height * 0.3,
             left: 0,
@@ -293,7 +324,9 @@ Future<void> _continueAsGuest(BuildContext context) async {
                         width: double.infinity,
                         height: 56,
                         child: ElevatedButton(
-                     onPressed: _isLoading ? null : () => _continueAsGuest(context),
+                          onPressed: _isLoading
+                              ? null
+                              : () => _continueAsGuest(context),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.buttonGuest,
                             foregroundColor: AppColors.textDark,
@@ -303,44 +336,45 @@ Future<void> _continueAsGuest(BuildContext context) async {
                             ),
                             elevation: 0,
                           ),
-                         child: _isLoading
-    ? const SizedBox(
-        height: 22,
-        width: 22,
-        child: CircularProgressIndicator(strokeWidth: 2),
-      )
-    : Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.person_outline,
-              size: 24, color: AppColors.textDark),
-          const SizedBox(width: 12),
-          const Text(
-            'Continue as Guest',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: AppColors.textDark,
-            ),
-          ),
-        ],
-      ),
+                          child: _isLoading
+                              ? const SizedBox(
+                                  height: 22,
+                                  width: 22,
+                                  child:
+                                      CircularProgressIndicator(strokeWidth: 2),
+                                )
+                              : Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(Icons.person_outline,
+                                        size: 24, color: AppColors.textDark),
+                                    const SizedBox(width: 12),
+                                    Text(
+                                      l10n.continueAsGuest,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColors.textDark,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                         ),
                       ),
 
                       const SizedBox(height: 16),
 
-                      // Continue with Phone (Clickable but does nothing)
+                      // Continue with Phone → CreateAccountScreen
                       _buildDisabledButton(
                         icon: Icons.phone,
-                        text: 'Continue with phone',
-                        onPressed: _onDisabledButtonPressed,
+                        text: l10n.continueWithPhone,
+                        onPressed: _navigateToCreateAccount,
                       ),
 
                       const SizedBox(height: 12),
 
                       // Continue with Email (Static credentials)
-                      _buildEmailButton(),
+                      _buildEmailButton(l10n.continueWithEmail),
 
                       const SizedBox(height: 24),
 
@@ -357,7 +391,7 @@ Future<void> _continueAsGuest(BuildContext context) async {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Text(
-                              'Or continue with',
+                              l10n.orContinueWith,
                               style: TextStyle(
                                 color: Colors.grey[600],
                                 fontSize: 14,
@@ -378,18 +412,19 @@ Future<void> _continueAsGuest(BuildContext context) async {
                       // Continue with Apple (Clickable but does nothing)
                       _buildDisabledButton(
                         icon: Icons.apple_outlined,
-                        text: 'Continue with Apple',
+                        text: l10n.continueWithApple,
                         onPressed: _onDisabledButtonPressed,
                       ),
 
                       const SizedBox(height: 12),
 
-                      // Continue with Google (Clickable but does nothing)
+                      // Continue with Google
                       SizedBox(
                         width: double.infinity,
                         height: 56,
                         child: OutlinedButton(
-                          onPressed: _onDisabledButtonPressed,
+                          // onPressed: _isLoading ? null : _signInWithGoogle,
+                          onPressed: null,
                           style: OutlinedButton.styleFrom(
                             foregroundColor: AppColors.textDark,
                             side: const BorderSide(
@@ -427,9 +462,9 @@ Future<void> _continueAsGuest(BuildContext context) async {
                                 },
                               ),
                               const SizedBox(width: 12),
-                              const Text(
-                                'Continue with Google',
-                                style: TextStyle(
+                              Text(
+                                l10n.continueWithGoogle,
+                                style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.textDark,
@@ -449,7 +484,7 @@ Future<void> _continueAsGuest(BuildContext context) async {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: Text(
-                            "By continuing, you agree to ADCycling's Terms of Service and Privacy Policy",
+                            l10n.termsAndPolicy,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: AppColors.textSecondary,
@@ -471,7 +506,7 @@ Future<void> _continueAsGuest(BuildContext context) async {
     );
   }
 
-  Widget _buildEmailButton() {
+  Widget _buildEmailButton(String continueWithEmailLabel) {
     return SizedBox(
       width: double.infinity,
       height: 56,
@@ -490,9 +525,9 @@ Future<void> _continueAsGuest(BuildContext context) async {
             const Icon(Icons.email_outlined,
                 size: 24, color: AppColors.textDark),
             const SizedBox(width: 12),
-            const Text(
-              'Continue with email',
-              style: TextStyle(
+            Text(
+              continueWithEmailLabel,
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 color: AppColors.textDark,
@@ -513,7 +548,8 @@ Future<void> _continueAsGuest(BuildContext context) async {
       width: double.infinity,
       height: 56,
       child: OutlinedButton(
-        onPressed: onPressed,
+        // onPressed: onPressed,
+        onPressed: null,
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.textDark,
           side: const BorderSide(color: AppColors.borderGray),

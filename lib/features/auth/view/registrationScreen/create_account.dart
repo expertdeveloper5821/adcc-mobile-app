@@ -1,8 +1,6 @@
 import 'package:adcc/core/theme/app_colors.dart';
-import 'package:adcc/features/auth/view/communityScreen/social_button.dart';
 import 'package:adcc/features/auth/view/otpScreen/otp.dart';
 import 'package:adcc/l10n/app_localizations.dart';
-import 'package:adcc/shared/widgets/Input_field.dart';
 import 'package:adcc/shared/widgets/app_button.dart';
 import 'package:adcc/shared/widgets/app_header_login.dart';
 import 'package:adcc/shared/widgets/app_phone_number_field.dart';
@@ -39,7 +37,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     if (_formKey.currentState!.validate()) {
       debugPrint('Phone: ${_phoneController.text}');
       debugPrint('Email: ${_emailController.text}');
-       Navigator.push(
+      Navigator.push(
         context,
         MaterialPageRoute(builder: (_) => const OtpScreen()),
       );
@@ -59,11 +57,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
         body: Container(
           width: double.infinity,
           decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Color(0xFFFFF6EC), Color(0xFFEAF4FF)],
-            ),
+            color: AppColors.softCream,
           ),
           child: SafeArea(
             child: Column(
@@ -115,11 +109,12 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                     height: 1.4,
                                   ),
                                   children: [
-                                    TextSpan(text: l10n.create_account_heading.toUpperCase()),
+                                    TextSpan(
+                                        text: l10n.create_account_heading
+                                            .toUpperCase()),
                                   ],
                                 ),
                               ),
-                             
                             ],
                           ),
                           const SizedBox(height: 10),
@@ -180,7 +175,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                           /// Create Account Button
                           AppButton(
                             label: l10n.continue_button.toUpperCase(),
-                            backgroundColor: AppColors.orange,
+                            backgroundColor: AppColors.deepRed,
                             borderRadius: 16,
                             onPressed: _submitForm,
                           ),

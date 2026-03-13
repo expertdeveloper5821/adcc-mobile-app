@@ -1,4 +1,5 @@
 import 'package:adcc/features/store/view/sections/Store%20Details/store_safety_secction.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:adcc/shared/widgets/banner_header.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -73,19 +74,20 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
     }
 
     if (_productData == null) {
+      final l10n = AppLocalizations.of(context)!;
       return Scaffold(
         backgroundColor: AppColors.softCream,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('Failed to load product details'),
+              Text(l10n.failedToLoadProduct),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text('Go Back'),
+                child: Text(l10n.goBack),
               ),
             ],
           ),

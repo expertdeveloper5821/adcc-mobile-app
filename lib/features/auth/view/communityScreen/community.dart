@@ -99,8 +99,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                         '${l10n.community_heading1.toUpperCase()}\n',
                                   ),
                                   TextSpan(
-                                    text:
-                                        l10n.community_heading2.toUpperCase(),
+                                    text: l10n.community_heading2.toUpperCase(),
                                   ),
                                 ],
                               ),
@@ -173,7 +172,6 @@ class _CommunityScreenState extends State<CommunityScreen> {
                             ),
                           ],
                         ),
-
                       ],
                     ),
                   ),

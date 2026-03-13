@@ -23,19 +23,16 @@ class PromoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: Stack(
         children: [
-
           Positioned.fill(
             child: Image.asset(
               data.image,
               fit: BoxFit.cover,
             ),
           ),
-
           Positioned.fill(
             child: Container(
               decoration: const BoxDecoration(
@@ -50,7 +47,6 @@ class PromoCard extends StatelessWidget {
               ),
             ),
           ),
-
           Positioned(
             top: -25,
             right: -25,
@@ -66,7 +62,6 @@ class PromoCard extends StatelessWidget {
               ),
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 16,
@@ -75,78 +70,68 @@ class PromoCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
-               Text(
-  data.title,
-  style: const TextStyle(
-    fontFamily: 'Outfit',
-    fontSize: 23.2228,
-    fontWeight: FontWeight.w600,
-    height: 1, // 100% line height
-    letterSpacing: 0,
-    color: Colors.white,
-  ),
-),
-
+                Text(
+                  data.title,
+                  style: const TextStyle(
+                    fontFamily: 'Outfit',
+                    fontSize: 23.2228,
+                    fontWeight: FontWeight.w600,
+                    height: 1, // 100% line height
+                    letterSpacing: 0,
+                    color: Colors.white,
+                  ),
+                ),
                 const Spacer(),
-
-              Text(
-  data.subtitle,
-  style: const TextStyle(
-    fontFamily: 'Outfit',
-    fontSize: 12.5,
-    fontWeight: FontWeight.w400,
-    height: 1.31,
-    letterSpacing: 0,
-    color: Colors.white70,
-  ),
-),
+                Text(
+                  data.subtitle,
+                  style: const TextStyle(
+                    fontFamily: 'Outfit',
+                    fontSize: 12.5,
+                    fontWeight: FontWeight.w400,
+                    height: 1.31,
+                    letterSpacing: 0,
+                    color: Colors.white70,
+                  ),
+                ),
                 const SizedBox(height: 2),
-
                 Row(
                   children: [
-
-                  Expanded(
-  child: Text(
-    data.highlight,
-    style: const TextStyle(
-      fontFamily: 'Outfit',
-      fontSize: 16.6667,
-      fontWeight: FontWeight.w700,
-      height: 1.31,
-      letterSpacing: 0,
-      color: Colors.white,
-    ),
-  ),
-),
-
+                    Expanded(
+                      child: Text(
+                        data.highlight,
+                        style: const TextStyle(
+                          fontFamily: 'Outfit',
+                          fontSize: 16.6667,
+                          fontWeight: FontWeight.w700,
+                          height: 1.31,
+                          letterSpacing: 0,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                     Container(
                       width: 99,
                       height: 28.5,
-
                       decoration: BoxDecoration(
                         color: const Color(0xFFFFF9EF),
                         borderRadius: BorderRadius.circular(17),
                       ),
-                      child: const Center(
-                        child: Text(
-  "Find a ride",
-  textAlign: TextAlign.center,
-  style: const TextStyle(
-    fontFamily: 'Outfit',
-    fontSize: 12,
-    fontWeight: FontWeight.w600,
-    height: 1.25,
-    letterSpacing: 0,
-    color: Color(0xFFC12D32),
-  ),
-)
-                      ),
+                      child: Center(
+                          child: Text(
+                        data.buttonText,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontFamily: 'Outfit',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          height: 1.25,
+                          letterSpacing: 0,
+                          color: Color(0xFFC12D32),
+                        ),
+                      )),
                     ),
-
                   ],
                 ),
-
               ],
             ),
           ),

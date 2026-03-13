@@ -1,4 +1,5 @@
 import 'package:adcc/core/theme/app_colors.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class JoinEventEventCard extends StatelessWidget {
@@ -6,6 +7,7 @@ class JoinEventEventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Container(
         width: 357,
@@ -66,24 +68,22 @@ class JoinEventEventCard extends StatelessWidget {
               ),
             ),
 
-            /// WHEN CARD
             Positioned(
               left: 8,
               top: 138,
               child: _smallCard(
-                 iconPath: "assets/icons/clock.png", // image icon
-                title: "When",
+                 iconPath: "assets/icons/clock.png",
+                title: l10n.when,
                 value: "18 July 2026",
               ),
             ),
 
-            /// LOCATION CARD
             Positioned(
               left: 168,
               top: 138,
               child: _smallCard(
-                iconPath: "assets/icons/distance.png", // image icon
-                title: "Location",
+                iconPath: "assets/icons/distance.png",
+                title: l10n.location,
                 value: "Abu dhabi",
               ),
             ),

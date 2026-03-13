@@ -1,4 +1,6 @@
 import 'package:adcc/core/theme/app_colors.dart';
+import 'package:adcc/features/languageOption/view/languageSelectionScreen.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class AppPreferencesSection extends StatelessWidget {
@@ -13,21 +15,21 @@ class AppPreferencesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
-      const Text(
-  "App Preferences",
-  style: TextStyle(
-    fontFamily: 'Outfit',
-    fontSize: 20,
-    fontWeight: FontWeight.w700,
-    height: 1.43,
-    letterSpacing: -0.22,
-    color: AppColors.charcoal,
-  ),
-),
+        Text(
+          l10n.appPreferences,
+          style: TextStyle(
+            fontFamily: 'Outfit',
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            height: 1.43,
+            letterSpacing: -0.22,
+            color: AppColors.charcoal,
+          ),
+        ),
 
         const SizedBox(height: 8),
 
@@ -40,35 +42,36 @@ class AppPreferencesSection extends StatelessWidget {
           ),
           child: Column(
             children: [
-
               _ArrowTile(
                 image: "assets/icons/language.png",
-                title: "Language",
-                subtitle: "English",
+                title: l10n.languageLabel,
+                subtitle: l10n.english,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const LanguageSelectionScreen(),
+                    ),
+                  );
+                },
               ),
-
               const Divider(height: 1),
-
               _ArrowTile(
                 image: "assets/icons/units.png",
-                title: "Units",
-                subtitle: "Metric (km, kg)",
+                title: l10n.units,
+                subtitle: l10n.metricUnits,
               ),
-
               const Divider(height: 1),
-
               _ArrowTile(
                 image: "assets/icons/distance.png",
-                title: "Map Style",
-                subtitle: "Standard",
+                title: l10n.mapStyle,
+                subtitle: l10n.standard,
               ),
-
               const Divider(height: 1),
-
               _SwitchTile(
-             image: "assets/icons/dark_mode.png",
-                title: "Dark Mode",
-                subtitle: "Coming soon",
+                image: "assets/icons/dark_mode.png",
+                title: l10n.darkMode,
+                subtitle: l10n.comingSoon,
                 value: darkMode,
                 onChanged: onDarkModeChanged,
               ),
@@ -78,22 +81,20 @@ class AppPreferencesSection extends StatelessWidget {
 
         const SizedBox(height: 39),
 
-        /// SECOND TITLE
-       const Text(
-  "App Preferences",
-  style: TextStyle(
-    fontFamily: 'Outfit',
-    fontSize: 20,
-    fontWeight: FontWeight.w700,
-    height: 1.43,
-    letterSpacing: -0.22,
-    color: AppColors.charcoal,
-  ),
-),
+        Text(
+          l10n.appPreferences,
+          style: const TextStyle(
+            fontFamily: 'Outfit',
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            height: 1.43,
+            letterSpacing: -0.22,
+            color: AppColors.charcoal,
+          ),
+        ),
 
         const SizedBox(height: 8),
 
-        /// SECOND CARD
         Container(
           width: 358,
           decoration: BoxDecoration(
@@ -101,46 +102,38 @@ class AppPreferencesSection extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
           ),
           child: Column(
-            children: const [
-
-              _SimpleTile(title: "Help Center"),
-
-              Divider(height: 1),
-
-              _SimpleTile(title: "Terms & Conditions"),
-
-              Divider(height: 1),
-
-              _SimpleTile(title: "Privacy Policy"),
-
-              Divider(height: 1),
-
+            children: [
+              _SimpleTile(title: l10n.helpCenter),
+              const Divider(height: 1),
+              _SimpleTile(title: l10n.termsAndConditions),
+              const Divider(height: 1),
+              _SimpleTile(title: l10n.privacyPolicy),
+              const Divider(height: 1),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 16),
-                child:Column(
-  children: const [
-    Text(
-      "App Version",
-      style: TextStyle(
-        fontFamily: 'Outfit',
-        fontSize: 16,
-        fontWeight: FontWeight.w500,
-        color: AppColors.charcoal,
-      ),
-    ),
-    SizedBox(height: 1),
-    Text(
-      "v1.0.0 (Build 100)",
-      style: TextStyle(
-        fontFamily: 'Outfit',
-        fontSize: 12,
-        fontWeight: FontWeight.w500,
-        color: Color(0xFFA3A3A3),
-      ),
-    ),
-  ],
-)
-              ),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Column(
+                    children: [
+                      Text(
+                        l10n.appVersion,
+                        style: TextStyle(
+                          fontFamily: 'Outfit',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.charcoal,
+                        ),
+                      ),
+                      SizedBox(height: 1),
+                      Text(
+                        "v1.0.0 (Build 100)",
+                        style: TextStyle(
+                          fontFamily: 'Outfit',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xFFA3A3A3),
+                        ),
+                      ),
+                    ],
+                  )),
             ],
           ),
         ),
@@ -153,65 +146,57 @@ class _ArrowTile extends StatelessWidget {
   final String image;
   final String title;
   final String subtitle;
+  final VoidCallback? onTap;
 
   const _ArrowTile({
     required this.image,
     required this.title,
     required this.subtitle,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 82.9,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Row(
+    final content = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
           children: [
-
             Image.asset(
               image,
               width: 20,
               height: 20,
             ),
-
             const SizedBox(width: 14),
-
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
-                 Text(
-  title,
-  style: const TextStyle(
-    fontFamily: 'Outfit',
-    fontSize: 15,
-    fontWeight: FontWeight.w500,
-    height: 1,
-    letterSpacing: 0,
-    color: AppColors.charcoal
-  ),
-),
-
+                  Text(
+                    title,
+                    style: const TextStyle(
+                        fontFamily: 'Outfit',
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        height: 1,
+                        letterSpacing: 0,
+                        color: AppColors.charcoal),
+                  ),
                   const SizedBox(height: 2),
-
-Text(
-  subtitle,
-  style: const TextStyle(
-    fontFamily: 'Outfit',
-    fontSize: 15,
-    fontWeight: FontWeight.w400,
-    height: 1,
-    letterSpacing: 0,
-    color: Color(0XFF525252),
-  ),
-)
+                  Text(
+                    subtitle,
+                    style: const TextStyle(
+                      fontFamily: 'Outfit',
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                      height: 1,
+                      letterSpacing: 0,
+                      color: Color(0XFF525252),
+                    ),
+                  )
                 ],
               ),
             ),
-
             const Icon(
               Icons.arrow_forward_ios,
               size: 14,
@@ -219,7 +204,16 @@ Text(
             ),
           ],
         ),
-      ),
+    );
+    return SizedBox(
+      height: 82.9,
+      child: onTap != null
+          ? InkWell(
+              onTap: onTap,
+              borderRadius: BorderRadius.circular(16),
+              child: content,
+            )
+          : content,
     );
   }
 }
@@ -247,21 +241,17 @@ class _SwitchTile extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
           children: [
-
             Image.asset(
               image,
               width: 20,
               height: 20,
             ),
-
             const SizedBox(width: 14),
-
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   Text(
                     title,
                     style: const TextStyle(
@@ -269,9 +259,7 @@ class _SwitchTile extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-
                   const SizedBox(height: 2),
-
                   Text(
                     subtitle,
                     style: const TextStyle(
@@ -282,21 +270,20 @@ class _SwitchTile extends StatelessWidget {
                 ],
               ),
             ),
-
-           Transform.scale(
-  scale: 0.85,
-  child: Switch(
-    value: value,
-    onChanged: onChanged,
-    trackColor: MaterialStateProperty.resolveWith<Color>((states) {
-      if (states.contains(MaterialState.selected)) {
-        return const Color(0xFFC12D32); // ON background color
-      }
-      return const Color(0xFFD1D5DC); 
-    }),
-    thumbColor: MaterialStateProperty.all(Colors.white),
-  ),
-),
+            Transform.scale(
+              scale: 0.85,
+              child: Switch(
+                value: value,
+                onChanged: onChanged,
+                trackColor: MaterialStateProperty.resolveWith<Color>((states) {
+                  if (states.contains(MaterialState.selected)) {
+                    return const Color(0xFFC12D32); // ON background color
+                  }
+                  return const Color(0xFFD1D5DC);
+                }),
+                thumbColor: MaterialStateProperty.all(Colors.white),
+              ),
+            ),
           ],
         ),
       ),
@@ -320,18 +307,17 @@ class _SimpleTile extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-Text(
-  title,
-  textAlign: TextAlign.center,
-  style: const TextStyle(
-    fontFamily: 'Outfit',
-    fontSize: 15,
-    fontWeight: FontWeight.w500,
-    height: 1,
-    letterSpacing: 0,
-  ),
-),
-
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontFamily: 'Outfit',
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              height: 1,
+              letterSpacing: 0,
+            ),
+          ),
           const Icon(
             Icons.arrow_forward_ios,
             size: 14,

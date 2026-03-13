@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Service to handle location permissions
 class PermissionService {
@@ -11,26 +12,26 @@ class PermissionService {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       if (context.mounted) {
+        final l10n = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Location services are disabled. Please enable them.'),
+          SnackBar(
+            content: Text(l10n.locationServicesDisabled),
           ),
         );
       }
       return false;
     }
 
-    // Check current permission status
     LocationPermission permission = await Geolocator.checkPermission();
     
-    // If permission is denied, request it
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         if (context.mounted) {
+          final l10n = AppLocalizations.of(context)!;
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Location permissions are denied.'),
+            SnackBar(
+              content: Text(l10n.locationPermissionsDenied),
             ),
           );
         }

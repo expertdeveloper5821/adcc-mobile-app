@@ -1,15 +1,18 @@
 import 'package:adcc/core/theme/app_colors.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:adcc/shared/widgets/adaptive_image.dart';
 import 'package:flutter/material.dart';
 
-/// Model for event category
+/// Model for event category (title = displayed translated, filterKey = for callback/filter)
 class EventCategory {
   final String title;
   final String imagePath;
+  final String filterKey;
 
   const EventCategory({
     required this.title,
     required this.imagePath,
+    required this.filterKey,
   });
 }
 
@@ -22,36 +25,17 @@ class EventCategoriesGrid extends StatelessWidget {
     this.onCategoryTap,
   });
 
-  // List of event categories matching the design
-  static final List<EventCategory> categories = [
-    const EventCategory(
-      title: 'Races',
-      imagePath: 'assets/icons/ra.png',
-    ),
-    const EventCategory(
-      title: 'Community Rides',
-      imagePath: 'assets/icons/cf.png',
-    ),
-    const EventCategory(
-      title: 'Training & Clinics',
-      imagePath: 'assets/icons/tc.png',
-    ),
-    const EventCategory(
-      title: 'Awareness Rides',
-      imagePath: 'assets/icons/ra.png',
-    ),
-    const EventCategory(
-      title: 'Family & Kids',
-      imagePath: 'assets/icons/cf.png',
-    ),
-    const EventCategory(
-      title: 'Corporate',
-      imagePath: 'assets/icons/tc.png',
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final categories = [
+      EventCategory(title: l10n.eventCategoryRaces, imagePath: 'assets/icons/ra.png', filterKey: 'Races'),
+      EventCategory(title: l10n.eventCategoryCommunityRides, imagePath: 'assets/icons/cf.png', filterKey: 'Community Rides'),
+      EventCategory(title: l10n.eventCategoryTrainingClinics, imagePath: 'assets/icons/tc.png', filterKey: 'Training & Clinics'),
+      EventCategory(title: l10n.eventCategoryAwarenessRides, imagePath: 'assets/icons/ra.png', filterKey: 'Awareness Rides'),
+      EventCategory(title: l10n.eventCategoryFamilyKids, imagePath: 'assets/icons/cf.png', filterKey: 'Family & Kids'),
+      EventCategory(title: l10n.eventCategoryCorporate, imagePath: 'assets/icons/tc.png', filterKey: 'Corporate'),
+    ];
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -68,7 +52,7 @@ class EventCategoriesGrid extends StatelessWidget {
         return _CategoryCard(
           category: category,
           onTap: () {
-            onCategoryTap?.call(category.title);
+            onCategoryTap?.call(category.filterKey);
           },
         );
       },

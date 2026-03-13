@@ -1,12 +1,13 @@
 import 'package:adcc/core/theme/app_colors.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-
 
 class MyBadgesSection extends StatelessWidget {
   const MyBadgesSection({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       color: AppColors.softCream,
       padding: const EdgeInsets.only(
@@ -16,38 +17,36 @@ class MyBadgesSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
-    
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-              Text(
-  "My Badges",
-  style: const TextStyle(
-    fontFamily: 'Outfit',
-    fontSize: 20,
-    fontWeight: FontWeight.w600,
-    height: 1, // 100% line height
-    letterSpacing: 0,
-    color: AppColors.charcoal,
-  ),
-),
+              children: [
+                Text(
+                  l10n.myBadges,
+                  style: const TextStyle(
+                    fontFamily: 'Outfit',
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    height: 1, // 100% line height
+                    letterSpacing: 0,
+                    color: AppColors.charcoal,
+                  ),
+                ),
                 Row(
                   children: [
-                   Text(
-  "View All",
-  textAlign: TextAlign.center,
-  style: const TextStyle(
-    fontFamily: 'Geist',
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    height: 20 / 14, // ≈1.43
-    letterSpacing: 0,
-    color: AppColors.charcoal,
-  ),
-),
+                    Text(
+                      l10n.viewAll,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontFamily: 'Geist',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        height: 20 / 14, // ≈1.43
+                        letterSpacing: 0,
+                        color: AppColors.charcoal,
+                      ),
+                    ),
                     SizedBox(width: 4),
                     Icon(
                       Icons.chevron_right,
@@ -59,33 +58,30 @@ class MyBadgesSection extends StatelessWidget {
               ],
             ),
           ),
-
           const SizedBox(height: 25),
-
-         
           SizedBox(
             height: 95, // circle + label space
             child: ListView(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.only(left: 24),
-              children: [
-  const _BadgeItem(
-    title: "500km club",
-    imagePath: "assets/icons/trophy.png",
-  ),
-  const SizedBox(width: 20),
-  const _BadgeItem(
-    title: "Weekend ri...",
-    imagePath: "assets/icons/trophy.png",
-  ),
-]
-            ),
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.only(left: 24),
+                children: [
+                  const _BadgeItem(
+                    title: "500km club",
+                    imagePath: "assets/icons/trophy.png",
+                  ),
+                  const SizedBox(width: 20),
+                  const _BadgeItem(
+                    title: "Weekend ri...",
+                    imagePath: "assets/icons/trophy.png",
+                  ),
+                ]),
           )
         ],
       ),
     );
   }
 }
+
 class _BadgeItem extends StatelessWidget {
   final String title;
   final String imagePath;
@@ -99,7 +95,6 @@ class _BadgeItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-  
         Container(
           width: 59.31,
           height: 59.31,
@@ -116,25 +111,22 @@ class _BadgeItem extends StatelessWidget {
             ),
           ),
         ),
-
         const SizedBox(height: 8),
-
         SizedBox(
-          width: 80,
-          child:Text(
-  title,
-  overflow: TextOverflow.ellipsis,
-  textAlign: TextAlign.center,
-  style: const TextStyle(
-    fontFamily: 'Outfit',
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    height: 1, // 100% line height
-    letterSpacing: 0.14,
-    color: AppColors.charcoal,
-  ),
-)
-        )
+            width: 80,
+            child: Text(
+              title,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontFamily: 'Outfit',
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                height: 1, // 100% line height
+                letterSpacing: 0.14,
+                color: AppColors.charcoal,
+              ),
+            ))
       ],
     );
   }

@@ -1,5 +1,6 @@
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/events/services/events_service.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class CancelRegistrationScreen extends StatefulWidget {
@@ -21,19 +22,22 @@ class _CancelRegistrationScreenState extends State<CancelRegistrationScreen> {
 
   final EventsService _eventsService = EventsService();
 
-  final List<String> reasons = const [
-    "Schedule conflict",
-    "Health reasons",
-    "Not prepared",
-    "Weather concerns",
-  ];
+  List<String> _reasons(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return [
+      l10n.scheduleConflict,
+      l10n.healthReasons,
+      l10n.notPrepared,
+      l10n.weatherConcerns,
+    ];
+  }
 
   Future<void> _confirmCancellation() async {
-    /// validation
+    final l10n = AppLocalizations.of(context)!;
     if (selectedIndex == -1) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Please select a reason"),
+        SnackBar(
+          content: Text(l10n.pleaseSelectReason),
         ),
       );
       return;
@@ -41,6 +45,7 @@ class _CancelRegistrationScreenState extends State<CancelRegistrationScreen> {
 
     if (isLoading) return;
 
+    final reasons = _reasons(context);
     final reason = reasons[selectedIndex];
 
     setState(() => isLoading = true);
@@ -57,9 +62,10 @@ class _CancelRegistrationScreenState extends State<CancelRegistrationScreen> {
     if (result.success) {
       Navigator.pop(context, true);
     } else {
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(result.message ?? "Cancel failed"),
+          content: Text(result.message ?? l10n.cancelFailed),
         ),
       );
     }
@@ -117,33 +123,43 @@ class _CancelRegistrationScreenState extends State<CancelRegistrationScreen> {
 
                   const SizedBox(height: 30),
 
-                  const Text(
-                    "Cancel Registration",
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.charcoal,
-                    ),
+                  Builder(
+                    builder: (context) {
+                      final l10n = AppLocalizations.of(context)!;
+                      return Text(
+                        l10n.cancelRegistration,
+                        style: const TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.charcoal,
+                        ),
+                      );
+                    },
                   ),
 
                   const SizedBox(height: 26),
 
-                  Text(
-                    "Please let us know why you're\ncancelling",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 12,
-                      height: 1.35,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.charcoal.withValues(alpha: 0.55),
-                    ),
+                  Builder(
+                    builder: (context) {
+                      final l10n = AppLocalizations.of(context)!;
+                      return Text(
+                        l10n.whyCancelling,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 12,
+                          height: 1.35,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.charcoal.withValues(alpha: 0.55),
+                        ),
+                      );
+                    },
                   ),
 
                   const SizedBox(height: 37),
 
                   _ReasonBox(
                     selectedIndex: selectedIndex,
-                    reasons: reasons,
+                    reasons: _reasons(context),
                     onSelect: (i) => setState(() => selectedIndex = i),
                   ),
 
@@ -162,13 +178,18 @@ class _CancelRegistrationScreenState extends State<CancelRegistrationScreen> {
                           borderRadius: BorderRadius.circular(14),
                         ),
                       ),
-                      child: Text(
-                        isLoading ? "Please wait..." : "Confirm Cancellation",
-                        style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.white,
-                        ),
+                      child: Builder(
+                        builder: (context) {
+                          final l10n = AppLocalizations.of(context)!;
+                          return Text(
+                            isLoading ? l10n.pleaseWait : l10n.confirmCancellation,
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.white,
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ),

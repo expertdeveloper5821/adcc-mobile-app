@@ -1,3 +1,4 @@
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'promo_card.dart';
 
@@ -9,48 +10,47 @@ class PromoCarousel extends StatefulWidget {
 }
 
 class _PromoCarouselState extends State<PromoCarousel> {
-
   final PageController _controller = PageController(
     viewportFraction: 0.92,
     initialPage: 1,
   );
 
-  final List<PromoData> _items = [
-    PromoData(
-      image: 'assets/images/cycling_1.png',
-      title: 'New to Abu Dhabi\nCycling Club?',
-      subtitle: 'Join Your',
-      highlight: 'First Community Ride',
-      buttonText: 'Find a ride',
-    ),
-    PromoData(
-      image: 'assets/images/cycling_1.png',
-      title: 'Ride Together\nRide Stronger',
-      subtitle: 'Join Your',
-      highlight: 'First Community Ride',
-      buttonText: 'Find a ride',
-    ),
-    PromoData(
-      image: 'assets/images/cycling_1.png',
-      title: 'Explore Abu Dhabi\nCycling Routes',
-      subtitle: 'Join Your',
-      highlight: 'First Community Ride',
-      buttonText: 'Find a ride',
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final items = [
+      PromoData(
+        image: 'assets/images/cycling_1.png',
+        title: l10n.promoNewToClub,
+        subtitle: l10n.promoJoinYour,
+        highlight: l10n.promoFirstCommunityRide,
+        buttonText: l10n.findRide,
+      ),
+      PromoData(
+        image: 'assets/images/cycling_1.png',
+        title: l10n.promoRideTogether,
+        subtitle: l10n.promoJoinYour,
+        highlight: l10n.promoFirstCommunityRide,
+        buttonText: l10n.findRide,
+      ),
+      PromoData(
+        image: 'assets/images/cycling_1.png',
+        title: l10n.promoExploreRoutes,
+        subtitle: l10n.promoJoinYour,
+        highlight: l10n.promoFirstCommunityRide,
+        buttonText: l10n.findRide,
+      ),
+    ];
     return SizedBox(
       height: 170,
       child: PageView.builder(
         controller: _controller,
-        itemCount: _items.length,
+        itemCount: items.length,
         padEnds: false,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 7.5),
-            child: PromoCard(data: _items[index]),
+            child: PromoCard(data: items[index]),
           );
         },
       ),

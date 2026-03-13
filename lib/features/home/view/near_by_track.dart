@@ -1,12 +1,15 @@
 import 'package:adcc/core/theme/app_colors.dart';
+import 'package:adcc/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import '../../../shared/widgets/section_header.dart';
 import 'dart:ui';
+
 class NearbyTracksSection extends StatelessWidget {
   const NearbyTracksSection({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final tracks = [
       TrackModel(
         title: "Al Hudayriyat Island Cycle Track",
@@ -36,11 +39,10 @@ class NearbyTracksSection extends StatelessWidget {
 
     return Column(
       children: [
-
         /// HEADER
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: SectionHeader(title: "Nearby Tracks"),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: SectionHeader(title: l10n.nearbyTracks),
         ),
 
         const SizedBox(height: 16),
@@ -79,7 +81,6 @@ class NearbyTrackCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-
           /// IMAGE AREA
           Stack(
             children: [
@@ -123,10 +124,8 @@ class NearbyTrackCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 Row(
                   children: [
-
                     /// LOCATION ICON
                     Image.asset(
                       "assets/icons/location.png",
@@ -136,56 +135,54 @@ class NearbyTrackCard extends StatelessWidget {
 
                     const SizedBox(width: 6),
 
-                   Text(
-  track.location,
-  style: TextStyle(
-    fontFamily: 'Outfit',
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    height: 1.0, // 100% line height
-    letterSpacing: 0,
-    color: AppColors.textDark.withOpacity(0.8),
-  ),
-),
+                    Text(
+                      track.location,
+                      style: TextStyle(
+                        fontFamily: 'Outfit',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        height: 1.0, // 100% line height
+                        letterSpacing: 0,
+                        color: AppColors.textDark.withOpacity(0.8),
+                      ),
+                    ),
 
                     const Spacer(),
 
                     /// DISTANCE ICON
                     Image.asset(
-                   "assets/icons/km.png",
+                      "assets/icons/km.png",
                       width: 16,
                       height: 16,
                     ),
 
                     const SizedBox(width: 6),
 
-                  Text(
-  track.distance,
-  style: const TextStyle(
-    fontFamily: 'Outfit',
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    height: 1.4,
-    letterSpacing: 0,
-    color: AppColors.textDark,
-  ),
-),
+                    Text(
+                      track.distance,
+                      style: const TextStyle(
+                        fontFamily: 'Outfit',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        height: 1.4,
+                        letterSpacing: 0,
+                        color: AppColors.textDark,
+                      ),
+                    ),
                   ],
                 ),
-
                 const SizedBox(height: 6),
-
-              Text(
-  track.title,
-  style: const TextStyle(
-    fontFamily: 'Outfit',
-    fontSize: 15,
-    fontWeight: FontWeight.w600,
-    height: 1.0,
-    letterSpacing: 0,
-    color: AppColors.textDark,
-  ),
-),
+                Text(
+                  track.title,
+                  style: const TextStyle(
+                    fontFamily: 'Outfit',
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    height: 1.0,
+                    letterSpacing: 0,
+                    color: AppColors.textDark,
+                  ),
+                ),
               ],
             ),
           ),
@@ -194,6 +191,7 @@ class NearbyTrackCard extends StatelessWidget {
     );
   }
 }
+
 class _Badge extends StatelessWidget {
   final String text;
   final double width;
@@ -237,6 +235,7 @@ class _Badge extends StatelessWidget {
     );
   }
 }
+
 class TrackModel {
   final String title;
   final String location;

@@ -1,11 +1,13 @@
 import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import '../../../../../l10n/app_localizations.dart';
 
 class PerformanceInsightsCard extends StatelessWidget {
   const PerformanceInsightsCard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: 358,
       height: 158,
@@ -48,17 +50,17 @@ Image.asset(
           /// BOXES
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
+            children: [
               _InsightBox(
-                title: "Average\nCompletion Rate",
+                title: l10n.averageCompletionRate,
                 value: "92%",
               ),
               _InsightBox(
-                title: "Average Event\nDistance",
+                title: l10n.averageEventDistance,
                 value: "34.5 km",
               ),
               _InsightBox(
-                title: "Best Category",
+                title: l10n.bestCategory,
                 value: "90%",
               ),
             ],
