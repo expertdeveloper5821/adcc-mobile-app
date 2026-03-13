@@ -218,14 +218,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     
       const Text(
-        'Profile',
-        style: TextStyle(
-          fontFamily: 'Outfit',
-          fontSize: 25,
-          fontWeight: FontWeight.w600,
-          color: AppColors.charcoal,
-        ),
-      ),
+  'Profile',
+  textAlign: TextAlign.center,
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 25,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
     ],
   ),
 ),
@@ -306,7 +309,15 @@ const SizedBox(height: 50),
                   const SizedBox(height: 50),
              
                   AppButton(
-                    label: _isLoggingOut ? 'Logging out...' : 'Logout',
+                   label: _isLoggingOut ? 'Logging out...' : 'Logout',
+textStyle: const TextStyle(
+  fontFamily: 'Outfit',
+  fontSize: 16,
+  fontWeight: FontWeight.w600,
+  height: 1, // 100% line height
+  letterSpacing: 0,
+  color: Colors.white,
+),
                     onPressed: _isLoggingOut ? null : _handleLogout,
                     type: AppButtonType.danger,
                     backgroundColor: AppColors.deepRed,

@@ -139,15 +139,18 @@ class _OfficialCyclingTracksPageState
 
          
             Text(
-              '${filteredTracks.length} communities found',
-              style: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-                color:AppColors.charcoal,
-              ),
-            ),
+  '${filteredTracks.length} communities found',
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 15,
+    fontWeight: FontWeight.w500,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
 
-            const SizedBox(height: 38),
+            const SizedBox(height: 24),
 
            
             if (filteredTracks.isEmpty)

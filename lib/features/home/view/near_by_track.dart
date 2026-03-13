@@ -1,6 +1,7 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import '../../../shared/widgets/section_header.dart';
-
+import 'dart:ui';
 class NearbyTracksSection extends StatelessWidget {
   const NearbyTracksSection({super.key});
 
@@ -51,7 +52,7 @@ class NearbyTracksSection extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16),
             itemCount: tracks.length,
-            separatorBuilder: (_, __) => const SizedBox(width: 16),
+            separatorBuilder: (_, __) => const SizedBox(width: 12),
             itemBuilder: (context, index) {
               return NearbyTrackCard(track: tracks[index]);
             },
@@ -135,13 +136,17 @@ class NearbyTrackCard extends StatelessWidget {
 
                     const SizedBox(width: 6),
 
-                    Text(
-                      track.location,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                   Text(
+  track.location,
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.0, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.textDark.withOpacity(0.8),
+  ),
+),
 
                     const Spacer(),
 
@@ -154,25 +159,33 @@ class NearbyTrackCard extends StatelessWidget {
 
                     const SizedBox(width: 6),
 
-                    Text(
-                      track.distance,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                  Text(
+  track.distance,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.4,
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
                   ],
                 ),
 
                 const SizedBox(height: 6),
 
-                Text(
-                  track.title,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
+              Text(
+  track.title,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 15,
+    fontWeight: FontWeight.w600,
+    height: 1.0,
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
               ],
             ),
           ),
@@ -181,8 +194,6 @@ class NearbyTrackCard extends StatelessWidget {
     );
   }
 }
-
-/// BADGE WIDGET (Figma pill)
 class _Badge extends StatelessWidget {
   final String text;
   final double width;
@@ -194,26 +205,38 @@ class _Badge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: 26,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: const Color(0x42000000), // #00000026
-        borderRadius: BorderRadius.circular(100),
-      ),
-      child: Text(
-        text,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(100),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(
+          sigmaX: 10,
+          sigmaY: 10,
+        ),
+        child: Container(
+          width: width,
+          height: 26,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: const Color(0x26000000), // #000000 - 15%
+            borderRadius: BorderRadius.circular(100),
+          ),
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontFamily: 'Outfit',
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+              height: 1,
+              letterSpacing: 0,
+              color: Colors.white,
+            ),
+          ),
         ),
       ),
     );
   }
 }
-
 class TrackModel {
   final String title;
   final String location;

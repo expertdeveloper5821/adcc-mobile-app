@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class UnlockedBadgesSection extends StatelessWidget {
@@ -11,24 +12,31 @@ class UnlockedBadgesSection extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 2),
           child: Text(
-            "Unlocked Badges",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+  "Unlocked Badges",
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal, // charcoal
+  ),
+)
         ),
         SizedBox(height: 4),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 2),
           child: Text(
-            "6 earned",
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: Colors.black54,
-            ),
-          ),
+  "6 earned",
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 12.7,
+    fontWeight: FontWeight.w500,
+    height: 18.1446 / 12.7012, // ≈ 1.43
+    letterSpacing: 0,
+    color: Colors.black54,
+  ),
+)
         ),
         SizedBox(height: 16),
         _BadgesGrid(),
@@ -157,28 +165,35 @@ class _BadgeCard extends StatelessWidget {
 ),
               const SizedBox(width: 8),
               Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
+  title,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 13,
+    fontWeight: FontWeight.w500,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+  overflow: TextOverflow.ellipsis,
+)
             ],
           ),
        
           Padding(
             padding: const EdgeInsets.only(left: 40),
-            child: Text(
-              subtitle,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 10,
-                fontWeight: FontWeight.w400,
-                height: 0,
-              ),
-            ),
+            child:Text(
+  subtitle,
+  maxLines: 2,
+  overflow: TextOverflow.ellipsis,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 10,
+    fontWeight: FontWeight.w400,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+)
           ),
           const Spacer(),
           Center(
@@ -191,14 +206,18 @@ class _BadgeCard extends StatelessWidget {
                 color: const Color(0xFF2E2E2E),
                 borderRadius: BorderRadius.circular(30),
               ),
-              child: Text(
-                points,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+              child:Text(
+  points,
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+)
             ),
           ),
         ],

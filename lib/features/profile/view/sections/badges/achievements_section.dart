@@ -40,14 +40,16 @@ class AchievementsSection extends StatelessWidget {
 ),
           SizedBox(width: 8),
           Text(
-            "Achievements",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
-              letterSpacing: 0.5,
-            ),
-          ),
+  "Achievements",
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    height: 28 / 18, // ≈1.56
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+)
         ],
       ),
       Material(
@@ -59,14 +61,18 @@ class AchievementsSection extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             child: Row(
               children: const [
-                Text(
-                  "View All",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white,
-                  ),
-                ),
+               Text(
+  "View All",
+  textAlign: TextAlign.center,
+  style: TextStyle(
+    fontFamily: 'Geist',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 20 / 14, // ≈1.43
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+),
                 SizedBox(width: 4),
                 Icon(
                   Icons.chevron_right,
@@ -211,18 +217,19 @@ class _AchievementItem extends StatelessWidget {
         const SizedBox(height: 8),
 
         Text(
-          label,
-          textAlign: TextAlign.center,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-            color: Colors.white,
-            height: 1.2,
-            letterSpacing: 0.2,
-          ),
-        ),
+  label,
+  textAlign: TextAlign.center,
+  maxLines: 2,
+  overflow: TextOverflow.ellipsis,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 10,
+    fontWeight: FontWeight.w400,
+    height: 1,
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+)
       ],
     );
   }

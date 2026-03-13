@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class RideInfoCard extends StatelessWidget {
@@ -51,16 +52,28 @@ class RideInfoCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  title,
-                  style: theme.textTheme.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
+  title,
+  style: theme.textTheme.bodyLarge?.copyWith(
+    fontFamily: 'Outfit',
+    fontWeight: FontWeight.w500,
+    fontSize: 15,
+    height: 0.97,
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
                 const SizedBox(height: 4),
-                Text(
-                  subtitle,
-                  style: theme.textTheme.bodyMedium,
-                ),
+               Text(
+  subtitle,
+  style: theme.textTheme.bodyMedium?.copyWith(
+    fontFamily: 'Outfit',
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    height: 1.51,
+    letterSpacing: 0,
+    color: AppColors.textDark.withOpacity(0.8),
+  ),
+),
               ],
             ),
           ],

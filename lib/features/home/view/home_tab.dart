@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/home/view/horizontal_rideList.dart';
 import 'package:adcc/features/home/view/join_community_card.dart';
 import 'package:adcc/features/home/view/near_by_track.dart';
@@ -56,13 +57,17 @@ class HomeTab extends StatelessWidget {
 
 const Padding(
   padding: EdgeInsets.symmetric(horizontal: 16),
-  child: Text(
-    "Featured Events",
-    style: TextStyle(
-      fontSize: 20,
-      fontWeight: FontWeight.w600,
-    ),
+  child:Text(
+  "Featured Events",
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.textDark,
   ),
+)
 ),
 
                  const SizedBox(height: 24),

@@ -26,13 +26,16 @@ class RouteDetailsIntegrationSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Route Details',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            color: AppColors.textDark,
-          ),
-        ),
+  'Route Details',
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
         const SizedBox(height: 12),
         Column(
           children: services.asMap().entries.map((entry) {
@@ -61,16 +64,20 @@ class RouteDetailsIntegrationSection extends StatelessWidget {
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
-                        service.name,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textDark,
-                        ),
-                      ),
+  service.name,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 13.1376,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0.13,
+    color: AppColors.charcoal,
+  ),
+)
                     ),
                     AppButton(
                       label: 'Connect',
+                    
                       onPressed: service.onConnect,
                       type: AppButtonType.primary,
                       backgroundColor: AppColors.dustyRose,
@@ -78,11 +85,14 @@ class RouteDetailsIntegrationSection extends StatelessWidget {
                       width: 100,
                       height: 36,
                       borderRadius: 8,
-                      textStyle: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.textDark,
-                      ),
+                     textStyle: const TextStyle(
+  fontFamily: 'Outfit',
+  fontSize: 13,
+  fontWeight: FontWeight.w500,
+  height: 1, // 100% line height
+  letterSpacing: 0,
+  color: AppColors.charcoal,
+),
                     ),
                   ],
                 ),

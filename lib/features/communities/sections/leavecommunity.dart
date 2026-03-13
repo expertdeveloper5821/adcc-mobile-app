@@ -146,41 +146,50 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
 
               const SizedBox(height: 16),
 
-              /// TITLE
-              const Text(
-                "Leave Community",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w900,
-                  color: Color(0xFF1E1E1E),
-                ),
-              ),
+            /// TITLE
+const Text(
+  "Leave Community",
+  textAlign: TextAlign.center,
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 30,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
 
               const SizedBox(height: 10),
 
-              /// SUBTITLE
-              const Text(
-                "We're sorry to see you go.\nYour feedback helps us improve.",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF6B6B6B),
-                ),
-              ),
+             /// SUBTITLE
+const Text(
+  "We're sorry to see you go.\nYour feedback helps us improve.",
+  textAlign: TextAlign.center,
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
 
               const SizedBox(height: 18),
 
-              /// REASON TITLE
-              const Text(
-                "Reason:",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.black,
-                ),
-              ),
+            /// REASON TITLE
+const Text(
+  "Reason:",
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
 
               const SizedBox(height: 12),
 
@@ -204,16 +213,18 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
 
               const SizedBox(height: 30),
 
-              /// FEEDBACK TITLE
-              const Text(
-                "Additional Feedback (Optional)",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.black,
-                ),
-              ),
-
+           /// FEEDBACK TITLE
+const Text(
+  "Additional Feedback",
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
               const SizedBox(height: 20),
 
               /// FEEDBACK BOX
@@ -236,25 +247,41 @@ class _LeaveCommunityState extends State<LeaveCommunity> {
                     fontWeight: FontWeight.w600,
                     color: Colors.black,
                   ),
-                  decoration: const InputDecoration(
-                    hintText: "Tell us more...",
-                    border: InputBorder.none,
-                  ),
+                 decoration: const InputDecoration(
+  hintText: "Tell Us More...",
+  border: InputBorder.none,
+  hintStyle: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 13,
+    fontWeight: FontWeight.w500,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
                 ),
               ),
 
               const SizedBox(height: 40),
 
               /// LEAVE BUTTON
-              AppButton(
-                label: isLoading ? "Leaving..." : "Leave Community",
-                onPressed: isLoading ? null : _leaveCommunity,
-                type: AppButtonType.primary,
-                backgroundColor: const Color(0xFFB11212),
-                textColor: Colors.white,
-                borderRadius: 16,
-                height: 52,
-              ),
+AppButton(
+  label: isLoading ? "Leaving..." : "Leave Community",
+  onPressed: isLoading ? null : _leaveCommunity,
+  type: AppButtonType.primary,
+  backgroundColor: const Color(0xFFB11212),
+  textColor: Colors.white,
+  borderRadius: 16,
+  height: 52,
+  textStyle: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    height: 1.5, // 24 / 16
+    letterSpacing: 0,
+  ),
+ 
+),
 
               const SizedBox(height: 10),
             ],
@@ -294,14 +321,17 @@ class _ReasonTile extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              child: Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.charcoal,
-                ),
-              ),
+            child: Text(
+  title,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 13,
+    fontWeight: FontWeight.w500,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
             ),
             Container(
               height: 18,

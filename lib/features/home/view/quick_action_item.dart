@@ -39,13 +39,18 @@ class QuickActionItem extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: theme.textTheme.bodySmall?.copyWith(
-              fontWeight: FontWeight.w500,
-            ),
-          ),
+         Text(
+  title,
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    height: 1.15, // 115%
+    letterSpacing: 0.3275,
+    color: Color(0xFF000000),
+  ),
+)
         ],
       ),
     );

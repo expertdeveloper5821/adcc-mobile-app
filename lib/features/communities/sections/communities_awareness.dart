@@ -112,15 +112,17 @@ Positioned(
           borderRadius: BorderRadius.circular(6),
         ),
         child: Text(
-          categoryName,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w400,
-            height: 1.3,
-            color: Colors.white,
-          ),
-        ),
+  categoryName,
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 1.33,
+    letterSpacing: 0,
+    color: Color(0xFFFFF4E3),
+  ),
+),
       ),
     ),
   ),
@@ -137,15 +139,19 @@ Positioned(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   /// TITLE
-                  Text(
-                    community.title,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                 Text(
+  community.title,
+  maxLines: 2,
+  overflow: TextOverflow.ellipsis,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    height: 1,
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
 
                   const SizedBox(height: 7),
 
@@ -153,20 +159,27 @@ Positioned(
                   Row(
                     children: [
                       /// MEMBERS
-                      Row(
-                        children: [
-                          Image.asset(
-                            "assets/icons/person_sharp.png",
-                            width: 16,
-                            height: 16,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            '$formattedMembers members',
-                            style: const TextStyle(fontSize: 12,color: Color(0XFF484A4D)),
-                          ),
-                        ],
-                      ),
+                     Row(
+  children: [
+    Image.asset(
+      "assets/icons/person_sharp.png",
+      width: 16,
+      height: 16,
+    ),
+    const SizedBox(width: 4),
+    Text(
+      '$formattedMembers members',
+      style: const TextStyle(
+        fontFamily: "Outfit",
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+        height: 1.42,
+        letterSpacing: 0,
+        color: Color(0xFF484A4D),
+      ),
+    ),
+  ],
+),
 
                       const SizedBox(width: 10),
 
@@ -179,10 +192,17 @@ Positioned(
                             height: 16,
                           ),
                           const SizedBox(width: 4),
-                          Text(
-                            '$formattedEvents events',
-                            style: const TextStyle(fontSize: 12,color: Color(0XFF484A4D)),
-                          ),
+                        Text(
+  '$formattedEvents events',
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 1.42,
+    letterSpacing: 0,
+    color: Color(0xFF484A4D),
+  ),
+),
                         ],
                       ),
                     ],
@@ -191,27 +211,33 @@ Positioned(
                   const SizedBox(height: 12),
 
                   /// DESCRIPTION
-                  Text(
-                    community.description,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      height: 1.2,
-                      color: Color(0XFF484A4D)
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                 Text(
+  community.description,
+  maxLines: 2,
+  overflow: TextOverflow.ellipsis,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 1,
+    letterSpacing: 0,
+    color: Color(0xFF484A4D),
+  ),
+),
 
                  const SizedBox(height: 12),
 
                   /// BUTTON
                   AppButton(
-                    label: "Explore",
-                      textStyle: const TextStyle(
-    fontSize: 13,
-    fontWeight: FontWeight.w600,
-    color: AppColors.softCream,
-  ),
+                   label: "Explore",
+textStyle: const TextStyle(
+  fontFamily: "Outfit",
+  fontSize: 13,
+  fontWeight: FontWeight.w500,
+  height: 1,
+  letterSpacing: 0,
+  color: AppColors.softCream,
+),
 
                     onPressed: () {
                       Navigator.push(

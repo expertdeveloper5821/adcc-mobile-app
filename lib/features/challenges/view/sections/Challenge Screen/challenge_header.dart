@@ -119,15 +119,18 @@ class _ChallengeHeaderState extends State<ChallengeHeader> {
                 children: [
 
                   /// TITLE
-                  Text(
-                    widget.title,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 22,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                 Text(
+  widget.title,
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 22,
+    fontWeight: FontWeight.w600,
+    height: 1.0, // 100% line height
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+),
 
                   const SizedBox(height: 14),
 
@@ -183,13 +186,15 @@ class _ChallengeHeaderState extends State<ChallengeHeader> {
                 fontWeight: FontWeight.w400,
               ),
               decoration: InputDecoration(
-                hintText: widget.placeholder ??
-                    "Search events...",
-                hintStyle: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                ),
+               hintText: widget.placeholder ?? "Search events...",
+hintStyle: const TextStyle(
+  fontFamily: "Outfit",
+  fontSize: 13,
+  fontWeight: FontWeight.w400,
+  height: 1.0, // 100% line height
+  letterSpacing: -0.1,
+  color: Colors.white,
+),
                 border: InputBorder.none,
                 isCollapsed: true,
               ),

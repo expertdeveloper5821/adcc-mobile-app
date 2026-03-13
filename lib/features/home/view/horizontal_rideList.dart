@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'ride_card.dart';
 
@@ -12,13 +13,17 @@ class HorizontalRideList extends StatelessWidget {
 
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            "Popular Communities",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          child:Text(
+  "Popular Communities",
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+)
         ),
 
         const SizedBox(height: 22),

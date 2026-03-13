@@ -94,21 +94,28 @@ class ChallengeTopPerformersSection extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      performer['name'],
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      "Rank #${performer['rank']}",
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                      ),
-                    ),
+  performer['name'],
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    height: 1.0, // 100% line height
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+),
+const SizedBox(height: 4),
+Text(
+  "Rank #${performer['rank']}",
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    height: 1.0,
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+),
                   ],
                 ),
               ),
@@ -118,20 +125,31 @@ class ChallengeTopPerformersSection extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(
-                    _extractValue(performer['value']),
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    _extractUnit(performer['value']),
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.white,
-                    ),
-                  ),
+                 Text(
+  _extractValue(performer['value']),
+  textAlign: TextAlign.right,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    height: 1.0, // 100% line height
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+),
+const SizedBox(height: 4),
+Text(
+  _extractUnit(performer['value']),
+  textAlign: TextAlign.right,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    height: 1.0,
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+),
                 ],
               ),
             ],
@@ -201,38 +219,46 @@ class ChallengeTopPerformersSection extends StatelessWidget {
             /// JOIN BUTTON
             if (onJoin != null)
               AppButton(
-                label: "Join Challenge",
-                onPressed: onJoin!,
-                type: AppButtonType.primary,
-                backgroundColor: AppColors.deepRed,
-                textColor: Colors.white,
-                width: double.infinity,
-                height: 50,
-                borderRadius: 12,
-                textStyle: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+  label: "Join Challenge",
+  onPressed: onJoin!,
+  type: AppButtonType.primary,
+  backgroundColor: AppColors.deepRed,
+  textColor: Colors.white,
+  width: double.infinity,
+  height: 50,
+  borderRadius: 12,
+  textStyle: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 17.46,
+    fontWeight: FontWeight.w400,
+    height: 1.5, // 26.13px line height
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+),
 
             const SizedBox(height: 25),
 
             /// MARK COMPLETE
-            AppButton(
-              label: "Mark as complete",
-              onPressed: onMarkComplete ?? () {},
-              type: AppButtonType.secondary,
-              borderColor: AppColors.deepRed,
-              textColor: AppColors.deepRed,
-              backgroundColor: Colors.transparent,
-              width: double.infinity,
-              height: 50,
-              borderRadius: 12,
-              textStyle: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+          AppButton(
+  label: "Mark as complete",
+  onPressed: onMarkComplete ?? () {},
+  type: AppButtonType.secondary,
+  borderColor: AppColors.deepRed,
+  textColor: AppColors.deepRed,
+  backgroundColor: Colors.transparent,
+  width: double.infinity,
+  height: 50,
+  borderRadius: 12,
+  textStyle: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    height: 1.5, // 24px line height
+    letterSpacing: 0,
+    color: AppColors.deepRed,
+  ),
+),
 
             const SizedBox(height: 25),
           ],

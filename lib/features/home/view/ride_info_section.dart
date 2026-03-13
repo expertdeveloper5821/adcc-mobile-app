@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/shared/widgets/ride_info_card.dart';
 import 'package:flutter/material.dart';
 
@@ -14,12 +15,17 @@ class RideInfoSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Section title
-          Text(
-            'Ride in Abu Dhabi',
-            style: theme.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.w700,
-            ),
-          ),
+Text(
+  'Ride in Abu Dhabi',
+  style: theme.textTheme.titleLarge?.copyWith(
+    fontFamily: 'Outfit',
+    fontWeight: FontWeight.w600,
+    fontSize: 20,
+    height: 1.0,
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
 
           const SizedBox(height: 12),
 

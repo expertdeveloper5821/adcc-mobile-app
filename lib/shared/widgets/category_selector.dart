@@ -39,12 +39,17 @@ class CategorySelector extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  categories[index],
-                  style: TextStyle(
-                    color: isSelected ? Colors.white : AppColors.textDark,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+  categories[index],
+  textAlign: TextAlign.center,
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    height: 1.2,
+    letterSpacing: 0,
+    color: isSelected ? Colors.white : AppColors.textDark,
+  ),
+),
               ),
             ),
           );

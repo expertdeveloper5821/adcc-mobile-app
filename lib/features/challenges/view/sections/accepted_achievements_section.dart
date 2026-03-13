@@ -14,14 +14,17 @@ class AcceptedAchievementsSection extends StatelessWidget {
     return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Achievements Unlocked',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            color: AppColors.charcoal,
-          ),
-        ),
+      Text(
+  'Achievements Unlocked',
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 20,
+    fontWeight: FontWeight.w500,
+    height: 1.5,
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
 
         SizedBox(height: 20),
 
@@ -90,25 +93,31 @@ class _AchievementCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color:Color(0XFF101828),
-                  ),
-                ),
+               Text(
+  title,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    height: 1,
+    letterSpacing: 0,
+    color: Color(0XFF101828),
+  ),
+),
 
                 const SizedBox(height: 4),
 
-                Text(
-                  subtitle,
-                  style: TextStyle(
-                    fontSize: 14,
-                     fontWeight: FontWeight.w500,
-                    color: AppColors.charcoal.withOpacity(0.7),
-                  ),
-                ),
+             Text(
+  subtitle,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    height: 1,
+    letterSpacing: 0,
+    color: Color(0xFF4A5565),
+  ),
+),
               ],
             ),
           ),

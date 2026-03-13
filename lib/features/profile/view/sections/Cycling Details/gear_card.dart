@@ -75,7 +75,7 @@ class GearCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Image.asset(
-              "assets/icons/location.png",
+               'assets/images/location.png',
               width: 10,
               height: 10,
               fit: BoxFit.contain,

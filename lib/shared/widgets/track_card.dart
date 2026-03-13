@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
-
+import 'dart:ui';
 class TrackCard extends StatelessWidget {
   final String imagePath; 
   final String title;
@@ -121,27 +121,23 @@ class TrackCard extends StatelessWidget {
                           ),
                         ),
 
-                        // Left chip
-                        Positioned(
-                          left: 12,
-                          top: 12,
-                          child: _SmallChip(
-                            text: difficulty,
-                          bg: const Color(0x26000000),
-                            fg: Colors.white,
-                          ),
-                        ),
+                      // Left chip
+Positioned(
+  left: 12,
+  top: 12,
+  child: _SmallChip(
+    text: difficulty,
+  ),
+),
 
-                        // Right chip
-                        Positioned(
-                          right: 12,
-                          top: 12,
-                          child: _SmallChip(
-                            text: status,
-                    bg: const Color(0x26000000),
-                            fg: Colors.white,
-                          ),
-                        ),
+// Right chip
+Positioned(
+  right: 12,
+  top: 12,
+  child: _SmallChip(
+    text: status,
+  ),
+),
                       ],
                     ),
                   ),
@@ -163,16 +159,19 @@ class TrackCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 6),
                             Expanded(
-                              child: Text(
-                                city,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black54,
-                                ),
-                              ),
+                              child:Text(
+  city,
+  maxLines: 1,
+  overflow: TextOverflow.ellipsis,
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.textDark.withValues(alpha: 0.8),
+  ),
+),
                             ),
                             const SizedBox(width: 10),
                             const _AssetIcon(
@@ -180,46 +179,53 @@ class TrackCard extends StatelessWidget {
                               size: 18,
                             ),
                             const SizedBox(width: 6),
-                            Text(
-                              distance,
-                              style: const TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w800,
-                                color: Colors.black54,
-                              ),
-                            ),
+                           Text(
+  distance,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.4, // 19.6 / 14
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
                           ],
                         ),
 
-                        const SizedBox(height: 10),
+                        const SizedBox(height:7 ),
 
                     
-                        Text(
-                          title,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 15.5,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.black,
-                          ),
-                        ),
+                    Text(
+  title,
+  maxLines: 2,
+  overflow: TextOverflow.ellipsis,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 15,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
 
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 14),
 
                  
                         Text(
-                          subtitle,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 12.5,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black45,
-                            height: 1.25,
-                          ),
-                        ),
-
+  subtitle,
+  maxLines: 2,
+  overflow: TextOverflow.ellipsis,
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 1.16, // 13.9441 / 12 ≈ 1.16
+    letterSpacing: 0,
+    color: AppColors.textDark.withValues(alpha: 0.7),
+  ),
+),
                         const Spacer(),
 
                       
@@ -254,32 +260,39 @@ class TrackCard extends StatelessWidget {
   }
 }
 
-
 class _SmallChip extends StatelessWidget {
   final String text;
-  final Color bg;
-  final Color fg;
 
   const _SmallChip({
     required this.text,
-    required this.bg,
-    required this.fg,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: bg,
-        borderRadius: BorderRadius.circular(999),
-      ),
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 11.5,
-          fontWeight: FontWeight.w800,
-          color: fg,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(999),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: Container(
+          height: 26,
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          decoration: BoxDecoration(
+            color: const Color(0x26000000), // #000000 15%
+            borderRadius: BorderRadius.circular(999),
+          ),
+          alignment: Alignment.center,
+          child:Text(
+  text,
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+),
         ),
       ),
     );
@@ -326,14 +339,17 @@ class _AmenityItem extends StatelessWidget {
       children: [
         _AssetIcon(assetPath: iconPath, size: 16),
         const SizedBox(width: 6),
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w800,
-            color: Colors.black54,
-          ),
-        ),
+      Text(
+  label,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 12.82, // 12.8226 ≈ 12.82
+    fontWeight: FontWeight.w400,
+    height: 1.33, // 17.0968 / 12.8226 ≈ 1.33
+    letterSpacing: 0,
+    color: Color(0xFF484A4D),
+  ),
+),
       ],
     );
   }

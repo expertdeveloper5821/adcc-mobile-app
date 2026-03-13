@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class LeaderboardSection extends StatelessWidget {
@@ -10,17 +11,21 @@ class LeaderboardSection extends StatelessWidget {
       children: const [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 2),
-          child: Text(
-            "Leaderboard",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          child:Text(
+  "Leaderboard",
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+)
         ),
-        SizedBox(height: 12),
+        SizedBox(height: 31),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 2),
+          padding: EdgeInsets.symmetric(horizontal: 0),
           child: Column(
             children: [
               _LeaderboardCard(
@@ -100,47 +105,62 @@ class _LeaderboardCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                   Text(
+  title,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: Color(0XFF101828)
+  ),
+),
                     const SizedBox(height: 4),
-                    Text(
-                      subtitle,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black54,
-                      ),
-                    ),
+                   Text(
+  subtitle,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: Color(0xFF4A5565),
+  ),
+)
                   ],
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 14),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                "Progress",
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              Text(
-                progressText,
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
+          const SizedBox(height: 9),
+Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    Text(
+      "Progress",
+      style: const TextStyle(
+        fontFamily: 'Outfit',
+        fontSize: 13,
+        fontWeight: FontWeight.w400,
+        height: 18.7066 / 13.0946, // ≈1.43
+        letterSpacing: 0,
+        color: AppColors.charcoal,
+      ),
+    ),
+    Text(
+      progressText,
+      style: const TextStyle(
+        fontFamily: 'Outfit',
+        fontSize: 13,
+        fontWeight: FontWeight.w400,
+        height: 18.7066 / 13.0946,
+        letterSpacing: 0,
+        color: AppColors.charcoal,
+      ),
+    ),
+  ],
+),
           const SizedBox(height: 6),
           ClipRRect(
             borderRadius: BorderRadius.circular(10),

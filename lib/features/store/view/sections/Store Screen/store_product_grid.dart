@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 class StoreProductGrid extends StatelessWidget {
@@ -101,14 +102,18 @@ class _StoreProductCard extends StatelessWidget {
               color: Colors.white,
             ),
             const SizedBox(width: 3),
-            Text(
-              product['location'],
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 10,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+           Text(
+  product['location'],
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Satoshi',
+    fontSize: 9.75,
+    fontWeight: FontWeight.w500,
+    height: 1.0,
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+),
           ],
         ),
       ),
@@ -124,15 +129,17 @@ class _StoreProductCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Text(
-                product['title'],
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  height: 1.5
-                ),
-              ),
+  product['title'],
+  maxLines: 1,
+  overflow: TextOverflow.ellipsis,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    height: 1.5,
+    letterSpacing: 0,
+  ),
+),
             ),
 
             const SizedBox(height: 4),
@@ -142,22 +149,29 @@ class _StoreProductCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Row(
                 children: [
-                  Text(
-                    product['price'],
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFFC12D32),
-                    ),
-                  ),
+                 Text(
+  product['price'],
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    height: 1.5,
+    letterSpacing: 0,
+    color: Color(0xFFC12D32),
+  ),
+),
                   const SizedBox(width: 6),
-                  Text(
-                    "•${product['timePosted']}",
-                    style: const TextStyle(
-                      fontSize: 10,
-                      color: Color(0xB31A1C20),
-                    ),
-                  )
+                Text(
+  "• ${product['timePosted']}",
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 10,
+    fontWeight: FontWeight.w400,
+    height: 1.1,
+    letterSpacing: 0,
+    color: AppColors.textDark.withOpacity(0.5),
+  ),
+),
                 ],
               ),
             ),
@@ -167,15 +181,19 @@ class _StoreProductCard extends StatelessWidget {
             /// POSTED BY
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Text(
-                "Posted by ${product['postedBy']}",
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 11,
-                  color: Color(0xB31A1C20),
-                ),
-              ),
+              child:Text(
+  "Posted by ${product['postedBy']}",
+  maxLines: 1,
+  overflow: TextOverflow.ellipsis,
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 11,
+    fontWeight: FontWeight.w400,
+    height: 1.0,
+    letterSpacing: 0,
+    color: AppColors.textDark.withOpacity(0.5),
+  ),
+),
             ),
           ],
         ),

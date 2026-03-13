@@ -50,14 +50,18 @@ class _ChallengeAcceptedScreenState extends State<ChallengeAcceptedScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const SizedBox(width: 40), // Spacer for centering
-                  const Text(
-                    'Challenge Complete!',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.charcoal,
-                    ),
-                  ),
+                  Text(
+  'Challenge Complete!',
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 24,
+    fontWeight: FontWeight.w600,
+    height: 1.0, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
                   GestureDetector(
                     onTap: () {
                       if (Navigator.of(context).canPop()) {

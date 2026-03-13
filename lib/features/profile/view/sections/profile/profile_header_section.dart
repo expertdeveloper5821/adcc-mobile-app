@@ -38,34 +38,17 @@ SizedBox(
       /// ---- Center Title ----
       const Center(
         child: Text(
-          'Profile',
-          style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-      ),
-
-      /// ---- Back Button (Left) ----
-      Positioned(
-        left: 16,
-        child: GestureDetector(
-          onTap: () => Navigator.pop(context),
-          child: Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.2),
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-              size: 20,
-            ),
-          ),
-        ),
+  'Profile',
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Geist',
+    fontSize: 25,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+)
       ),
     ],
   ),
@@ -88,25 +71,34 @@ SizedBox(
 
             const SizedBox(height: 16),
 
-            Text(
-              name,
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-              ),
-            ),
+           Text(
+  name,
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 21.6613,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0.22,
+    color: Colors.white,
+  ),
+),
 
             const SizedBox(height: 8),
 
      
-            Text(
-              '$location - $skillLevel',
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.white,
-              ),
-            ),
+           Text(
+  '$location - $skillLevel',
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1, // 100% line height
+    letterSpacing: 0.14,
+    color: Colors.white,
+  ),
+),
 
             const SizedBox(height: 32),
 
@@ -166,25 +158,34 @@ SizedBox(
         const SizedBox(height: 8),
 
 
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 17,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-          ),
-        ),
+      Text(
+  value,
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 17,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0.17,
+    color: Colors.white,
+  ),
+),
 
         const SizedBox(height: 4),
 
  
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 11,
-            color: Colors.white,
-          ),
-        ),
+      Text(
+  label,
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 11,
+    fontWeight: FontWeight.w400,
+    height: 1, // 100% line height
+    letterSpacing: 0.11,
+    color: Colors.white,
+  ),
+)
       ],
     );
   }

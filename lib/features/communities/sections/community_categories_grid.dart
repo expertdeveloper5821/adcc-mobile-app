@@ -98,18 +98,20 @@ class _CategoryCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                category.title,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textDark,
-                  height: 1.2,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
+             Text(
+  category.title,
+  textAlign: TextAlign.center,
+  maxLines: 2,
+  overflow: TextOverflow.ellipsis,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 13,
+    fontWeight: FontWeight.w500,
+    height: 1,
+    letterSpacing: 0,
+    color: Color(0xFF484A4D),
+  ),
+),
               const SizedBox(height: 12),
               Expanded(
                 child: Center(

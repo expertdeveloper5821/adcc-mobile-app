@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
@@ -86,22 +87,39 @@ class WeatherCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          l10n.currentLocation,
-                          style: TextStyle(
-                            color: theme.colorScheme.onSurface,
-                            fontSize: 18,
-                          ),
-                        ),
+  l10n.currentLocation,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 18,
+    fontWeight: FontWeight.w400,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
                         const SizedBox(height: 4),
-                        Text(
-                          city,
-                         style: TextStyle(
-                            color: theme.colorScheme.onSurface,
-                            fontSize: 16,
-                          ),
-                        ),
+                       Text(
+  city,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
                         const SizedBox(height: 12),
-                        Text(time, style: theme.textTheme.bodySmall),
+                       Text(
+  time,
+  style: theme.textTheme.bodySmall?.copyWith(
+    fontFamily: 'Outfit',
+    fontSize: 11,
+    fontWeight: FontWeight.w400,
+    color: AppColors.textDark,
+    height: 1,
+  ),
+)
                       ],
                     ),
                   ),
@@ -115,21 +133,34 @@ class WeatherCard extends StatelessWidget {
                         children: [
                           Image.asset(weatherIcon, width: 36, height: 36),
                           const SizedBox(width: 8),
-                          Text(
-                            '$temperature${l10n.temperatureUnit}',
-                            style: theme.textTheme.titleLarge?.copyWith(
-                              fontSize: 26,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
+                         Text(
+  '$temperature${l10n.temperatureUnit}',
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+)
                         ],
                       ),
                       const SizedBox(height: 8),
-                      Text(
-                        '${l10n.highTemp}:$highTemp${l10n.temperatureUnit}   '
-                        '${l10n.lowTemp}:$lowTemp${l10n.temperatureUnit}',
-                        style: theme.textTheme.bodySmall,
-                      ),
+                     Text(
+  '${l10n.highTemp}:$highTemp${l10n.temperatureUnit}   '
+  '${l10n.lowTemp}:$lowTemp${l10n.temperatureUnit}',
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 11,
+    fontWeight: FontWeight.w400,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+)
                     ],
                   ),
                 ],

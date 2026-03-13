@@ -53,16 +53,19 @@ final String iconPath;
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                 
-                      Text(
-                        title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 15.5,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.charcoal,
-                        ),
-                      ),
+                     Text(
+  title,
+  maxLines: 1,
+  overflow: TextOverflow.ellipsis,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 15.69, // 15.6872 ≈ 15.69
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
 
                       const SizedBox(height: 7.7248),
 
@@ -78,15 +81,18 @@ Row(
 
     Expanded(
       child: Text(
-        subtitle,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: const TextStyle(
-          fontSize: 12.5,
-          fontWeight: FontWeight.w700,
-          color: Color(0xFF6B6B6B),
-        ),
-      ),
+  subtitle,
+  maxLines: 1,
+  overflow: TextOverflow.ellipsis,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 1.42, // 17.0968 / 12 ≈ 1.42
+    letterSpacing: 0,
+    color: Color(0xFF484A4D),
+  ),
+),
     ),
   ],
 )

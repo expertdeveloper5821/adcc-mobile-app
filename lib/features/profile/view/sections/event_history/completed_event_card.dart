@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 class CompletedEventCard extends StatelessWidget {
@@ -69,14 +70,17 @@ Positioned(
           color: const Color(0xFF1A1C20).withOpacity(0.33),
           borderRadius: BorderRadius.circular(999),
         ),
-        child: Text(
-          status,
-          style: const TextStyle(
-            color: Color(0xFFFFEFD7),
-            fontSize: 11,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        child:Text(
+  status,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 16 / 12, 
+    letterSpacing: 0,
+    color: AppColors.softCream,
+  ),
+)
       ),
     ),
   ),
@@ -96,12 +100,16 @@ Positioned(
                 /// TITLE
                 Expanded(
                   child: Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+  title,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 15.6872,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+)
                 ),
 
                 /// DATE
@@ -113,13 +121,17 @@ Positioned(
                       color: Colors.black54,
                     ),
                     const SizedBox(width: 4),
-                    Text(
-                      date,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.black54,
-                      ),
-                    ),
+                   Text(
+  date,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+)
                   ],
                 )
               ],
@@ -132,12 +144,16 @@ Positioned(
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 14),
             child: Text(
-              "Community Ride",
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.black54,
-              ),
-            ),
+  "Community Ride",
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 11,
+    fontWeight: FontWeight.w400,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+)
           ),
 
           const SizedBox(height: 14),
@@ -188,23 +204,30 @@ class _InfoBox extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
 
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
+         Text(
+  title,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 10,
+    fontWeight: FontWeight.w400,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal
+  ),
+),
 
           const SizedBox(height: 4),
 
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+         Text(
+  value,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 15,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+  ),
+)
         ],
       ),
     );

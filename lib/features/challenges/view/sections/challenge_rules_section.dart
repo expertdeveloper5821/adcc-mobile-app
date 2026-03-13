@@ -17,13 +17,16 @@ class ChallengeRulesSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Challenge Rules',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: AppColors.charcoal,
-            ),
-          ),
+  'Challenge Rules',
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 1.0, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
           const SizedBox(height: 24),
           ...rules.map((rule) => Padding(
                 padding: const EdgeInsets.only(bottom: 12),
@@ -48,15 +51,17 @@ class ChallengeRulesSection extends StatelessWidget {
                     ),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: Text(
-                        rule,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0XFF525252),
-                          height: 1.3,
-                        ),
-                      ),
+                      child:Text(
+  rule,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.0, // 100% line height
+    letterSpacing: 0,
+    color: Color(0xFF525252),
+  ),
+),
                     ),
                   ],
                 ),

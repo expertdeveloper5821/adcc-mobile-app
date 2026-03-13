@@ -81,14 +81,17 @@ return Container(
                       ),
                     ),
                     const SizedBox(height: 4),
-                    Text(
-                      message,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
+                   Text(
+  message,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    height: 1.31, // 17 / 13 ≈ 1.31
+    letterSpacing: 0,
+    color:AppColors.textDark,
+  ),
+),
                   ],
                 )
               : Text(

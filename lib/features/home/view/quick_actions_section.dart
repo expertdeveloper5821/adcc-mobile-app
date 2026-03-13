@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:adcc/features/communities/view/community_screen.dart';
 import 'package:adcc/features/home/view/quick_action_item.dart';
 import 'package:adcc/features/store/view/Screen/store_screen.dart';
@@ -16,14 +17,18 @@ class QuickActionsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Quick Actions',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 16),
+      Text(
+  'Quick Actions',
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 20,
+    fontWeight: FontWeight.w400,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
+        const SizedBox(height: 21),
 
         GridView.count(
           crossAxisCount: 3,

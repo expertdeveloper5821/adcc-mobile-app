@@ -102,13 +102,17 @@ class ChallengeCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(999),
         ),
         child: Text(
-          difficulty,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+  difficulty,
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: "Segoe UI",
+    fontSize: 13.26,
+    fontWeight: FontWeight.w400,
+    height: 1.3, // 17.241px line height
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+),
       ),
     ),
   ),
@@ -120,13 +124,16 @@ class ChallengeCard extends StatelessWidget {
                     left: 16,
                     right: 16,
                     child: Text(
-                      title,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+  title,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 19.9,
+    fontWeight: FontWeight.w600,
+    height: 1.4, // 27.85px line height
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+),
                   ),
                 ],
               ),
@@ -143,15 +150,17 @@ class ChallengeCard extends StatelessWidget {
                 children: [
 
                   
-                  Text(
-                    description,
-                    style:  TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0XFF343434),
-                     height: 21.6618 / 15,
-                    ),
-                  ),
+                Text(
+  description,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 15.47,
+    fontWeight: FontWeight.w500,
+    height: 1.4, // 21.66px line height
+    letterSpacing: 0,
+    color: Color(0xFF343434),
+  ),
+),
 
                   const SizedBox(height: 19),
 
@@ -160,18 +169,27 @@ class ChallengeCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Progress",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: AppColors.textDark.withValues(alpha: 0.6),
-                        ),
-                      ),
-                      Text(
-                        "$progress / $target $unit",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w500,
-                        ),
-                      )
+  "Progress",
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 15.47,
+    fontWeight: FontWeight.w400,
+    height: 1.4, // 21.66px line height
+    letterSpacing: 0,
+    color: Color(0xFF5B5B5B),
+  ),
+),
+                  Text(
+  "$progress / $target $unit",
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 15.47,
+    fontWeight: FontWeight.w500,
+    height: 1.4, // 21.66px line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
                     ],
                   ),
 
@@ -208,13 +226,17 @@ class ChallengeCard extends StatelessWidget {
                                 height: 16,
                               ),
                               const SizedBox(width: 6),
-                              Text(
-                                "$daysLeft days left",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: AppColors.textDark.withValues(alpha: 0.6),
-                                ),
-                              ),
+                             Text(
+  "$daysLeft days left",
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 15.47,
+    fontWeight: FontWeight.w400,
+    height: 1.4, // 21.66px line height
+    letterSpacing: 0,
+    color: AppColors.textDark.withValues(alpha: 0.6),
+  ),
+),
                             ],
                           ),
 
@@ -231,10 +253,14 @@ class ChallengeCard extends StatelessWidget {
                               const SizedBox(width: 6),
                               Text(
                                 "$participants",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: AppColors.textDark.withValues(alpha: 0.6),
-                                ),
+                              style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 15.47,
+    fontWeight: FontWeight.w400,
+    height: 1.4, // 21.66px line height
+    letterSpacing: 0,
+    color: AppColors.textDark.withValues(alpha: 0.6),
+  ),
                               ),
                             ],
                           ),

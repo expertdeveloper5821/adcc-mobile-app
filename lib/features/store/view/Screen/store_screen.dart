@@ -214,38 +214,45 @@ StoreProductGrid(
         Expanded(
           // prevents overflow
           child: Text(
-            'Cycling Marketplace',
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.w600,
-              color: AppColors.textDark,
-            ),
-          ),
+  'Cycling Marketplace',
+  maxLines: 2,
+  overflow: TextOverflow.ellipsis,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 30,
+    fontWeight: FontWeight.w600,
+    height: 1.0,
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
         ),
         const SizedBox(width: 12),
-        AppButton(
-          label: '+ Sell',
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => const SellProductScreen(),
-              ),
-            );
-          },
-          type: AppButtonType.primary,
-          backgroundColor: AppColors.deepRed,
-          textColor: Colors.white,
-          width: 80,
-          height: 36,
-          borderRadius: 10,
-          textStyle: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+       AppButton(
+  label: '+ Sell',
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const SellProductScreen(),
+      ),
+    );
+  },
+  type: AppButtonType.primary,
+  backgroundColor: AppColors.deepRed,
+  textColor: Colors.white,
+  width: 80,
+  height: 36,
+  borderRadius: 10,
+  textStyle: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    height: 1.23,
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+),
       ],
     );
   }
@@ -257,14 +264,17 @@ StoreProductGrid(
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          'Showing $resultCount Result${resultCount != 1 ? 's' : ''}',
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            color: AppColors.textDark,
-          ),
-        ),
+       Text(
+  'Showing $resultCount Result${resultCount != 1 ? 's' : ''}',
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 1.0,
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
         GestureDetector(
           onTap: () {
            
@@ -280,13 +290,17 @@ StoreProductGrid(
 ),
               const SizedBox(width: 6),
               const Text(
-                'Filter',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.textDark,
-                ),
-              ),
+  'Filter',
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Satoshi',
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    height: 1.0,
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
             ],
           ),
         ),

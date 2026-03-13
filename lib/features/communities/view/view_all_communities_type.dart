@@ -117,7 +117,7 @@ class _CommunityTypeScreenState extends State<CommunityTypeScreen> {
               },
             ),
 
-            const SizedBox(height: 14),
+            const SizedBox(height: 35),
 
             Text(
               '${list.length} communities found',
@@ -128,7 +128,7 @@ class _CommunityTypeScreenState extends State<CommunityTypeScreen> {
               ),
             ),
 
-            const SizedBox(height: 18),
+            const SizedBox(height: 25),
 
             ...List.generate(list.length, (index) {
               final c = list[index];

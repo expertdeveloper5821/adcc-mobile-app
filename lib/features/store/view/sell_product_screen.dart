@@ -279,13 +279,17 @@ void dispose() {
           ),
         ),
         title: const Text(
-          'Sell your product',
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.w600,
-            color: AppColors.textDark,
-          ),
-        ),
+  "Sell your product",
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 22,
+    fontWeight: FontWeight.w600,
+    height: 1.0, // 100% line height
+    letterSpacing: 0,
+    color: Colors.black,
+  ),
+),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -458,18 +462,21 @@ _buildTextField(
                 SizedBox(
                   width: double.infinity,
                   child: AppButton(
-                    label: 'List Item for Sale',
-                    onPressed: _handleSubmit,
-                    type: AppButtonType.primary,
-                    backgroundColor: AppColors.deepRed,
-                    textColor: Colors.white,
-                    height: 50,
-                    borderRadius: 10,
-                    textStyle: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+  label: 'List Item for Sale',
+  onPressed: _handleSubmit,
+  type: AppButtonType.primary,
+  backgroundColor: AppColors.deepRed,
+  textColor: Colors.white,
+  height: 50,
+  borderRadius: 10,
+  textStyle: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    height: 1.5, // 24px line height
+    letterSpacing: 0,
+  ),
+),
                 ),
 
                 const SizedBox(height: 12),
@@ -478,13 +485,17 @@ _buildTextField(
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Text(
-                    'By listing your item, you agree to our terms of service and marketplace guidelines.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: AppColors.textDark.withValues(alpha: 0.6),
-                    ),
-                  ),
+  'By listing your item, you agree to our terms of service and marketplace guidelines.',
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 1.33, // 16px line height
+    letterSpacing: 0,
+    color: Color(0xFF6A7282),
+  ),
+),
                 ),
 
                 const SizedBox(height: 24),
@@ -524,22 +535,29 @@ _buildTextField(
                       color: AppColors.charcoal.withValues(alpha: 0.3),
                     ),
                     const SizedBox(height: 12),
-                    Text(
-                      'Tap to upload photos',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.charcoal.withValues(alpha: 0.6),
-                      ),
-                    ),
+                   Text(
+  'Tap to upload photos',
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.43, // 20px line height
+    letterSpacing: 0,
+    color: Color(0xFF99A1AF),
+  ),
+),
                     const SizedBox(height: 4),
-                    Text(
-                      'Up to 5 photos',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: AppColors.charcoal.withValues(alpha: 0.5),
-                      ),
-                    ),
+                  Text(
+  'Up to 5 photos',
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 1.33, // 16px line height
+    letterSpacing: 0,
+    color: Color(0xFF6A7282),
+  ),
+),
                   ],
                 ),
               ),
@@ -639,13 +657,16 @@ _buildTextField(
 
   Widget _buildSectionLabel(String label) {
     return Text(
-      label,
-      style: const TextStyle(
-        fontSize: 14,
-        fontWeight: FontWeight.w600,
-        color: AppColors.textDark,
-      ),
-    );
+  label,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    height: 1.0, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+);
   }
 
   Widget _buildTextField({
@@ -666,10 +687,15 @@ _buildTextField(
           maxLines: maxLines,
           validator: validator,
           decoration: InputDecoration(
-            hintText: placeholder,
-            hintStyle: TextStyle(
-              color: AppColors.charcoal.withValues(alpha: 0.5),
-            ),
+           hintText: placeholder,
+hintStyle: const TextStyle(
+  fontFamily: "Outfit",
+  fontSize: 16,
+  fontWeight: FontWeight.w400,
+  height: 1.0, // 100% line height
+  letterSpacing: 0,
+  color: Color(0xFFA0A0A0),
+),
             filled: true,
             fillColor: hasError
                 ? AppColors.deepRed.withValues(alpha: 0.05)
@@ -811,11 +837,16 @@ _buildTextField(
               fontSize: 14,
             ),
             hint: Text(
-              value,
-              style: TextStyle(
-                color: AppColors.charcoal.withValues(alpha: 0.5),
-              ),
-            ),
+  value,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    height: 1.0, // 100% line height
+    letterSpacing: 0,
+    color: Color(0xFFA0A0A0),
+  ),
+),
           ),
         ),
         if (hasError) ...

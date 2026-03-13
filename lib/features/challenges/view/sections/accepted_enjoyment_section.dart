@@ -41,14 +41,18 @@ class AcceptedEnjoymentSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'What did you enjoy?',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: AppColors.charcoal,
-            ),
-          ),
+         const Text(
+  'What did you enjoy?',
+  textAlign: TextAlign.center,
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 1,
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
 
           const SizedBox(height: 26),
 
@@ -121,18 +125,21 @@ class _EnjoymentCard extends StatelessWidget {
 
             const SizedBox(height: 11),
 
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: isSelected
-                    ? Colors.white
-                    : AppColors.charcoal,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
+           Text(
+  label,
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 13,
+    fontWeight: FontWeight.w500,
+    height: 1,
+    letterSpacing: 0,
+    color: isSelected
+        ? Colors.white
+        : AppColors.charcoal,
+  ),
+  maxLines: 1,
+  overflow: TextOverflow.ellipsis,
+),
           ],
         ),
       ),
