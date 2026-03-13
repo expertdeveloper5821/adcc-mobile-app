@@ -20,7 +20,7 @@ class AcceptedNewBadgeSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Color(0XFFFFFFFFFC),
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -73,31 +73,42 @@ class AcceptedNewBadgeSection extends StatelessWidget {
                 const SizedBox(height: 12),
                 // "New Badge Earned!" text
                 const Text(
-                  'New Badge Earned!',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.charcoal,
-                  ),
-                ),
+  'New Badge Earned!',
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    height: 1.75,
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
                 const SizedBox(height: 8),
                 // Badge name
-                Text(
-                  badgeName,
-                  style: const TextStyle(
-                    fontSize: 11,
-                    color: AppColors.charcoal,
-                  ),
-                ),
+              Text(
+  badgeName,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 11.3,
+    fontWeight: FontWeight.w400,
+    height: 2.4,
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
                 const SizedBox(height: 4),
                 // Badge description
-                Text(
-                  badgeDescription,
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: AppColors.charcoal.withValues(alpha: 0.7),
-                  ),
-                ),
+              Text(
+  badgeDescription,
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 10.5,
+    fontWeight: FontWeight.w400,
+    height: 1.2,
+    letterSpacing: 0,
+    color: AppColors.charcoal.withOpacity(0.7),
+  ),
+),
               ],
             ),
           ),

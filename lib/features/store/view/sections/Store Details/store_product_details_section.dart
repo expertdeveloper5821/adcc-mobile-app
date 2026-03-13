@@ -16,14 +16,17 @@ class StoreProductDetailsSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Product Details',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: AppColors.textDark,
-            ),
-          ),
+         Text(
+  'Product Details',
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 1.25,
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
           const SizedBox(height: 12),
           Wrap(
             spacing: 8,
@@ -35,14 +38,18 @@ class StoreProductDetailsSection extends StatelessWidget {
                   color: AppColors.dustyRose,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Text(
-                  detail,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.textDark,
-                  ),
-                ),
+                child:Text(
+  detail, // ensure string is already in Title Case
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    height: 1.0,
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
               );
             }).toList(),
           ),

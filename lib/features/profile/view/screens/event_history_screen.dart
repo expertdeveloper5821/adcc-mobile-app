@@ -58,26 +58,36 @@ Padding(
   mainAxisAlignment: MainAxisAlignment.spaceBetween,
   children: [
     const Text(
-      "Completed Events",
-      style: TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
+  "Completed Events",
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
 
     Row(
       children: const [
-        Text(
-          "View All",
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+       Text(
+  "View All",
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: Color(0xFF484A4D),
+  ),
+),
         SizedBox(width: 4),
         Icon(
           Icons.chevron_right,
           size: 18,
+              color: Color(0xFF484A4D),
         )
       ],
     )
@@ -132,12 +142,16 @@ CompletedEventCard(
     const Padding(
       padding: EdgeInsets.symmetric(horizontal: 2),
       child: Text(
-        "Upcoming Events",
-        style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+  "Upcoming Events",
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+)
     ),
 
     const SizedBox(height: 12),

@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class RecentlyPost extends StatelessWidget {
@@ -15,20 +16,35 @@ class RecentlyPost extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                "Recently Posted",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
+             Text(
+  "Recently Posted",
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 1.0,
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
               TextButton(
                 onPressed: () {},
                 child: const Row(
                   children: [
-                    Text("View All"),
+                   Text(
+  "View All",
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.0,
+    letterSpacing: 0,
+    color: Color(0xFF484A4D),
+  ),
+),
                     SizedBox(width: 4),
-                    Icon(Icons.chevron_right, size: 18)
+                    Icon(Icons.chevron_right, size: 18,color:Color(0xFF484A4D) ,)
                   ],
                 ),
               )
@@ -65,7 +81,7 @@ class RecentlyPostCard extends StatelessWidget {
       height: 253,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: Colors.white,
+        color: Colors.transparent,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +97,7 @@ class RecentlyPostCard extends StatelessWidget {
                 child: Image.asset(
                   "assets/images/bike.png",
                   width: 172,
-                  height: 150,
+                  height: 170,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -112,41 +128,65 @@ class RecentlyPostCard extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 8),
             child: Text(
-              "Trek Domane",
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 14,
-              ),
-            ),
+  "Trek Domane",
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontWeight: FontWeight.w600,
+    fontSize: 14,
+    height: 1.5,
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
           ),
 
-          const SizedBox(height: 4),
+          const SizedBox(height: 1),
 
-          /// POSTED BY
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8),
-            child: Text(
-              "Posted by Mahmoud shaalan",
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.grey,
-              ),
-            ),
+        /// POSTED BY
+Padding(
+  padding: const EdgeInsets.symmetric(horizontal: 8),
+  child: RichText(
+    text: TextSpan(
+      style: const TextStyle(
+        fontFamily: 'Outfit',
+        fontSize: 10,
+        fontWeight: FontWeight.w400,
+        height: 1.5,
+        letterSpacing: 0,
+      ),
+      children: [
+        TextSpan(
+          text: "Posted by ",
+          style: TextStyle(
+            color: const Color(0xFF1A1C20).withOpacity(0.6), // light
           ),
+        ),
+        const TextSpan(
+          text: "Mahmoud shaalan",
+          style: TextStyle(
+            color: Color(0xFF1A1C20), // dark
+          ),
+        ),
+      ],
+    ),
+  ),
+),
 
           const SizedBox(height: 6),
 
-          /// PRICE
-          const Padding(
+        Padding(
             padding: EdgeInsets.symmetric(horizontal: 8),
             child: Text(
-              "7500 AED",
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Colors.red,
-              ),
-            ),
+  "7500 AED",
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 14,
+    fontWeight: FontWeight.w700,
+    height: 1.5,
+    letterSpacing: 0,
+    color: AppColors.deepRed,
+  ),
+),
           ),
         ],
       ),

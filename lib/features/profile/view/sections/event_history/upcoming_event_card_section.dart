@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class UpcomingEventCard extends StatelessWidget {
@@ -42,14 +43,18 @@ class UpcomingEventCard extends StatelessWidget {
 
           const SizedBox(height: 10),
 
-          /// TITLE
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+        /// TITLE
+Text(
+  title,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
 
           const SizedBox(height: 6),
 
@@ -64,14 +69,17 @@ class UpcomingEventCard extends StatelessWidget {
               ),
 
               const SizedBox(width: 4),
-
-              Text(
-                date,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.black54,
-                ),
-              ),
+Text(
+  date,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 20 / 14, // ≈1.43
+    letterSpacing: 0,
+    color: Color(0xFF505050),
+  ),
+),
 
               const SizedBox(width: 12),
 
@@ -85,10 +93,14 @@ class UpcomingEventCard extends StatelessWidget {
 
               Text(
                 distance,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.black54,
-                ),
+               style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 20 / 14, // ≈1.43
+    letterSpacing: 0,
+    color: Color(0xFF505050),
+  ),
               ),
             ],
           ),
@@ -109,13 +121,17 @@ class UpcomingEventCard extends StatelessWidget {
               ),
             ),
             child: const Text(
-              "View Details",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+  "View Details",
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+)
           )
         ],
       ),

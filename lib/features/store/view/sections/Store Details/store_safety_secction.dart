@@ -37,32 +37,35 @@ class StoreSafetySection extends StatelessWidget {
             const Positioned(
               left: 47,
               top: 15,
-              child: Text(
-                "Safety Tips",
-                style: TextStyle(
-                  fontFamily: "Outfit",
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.charcoal,
-                ),
-              ),
+              child:Text(
+  "Safety Tips",
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    height: 1.0,
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
             ),
 
-            const Positioned(
+          Positioned(
               left: 47,
               top: 39,
               child: SizedBox(
                 width: 276,
                 child: Text(
-                  "Meet the seller in a safe public place and inspect the item before payment.",
-                  style: TextStyle(
-                    fontFamily: "Outfit",
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: Color(0xB21A1C20),
-                    height: 1.1,
-                  ),
-                ),
+  "Meet the seller in a safe public place and inspect the item before payment.",
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 1.0,
+    letterSpacing: 0,
+    color: AppColors.textDark.withOpacity(0.7),
+  ),
+),
               ),
             ),
           ],

@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'api_interceptor.dart';
 
 class ApiConfig {
-  static const String baseUrl = 'https://adcc-b4f3.onrender.com';
+  static const String baseUrl = 'http://13.126.184.69:4000/';
   static const Duration connectTimeout = Duration(seconds: 30);
   static const Duration receiveTimeout = Duration(seconds: 30);
   static const Duration sendTimeout = Duration(seconds: 30);

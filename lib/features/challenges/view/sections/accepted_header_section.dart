@@ -41,24 +41,33 @@ class AcceptedHeaderSection extends StatelessWidget {
 
         const SizedBox(height: 22),
 
-        const Text(
-          'Challenge Complete!',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-            color: AppColors.charcoal,
-          ),
-        ),
+       Text(
+  'Challenge Complete!',
+  textAlign: TextAlign.center,
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 24,
+    fontWeight: FontWeight.w600, // SemiBold
+    height: 1, // Line height 100%
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
 
         const SizedBox(height: 4),
 
-        Text(
-          'How was your experience?',
-          style: TextStyle(
-            fontSize: 16,
-            color: Color(0XFF554E4E),
-          ),
-        ),
+      Text(
+  'How was your experience?',
+  textAlign: TextAlign.center,
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 14.5,
+    fontWeight: FontWeight.w400,
+    height: 1.5,
+    letterSpacing: 0,
+    color: Color(0XFF554E4E),
+  ),
+),
       ],
     );
   }

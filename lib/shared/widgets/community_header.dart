@@ -130,16 +130,18 @@ class _CommunityHeaderState extends State<CommunityHeader> {
               bottom: 16,
               child: Column(
                 children: [
-                  Text(
-                    widget.title,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
-                      height: 1.1,
-                    ),
-                  ),
+                 Text(
+  widget.title,
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 22,
+    fontWeight: FontWeight.w600,
+    color: Colors.white,
+    height: 1,
+    letterSpacing: 0,
+  ),
+),
 
                   if (widget.wantSearchBar) ...[
                     const SizedBox(height: 14),
@@ -188,13 +190,16 @@ ClipRRect(
                 fontWeight: FontWeight.w500,
               ),
               decoration: InputDecoration(
-                hintText: widget.placeholder ??
-                    "Search by track name, city, distance or terrain...",
-                hintStyle: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                ),
+               hintText: widget.placeholder ??
+    "Search by track name, city, distance or terrain...",
+hintStyle: const TextStyle(
+  fontFamily: "Outfit",
+  color: Colors.white,
+  fontSize: 12,
+  fontWeight: FontWeight.w400,
+  height: 1,
+  letterSpacing: -0.1,
+),
                 border: InputBorder.none,
                 isDense: true,
                 contentPadding: EdgeInsets.zero,

@@ -47,20 +47,24 @@ Align(
 ),
 
                   const Spacer(),
-                  const Text(
-                    "My Communities",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.black,
-                    ),
-                  ),
+                 const Text(
+  "My Communities",
+  textAlign: TextAlign.center,
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 22,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: Colors.black,
+  ),
+),
                   const Spacer(),
                   const SizedBox(width: 38),
                 ],
               ),
 
-              const SizedBox(height: 18),
+              const SizedBox(height: 46),
 
               /// LIST (SAME CommunityListCard)
               Expanded(

@@ -161,14 +161,16 @@ final events = c.eventsCount != null
               children: [
                 Expanded(
                   child: Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w900,
-                      color: Color(0xFFC12D32),
-                      height: 1.1,
-                    ),
-                  ),
+  title,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 22,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: Color(0xFFC12D32),
+  ),
+),
                 ),
                 const SizedBox(width: 12),
                 _ShareBadge(onTap: () {}),
@@ -177,16 +179,18 @@ final events = c.eventsCount != null
 
             const SizedBox(height: 12),
 
-            // Description
-            Text(
-              description,
-              style: const TextStyle(
-                fontSize: 13,
-                height: 1.35,
-                fontWeight: FontWeight.w500,
-                color: AppColors.textDark,
-              ),
-            ),
+           // Description
+Text(
+  description,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
 
             const SizedBox(height: 25),
 
@@ -201,14 +205,17 @@ final events = c.eventsCount != null
 
             const SizedBox(height: 31),
 
-            const Text(
-              "Community Highlights",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w900,
-                color: Colors.black,
-              ),
-            ),
+       Text(
+  "Community Highlights",
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color:AppColors.charcoal,
+  ),
+),
 
             const SizedBox(height: 14),
 
@@ -246,7 +253,15 @@ final events = c.eventsCount != null
   textColor: Colors.white,
   borderRadius: 16,
   height: 52,
-),
+  textStyle: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 17.46, // 17.4634 ≈ 17.46
+    fontWeight: FontWeight.w400,
+    height: 1.50, // 26.1369 / 17.4634
+    letterSpacing: 0,
+  ),
+ 
+         ),
           ],
         ),
       ),
@@ -386,10 +401,10 @@ class _InfoGrid extends StatelessWidget {
       required String value,
     }) {
       return Container(
-        padding: const EdgeInsets.all(14),
+        padding: const EdgeInsets.all(19),
         decoration: BoxDecoration(
           color: const Color(0xFFFFEFD7),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -406,24 +421,30 @@ class _InfoGrid extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    label,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.charcoal,
-                    ),
-                  ),
+  label,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 12.44, // 12.437 ≈ 12.44
+    fontWeight: FontWeight.w400,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
                   const SizedBox(height: 4),
-                  Text(
-                    value,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.charcoal,
-                    ),
-                  ),
+                 Text(
+  value,
+  maxLines: 2,
+  overflow: TextOverflow.ellipsis,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
                 ],
               ),
             ),
@@ -480,86 +501,94 @@ class _HighlightsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-Widget row({
-  required IconData icon,
-  required String label,
-  required String value,
-}) {
-  return Container(
-    width: 358,
-    height: 49,
-    padding: const EdgeInsets.symmetric(horizontal: 12),
-    decoration: BoxDecoration(
-      color: const Color(0xFFFFF3E2), // #FFF3E2
-      borderRadius: BorderRadius.circular(9.95),
-    ),
-    child: Row(
-      children: [
 
-        /// ICON CONTAINER
-        Container(
-          width: 30,
-          height: 30,
-          decoration: BoxDecoration(
-            color: const Color(0xFFF0DDAF), // #F0DDAF
-            borderRadius: BorderRadius.circular(54),
-          ),
-          alignment: Alignment.center,
-          child: Icon(
-            icon,
-            size: 16,
-            color: const Color(0xFF333333),
-          ),
+    Widget row({
+      required String iconPath,
+      required String label,
+      required String value,
+    }) {
+      return Container(
+        width: 358,
+        height: 49,
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFFF3E2),
+          borderRadius: BorderRadius.circular(9.95),
         ),
+        child: Row(
+          children: [
 
-        const SizedBox(width: 9),
-
-        /// LABEL
-        SizedBox(
-          width: 150,
-          child: Text(
-            label,
-            style: const TextStyle(
-             
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              color: AppColors.charcoal,
+            /// ICON CONTAINER
+            Container(
+              width: 30,
+              height: 30,
+              decoration: BoxDecoration(
+                color: const Color(0xFFF0DDAF),
+                borderRadius: BorderRadius.circular(54),
+              ),
+              alignment: Alignment.center,
+              child: Image.asset(
+                iconPath,
+                height: 16,
+                width: 16,
+                fit: BoxFit.contain,
+              ),
             ),
-          ),
-        ),
 
-        const Spacer(),
+            const SizedBox(width: 9),
 
-        /// VALUE
-        Text(
-          value,
-          style: const TextStyle(
-            fontFamily: "Outfit",
-            fontSize: 15,
-            fontWeight: FontWeight.w600,
-            color: Color(0xFF333333),
-          ),
+            /// LABEL
+            SizedBox(
+              width: 150,
+              child: Text(
+                label,
+                style: const TextStyle(
+                  fontFamily: "Outfit",
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  height: 1,
+                  letterSpacing: 0,
+                  color: AppColors.charcoal,
+                ),
+              ),
+            ),
+
+            const Spacer(),
+
+            /// VALUE
+            Text(
+              value,
+              textAlign: TextAlign.right,
+              style: const TextStyle(
+                fontFamily: "Outfit",
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                height: 1,
+                letterSpacing: 0,
+                color: AppColors.charcoal,
+              ),
+            ),
+          ],
         ),
-      ],
-    ),
-  );
-}
+      );
+    }
+
     return Column(
       children: [
         row(
-          icon: Icons.groups_rounded,
+          iconPath: "assets/images/active_member.png",
           label: "Active Members",
           value: "740+",
         ),
         const SizedBox(height: 10),
         row(
-          icon: Icons.route_rounded,
+          iconPath: "assets/images/total_distance.png",
           label: "Total Distance This Month",
           value: "6,300 Km",
         ),
         const SizedBox(height: 10),
         row(
-          icon: Icons.star_rounded,
+          iconPath: "assets/images/avg_ride.png",
           label: "Average Ride Rating",
           value: "4.5",
         ),
@@ -567,7 +596,6 @@ Widget row({
     );
   }
 }
-
 class _TabsRow extends StatelessWidget {
   final List<String> tabs;
   final int selectedIndex;
@@ -605,16 +633,20 @@ class _TabsRow extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               alignment: Alignment.center,
-              child: Text(
-                tabs[index],
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: isSelected ? Colors.white : AppColors.textDark,
-                ),
-              ),
+              child:Text(
+  tabs[index],
+  maxLines: 1,
+  overflow: TextOverflow.ellipsis,
+  textAlign: TextAlign.center,
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.43, // 20 / 14 ≈ 1.43
+    letterSpacing: 0,
+    color: isSelected ? Colors.white : AppColors.textDark,
+  ),
+),
             ),
           );
         },

@@ -44,14 +44,17 @@ class StoreSellerSection extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      sellerName,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.textDark,
-                      ),
-                    ),
+                   Text(
+  sellerName,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    height: 1.0,
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
                     const SizedBox(height: 4),
                     Row(
                       children: [
@@ -63,13 +66,17 @@ class StoreSellerSection extends StatelessWidget {
     ),
 
                         const SizedBox(width: 4),
-                        Text(
-                          sellerLocation,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: AppColors.textDark.withValues(alpha: 0.6),
-                          ),
-                        ),
+                       Text(
+  sellerLocation,
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.0,
+    letterSpacing: 0,
+    color: AppColors.textDark.withOpacity(0.6),
+  ),
+),
                         const SizedBox(width: 8),
                         Container(
                           width: 4,
@@ -82,10 +89,15 @@ class StoreSellerSection extends StatelessWidget {
                         const SizedBox(width: 8),
                         Text(
                           '$listingCount listings',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: AppColors.textDark.withValues(alpha: 0.6),
-                          ),
+                         style: TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.0,
+    letterSpacing: 0,
+    color: AppColors.textDark.withOpacity(0.6),
+  ),
+
                         ),
                       ],
                     ),
@@ -110,14 +122,17 @@ class StoreSellerSection extends StatelessWidget {
                         size: 14,
                       ),
                       const SizedBox(width: 4),
-                      Text(
-                        rating.toStringAsFixed(1),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                     Text(
+  rating.toStringAsFixed(1),
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    height: 1.0,
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+),
                     ],
                   ),
                 ),

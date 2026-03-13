@@ -4,6 +4,7 @@ import 'package:adcc/features/communities/sections/my_community_screen.dart';
 import 'package:adcc/shared/widgets/adaptive_image.dart';
 import 'package:adcc/shared/widgets/app_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class JoinCommunity extends StatefulWidget {
   final CommunityModel community;
@@ -115,33 +116,37 @@ Center(
 ),
                               const SizedBox(height: 12),
 
-                              /// TITLE
-                              const Text(
-                                "Welcome to the\nCommunity!",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w900,
-                                  color: Color(0xFF1E1E1E),
-                                  height: 1.15,
-                                ),
-                              ),
+/// TITLE
+const Text(
+  "Welcome to the\nCommunity!",
+  textAlign: TextAlign.center,
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 30,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
 
                               const SizedBox(height: 7),
 
-                              /// SUBTITLE
-                              Text(
-                                "You have successfully joined\n$title",
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xFF6B6B6B),
-                                  height: 1.35,
-                                ),
-                              ),
+                            /// SUBTITLE
+Text(
+  "You have successfully joined\n$title",
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
 
-                              const SizedBox(height: 18),
+                              const SizedBox(height: 24),
 
                               /// COMMUNITY CARD
                               _JoinedCommunityCard(
@@ -153,21 +158,24 @@ Center(
 
                               const SizedBox(height: 18),
 
-                              /// WHAT'S NEXT
-                              const Text(
-                                "What's Next?",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w900,
-                                  color: Colors.black,
-                                ),
-                              ),
+                             /// WHAT'S NEXT
+const Text(
+  "What's Next?",
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
 
                               const SizedBox(height: 12),
 
                               /// OPTIONS
                               _NextOptionTile(
-                                icon: Icons.notifications_active_rounded,
+                                 iconPath: "assets/images/notification_enable.png",
                                 title: "Notifications Enabled",
                                 onTap: () {
                                   // Navigate to notifications settings
@@ -181,7 +189,7 @@ Center(
                               ),
                               const SizedBox(height: 10),
                               _NextOptionTile(
-                                icon: Icons.chat_bubble_rounded,
+                              iconPath: "assets/images/whatsup.png",
                                 title: "Join Community Chats",
                                 onTap: () {
                                   // Navigate to community chats
@@ -195,7 +203,7 @@ Center(
                               ),
                               const SizedBox(height: 10),
                               _NextOptionTile(
-                                icon: Icons.calendar_month_rounded,
+                           iconPath: "assets/icons/add_calendar.png",
                                 title: "Upcoming Events",
                                 onTap: () {
                                   // Navigate to community events
@@ -234,7 +242,15 @@ Center(
                         textColor: Colors.white,
                         borderRadius: 16,
                         height: 52,
-                      ),
+                    textStyle: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    height: 1.5,
+    letterSpacing: 0,
+  ),
+ 
+),
                     ],
                   ),
                 ),
@@ -288,28 +304,33 @@ class _JoinedCommunityCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w900,
-                          color: AppColors.charcoal,
-                        ),
-                      ),
+                     Text(
+  title,
+  maxLines: 1,
+  overflow: TextOverflow.ellipsis,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
                       const SizedBox(height: 6),
-                      const Text(
-                        "The main cycling community in\nAbu Dhabi, bringing together...",
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 12,
-                          height: 1.3,
-                          fontWeight: FontWeight.w700,
-                          color: Color(0xFF33333335),
-                        ),
-                      ),
+                     Text(
+  "The main cycling community in\nAbu Dhabi, bringing together...",
+  maxLines: 2,
+  overflow: TextOverflow.ellipsis,
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal.withValues(alpha: 0.6),
+  ),
+),
                     ],
                   ),
                 ),
@@ -378,25 +399,31 @@ class _MiniInfoBox extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xFF6B6B6B),
-                  ),
-                ),
+              Text(
+  title,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 10.89, 
+    fontWeight: FontWeight.w400,
+    height: 1.33,
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
                 const SizedBox(height: 4),
-                Text(
-                  value,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.black,
-                  ),
-                ),
+              Text(
+  value,
+  maxLines: 1,
+  overflow: TextOverflow.ellipsis,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 12.7, // 12.7012 ≈ 12.7
+    fontWeight: FontWeight.w500,
+    height: 1.43, // 18.1446 / 12.7012 ≈ 1.43
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
               ],
             ),
           ),
@@ -407,16 +434,17 @@ class _MiniInfoBox extends StatelessWidget {
 }
 
 class _NextOptionTile extends StatelessWidget {
-  final IconData icon;
+  final String iconPath;
   final String title;
   final VoidCallback onTap;
 
   const _NextOptionTile({
-    required this.icon,
+    required this.iconPath,
     required this.title,
     required this.onTap,
   });
 
+  bool get isSvg => iconPath.endsWith(".svg");
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -431,13 +459,30 @@ class _NextOptionTile extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              height: 38,
-              width: 38,
+              height:54 ,
+              width: 54,
               decoration: BoxDecoration(
                 color: AppColors.goldenOchre,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(icon, size: 20, color: Colors.white),
+             child: Center(
+                child: isSvg
+                    ? SvgPicture.asset(
+                        iconPath,
+                        height: 27,
+                        width: 27,
+                        colorFilter: const ColorFilter.mode(
+                          Colors.white,
+                          BlendMode.srcIn,
+                        ),
+                      )
+                    : Image.asset(
+                        iconPath,
+                        height: 27,
+                        width: 27,
+                        color: Colors.white,
+                      ),
+              ),
             ),
             const SizedBox(width: 12),
             Expanded(

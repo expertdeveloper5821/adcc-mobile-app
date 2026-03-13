@@ -11,7 +11,7 @@ class PromoCarousel extends StatefulWidget {
 class _PromoCarouselState extends State<PromoCarousel> {
 
   final PageController _controller = PageController(
-    viewportFraction: 0.86,
+    viewportFraction: 0.92,
     initialPage: 1,
   );
 

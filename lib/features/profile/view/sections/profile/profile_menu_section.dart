@@ -155,13 +155,16 @@ Widget build(BuildContext context) {
                 ),
                 const SizedBox(width: 16),
                 Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.charcoal,
-                  ),
-                ),
+  title,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 13.1376,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0.13,
+    color: AppColors.charcoal,
+  ),
+)
               ],
             ),
             const Icon(

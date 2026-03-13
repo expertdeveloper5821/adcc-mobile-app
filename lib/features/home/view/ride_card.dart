@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class RideCard extends StatelessWidget {
@@ -66,13 +67,16 @@ class RideCard extends StatelessWidget {
                   bottom: 14,
                   right: 16,
                   child: Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                  ),
+  title,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+)
                 ),
               ],
             ),
@@ -91,13 +95,17 @@ class RideCard extends StatelessWidget {
                   height: 18,
                 ),
                 const SizedBox(width: 6),
-                Text(
-                  members,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+               Text(
+  members,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+)
               ],
             ),
           ),
@@ -118,14 +126,18 @@ class RideCard extends StatelessWidget {
                   color: const Color(0xFFC12D32),
                   borderRadius: BorderRadius.circular(9.1),
                 ),
-                child: Text(
-                  buttonText,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                child:Text(
+  buttonText,
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+)
               ),
             ),
           ),

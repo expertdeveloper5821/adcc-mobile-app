@@ -71,9 +71,9 @@ Positioned(
         constraints: const BoxConstraints(minWidth: 60),
         padding: const EdgeInsets.only(
           top: 4,
-          right: 11,
+          right: 8,
           bottom: 4,
-          left: 12,
+          left: 8,
         ),
         decoration: BoxDecoration(
           color: const Color(0xFF1A1C20).withOpacity(0.33),
@@ -81,15 +81,19 @@ Positioned(
         ),
         alignment: Alignment.center,
         child: Text(
-          community.category.isNotEmpty
-              ? community.category.first
-              : "Racing",
-          style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w400,
-            color: Color(0xFFFFEFD7),
-          ),
-        ),
+  community.category.isNotEmpty
+      ? community.category.first
+      : "Racing",
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 1.33, // 16px / 12px = 1.33 line height
+    letterSpacing: 0,
+    color: Color(0xFFFFEFD7),
+  ),
+),
       ),
     ),
   ),
@@ -105,33 +109,36 @@ Positioned(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        /// Title
-                        Text(
-                          community.title,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.textDark,
-                            height: 1.1,
-                          ),
-                        ),
+                       Text(
+  community.title,
+  maxLines: 1,
+  overflow: TextOverflow.ellipsis,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
 
                         const SizedBox(height: 5),
 
                
                         Text(
-                          community.description,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            height: 1.2,
-                            color: AppColors.charcoal.withValues(alpha: 0.70),
-                          ),
-                        ),
+  community.description,
+  maxLines: 2,
+  overflow: TextOverflow.ellipsis,
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 1.16, // 13.9441 / 12 ≈ 1.16
+    letterSpacing: 0,
+    color: AppColors.textDark.withValues(alpha: 0.7), // textDark 70%
+  ),
+),
 
                         const Spacer(),
 
@@ -145,15 +152,17 @@ Positioned(
       color: AppColors.charcoal.withValues(alpha: 0.70),
     ),
     const SizedBox(width: 6),
-    Text(
-      '${community.membersCount ?? 0} members',
-      style: TextStyle(
-        fontSize: 11.5,
-        fontWeight: FontWeight.w800,
-        color: AppColors.charcoal.withValues(alpha: 0.70),
-      ),
-    ),
-
+   Text(
+  '${community.membersCount ?? 0} members',
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 1.42, // 17.0968 / 12 ≈ 1.42
+    letterSpacing: 0,
+    color: Color(0xFF484A4D),
+  ),
+),
     const SizedBox(width: 14),
 
     Image.asset(
@@ -163,14 +172,17 @@ Positioned(
       color: AppColors.charcoal.withValues(alpha: 0.70),
     ),
     const SizedBox(width: 6),
-    Text(
-      '${community.eventsCount ?? 0} events',
-      style: TextStyle(
-        fontSize: 11.5,
-        fontWeight: FontWeight.w800,
-        color: AppColors.charcoal.withValues(alpha: 0.70),
-      ),
-    ),
+Text(
+  '${community.eventsCount ?? 0} events',
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 1.42, // 17.0968 / 12 ≈ 1.42
+    letterSpacing: 0,
+    color: Color(0xFF484A4D),
+  ),
+),
 
     const Spacer(),
 
@@ -213,14 +225,17 @@ class _AvatarStack extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 6),
-        Text(
-          countText,
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w400,
-            color: Color(0XFF484A4D),
-          ),
-        ),
+      Text(
+  countText,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 1.42, // 17.0968 / 12 ≈ 1.42
+    letterSpacing: 0,
+    color: Color(0XFF484A4D),
+  ),
+),
       ],
     );
   }

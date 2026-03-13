@@ -76,59 +76,71 @@ class PromoCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
-                Text(
-                  data.title,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
-                    height: 1.2,
-                  ),
-                ),
+               Text(
+  data.title,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 23.2228,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+),
 
                 const Spacer(),
 
-                Text(
-                  data.subtitle,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: Colors.white70,
-                  ),
-                ),
-
+              Text(
+  data.subtitle,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 12.5,
+    fontWeight: FontWeight.w400,
+    height: 1.31,
+    letterSpacing: 0,
+    color: Colors.white70,
+  ),
+),
                 const SizedBox(height: 2),
 
                 Row(
                   children: [
 
-                    Expanded(
-                      child: Text(
-                        data.highlight,
-                        style: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
+                  Expanded(
+  child: Text(
+    data.highlight,
+    style: const TextStyle(
+      fontFamily: 'Outfit',
+      fontSize: 16.6667,
+      fontWeight: FontWeight.w700,
+      height: 1.31,
+      letterSpacing: 0,
+      color: Colors.white,
+    ),
+  ),
+),
 
                     Container(
                       width: 99,
-                      height: 29,
-                      padding: const EdgeInsets.fromLTRB(2, 6, 2, 7),
+                      height: 28.5,
+
                       decoration: BoxDecoration(
                         color: const Color(0xFFFFF9EF),
                         borderRadius: BorderRadius.circular(17),
                       ),
                       child: const Center(
                         child: Text(
-                          "Find a ride",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFFC12D32),
-                          ),
-                        ),
+  "Find a ride",
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
+    height: 1.25,
+    letterSpacing: 0,
+    color: Color(0xFFC12D32),
+  ),
+)
                       ),
                     ),
 

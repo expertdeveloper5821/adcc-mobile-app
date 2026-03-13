@@ -12,7 +12,7 @@ class ListingsScreen extends StatelessWidget {
       width: 357,
       height: 268,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.softCream,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
@@ -63,14 +63,18 @@ class ListingsScreen extends StatelessWidget {
                         color: Colors.white,
                       ),
                       SizedBox(width: 3),
-                      Text(
-                        "Sharjah",
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      )
+                     Text(
+  "Sharjah",
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: "Satoshi",
+    fontSize: 9.75,
+    fontWeight: FontWeight.w500,
+    height: 1.0, // 100% line height
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+)
                     ],
                   ),
                 ),
@@ -87,35 +91,45 @@ class ListingsScreen extends StatelessWidget {
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                        "Trek Domane",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.textDark,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        "Posted by Mahmoud shaalan • 2 days ago",
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: AppColors.textDark,
-                        ),
-                      ),
+                    children:  [
+                     Text(
+  "Trek Domane",
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    height: 1.5, // 150% line height
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
+                      SizedBox(height: 3),
+                     Text(
+  "Posted by Mahmoud shaalan • 2 days ago",
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 11,
+    fontWeight: FontWeight.w400,
+    height: 1.0, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.textDark.withValues(alpha: 0.5),
+  ),
+),
                     ],
                   ),
                 ),
                 const SizedBox(width: 8),
-                const Text(
-                  "7500 AED",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.deepRed,
-                  ),
-                ),
+              Text(
+  "7500 AED",
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    height: 1.5, 
+    letterSpacing: 0,
+    color: AppColors.deepRed,
+  ),
+),
               ],
             ),
           ),
@@ -200,13 +214,31 @@ class ListingsScreen extends StatelessWidget {
     Tab(
       child: Align(
         alignment: Alignment.center,
-        child: Text("Active listings"),
+        child: const Text(
+  "Active listings",
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    height: 1.0,
+    letterSpacing: 0,
+  ),
+),
       ),
     ),
     Tab(
       child: Align(
         alignment: Alignment.center,
-        child: Text("Sold items"),
+      child: const Text(
+  "Sold items",
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    height: 1.0, // 100% line height
+    letterSpacing: 0,
+  ),
+),
       ),
     ),
   ],

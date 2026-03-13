@@ -24,22 +24,24 @@ class ShareAchievementsButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/icons/share.png',
-                width: 30,
-                height: 30,
+                'assets/icons/share_2.png',
+                width: 20,
+                height: 20,
                 fit: BoxFit.contain,
+                color: Colors.white,
               ),
               const SizedBox(width: 7.2443),
-              const Text(
-                "Share My Achievements",
-                style: TextStyle(
-                  fontSize: 14.5157,
-                  fontWeight: FontWeight.w400,
-                  height: 21.7735 / 14.5157,
-                  letterSpacing: 0,
-                  color: Colors.white,
-                ),
-              ),
+             Text(
+  "Share My Achievements",
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 14.5157,
+    fontWeight: FontWeight.w400,
+    height: 21.7735 / 14.5157, // ≈1.5
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+)
             ],
           ),
         ),

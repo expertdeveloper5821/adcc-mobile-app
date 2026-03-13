@@ -16,14 +16,18 @@ class AcceptedDifficultySection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'How was the difficulty?',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            color: AppColors.charcoal,
-          ),
-        ),
+       const Text(
+  'How was the difficulty?',
+  textAlign: TextAlign.center,
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 1,
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
 
         const SizedBox(height: 17),
 
@@ -102,17 +106,20 @@ class _DifficultyButton extends StatelessWidget {
             const SizedBox(width: 6),
 
             Expanded(
-              child: Text(
-                label,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: isSelected
-                      ? Colors.white
-                      : AppColors.charcoal,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
+              child:Text(
+  label,
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.43,
+    letterSpacing: 0,
+    color: isSelected
+        ? Colors.white
+        : AppColors.textDark, // unselected dark color
+  ),
+  overflow: TextOverflow.ellipsis,
+),
             ),
           ],
         ),

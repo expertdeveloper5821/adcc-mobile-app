@@ -28,16 +28,19 @@ class ChallengeInfoSection extends StatelessWidget {
 
               /// TITLE
               Expanded(
-                child: Text(
-                  title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.deepRed,
-                  ),
-                ),
+                child:Text(
+  title,
+  maxLines: 2,
+  overflow: TextOverflow.ellipsis,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 22,
+    fontWeight: FontWeight.w600,
+    height: 1.0, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.deepRed,
+  ),
+),
               ),
 
               const SizedBox(width: 12),
@@ -69,14 +72,20 @@ class ChallengeInfoSection extends StatelessWidget {
           const SizedBox(height: 8),
 
           /// DESCRIPTION
-          Text(
-            description,
-            style: const TextStyle(
-              fontSize: 16,
-              color: AppColors.textDark,
-              height: 1.4,
-            ),
-          ),
+         Padding(
+           padding: const EdgeInsets.only(right: 32),
+           child: Text(
+             description,
+             style: const TextStyle(
+               fontFamily: "Outfit",
+               fontSize: 16,
+               fontWeight: FontWeight.w400,
+               height: 1.0, // 100% line height
+               letterSpacing: 0,
+               color: AppColors.textDark,
+             ),
+           ),
+         ),
         ],
       ),
     );

@@ -161,12 +161,17 @@ class _ViewAllCommunitiesScreenState extends State<ViewAllCommunitiesScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          '${filteredList.length} communities found',
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+       Text(
+  '${filteredList.length} communities found',
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 15,
+    fontWeight: FontWeight.w500,
+    height: 1,
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
 
         /// SORT DROPDOWN
         PopupMenuButton<CommunitySortType>(
@@ -205,13 +210,18 @@ class _ViewAllCommunitiesScreenState extends State<ViewAllCommunitiesScreen> {
                color: Color(0XFFCF9F0C),
               ),
               const SizedBox(width: 4),
-              Text(
-                sortTitle,
-                style: const TextStyle(
-                  color: Color(0XFFCF9F0C),
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+             Text(
+  sortTitle,
+  textAlign: TextAlign.right,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 15,
+    fontWeight: FontWeight.w500,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: Color(0XFFCF9F0C),
+  ),
+),
             ],
           ),
         ),

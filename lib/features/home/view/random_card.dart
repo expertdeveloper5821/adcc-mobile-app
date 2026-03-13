@@ -79,28 +79,33 @@ class FeaturedEventCard extends StatelessWidget {
             color: const Color(0xffC12D32),
             borderRadius: BorderRadius.circular(6),
           ),
-          child: const Text(
-            "Featured",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 11,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
+          child: Text(
+  "Featured",
+  style: const TextStyle(
+    fontFamily: 'Geist',
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 16 / 12, // ≈1.33
+    letterSpacing: 0,
+    color: Color(0xFFFFF4E3),
+  ),
+)
         ),
 
         const SizedBox(height: 6),
 
-        /// Title
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w700,
-            color: AppColors.charcoal,
-            height: 1.2,
-          ),
-        ),
+       /// Title
+Text(
+  title,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 17,
+    fontWeight: FontWeight.w500,
+    height: 1.15,
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
 
         const SizedBox(height: 6),
 
@@ -114,10 +119,17 @@ class FeaturedEventCard extends StatelessWidget {
             ),
             const SizedBox(width: 4),
 
-            Text(
-              date,
-              style: const TextStyle(fontSize: 11),
-            ),
+           Text(
+  date,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 12.8226,
+    fontWeight: FontWeight.w400,
+    height: 17.0968 / 12.8226, // ≈1.33
+    letterSpacing: 0,
+    color: Color(0xFF484A4D),
+  ),
+),
 
             const SizedBox(width: 12),
 
@@ -129,10 +141,17 @@ class FeaturedEventCard extends StatelessWidget {
 
             const SizedBox(width: 4),
 
-            Text(
-              distance,
-              style: const TextStyle(fontSize: 11),
-            ),
+          Text(
+  distance,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 12.8226,
+    fontWeight: FontWeight.w400,
+    height: 17.0968 / 12.8226,
+    letterSpacing: 0,
+    color: Color(0xFF484A4D),
+  ),
+),
           ],
         ),
       ],

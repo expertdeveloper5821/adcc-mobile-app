@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class UpcomingTracksList extends StatelessWidget {
@@ -115,25 +116,33 @@ class UpcomingEventCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(6),
           ),
           child: Text(
-            event.type,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
+  event.type,
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Geist',
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 16 / 12, // ≈1.33
+    letterSpacing: 0,
+    color: Color(0xFFFFF4E3),
+  ),
+)
         ),
 
         const SizedBox(height: 8),
 
-        /// TITLE
-        Text(
-          event.title,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+      /// TITLE
+Text(
+  event.title,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 17,
+    fontWeight: FontWeight.w500,
+    height: 1.15,
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
 
         const SizedBox(height: 2),
 
@@ -147,12 +156,16 @@ class UpcomingEventCard extends StatelessWidget {
             ),
             const SizedBox(width: 4),
             Text(
-              event.day,
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.black87,
-              ),
-            ),
+  event.day,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 12.8226,
+    fontWeight: FontWeight.w400,
+    height: 17.0968 / 12.8226, 
+    letterSpacing: 0,
+    color: Color(0xFF484A4D),
+  ),
+)
           ],
         ),
       ],

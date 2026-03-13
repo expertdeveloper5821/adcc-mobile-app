@@ -14,29 +14,37 @@ class MyJoinedEventsSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
 
-          /// -------- HEADER --------
+ 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: const [
                 Text(
-                  "Joined Events",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.charcoal,
-                  ),
-                ),
+  "Joined Events",
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 1, 
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
                 Row(
                   children: [
-                    Text(
-                      "View All",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: AppColors.charcoal,
-                      ),
-                    ),
+                   Text(
+  "View All",
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Geist',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 20 / 14, // ≈1.43
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
                     SizedBox(width: 4),
                     Icon(
                       Icons.chevron_right,
@@ -110,13 +118,17 @@ class _EventCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Text(
-                  "Featured",
-                  style: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
+  "Featured",
+  textAlign: TextAlign.center,
+  style: TextStyle(
+    fontFamily: 'Geist',
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 16 / 12, // ≈1.33
+    letterSpacing: 0,
+    color: Color(0xFFFFF4E3),
+  ),
+)
               ),
             ),
 
@@ -150,7 +162,7 @@ Positioned(
                 padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -165,27 +177,34 @@ Positioned(
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: const Text(
-                        "Registered",
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFF328700),
-                        ),
-                      ),
+  "Registered",
+  textAlign: TextAlign.center,
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 9.9381,
+    fontWeight: FontWeight.w400,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: Color(0xFF328700),
+  ),
+)
                     ),
 
                     const SizedBox(height: 6),
 
                     const Text(
-                      "Bike Abu Dhabi Gran Fondo 2025",
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.charcoal,
-                      ),
-                    ),
+  "Bike Abu Dhabi Gran Fondo 2025",
+  maxLines: 1,
+  overflow: TextOverflow.ellipsis,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 17,
+    fontWeight: FontWeight.w500,
+    height: 1.15,
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
 
                     const SizedBox(height: 8),
 
@@ -246,16 +265,19 @@ class _MetaItem extends StatelessWidget {
           icon,
           const SizedBox(width: 6),
           Expanded(
-            child: Text(
-              text,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: AppColors.textSecondary,
-              ),
-            ),
+            child:Text(
+  text,
+  maxLines: 1,
+  overflow: TextOverflow.ellipsis,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 12.8226,
+    fontWeight: FontWeight.w400,
+    height: 17.0968 / 12.8226, // ≈1.33
+    letterSpacing: 0,
+    color: Color(0xFF484A4D),
+  ),
+)
           ),
         ],
       ),

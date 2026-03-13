@@ -92,27 +92,32 @@ class LivePostedScreen extends StatelessWidget {
 
                   /// TITLE
                   const Text(
-                    "Your item is live",
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.charcoal,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
+  "Your item is live",
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 30,
+    fontWeight: FontWeight.w600,
+    height: 1.0, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
 
                   const SizedBox(height: 8),
 
-                  Text(
-                    "You have successfully\nposted listing",
-                    style: TextStyle(
-                      fontSize: 14,
-                      height: 1.4,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.textDark.withValues(alpha: 0.6),
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
+                Text(
+  "You have successfully\nposted listing",
+  textAlign: TextAlign.center,
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.0, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
 
                   const SizedBox(height: 24),
 
@@ -152,35 +157,45 @@ class LivePostedScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
 
-                              Text(
-                                title ?? "Untitled",
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.textDark,
-                                ),
-                              ),
+                            Text(
+  title ?? "Untitled",
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
+    height: 1.0, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
 
                               const SizedBox(height: 6),
 
-                              Text(
-                                price ?? "",
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.charcoal,
-                                ),
-                              ),
+                           Text(
+  price ?? "",
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 15,
+    fontWeight: FontWeight.w600,
+    height: 1.0, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
 
                               const SizedBox(height: 6),
 
-                              Text(
-                                "Posted by 2mins ago",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: AppColors.textDark.withValues(alpha: 0.6),
-                                ),
-                              ),
+                            Text(
+  "Posted by 2mins ago",
+  style: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 11,
+    fontWeight: FontWeight.w400,
+    height: 1.0, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.textDark.withValues(alpha: 0.6),
+  ),
+),
                             ],
                           ),
                         ),
@@ -194,7 +209,14 @@ class LivePostedScreen extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: AppButton(
-                      label: "View Listing",
+                     label: "View Listing",
+textStyle: const TextStyle(
+  fontFamily: "Outfit",
+  fontSize: 16,
+  fontWeight: FontWeight.w500,
+  height: 1.5, // 24px line height
+  letterSpacing: 0,
+),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -217,7 +239,15 @@ class LivePostedScreen extends StatelessWidget {
 
              
                   AppButton(
-                    label: "Post Another Item",
+                   label: "Post Another Item",
+textStyle:  TextStyle(
+  fontFamily: "Outfit",
+  fontSize: 16,
+  fontWeight: FontWeight.w500,
+  height: 1.5, // 24px line height
+  letterSpacing: 0,
+color: AppColors.deepRed,
+),
                     onPressed: () {
                       Navigator.pop(context);
                     },

@@ -23,34 +23,47 @@ class JoinCommunityCard extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: AppColors.paleVanilla,
-                borderRadius: BorderRadius.circular(20),
-              ),
+    borderRadius: BorderRadius.circular(20),
+    gradient: const LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        Color(0xFFCF9F0C),
+        Color(0xCCCF9F0C), // 80% opacity
+      ],
+    ),
+  ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Want to join rides or be\npart of the community?',
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 20,
-                      height: 1.3,
-                    ),
-                  ),
+                 Text(
+  'Want to join rides or be\npart of the community?',
+  style: theme.textTheme.titleMedium?.copyWith(
+    fontFamily: 'Outfit',
+    color: Colors.white,
+    fontWeight: FontWeight.w600,
+    fontSize: 22,
+    height: 1.15,
+    letterSpacing: 0,
+  ),
+),
                   const SizedBox(height: 20),
                   AppButton(
-                    label: 'Join ADCC',
-                    width: 120,
-                    height: 35,
-                    borderRadius: 50,
-                    textStyle: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    onPressed: () {},
-                  ),
+  label: 'Join ADCC',
+  width: 120,
+  height: 35,
+  borderRadius: 50,
+  textStyle: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    height: 1.25,
+    letterSpacing: 0,
+    color: Colors.white,
+  ),
+  onPressed: () {},
+),
                 ],
               ),
             ),

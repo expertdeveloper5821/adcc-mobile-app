@@ -23,23 +23,31 @@ class MyBadgesSection extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: const [
-                Text(
-                  "My Badges",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.charcoal,
-                  ),
-                ),
+              Text(
+  "My Badges",
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
                 Row(
                   children: [
-                    Text(
-                      "View All",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: AppColors.charcoal,
-                      ),
-                    ),
+                   Text(
+  "View All",
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Geist',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 20 / 14, // ≈1.43
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
                     SizedBox(width: 4),
                     Icon(
                       Icons.chevron_right,
@@ -113,15 +121,19 @@ class _BadgeItem extends StatelessWidget {
 
         SizedBox(
           width: 80,
-          child: Text(
-            title,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 14,
-              color: AppColors.charcoal,
-            ),
-          ),
+          child:Text(
+  title,
+  overflow: TextOverflow.ellipsis,
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1, // 100% line height
+    letterSpacing: 0.14,
+    color: AppColors.charcoal,
+  ),
+)
         )
       ],
     );

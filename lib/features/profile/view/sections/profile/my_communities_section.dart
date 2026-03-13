@@ -18,23 +18,31 @@ class MyCommunitiesSection extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: const [
-                Text(
-                  "My Communities",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.charcoal,
-                  ),
-                ),
+               Text(
+  "My Communities",
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
                 Row(
                   children: [
-                    Text(
-                      "View All",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: AppColors.charcoal,
-                      ),
-                    ),
+                   Text(
+  "View All",
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: 'Geist',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 20 / 14, // ≈1.43
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
                     SizedBox(width: 4),
                     Icon(
                       Icons.chevron_right,
@@ -81,7 +89,7 @@ class _CommunityCard extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(11.5872),
         child: Container(
-          color: const Color(0xFFFFF3E2),
+          color: const Color(0xFFFFEFD7),
           child: Column(
             children: [
 
@@ -127,14 +135,18 @@ class _CommunityCard extends StatelessWidget {
           color: const Color(0xFF1A1C20).withOpacity(0.33),
           borderRadius: BorderRadius.circular(999),
         ),
-        child: const Text(
-          "Joined",
-          style: TextStyle(
-            fontSize: 11,
-            fontWeight: FontWeight.w600,
-            color: Color(0xFFFFEFD7),
-          ),
-        ),
+        child:const Text(
+  "Joined",
+  textAlign: TextAlign.center,
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 16 / 12, // ≈1.33
+    letterSpacing: 0,
+    color: AppColors.softCream,
+  ),
+)
       ),
     ),
   ),
@@ -152,27 +164,32 @@ class _CommunityCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children:  [
                       Text(
-                        "Abu Dhabi Road Racers",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textDark,
-                        ),
-                      ),
-                      SizedBox(height: 6),
-                      Text(
-                        "Weekly high-pace road rides & race training",
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.textSecondary,
-                          height: 1.25,
-                        ),
-                      ),
+  "Abu Dhabi Road Racers",
+  maxLines: 1,
+  overflow: TextOverflow.ellipsis,
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 15.6872,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
+                      SizedBox(height: 4),
+                     Text(
+  "Weekly high-pace road rides & race training",
+  maxLines: 2,
+  overflow: TextOverflow.ellipsis,
+  style:  TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 10.4581,
+    fontWeight: FontWeight.w400,
+    height: 13.9441 / 10.4581, // ≈1.33
+    letterSpacing: 0,
+   color: AppColors.textDark.withOpacity(0.7),
+  ),
+),
                       Spacer(),
                       Row(
                         children: [
@@ -184,14 +201,17 @@ class _CommunityCard extends StatelessWidget {
   fit: BoxFit.contain,
 ),
                           SizedBox(width: 8),
-                          Text(
-                            "2,800 members",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.textDark,
-                            ),
-                          ),
+Text(
+  "2,800 members",
+  style: const TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 16 / 12, // ≈1.33
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+)
                         ],
                       ),
                     ],

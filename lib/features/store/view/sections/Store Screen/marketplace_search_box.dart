@@ -53,17 +53,19 @@ class MarketplaceSearchBox extends StatelessWidget {
                 fontWeight: FontWeight.w400,
                 height: 1,
               ),
-              decoration: const InputDecoration(
-                hintText: "Search marketplace...",
-                hintStyle: TextStyle(
-                  fontFamily: "Outfit",
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: Color(0x80111827),
-                ),
-                border: InputBorder.none,
-                isCollapsed: true,
-              ),
+decoration: const InputDecoration(
+  hintText: "Search marketplace...",
+  hintStyle: TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    height: 1.0,
+    letterSpacing: 0,
+    color: Color(0x80111827), // 50% opacity
+  ),
+  border: InputBorder.none,
+  isCollapsed: true,
+),
             ),
           ),
         ],

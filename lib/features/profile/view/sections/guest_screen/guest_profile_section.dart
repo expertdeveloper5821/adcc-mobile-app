@@ -41,13 +41,13 @@ class GuestProfileSection extends StatelessWidget {
                  Container(
   width: 68,
   height: 68,
-  decoration: const BoxDecoration(
+  decoration:  BoxDecoration(
     color: Color(0xFFD4AF37),
     shape: BoxShape.circle,
   ),
   child: ClipOval(
     child: Padding(
-      padding: const EdgeInsets.all(18),
+      padding:  EdgeInsets.all(18),
       child: Image.asset(
         'assets/icons/profile.png',
         fit: BoxFit.contain,
@@ -58,14 +58,13 @@ class GuestProfileSection extends StatelessWidget {
 
                   const SizedBox(height: 26),
 
-                  /// Title
-                  const Text(
+                  Text(
                     'Welcome to ADCC',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Outfit',
                       fontSize: 21,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w600,
                       color: AppColors.charcoal,
                     ),
                   ),

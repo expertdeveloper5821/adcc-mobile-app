@@ -1,3 +1,4 @@
+import 'package:adcc/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class LatestAchievementCard extends StatelessWidget {
@@ -46,15 +47,16 @@ class LatestAchievementCard extends StatelessWidget {
               width: 111,
               height: 46,
               child: Text(
-                "Latest\nAchievement",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  height: 1,
-                  letterSpacing: 0,
-                  color: Colors.black,
-                ),
-              ),
+  "Latest\nAchievement",
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    height: 1, // 100%
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+)
             ),
           ),
           const Positioned(
@@ -64,15 +66,16 @@ class LatestAchievementCard extends StatelessWidget {
               width: 166,
               height: 32,
               child: Text(
-                "Century Rider\nUnlocked on Dec 20, 2025",
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  height: 1,
-                  letterSpacing: 0,
-                  color: Color(0xCC000000),
-                ),
-              ),
+  "Century Rider\nUnlocked on Dec 20, 2025",
+  style: TextStyle(
+    fontFamily: 'Outfit',
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: Color(0xCC000000),
+  ),
+)
             ),
           ),
           Positioned(

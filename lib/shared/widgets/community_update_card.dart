@@ -46,19 +46,29 @@ class CommunityUpdateCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      name,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                   Text(
+  name,
+  style: theme.textTheme.bodyMedium?.copyWith(
+    fontFamily: 'Outfit',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.0,
+    letterSpacing: 0,
+    color: const Color(0xFF3C3C3B),
+  ),
+),
                     const SizedBox(height: 2),
-                    Text(
-                      locationTime,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: colors.onSurface.withValues(alpha: 0.6),
-                      ),
-                    ),
+                   Text(
+  locationTime,
+  style: theme.textTheme.bodySmall?.copyWith(
+    fontFamily: 'Outfit',
+    fontSize: 11.8,
+    fontWeight: FontWeight.w400,
+    height: 1.4,
+    letterSpacing: 0,
+    color: const Color(0xFF6B7280),
+  ),
+),
                   ],
                 ),
               ),
@@ -112,31 +122,44 @@ class CommunityUpdateCard extends StatelessWidget {
 
           const SizedBox(height: 6),
 
-          // Likes
-          Text(
-            '$likes likes',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-
+         // Likes
+Text(
+  '$likes likes',
+  style: theme.textTheme.bodyMedium?.copyWith(
+    fontFamily: 'Outfit',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.4,
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
           const SizedBox(height: 11.5),
 
-          // Caption
-          RichText(
-            text: TextSpan(
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: colors.onSurface,
-              ),
-              children: [
-                TextSpan(
-                  text: '$name ',
-                  style: const TextStyle(fontWeight: FontWeight.w600),
-                ),
-                TextSpan(text: caption),
-              ],
-            ),
-          ),
+         // Caption
+RichText(
+  text: TextSpan(
+    style: const TextStyle(
+      fontFamily: 'Outfit',
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
+      height: 1.4,
+      letterSpacing: 0,
+      color: AppColors.textDark,
+    ),
+    children: [
+      TextSpan(
+        text: '$name ',
+        style: const TextStyle(
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+      TextSpan(
+        text: caption,
+      ),
+    ],
+  ),
+),
         ],
       ),
     );

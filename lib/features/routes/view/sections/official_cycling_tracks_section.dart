@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/section_header.dart';
 import '../../../route_details/view/route_details_screen.dart';
+import 'dart:ui';
 
 class OfficialCyclingTracksSection extends StatefulWidget {
   const OfficialCyclingTracksSection({super.key});
@@ -164,28 +165,34 @@ class _OfficialCyclingTracksSectionState
                       );
                     },
                   ),
-                  Positioned(
-                    top: 12,
-                    left: 12,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.45),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        tag,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ),
+                 Positioned(
+  top: 12,
+  left: 12,
+  child: ClipRRect(
+    borderRadius: BorderRadius.circular(6),
+    child: BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(9, 4, 9, 4),
+        decoration: BoxDecoration(
+          color: const Color(0x54000000), // black 33%
+          borderRadius: BorderRadius.circular(6),
+        ),
+       child: Text(
+  tag,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 1.33, // 16 / 12
+    letterSpacing: 0,
+    color: Color(0xFFFFF4E3),
+  ),
+),
+      ),
+    ),
+  ),
+)
                 ],
               ),
             ),
@@ -203,16 +210,19 @@ class _OfficialCyclingTracksSectionState
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
-                          title,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.textDark,
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                       Text(
+  title,
+  maxLines: 2,
+  overflow: TextOverflow.ellipsis,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.textDark,
+  ),
+),
                         const SizedBox(height: 8),
               
                         Row(
@@ -224,41 +234,52 @@ class _OfficialCyclingTracksSectionState
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text(
-                                    date,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: AppColors.charcoal,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 2),
-                                  Text(
-                                    time,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: AppColors.charcoal,
-                                    ),
-                                  ),
+                                 Text(
+  date,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
+const SizedBox(height: 2),
+Text(
+  time,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 1,
+    letterSpacing: 0,
+    color: AppColors.charcoal,
+  ),
+),
                                 ],
                               ),
                             ),
                             const SizedBox(width: 4),
                             Flexible(
                               child: Text(
-                                riders,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.charcoal,
-                                ),
-                                textAlign: TextAlign.right,
-                              ),
+  riders,
+  textAlign: TextAlign.right,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: Color(0xFF484A4D),
+  ),
+),
                             ),
                           ],
                         ),
                       ],
                     ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 15),
                     Align(
                 alignment: Alignment.centerLeft,
                 child: SizedBox(
@@ -306,14 +327,17 @@ class _OfficialCyclingTracksSectionState
                     child: const FittedBox(
                 fit: BoxFit.scaleDown,
                 child: Text(
-                  'View Tracks',
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    height: 1,
-                    color: Color(0XFFFFF4E3)
-                  ),
-                ),
+  'View Tracks',
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    fontFamily: "Outfit",
+    fontSize: 13,
+    fontWeight: FontWeight.w500,
+    height: 1, // 100% line height
+    letterSpacing: 0,
+    color: Color(0xFFFFF4E3),
+  ),
+),
               ),
                   ),
                 ),
